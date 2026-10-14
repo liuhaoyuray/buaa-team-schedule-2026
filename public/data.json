@@ -571,7 +571,7 @@
     ],
     "timetablePolicy": "semester_snapshot",
     "rolePolicy": "student_cadre",
-    "uiVersion": "readable-glass-3",
+    "uiVersion": "scientific-glass-4",
     "newJoiners": [
       "史英超",
       "李姮",
@@ -618,7 +618,8 @@
       "方梓诺",
       "孙楷睿"
     ],
-    "newJoinerLabel": "2026年秋季学期新加入"
+    "newJoinerLabel": "2026年秋季学期新加入",
+    "buildNumber": 4
   },
   "slots": [
     {
