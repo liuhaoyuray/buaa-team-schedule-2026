@@ -22,19 +22,21 @@ let source,assets,data;
 for(let attempt=0;attempt<5;attempt++){
  try{
   source=await readAsset('index.html');
-  const scripts=[...source.matchAll(/<script>([\s\S]*?)<\/script>/g)];
-  if(scripts.length!==3)throw Error('Unexpected inline scripts');
-  const dataScript=scripts[0][1].trim(),prefix='window.SCHEDULE_DATA=';
+  const scripts=[...source.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)];
+  const select=prefix=>{const found=scripts.filter(s=>s[1].trim().startsWith(prefix));if(found.length!==1)throw Error('Missing or duplicate application script');return found[0]};
+  const appScripts=[select('window.SCHEDULE_DATA='),select('(function(root){'),select('const DATA=window.SCHEDULE_DATA')];
+  const dataScript=appScripts[0][1].trim(),prefix='window.SCHEDULE_DATA=';
   if(!dataScript.startsWith(prefix)||!dataScript.endsWith(';'))throw Error('Unexpected data assignment');
   data=JSON.parse(dataScript.slice(prefix.length,-1));
   if(!Number.isFinite(data.meta?.buildNumber)||data.meta.buildNumber<4)throw Error('Source release is still updating');
-  let i=0;const tags=['DATA','ENGINE','APP'];
-  const template=source.replace(/<script>([\s\S]*?)<\/script>/g,()=>'<script>/*__'+tags[i++]+'__*/</script>');
-  assets={'index.template.html':template,'app.js':scripts[2][1],'engine.js':scripts[1][1],'data.json':JSON.stringify(data)};
+  const tags=['DATA','ENGINE','APP'];
+  // Hosting may inject its own scripts; only mirror our three app scripts.
+  const template=source.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,whole=>{const i=appScripts.findIndex(s=>s[0]===whole);return i<0?'':'<script>/*__'+tags[i]+'__*/</script>'});
+  assets={'index.template.html':template,'app.js':appScripts[2][1],'engine.js':appScripts[1][1],'data.json':JSON.stringify(data)};
   new vm.Script(assets['app.js']);new vm.Script(assets['engine.js']);break;
  }catch(error){if(local||attempt===4)throw error;console.log('源平台正在更新，稍后重试。');await new Promise(r=>setTimeout(r,10000));}
 }
-const sourceHash=crypto.createHash('sha256').update(source).digest('hex');
+const sourceHash=crypto.createHash('sha256').update(JSON.stringify(assets)).digest('hex');
 const statePath=path.join(root,'.sync/source.json');
 let previous;try{previous=JSON.parse(await fs.readFile(statePath,'utf8'));}catch{}
 if(previous?.sourceHash===sourceHash&&await fs.stat(path.join(root,'public/index.html')).catch(()=>null)){
