@@ -7,20 +7,17 @@
     "updated": "2026-10-14",
     "calendarUrl": "https://jiaowu.buaa.edu.cn/index/xl.htm",
     "calendarNote": "按9月7日起连续自然周编号；第18-20周考试安排未收集。节假日与补课请在校历设置中确认。",
-    "sourceCount": 55,
+    "sourceCount": 54,
     "rosterCount": 65,
     "activePeopleCount": 65,
-    "totalRecords": 66,
+    "totalRecords": 65,
     "volunteerCount": 35,
     "practiceCount": 30,
     "ownerName": "刘浩宇",
     "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
     "practiceRosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
     "missingTimetables": [
-      "刘浩宇",
-      "万释鸿",
       "朱岩",
-      "牛葳",
       "张宸瑶",
       "边琳杰",
       "唐佳宇",
@@ -30,24 +27,21 @@
       "徐嘉璐",
       "邹霖柯"
     ],
-    "unmatchedTimetables": [
-      "辛恩泽"
-    ],
+    "unmatchedTimetables": [],
     "departmentStats": {
       "志工部": {
         "total": 35,
         "withTimetable": 32,
+        "defaultNoClasses": 2,
         "missing": [
-          "刘浩宇",
-          "万释鸿",
           "朱岩"
         ]
       },
       "实践部": {
         "total": 30,
         "withTimetable": 21,
+        "defaultNoClasses": 1,
         "missing": [
-          "牛葳",
           "张宸瑶",
           "边琳杰",
           "唐佳宇",
@@ -315,15 +309,6 @@
         "selected": true,
         "mtime": 1791866518,
         "sha256": "05a5beb0aa8313c5828ff6ba320cceeda9f80525a8ce485040e77bb4fab3e045"
-      },
-      {
-        "file": "志工部\\【沙河】辛恩泽-课表.xlsx",
-        "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-01a3422e5fb6ad83.xlsx",
-        "week": null,
-        "type": "semester",
-        "selected": true,
-        "mtime": 1789096682,
-        "sha256": "bc41a2e46b20bf9cab8ff8327f6092cb5eae786b51f4dc8196ba75639c42878d"
       },
       {
         "file": "志工部\\【沙河】邵飞涵-课表.xlsx",
@@ -619,7 +604,13 @@
       "孙楷睿"
     ],
     "newJoinerLabel": "2026年秋季学期新加入",
-    "buildNumber": 4
+    "buildNumber": 5,
+    "defaultNoClasses": [
+      "刘浩宇",
+      "万释鸿",
+      "牛葳"
+    ],
+    "rosterRevision": "2026-10-14-2"
   },
   "slots": [
     {
@@ -1742,42 +1733,6 @@
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
     },
     {
-      "id": "p23",
-      "name": "辛恩泽",
-      "department": "归属待核对",
-      "campus": "沙河",
-      "source": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "sourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-01a3422e5fb6ad83.xlsx",
-      "notes": [
-        "不排课课程：心理健康（7）◇夏文静[3周]不排课◇形势与政策（7）◇李富君[1-15周(单)]不排课◇体质健康标准测试◇[]不排课◇素质教育（博雅课程）（7）◇刘豆豆[1-16周]不排课",
-        "有课表但未出现在两部门最新任职名单中，默认不计入现任人员查询。"
-      ],
-      "coverageWeek": null,
-      "campusBasis": "文件名标注",
-      "studentId": "23375395",
-      "hasTimetable": true,
-      "college": "",
-      "role": "",
-      "phone": "",
-      "rosterStatus": "not_in_roster",
-      "originalDepartment": "志工部",
-      "coverageWeeks": [],
-      "weekOverrides": [],
-      "sourceWeek": null,
-      "semesterAssumed": false,
-      "timetableSources": [
-        {
-          "file": "志工部\\【沙河】辛恩泽-课表.xlsx",
-          "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-01a3422e5fb6ad83.xlsx",
-          "week": null,
-          "type": "semester",
-          "selected": true,
-          "mtime": 1789096682,
-          "sha256": "bc41a2e46b20bf9cab8ff8327f6092cb5eae786b51f4dc8196ba75639c42878d"
-        }
-      ]
-    },
-    {
       "id": "p24",
       "name": "邵飞涵",
       "department": "志工部",
@@ -2865,7 +2820,7 @@
       "source": "",
       "sourceUrl": "",
       "notes": [
-        "任职名单中有此人，但尚未收集对应课表；不能将空白记录视为空闲。"
+        "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
       ],
       "coverageWeek": null,
       "coverageWeeks": [],
@@ -2881,7 +2836,9 @@
       "rosterRow": 2,
       "rosterNotes": "",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "defaultNoClasses": true,
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
     },
     {
       "id": "r23379067",
@@ -2890,7 +2847,7 @@
       "source": "",
       "sourceUrl": "",
       "notes": [
-        "任职名单中有此人，但尚未收集对应课表；不能将空白记录视为空闲。"
+        "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
       ],
       "coverageWeek": null,
       "coverageWeeks": [],
@@ -2906,7 +2863,9 @@
       "rosterRow": 3,
       "rosterNotes": "",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "defaultNoClasses": true,
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
     },
     {
       "id": "r24375325",
@@ -2942,7 +2901,7 @@
       "source": "",
       "sourceUrl": "",
       "notes": [
-        "任职名单中有此人，但尚未收集对应课表；不能将空白记录视为空闲。"
+        "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
       ],
       "coverageWeek": null,
       "coverageWeeks": [],
@@ -2958,7 +2917,9 @@
       "rosterRow": 2,
       "rosterNotes": "",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "defaultNoClasses": true,
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
     },
     {
       "id": "r23379035",
@@ -21935,725 +21896,6 @@
       "note": "",
       "sourceFile": "志工部\\【沙河】赵蕾-课表.xlsx",
       "id": "e00645"
-    },
-    {
-      "person": "p23",
-      "day": 2,
-      "title": "交通前沿技术研讨",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        1
-      ],
-      "room": "J5-401",
-      "teacher": "许立言",
-      "raw": "（本）交通前沿技术研讨\n许立言[1周]\nJ5-401\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D4 / sheet1!D10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00646"
-    },
-    {
-      "person": "p23",
-      "day": 2,
-      "title": "交通前沿技术研讨",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        2
-      ],
-      "room": "J5-401",
-      "teacher": "马丹阳",
-      "raw": "（本）交通前沿技术研讨\n马丹阳[2周]\nJ5-401\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D4 / sheet1!D10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00647"
-    },
-    {
-      "person": "p23",
-      "day": 2,
-      "title": "交通前沿技术研讨",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        3,
-        4,
-        5
-      ],
-      "room": "J5-401",
-      "teacher": "段续庭",
-      "raw": "（本）交通前沿技术研讨\n段续庭[3-5周]\nJ5-401\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D4 / sheet1!D10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00648"
-    },
-    {
-      "person": "p23",
-      "day": 2,
-      "title": "交通前沿技术研讨",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        6
-      ],
-      "room": "J5-401",
-      "teacher": "于滨",
-      "raw": "（本）交通前沿技术研讨\n于滨[6周]\nJ5-401\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D4 / sheet1!D10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00649"
-    },
-    {
-      "person": "p23",
-      "day": 2,
-      "title": "交通前沿技术研讨",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        7,
-        8
-      ],
-      "room": "J5-401",
-      "teacher": "李峰",
-      "raw": "（本）交通前沿技术研讨\n李峰[7-8周]\nJ5-401\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D4 / sheet1!D10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00650"
-    },
-    {
-      "person": "p23",
-      "day": 2,
-      "title": "交通前沿技术研讨",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        9
-      ],
-      "room": "J5-401",
-      "teacher": "陈军",
-      "raw": "（本）交通前沿技术研讨\n陈军[9周]\nJ5-401\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D4 / sheet1!D10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00651"
-    },
-    {
-      "person": "p23",
-      "day": 2,
-      "title": "交通前沿技术研讨",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        10,
-        11
-      ],
-      "room": "J5-401",
-      "teacher": "周思齐",
-      "raw": "（本）交通前沿技术研讨\n周思齐[10-11周]\nJ5-401\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D4 / sheet1!D10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00652"
-    },
-    {
-      "person": "p23",
-      "day": 2,
-      "title": "交通前沿技术研讨",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        12,
-        13,
-        14
-      ],
-      "room": "J5-401",
-      "teacher": "马晓磊",
-      "raw": "（本）交通前沿技术研讨\n马晓磊[12-14周]\nJ5-401\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D4 / sheet1!D10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00653"
-    },
-    {
-      "person": "p23",
-      "day": 2,
-      "title": "交通前沿技术研讨",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        15,
-        16
-      ],
-      "room": "J5-401",
-      "teacher": "周宇",
-      "raw": "（本）交通前沿技术研讨\n周宇[15-16周]\nJ5-401\n第2-5节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D4 / sheet1!D10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00654"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        5
-      ],
-      "room": "SH3-106",
-      "teacher": "周耀",
-      "raw": "（本）信息化设计综合训练\n周耀[5周]\nSH3-106\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H4 / sheet1!H10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00655"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        7,
-        8
-      ],
-      "room": "SH3-106",
-      "teacher": "谭力豪",
-      "raw": "（本）信息化设计综合训练\n谭力豪[7-8周]\nSH3-106\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H4 / sheet1!H10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00656"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        9,
-        10
-      ],
-      "room": "SH3-106",
-      "teacher": "崔文杰",
-      "raw": "（本）信息化设计综合训练\n崔文杰[9-10周]\nSH3-106\n第2-5节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H4 / sheet1!H10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00657"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        11,
-        12
-      ],
-      "room": "SH3-106",
-      "teacher": "马丹阳",
-      "raw": "（本）信息化设计综合训练\n马丹阳[11-12周]\nSH3-106\n第2-5节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H4 / sheet1!H10",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00658"
-    },
-    {
-      "person": "p23",
-      "day": 7,
-      "title": "信息化设计综合训练",
-      "periods": [
-        2,
-        9
-      ],
-      "start": "08:50",
-      "end": "17:25",
-      "weeks": [
-        5,
-        6
-      ],
-      "room": "SH3-106",
-      "teacher": "周耀",
-      "raw": "（本）信息化设计综合训练\n周耀[5-6周]\nSH3-106\n第2-9节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!I4 / sheet1!I10 / sheet1!I16 / sheet1!I17 / sheet1!I22 / sheet1!I26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00659"
-    },
-    {
-      "person": "p23",
-      "day": 7,
-      "title": "信息化设计综合训练",
-      "periods": [
-        2,
-        9
-      ],
-      "start": "08:50",
-      "end": "17:25",
-      "weeks": [
-        7,
-        8
-      ],
-      "room": "SH3-106",
-      "teacher": "谭力豪",
-      "raw": "（本）信息化设计综合训练\n谭力豪[7-8周]\nSH3-106\n第2-9节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!I4 / sheet1!I10 / sheet1!I16 / sheet1!I17 / sheet1!I22 / sheet1!I26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00660"
-    },
-    {
-      "person": "p23",
-      "day": 7,
-      "title": "信息化设计综合训练",
-      "periods": [
-        2,
-        9
-      ],
-      "start": "08:50",
-      "end": "17:25",
-      "weeks": [
-        9,
-        10
-      ],
-      "room": "SH3-106",
-      "teacher": "崔文杰",
-      "raw": "（本）信息化设计综合训练\n崔文杰[9-10周]\nSH3-106\n第2-9节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!I4 / sheet1!I10 / sheet1!I16 / sheet1!I17 / sheet1!I22 / sheet1!I26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00661"
-    },
-    {
-      "person": "p23",
-      "day": 7,
-      "title": "信息化设计综合训练",
-      "periods": [
-        2,
-        9
-      ],
-      "start": "08:50",
-      "end": "17:25",
-      "weeks": [
-        11,
-        12
-      ],
-      "room": "SH3-106",
-      "teacher": "马丹阳",
-      "raw": "（本）信息化设计综合训练\n马丹阳[11-12周]\nSH3-106\n第2-9节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!I4 / sheet1!I10 / sheet1!I16 / sheet1!I17 / sheet1!I22 / sheet1!I26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00662"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        6,
-        9
-      ],
-      "start": "14:00",
-      "end": "17:25",
-      "weeks": [
-        5,
-        6
-      ],
-      "room": "SH3-106",
-      "teacher": "周耀",
-      "raw": "（本）信息化设计综合训练\n周耀[5-6周]\nSH3-106\n第6-9节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H16 / sheet1!H17 / sheet1!H22 / sheet1!H26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00663"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        6,
-        9
-      ],
-      "start": "14:00",
-      "end": "17:25",
-      "weeks": [
-        7
-      ],
-      "room": "SH3-106",
-      "teacher": "谭力豪",
-      "raw": "（本）信息化设计综合训练\n谭力豪[7周]\nSH3-106\n第6-9节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H16 / sheet1!H17 / sheet1!H22 / sheet1!H26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00664"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        6,
-        9
-      ],
-      "start": "14:00",
-      "end": "17:25",
-      "weeks": [
-        9
-      ],
-      "room": "SH3-106",
-      "teacher": "崔文杰",
-      "raw": "（本）信息化设计综合训练\n崔文杰[9周]\nSH3-106\n第6-9节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H16 / sheet1!H17 / sheet1!H22 / sheet1!H26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00665"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        6,
-        9
-      ],
-      "start": "14:00",
-      "end": "17:25",
-      "weeks": [
-        11
-      ],
-      "room": "SH3-106",
-      "teacher": "马丹阳",
-      "raw": "（本）信息化设计综合训练\n马丹阳[11周]\nSH3-106\n第6-9节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H16 / sheet1!H17 / sheet1!H22 / sheet1!H26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00666"
-    },
-    {
-      "person": "p23",
-      "day": 4,
-      "title": "工程大数据挖掘",
-      "periods": [
-        8,
-        10
-      ],
-      "start": "15:50",
-      "end": "18:15",
-      "weeks": [
-        2
-      ],
-      "room": "J4-201",
-      "teacher": "杜博文",
-      "raw": "（本）工程大数据挖掘\n杜博文[2周]\nJ4-201\n第8-10节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F22 / sheet1!F26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00667"
-    },
-    {
-      "person": "p23",
-      "day": 4,
-      "title": "工程大数据挖掘",
-      "periods": [
-        8,
-        10
-      ],
-      "start": "15:50",
-      "end": "18:15",
-      "weeks": [
-        3,
-        4,
-        6,
-        7
-      ],
-      "room": "J4-201",
-      "teacher": "柳淏元",
-      "raw": "（本）工程大数据挖掘\n柳淏元[3-4周\n6-7周]\nJ4-201\n第8-10节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F22 / sheet1!F26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00668"
-    },
-    {
-      "person": "p23",
-      "day": 4,
-      "title": "工程大数据挖掘",
-      "periods": [
-        8,
-        10
-      ],
-      "start": "15:50",
-      "end": "18:15",
-      "weeks": [
-        5,
-        8,
-        9,
-        10,
-        11
-      ],
-      "room": "",
-      "teacher": "柳淏元",
-      "raw": "（本）工程大数据挖掘\n柳淏元[5周\n8-11周]\n第8-10节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F22 / sheet1!F26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00669"
-    },
-    {
-      "person": "p23",
-      "day": 4,
-      "title": "工程大数据挖掘",
-      "periods": [
-        8,
-        9
-      ],
-      "start": "15:50",
-      "end": "17:25",
-      "weeks": [
-        12
-      ],
-      "room": "J4-201",
-      "teacher": "柳淏元",
-      "raw": "（本）工程大数据挖掘\n柳淏元[12周]\nJ4-201\n第8-9节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F22 / sheet1!F26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00670"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        10,
-        10
-      ],
-      "start": "17:30",
-      "end": "18:15",
-      "weeks": [
-        5
-      ],
-      "room": "SH3-106",
-      "teacher": "周耀",
-      "raw": "（本）信息化设计综合训练\n周耀[5周]\nSH3-106\n第10-10节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H22 / sheet1!H26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00671"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        10,
-        10
-      ],
-      "start": "17:30",
-      "end": "18:15",
-      "weeks": [
-        7
-      ],
-      "room": "SH3-106",
-      "teacher": "谭力豪",
-      "raw": "（本）信息化设计综合训练\n谭力豪[7周]\nSH3-106\n第10-10节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H22 / sheet1!H26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00672"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        10,
-        10
-      ],
-      "start": "17:30",
-      "end": "18:15",
-      "weeks": [
-        9
-      ],
-      "room": "SH3-106",
-      "teacher": "崔文杰",
-      "raw": "（本）信息化设计综合训练\n崔文杰[9周]\nSH3-106\n第10-10节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H22 / sheet1!H26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00673"
-    },
-    {
-      "person": "p23",
-      "day": 6,
-      "title": "信息化设计综合训练",
-      "periods": [
-        10,
-        10
-      ],
-      "start": "17:30",
-      "end": "18:15",
-      "weeks": [
-        11
-      ],
-      "room": "SH3-106",
-      "teacher": "马丹阳",
-      "raw": "（本）信息化设计综合训练\n马丹阳[11周]\nSH3-106\n第10-10节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!H22 / sheet1!H26",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00674"
-    },
-    {
-      "person": "p23",
-      "day": 7,
-      "title": "英语口语直通车",
-      "periods": [
-        13,
-        14
-      ],
-      "start": "20:40",
-      "end": "22:15",
-      "weeks": [
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13
-      ],
-      "room": "网络授课无教室",
-      "teacher": "智慧树",
-      "raw": "（本）英语口语直通车\n智慧树[6-13周]\n网络授课无教室\n第13-14节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!I28",
-      "note": "",
-      "sourceFile": "志工部\\【沙河】辛恩泽-课表.xlsx",
-      "id": "e00675"
     },
     {
       "person": "p24",

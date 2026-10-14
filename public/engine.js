@@ -10,13 +10,13 @@
   function intersects(e,start,end){return min(e.start)<min(end)&&min(e.end)>min(start)}
   function evaluate(person,date,start,end,data,rules={},ownEvents){
     const info=dayInfo(date,data,rules); const own=ownEvents||data.events.filter(e=>e.person===person.id);
-    if(person.hasTimetable===false)return {status:'unknown',events:[],reasons:['尚未收集课表，请直接联系本人确认时间']};
-    if(!info.valid||info.courseWeek>data.meta.teachingWeeks)return {status:'unknown',events:[],reasons:['未收集该日期的课程／考试安排']};
-    let active=own.filter(e=>intersects(e,start,end)&&!(info.stop&&e.kind==='course')&&(e.date?e.date===date:(e.day===(e.kind==='course'?info.courseDay:info.day)&&(!e.weeks||e.weeks.includes(e.kind==='course'?info.courseWeek:info.week))&&!(e.excludeWeeks||[]).includes(e.kind==='course'?info.courseWeek:info.week))));
+    if(!person.defaultNoClasses&&person.hasTimetable===false)return {status:'unknown',events:[],reasons:['尚未收集课表，请直接联系本人确认时间']};
+    if(!info.valid||(!person.defaultNoClasses&&info.courseWeek>data.meta.teachingWeeks))return {status:'unknown',events:[],reasons:['未收集该日期的课程／考试安排']};
+    let active=own.filter(e=>intersects(e,start,end)&&!(person.defaultNoClasses&&e.kind==='course')&&!(info.stop&&e.kind==='course')&&(e.date?e.date===date:(e.day===(e.kind==='course'?info.courseDay:info.day)&&(!e.weeks||e.weeks.includes(e.kind==='course'?info.courseWeek:info.week))&&!(e.excludeWeeks||[]).includes(e.kind==='course'?info.courseWeek:info.week))));
     const known=active.filter(e=>!e.uncertain),unknown=active.filter(e=>e.uncertain),reasons=[];
-    if(person.alwaysConfirm)reasons.push(person.alwaysConfirm);
-    if(person.emptyWeekConfirm&&!own.some(e=>e.kind==='course'&&e.weeks?.includes(info.courseWeek)))reasons.push(person.emptyWeekConfirm);
-    if(!info.special && ((date>='2026-09-25'&&date<='2026-09-27')||(date>='2026-10-01'&&date<='2026-10-07')))reasons.push('节假日教学安排未确认，可在校历设置中指定停课或补课');
+    if(!person.defaultNoClasses&&person.alwaysConfirm)reasons.push(person.alwaysConfirm);
+    if(!person.defaultNoClasses&&person.emptyWeekConfirm&&!own.some(e=>e.kind==='course'&&e.weeks?.includes(info.courseWeek)))reasons.push(person.emptyWeekConfirm);
+    if(!person.defaultNoClasses&&!info.special && ((date>='2026-09-25'&&date<='2026-09-27')||(date>='2026-10-01'&&date<='2026-10-07')))reasons.push('节假日教学安排未确认，可在校历设置中指定停课或补课');
     if(unknown.length)reasons.push(...unknown.map(e=>e.note||'原表未注明具体周次／时间'));
     let status=known.some(e=>e.kind==='course')?'course':known.length?'other':(reasons.length||unknown.length)?'unknown':'free';
     return {status,events:active,reasons:[...new Set(reasons)]};
