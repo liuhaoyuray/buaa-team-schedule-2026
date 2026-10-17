@@ -2,24 +2,22 @@
   "meta": {
     "semester": "2026年秋季学期",
     "week1": "2026-09-07",
-    "maxWeek": 20,
+    "maxWeek": 19,
     "teachingWeeks": 17,
-    "updated": "2026-10-14",
+    "updated": "2026-10-17",
     "calendarUrl": "https://jiaowu.buaa.edu.cn/index/xl.htm",
-    "calendarNote": "按9月7日起连续自然周编号；第18-20周考试安排未收集。节假日与补课请在校历设置中确认。",
-    "sourceCount": 59,
-    "rosterCount": 65,
-    "activePeopleCount": 65,
-    "totalRecords": 65,
+    "calendarNote": "按北航2026—2027校历：第一周2026-09-07，第一学期第19周截至2027-01-17，2027-01-18起寒假；第18—19周课程/考试安排尚未收集。",
+    "sourceCount": 58,
+    "rosterCount": 64,
+    "activePeopleCount": 64,
+    "totalRecords": 64,
     "volunteerCount": 35,
-    "practiceCount": 30,
+    "practiceCount": 29,
     "ownerName": "刘浩宇",
-    "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
-    "practiceRosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+    "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
+    "practiceRosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
     "missingTimetables": [
       "朱岩",
-      "张宸瑶",
-      "边琳杰",
       "王显"
     ],
     "unmatchedTimetables": [],
@@ -33,12 +31,10 @@
         ]
       },
       "实践部": {
-        "total": 30,
-        "withTimetable": 26,
-        "defaultNoClasses": 1,
+        "total": 29,
+        "withTimetable": 25,
+        "defaultNoClasses": 3,
         "missing": [
-          "张宸瑶",
-          "边琳杰",
           "王显"
         ]
       }
@@ -170,15 +166,6 @@
         "selected": true,
         "mtime": 1791880751,
         "sha256": "3256c4f108cc28da64eb5fe98a2363e774dc91653a87e86ef15d1245555e2654"
-      },
-      {
-        "file": "实践部\\张欣瑞-课表.xlsx",
-        "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-e4502c5095857618.xlsx",
-        "week": null,
-        "type": "semester",
-        "selected": true,
-        "mtime": 1788926988,
-        "sha256": "9eb87465a19ba7c5c91300ae2235a3ea32e7af56fb26e8768c8fe01c11b82782"
       },
       {
         "file": "实践部\\徐嘉璐-课表.xlsx",
@@ -597,7 +584,7 @@
     ],
     "timetablePolicy": "semester_snapshot",
     "rolePolicy": "student_cadre",
-    "uiVersion": "scientific-glass-4",
+    "uiVersion": "scientific-glass-duty-5",
     "newJoinerLabel": "2026年秋季学期新加入",
     "newJoiners": [
       "史英超",
@@ -648,11 +635,26 @@
     "defaultNoClasses": [
       "刘浩宇",
       "万释鸿",
-      "牛葳"
+      "牛葳",
+      "张宸瑶",
+      "边琳杰"
     ],
-    "rosterRevision": "2026-10-14-2",
-    "buildNumber": 6,
-    "dataRevision": "2026-10-14-3"
+    "rosterRevision": "2026-10-17-1",
+    "buildNumber": 7,
+    "dataRevision": "2026-10-17-personnel-duty-1",
+    "timetableUpdated": "2026-10-14",
+    "pendingTimetableRefresh": {
+      "requestedAt": "2026-10-17",
+      "reason": "本次新增课表尚未读取，当前课程资料仍为10月14日版本"
+    },
+    "dutyModule": {
+      "ruleVersion": 1,
+      "requestedAt": "2026-10-17",
+      "start": "2026-10-19",
+      "requestedEnd": "2027-01-17",
+      "newTimetablesPending": true
+    },
+    "calendarImageUrl": "https://jiaowu.buaa.edu.cn/__local/D/37/2B/B7474B9BB7AAF8EC0727E213C4F_CEFE8CF5_47E42.jpg"
   },
   "slots": [
     {
@@ -763,7 +765,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 16,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p02",
@@ -803,7 +805,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 23,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -844,7 +846,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 18,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -885,7 +887,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 26,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -925,7 +927,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 13,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p05",
@@ -964,7 +966,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 5,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p06",
@@ -1003,7 +1005,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 9,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p07",
@@ -1043,7 +1045,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 19,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1083,7 +1085,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 12,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "r25261008",
@@ -1124,7 +1126,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 22,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1166,7 +1168,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 25,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1207,47 +1209,8 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 30,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
-    },
-    {
-      "id": "p10",
-      "name": "张欣瑞",
-      "department": "实践部",
-      "campus": "学院路",
-      "source": "实践部\\张欣瑞-课表.xlsx",
-      "sourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-e4502c5095857618.xlsx",
-      "notes": [
-        "不排课课程：社会实践◇赵华珺[2-17周]不排课◇素质教育（博雅课程）（5）◇吴衍川[1-16周]不排课"
-      ],
-      "coverageWeek": null,
-      "campusBasis": "课程地点推定",
-      "studentId": "24182919",
-      "hasTimetable": true,
-      "college": "北京学院",
-      "role": "学生干部",
-      "phone": "13522481398",
-      "rosterStatus": "confirmed",
-      "originalDepartment": "实践部",
-      "coverageWeeks": [],
-      "weekOverrides": [],
-      "sourceWeek": null,
-      "semesterAssumed": false,
-      "timetableSources": [
-        {
-          "file": "实践部\\张欣瑞-课表.xlsx",
-          "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-e4502c5095857618.xlsx",
-          "week": null,
-          "type": "semester",
-          "selected": true,
-          "mtime": 1788926988,
-          "sha256": "9eb87465a19ba7c5c91300ae2235a3ea32e7af56fb26e8768c8fe01c11b82782"
-        }
-      ],
-      "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
-      "rosterRow": 8,
-      "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
     },
     {
       "id": "r25379168",
@@ -1288,7 +1251,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 28,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1329,7 +1292,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 29,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1370,7 +1333,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 20,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1410,7 +1373,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 15,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "s25373068",
@@ -1452,7 +1415,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 24,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1492,7 +1455,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 11,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "rSY2604713",
@@ -1533,7 +1496,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 31,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1584,7 +1547,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 3,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p14",
@@ -1624,7 +1587,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 4,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "s25379127",
@@ -1664,7 +1627,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 27,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1704,7 +1667,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 14,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p16",
@@ -1743,7 +1706,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 10,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p17",
@@ -1783,7 +1746,7 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 6,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p18",
@@ -1823,7 +1786,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 32,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -1863,7 +1826,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 12,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p20",
@@ -1902,7 +1865,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 21,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p21",
@@ -1941,7 +1904,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 18,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p22",
@@ -1981,7 +1944,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 19,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p24",
@@ -2021,7 +1984,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 27,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2062,7 +2025,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 33,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2101,7 +2064,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 6,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p27",
@@ -2142,7 +2105,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 30,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2182,7 +2145,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 8,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p29",
@@ -2221,7 +2184,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 13,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p30",
@@ -2260,7 +2223,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 14,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p31",
@@ -2300,7 +2263,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 34,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2340,7 +2303,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 10,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p33",
@@ -2379,7 +2342,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 7,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p34",
@@ -2419,7 +2382,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 36,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2460,7 +2423,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 28,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2501,7 +2464,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 31,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2542,7 +2505,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 5,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p38",
@@ -2583,7 +2546,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 15,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p39",
@@ -2623,7 +2586,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 35,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2664,7 +2627,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 25,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2704,7 +2667,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 11,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p42",
@@ -2743,7 +2706,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 4,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p43",
@@ -2782,7 +2745,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 9,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p44",
@@ -2822,7 +2785,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 23,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2863,7 +2826,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 29,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2903,7 +2866,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 20,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p47",
@@ -2943,7 +2906,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 24,
       "rosterNotes": "2026年秋季学期新加入",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -2984,7 +2947,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 17,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p49",
@@ -3023,7 +2986,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 16,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "p50",
@@ -3062,7 +3025,7 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 22,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
     },
     {
       "id": "rZY2602415",
@@ -3087,7 +3050,7 @@
       "rosterRow": 2,
       "rosterNotes": "",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
       "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
     },
@@ -3114,7 +3077,7 @@
       "rosterRow": 3,
       "rosterNotes": "",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
       "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
     },
@@ -3142,7 +3105,7 @@
       "rosterRow": 26,
       "rosterNotes": "2026年秋季学期新加入",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     },
     {
@@ -3168,7 +3131,7 @@
       "rosterRow": 2,
       "rosterNotes": "",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
       "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
     },
@@ -3179,7 +3142,7 @@
       "source": "",
       "sourceUrl": "",
       "notes": [
-        "任职名单中有此人，但尚未收集对应课表；不能将空白记录视为空闲。"
+        "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
       ],
       "coverageWeek": null,
       "coverageWeeks": [],
@@ -3195,7 +3158,9 @@
       "rosterRow": 7,
       "rosterNotes": "",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
+      "defaultNoClasses": true,
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
     },
     {
       "id": "r23121004",
@@ -3204,7 +3169,7 @@
       "source": "",
       "sourceUrl": "",
       "notes": [
-        "任职名单中有此人，但尚未收集对应课表；不能将空白记录视为空闲。"
+        "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
       ],
       "coverageWeek": null,
       "coverageWeeks": [],
@@ -3220,7 +3185,9 @@
       "rosterRow": 17,
       "rosterNotes": "",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
+      "defaultNoClasses": true,
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
     },
     {
       "id": "r25121011",
@@ -3246,7 +3213,7 @@
       "rosterRow": 21,
       "rosterNotes": "2026年秋季学期新加入",
       "rosterStatus": "confirmed",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.xlsx",
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "joinedSemester": "2026年秋季学期新加入"
     }
   ],
@@ -12622,1111 +12589,6 @@
       "note": "",
       "sourceFile": "实践部\\张依柔-课表.xlsx",
       "id": "e00329"
-    },
-    {
-      "person": "p10",
-      "day": 3,
-      "title": "生物医学电子(1)",
-      "periods": [
-        1,
-        2
-      ],
-      "start": "08:00",
-      "end": "09:35",
-      "weeks": [
-        1,
-        2,
-        3,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11
-      ],
-      "room": "(三)215",
-      "teacher": "张弛",
-      "raw": "（本）生物医学电子(1)\n张弛[1-3周\n6-11周]\n(三)215\n第1-2节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!E4",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00330"
-    },
-    {
-      "person": "p10",
-      "day": 3,
-      "title": "生物医学电子(1)",
-      "periods": [
-        1,
-        2
-      ],
-      "start": "08:00",
-      "end": "09:35",
-      "weeks": [
-        4,
-        12
-      ],
-      "room": "(三)215",
-      "teacher": "张弛",
-      "raw": "（本）生物医学电子(1)\n张弛[4周\n12周]\n(三)215\n第1-2节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!E4",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00331"
-    },
-    {
-      "person": "p10",
-      "day": 3,
-      "title": "生物医学电子(1)",
-      "periods": [
-        1,
-        2
-      ],
-      "start": "08:00",
-      "end": "09:35",
-      "weeks": [
-        13,
-        14,
-        15
-      ],
-      "room": "(三)215",
-      "teacher": "樊璠",
-      "raw": "（本）生物医学电子(1)\n樊璠[13-15周]\n(三)215\n第1-2节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!E4",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00332"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "国家安全（5）",
-      "periods": [
-        1,
-        2
-      ],
-      "start": "08:00",
-      "end": "09:35",
-      "weeks": [
-        14
-      ],
-      "room": "主109",
-      "teacher": "常昊婧",
-      "raw": "（本）国家安全（5）\n常昊婧[14周]\n主109\n第1-2节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F4",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00333"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物信息学",
-      "periods": [
-        2,
-        5
-      ],
-      "start": "08:50",
-      "end": "12:15",
-      "weeks": [
-        16
-      ],
-      "room": "大数据精准医疗创新中心（校医院南四楼）",
-      "teacher": "周炳",
-      "raw": "（本）生物信息学\n周炳[16周]\n大数据精准医疗创新中心（校医院南四楼）\n第2-5节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F4 / sheet1!F10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00334"
-    },
-    {
-      "person": "p10",
-      "day": 7,
-      "title": "生物力学(1)",
-      "periods": [
-        2,
-        9
-      ],
-      "start": "08:50",
-      "end": "17:25",
-      "weeks": [
-        14
-      ],
-      "room": "智能医疗创新工作室（五号楼-B2-B01）",
-      "teacher": "徐鹏",
-      "raw": "（本）生物力学(1)\n徐鹏[14周]\n智能医疗创新工作室（五号楼-B2-B01）\n第2-9节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!I4 / sheet1!I10 / sheet1!I16 / sheet1!I22",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00335"
-    },
-    {
-      "person": "p10",
-      "day": 7,
-      "title": "生物力学(1)",
-      "periods": [
-        2,
-        9
-      ],
-      "start": "08:50",
-      "end": "17:25",
-      "weeks": [
-        15
-      ],
-      "room": "智能医疗创新工作室（五号楼-B2-B01）",
-      "teacher": "李高阳",
-      "raw": "（本）生物力学(1)\n李高阳[15周]\n智能医疗创新工作室（五号楼-B2-B01）\n第2-9节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!I4 / sheet1!I10 / sheet1!I16 / sheet1!I22",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00336"
-    },
-    {
-      "person": "p10",
-      "day": 1,
-      "title": "免疫学",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        1,
-        2,
-        3,
-        5,
-        6,
-        7,
-        8,
-        9
-      ],
-      "room": "(三)202",
-      "teacher": "刘婍",
-      "raw": "（本）免疫学\n刘婍[1-3周\n5-9周]\n(三)202\n第3-4节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!C10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00337"
-    },
-    {
-      "person": "p10",
-      "day": 2,
-      "title": "生物力学(1)",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        1,
-        2,
-        3,
-        6,
-        7
-      ],
-      "room": "(三)104",
-      "teacher": "徐鹏",
-      "raw": "（本）生物力学(1)\n徐鹏[1-3周\n6-7周]\n(三)104\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00338"
-    },
-    {
-      "person": "p10",
-      "day": 2,
-      "title": "生物力学(1)",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        4
-      ],
-      "room": "(三)104",
-      "teacher": "徐鹏",
-      "raw": "（本）生物力学(1)\n徐鹏[4周]\n(三)104\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00339"
-    },
-    {
-      "person": "p10",
-      "day": 2,
-      "title": "生物力学(1)",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        8,
-        9
-      ],
-      "room": "(三)104",
-      "teacher": "王晓飞",
-      "raw": "（本）生物力学(1)\n王晓飞[8-9周]\n(三)104\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00340"
-    },
-    {
-      "person": "p10",
-      "day": 2,
-      "title": "生物力学(1)",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        10
-      ],
-      "room": "(三)104",
-      "teacher": "王晓飞",
-      "raw": "（本）生物力学(1)\n王晓飞[10周]\n(三)104\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00341"
-    },
-    {
-      "person": "p10",
-      "day": 2,
-      "title": "生物力学(1)",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        11,
-        12,
-        13,
-        14,
-        15
-      ],
-      "room": "(三)104",
-      "teacher": "李高阳",
-      "raw": "（本）生物力学(1)\n李高阳[11-15周]\n(三)104\n第3-4节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00342"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物信息学",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        1,
-        3,
-        6,
-        8
-      ],
-      "room": "(三)104",
-      "teacher": "陈伟",
-      "raw": "（本）生物信息学\n陈伟[1-3周(单)\n6-8周(双)]\n(三)104\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00343"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物信息学",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        2,
-        5,
-        7,
-        9
-      ],
-      "room": "(三)104",
-      "teacher": "陈伟",
-      "raw": "（本）生物信息学\n陈伟[2周\n5-9周(单)]\n(三)104\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00344"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物信息学",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        10,
-        12,
-        14
-      ],
-      "room": "(三)104",
-      "teacher": "张大可",
-      "raw": "（本）生物信息学\n张大可[10-14周(双)]\n(三)104\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00345"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物信息学",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        11,
-        13
-      ],
-      "room": "(三)104",
-      "teacher": "张大可",
-      "raw": "（本）生物信息学\n张大可[11-13周(单)]\n(三)104\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00346"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物信息学",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        15
-      ],
-      "room": "(三)104",
-      "teacher": "周炳",
-      "raw": "（本）生物信息学\n周炳[15周]\n(三)104\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00347"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "生物医学电子(1)",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        1,
-        2,
-        3,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11
-      ],
-      "room": "(三)215",
-      "teacher": "张弛",
-      "raw": "（本）生物医学电子(1)\n张弛[1-3周\n6-11周]\n(三)215\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00348"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "生物医学电子(1)",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        5
-      ],
-      "room": "(三)215",
-      "teacher": "张弛",
-      "raw": "（本）生物医学电子(1)\n张弛[5周]\n(三)215\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00349"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "生物医学电子(1)",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        12
-      ],
-      "room": "(三)215",
-      "teacher": "樊璠",
-      "raw": "（本）生物医学电子(1)\n樊璠[12周]\n(三)215\n第3-4节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00350"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "生物医学电子(1)",
-      "periods": [
-        3,
-        4
-      ],
-      "start": "09:50",
-      "end": "11:25",
-      "weeks": [
-        13,
-        14,
-        15
-      ],
-      "room": "(三)215",
-      "teacher": "樊璠",
-      "raw": "（本）生物医学电子(1)\n樊璠[13-15周]\n(三)215\n第3-4节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G10",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00351"
-    },
-    {
-      "person": "p10",
-      "day": 1,
-      "title": "体育（5）",
-      "periods": [
-        6,
-        6
-      ],
-      "start": "14:00",
-      "end": "14:45",
-      "weeks": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16
-      ],
-      "room": "体育部101教室",
-      "teacher": "周大胜",
-      "raw": "（本）体育（5）\n周大胜[1-16周]\n体育部101教室\n第6-6节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!C16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00352"
-    },
-    {
-      "person": "p10",
-      "day": 2,
-      "title": "定量生理学",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        1,
-        2,
-        3,
-        4,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17
-      ],
-      "room": "(三)215",
-      "teacher": "杨肖",
-      "raw": "（本）定量生理学\n杨肖[1-4周\n6-17周]\n(三)215\n第6-7节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00353"
-    },
-    {
-      "person": "p10",
-      "day": 3,
-      "title": "医工科研与工程训练（2）",
-      "periods": [
-        6,
-        9
-      ],
-      "start": "14:00",
-      "end": "17:25",
-      "weeks": [
-        2,
-        4,
-        6,
-        8,
-        10,
-        12,
-        14,
-        16
-      ],
-      "room": "康复工程多功能教室（五号楼-B2-B02）",
-      "teacher": "刘文勇,郭江真",
-      "raw": "（本）医工科研与工程训练（2）\n刘文勇[2-16周(双)],郭江真[2-16周(双)]\n康复工程多功能教室（五号楼-B2-B02）\n第6-9节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!E16 / sheet1!E22",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00354"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物力学(1)",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        1,
-        2,
-        3,
-        6,
-        7
-      ],
-      "room": "(三)104",
-      "teacher": "徐鹏",
-      "raw": "（本）生物力学(1)\n徐鹏[1-3周\n6-7周]\n(三)104\n第6-7节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00355"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物力学(1)",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        5
-      ],
-      "room": "(三)104",
-      "teacher": "徐鹏",
-      "raw": "（本）生物力学(1)\n徐鹏[5周]\n(三)104\n第6-7节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00356"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物力学(1)",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        8,
-        9
-      ],
-      "room": "(三)104",
-      "teacher": "王晓飞",
-      "raw": "（本）生物力学(1)\n王晓飞[8-9周]\n(三)104\n第6-7节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00357"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物力学(1)",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        10
-      ],
-      "room": "(三)104",
-      "teacher": "李高阳",
-      "raw": "（本）生物力学(1)\n李高阳[10周]\n(三)104\n第6-7节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00358"
-    },
-    {
-      "person": "p10",
-      "day": 4,
-      "title": "生物力学(1)",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        11,
-        12,
-        13,
-        14,
-        15
-      ],
-      "room": "(三)104",
-      "teacher": "李高阳",
-      "raw": "（本）生物力学(1)\n李高阳[11-15周]\n(三)104\n第6-7节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!F16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00359"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "医学人工智能",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        1,
-        2,
-        3
-      ],
-      "room": "(三)302",
-      "teacher": "王晓飞",
-      "raw": "（本）医学人工智能\n王晓飞[1-3周]\n(三)302\n第6-7节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00360"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "医学人工智能",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        5,
-        6
-      ],
-      "room": "(三)302",
-      "teacher": "万涛",
-      "raw": "（本）医学人工智能\n万涛[5-6周]\n(三)302\n第6-7节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00361"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "医学人工智能",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        7,
-        8,
-        9,
-        10
-      ],
-      "room": "(三)302",
-      "teacher": "陈珣",
-      "raw": "（本）医学人工智能\n陈珣[7-10周]\n(三)302\n第6-7节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00362"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "医学人工智能",
-      "periods": [
-        6,
-        9
-      ],
-      "start": "14:00",
-      "end": "17:25",
-      "weeks": [
-        11,
-        12
-      ],
-      "room": "(三)302",
-      "teacher": "陈珣",
-      "raw": "（本）医学人工智能\n陈珣[11-12周]\n(三)302\n第6-9节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G16 / sheet1!G22",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00363"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "医学人工智能",
-      "periods": [
-        6,
-        7
-      ],
-      "start": "14:00",
-      "end": "15:35",
-      "weeks": [
-        13,
-        14,
-        15
-      ],
-      "room": "(三)302",
-      "teacher": "张靖",
-      "raw": "（本）医学人工智能\n张靖[13-15周]\n(三)302\n第6-7节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G16",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00364"
-    },
-    {
-      "person": "p10",
-      "day": 5,
-      "title": "医学人工智能",
-      "periods": [
-        6,
-        9
-      ],
-      "start": "14:00",
-      "end": "17:25",
-      "weeks": [
-        16,
-        17
-      ],
-      "room": "(三)302",
-      "teacher": "张靖",
-      "raw": "（本）医学人工智能\n张靖[16-17周]\n(三)302\n第6-9节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!G16 / sheet1!G22",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00365"
-    },
-    {
-      "person": "p10",
-      "day": 1,
-      "title": "生物材料(1)",
-      "periods": [
-        8,
-        10
-      ],
-      "start": "15:50",
-      "end": "18:15",
-      "weeks": [
-        1,
-        2,
-        3,
-        4,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11
-      ],
-      "room": "(三)314",
-      "teacher": "李林昊",
-      "raw": "（本）生物材料(1)\n李林昊[1-4周\n6-11周]\n(三)314\n第8-10节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!C22",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00366"
-    },
-    {
-      "person": "p10",
-      "day": 1,
-      "title": "生物材料(1)",
-      "periods": [
-        8,
-        9
-      ],
-      "start": "15:50",
-      "end": "17:25",
-      "weeks": [
-        12
-      ],
-      "room": "(三)314",
-      "teacher": "李林昊",
-      "raw": "（本）生物材料(1)\n李林昊[12周]\n(三)314\n第8-9节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!C22",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00367"
-    },
-    {
-      "person": "p10",
-      "day": 2,
-      "title": "心理健康（5）",
-      "periods": [
-        8,
-        9
-      ],
-      "start": "15:50",
-      "end": "17:25",
-      "weeks": [
-        8
-      ],
-      "room": "主217",
-      "teacher": "马喜亭",
-      "raw": "（本）心理健康（5）\n马喜亭[8周]\n主217\n第8-9节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!D22",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00368"
-    },
-    {
-      "person": "p10",
-      "day": 3,
-      "title": "形势与政策（5）",
-      "periods": [
-        8,
-        9
-      ],
-      "start": "15:50",
-      "end": "17:25",
-      "weeks": [
-        9
-      ],
-      "room": "(三)301",
-      "teacher": "伊志豪",
-      "raw": "（本）形势与政策（5）\n伊志豪[9周]\n(三)301\n第8-9节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!E22",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00369"
-    },
-    {
-      "person": "p10",
-      "day": 1,
-      "title": "生物材料(1)",
-      "periods": [
-        11,
-        14
-      ],
-      "start": "19:00",
-      "end": "22:15",
-      "weeks": [
-        8,
-        9,
-        10,
-        11
-      ],
-      "room": "微生物学多功能教室（五号楼-B2-B04）",
-      "teacher": "李林昊",
-      "raw": "（本）生物材料(1)\n李林昊[8-11周]\n微生物学多功能教室（五号楼-B2-B04）\n第11-14节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!C28",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00370"
-    },
-    {
-      "person": "p10",
-      "day": 3,
-      "title": "生物医学电子(1)",
-      "periods": [
-        11,
-        14
-      ],
-      "start": "19:00",
-      "end": "22:15",
-      "weeks": [
-        12,
-        13,
-        14
-      ],
-      "room": "生物医学智慧教室（五号楼-B2-B06）",
-      "teacher": "张弛",
-      "raw": "（本）生物医学电子(1)\n张弛[12-14周]\n生物医学智慧教室（五号楼-B2-B06）\n第11-14节\n",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!E28",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00371"
-    },
-    {
-      "person": "p10",
-      "day": 3,
-      "title": "生物医学电子(1)",
-      "periods": [
-        11,
-        14
-      ],
-      "start": "19:00",
-      "end": "22:15",
-      "weeks": [
-        15
-      ],
-      "room": "生物医学智慧教室（五号楼-B2-B06）",
-      "teacher": "樊璠",
-      "raw": "（本）生物医学电子(1)\n樊璠[15周]\n生物医学智慧教室（五号楼-B2-B06）\n第11-14节",
-      "kind": "course",
-      "uncertain": false,
-      "ref": "sheet1!E28",
-      "note": "",
-      "sourceFile": "实践部\\张欣瑞-课表.xlsx",
-      "id": "e00372"
     },
     {
       "person": "r25379168",
