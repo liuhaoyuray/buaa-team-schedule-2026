@@ -649,8 +649,8 @@
       "边琳杰"
     ],
     "rosterRevision": "2026-10-17-2",
-    "buildNumber": 9,
-    "dataRevision": "2026-10-17-duty-final-rules-1",
+    "buildNumber": 10,
+    "dataRevision": "2026-10-17-duty-reference-26-1",
     "timetableUpdated": "2026-10-17",
     "dutyModule": {
       "ruleVersion": 2,
@@ -684,7 +684,22 @@
         }
       ],
       "unchangedVerified": 58
-    }
+    },
+    "exportAdditionalContacts": [
+      {
+        "name": "解天一",
+        "phone": "15101147862",
+        "department": "实践部",
+        "source": "26秋值班表示例补充联系人"
+      }
+    ],
+    "dutyDisplayOnly": [
+      "陈家宝",
+      "张景涵",
+      "万释鸿",
+      "张宸瑶",
+      "边琳杰"
+    ]
   },
   "slots": [
     {
@@ -1776,7 +1791,15 @@
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
       "rosterRow": 6,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
+      "dutyDisplayOnly": {
+        "day": 5,
+        "block": 2,
+        "cell": "F5",
+        "campus": "学院路",
+        "slot": 18,
+        "note": "按部长指定位置仅展示，无需到岗，不计实际班次和覆盖人数。"
+      }
     },
     {
       "id": "p18",
@@ -2537,7 +2560,15 @@
       "rosterRow": 5,
       "rosterNotes": "",
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
-      "campusBasis": "部长于2026-10-17确认"
+      "campusBasis": "部长于2026-10-17确认",
+      "dutyDisplayOnly": {
+        "day": 4,
+        "block": 1,
+        "cell": "E4",
+        "campus": "学院路",
+        "slot": 13,
+        "note": "按部长指定位置仅展示，无需到岗，不计实际班次和覆盖人数。"
+      }
     },
     {
       "id": "p38",
@@ -3113,7 +3144,15 @@
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
       "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。",
-      "campusBasis": "部长于2026-10-17确认"
+      "campusBasis": "部长于2026-10-17确认",
+      "dutyDisplayOnly": {
+        "day": 3,
+        "block": 0,
+        "cell": "D3",
+        "campus": "学院路",
+        "slot": 8,
+        "note": "按部长指定位置仅展示，无需到岗，不计实际班次和覆盖人数。"
+      }
     },
     {
       "id": "r24375325",
@@ -3124,6 +3163,7 @@
       "notes": [
         "任职备注：2026年秋季学期新加入",
         "不排课课程／原表备注：社会实践◇王博伟[2-17周]不排课◇燃烧综合实验◇郭志辉[15周]不排课◇流体机械综合实验◇刘贺[6-9周]不排课◇素质教育（博雅课程）（5）◇张智[1-16周]不排课",
+        "按部长确认，将本人上交的课表作为个人课表使用。",
         "按部长确认，将本人上交的课表作为个人课表使用。",
         "按部长确认，将本人上交的课表作为个人课表使用。"
       ],
@@ -3212,7 +3252,15 @@
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
       "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。",
-      "campusBasis": "部长于2026-10-17确认"
+      "campusBasis": "部长于2026-10-17确认",
+      "dutyDisplayOnly": {
+        "day": 5,
+        "block": 1,
+        "cell": "F4",
+        "campus": "学院路",
+        "slot": 17,
+        "note": "按部长指定位置仅展示，无需到岗，不计实际班次和覆盖人数。"
+      }
     },
     {
       "id": "r23121004",
@@ -3240,7 +3288,15 @@
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
       "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。",
-      "campusBasis": "部长于2026-10-17确认"
+      "campusBasis": "部长于2026-10-17确认",
+      "dutyDisplayOnly": {
+        "day": 3,
+        "block": 3,
+        "cell": "D6",
+        "campus": "学院路",
+        "slot": 11,
+        "note": "按部长指定位置仅展示，无需到岗，不计实际班次和覆盖人数。"
+      }
     },
     {
       "id": "r25121011",
