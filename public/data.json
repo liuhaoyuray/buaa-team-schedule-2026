@@ -8,9 +8,7 @@
     "calendarUrl": "https://jiaowu.buaa.edu.cn/index/xl.htm",
     "calendarNote": "按北航2026—2027校历：第一周2026-09-07，第一学期第19周截至2027-01-17，2027-01-18起寒假；第18—19周课程/考试安排尚未收集。",
     "sourceCount": 60,
-    "unverifiedTimetables": [
-      "朱岩"
-    ],
+    "unverifiedTimetables": [],
     "rosterCount": 64,
     "activePeopleCount": 64,
     "totalRecords": 64,
@@ -650,17 +648,19 @@
       "张宸瑶",
       "边琳杰"
     ],
-    "rosterRevision": "2026-10-17-1",
-    "buildNumber": 8,
-    "dataRevision": "2026-10-17-f-timetable-1",
+    "rosterRevision": "2026-10-17-2",
+    "buildNumber": 9,
+    "dataRevision": "2026-10-17-duty-final-rules-1",
     "timetableUpdated": "2026-10-17",
     "dutyModule": {
-      "ruleVersion": 1,
+      "ruleVersion": 2,
       "requestedAt": "2026-10-17",
       "start": "2026-10-19",
-      "requestedEnd": "2027-01-17",
+      "requestedEnd": "2027-01-03",
       "newTimetablesPending": false,
-      "sourceUpdated": "2026-10-17"
+      "sourceUpdated": "2026-10-17",
+      "endWeek": 17,
+      "noDoubleEarly": true
     },
     "calendarImageUrl": "https://jiaowu.buaa.edu.cn/__local/D/37/2B/B7474B9BB7AAF8EC0727E213C4F_CEFE8CF5_47E42.jpg",
     "timetableImport": {
@@ -1121,7 +1121,7 @@
       "id": "r25261008",
       "name": "周婧一",
       "department": "实践部",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "实践部\\周婧一-课表.xlsx",
       "sourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-9347f4b0d9fd9918.xlsx",
       "notes": [
@@ -1130,7 +1130,7 @@
         "任职备注：2026年秋季学期新加入"
       ],
       "coverageWeek": null,
-      "campusBasis": "含跨校区课程，常驻校区待确认",
+      "campusBasis": "部长于2026-10-17确认",
       "studentId": "25261008",
       "hasTimetable": true,
       "college": "新媒体艺术与设计学院",
@@ -1163,7 +1163,7 @@
       "id": "r25373241",
       "name": "孙鹤嘉",
       "department": "实践部",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "实践部\\孙鹤嘉-课表.xlsx",
       "sourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-b421d5124e8a8047.xlsx",
       "notes": [
@@ -1172,7 +1172,7 @@
         "任职备注：2026年秋季学期新加入"
       ],
       "coverageWeek": null,
-      "campusBasis": "含跨校区课程，常驻校区待确认",
+      "campusBasis": "部长于2026-10-17确认",
       "studentId": "25373241",
       "hasTimetable": true,
       "college": "仪器科学与光电工程学院",
@@ -1409,7 +1409,7 @@
       "id": "s25373068",
       "name": "杨昊霖",
       "department": "实践部",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "实践部\\杨昊霖-课表.xlsx",
       "sourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-8d62bba80602a6df.xlsx",
       "notes": [
@@ -1419,7 +1419,7 @@
         "任职备注：2026年秋季学期新加入"
       ],
       "coverageWeek": null,
-      "campusBasis": "含跨校区课程，常驻校区待确认",
+      "campusBasis": "部长于2026-10-17确认",
       "studentId": "25373068",
       "hasTimetable": true,
       "college": "电子信息工程学院",
@@ -2094,13 +2094,14 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 6,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
+      "campusBasis": "部长于2026-10-17确认"
     },
     {
       "id": "p27",
       "name": "于佳宁",
       "department": "志工部",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "志工部\\于佳宁-课表.xlsx",
       "sourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-92d3162afc05a46e.xlsx",
       "notes": [
@@ -2109,7 +2110,7 @@
         "任职备注：2026年秋季学期新加入"
       ],
       "coverageWeek": null,
-      "campusBasis": "含跨校区课程，常驻校区待确认",
+      "campusBasis": "部长于2026-10-17确认",
       "studentId": "25373617",
       "hasTimetable": true,
       "college": "电子信息学院",
@@ -2501,7 +2502,7 @@
       "id": "p37",
       "name": "张景涵",
       "department": "志工部",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "志工部\\张景涵-课表.xlsx",
       "sourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-714378f77e031c68.xlsx",
       "notes": [
@@ -2535,7 +2536,8 @@
       "rosterSource": "26秋-志工部-任职信息统计.xlsx",
       "rosterRow": 5,
       "rosterNotes": "",
-      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv"
+      "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
+      "campusBasis": "部长于2026-10-17确认"
     },
     {
       "id": "p38",
@@ -3060,7 +3062,7 @@
     {
       "id": "rZY2602415",
       "name": "刘浩宇",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "",
       "sourceUrl": "",
       "notes": [
@@ -3082,12 +3084,13 @@
       "rosterStatus": "confirmed",
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
-      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。",
+      "campusBasis": "部长于2026-10-17确认"
     },
     {
       "id": "r23379067",
       "name": "万释鸿",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "",
       "sourceUrl": "",
       "notes": [
@@ -3109,7 +3112,8 @@
       "rosterStatus": "confirmed",
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
-      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。",
+      "campusBasis": "部长于2026-10-17确认"
     },
     {
       "id": "r24375325",
@@ -3120,7 +3124,8 @@
       "notes": [
         "任职备注：2026年秋季学期新加入",
         "不排课课程／原表备注：社会实践◇王博伟[2-17周]不排课◇燃烧综合实验◇郭志辉[15周]不排课◇流体机械综合实验◇刘贺[6-9周]不排课◇素质教育（博雅课程）（5）◇张智[1-16周]不排课",
-        "上传文件为“推荐课表”，含多个教学班；尚未确认个人实际选课，空白时段不能直接认定为空闲。"
+        "按部长确认，将本人上交的课表作为个人课表使用。",
+        "按部长确认，将本人上交的课表作为个人课表使用。"
       ],
       "coverageWeek": null,
       "coverageWeeks": [],
@@ -3150,14 +3155,13 @@
       "joinedSemester": "2026年秋季学期新加入",
       "sourceWeek": null,
       "semesterAssumed": false,
-      "alwaysConfirm": "上传文件为“推荐课表”，含多个教学班；尚未确认个人实际选课，空白时段不能直接认定为空闲。",
-      "timetableVerification": "recommended_unconfirmed",
-      "campusBasis": "课程地点推定；常驻校区需本人核对"
+      "timetableVerification": "accepted_personal",
+      "campusBasis": "部长于2026-10-17确认"
     },
     {
       "id": "r23373161",
       "name": "牛葳",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "",
       "sourceUrl": "",
       "notes": [
@@ -3179,12 +3183,13 @@
       "rosterStatus": "confirmed",
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
-      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。",
+      "campusBasis": "部长于2026-10-17确认"
     },
     {
       "id": "r23379035",
       "name": "张宸瑶",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "",
       "sourceUrl": "",
       "notes": [
@@ -3206,12 +3211,13 @@
       "rosterStatus": "confirmed",
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
-      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。",
+      "campusBasis": "部长于2026-10-17确认"
     },
     {
       "id": "r23121004",
       "name": "边琳杰",
-      "campus": "待确认",
+      "campus": "学院路",
       "source": "",
       "sourceUrl": "",
       "notes": [
@@ -3233,7 +3239,8 @@
       "rosterStatus": "confirmed",
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
       "defaultNoClasses": true,
-      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。"
+      "defaultNoClassesNote": "按部长设置，本学期默认无课；临时安排仍需联系本人确认。",
+      "campusBasis": "部长于2026-10-17确认"
     },
     {
       "id": "r25121011",
@@ -46428,7 +46435,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!C4 / sheet1!C8 / sheet1!C9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-0"
     },
@@ -46466,7 +46473,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-1"
     },
@@ -46504,7 +46511,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-2"
     },
@@ -46542,7 +46549,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-3"
     },
@@ -46580,7 +46587,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-4"
     },
@@ -46618,7 +46625,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-5"
     },
@@ -46656,7 +46663,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-6"
     },
@@ -46694,7 +46701,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-7"
     },
@@ -46732,7 +46739,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-8"
     },
@@ -46770,7 +46777,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-9"
     },
@@ -46808,7 +46815,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-10"
     },
@@ -46846,7 +46853,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-11"
     },
@@ -46884,7 +46891,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D4 / sheet1!D8",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-12"
     },
@@ -46908,7 +46915,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!H4 / sheet1!H8 / sheet1!H9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-13"
     },
@@ -46932,7 +46939,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!H4 / sheet1!H8 / sheet1!H9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-14"
     },
@@ -46956,7 +46963,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!H4 / sheet1!H8 / sheet1!H9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-15"
     },
@@ -46986,7 +46993,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!C9 / sheet1!C14 / sheet1!C15 / sheet1!C19 / sheet1!C20 / sheet1!C22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-16"
     },
@@ -47023,7 +47030,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-17"
     },
@@ -47060,7 +47067,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-18"
     },
@@ -47095,7 +47102,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-19"
     },
@@ -47119,7 +47126,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-20"
     },
@@ -47142,7 +47149,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-21"
     },
@@ -47165,7 +47172,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-22"
     },
@@ -47188,7 +47195,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-23"
     },
@@ -47219,7 +47226,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-24"
     },
@@ -47250,7 +47257,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-25"
     },
@@ -47281,7 +47288,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-26"
     },
@@ -47304,7 +47311,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-27"
     },
@@ -47327,7 +47334,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-28"
     },
@@ -47350,7 +47357,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-29"
     },
@@ -47388,7 +47395,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!F9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-30"
     },
@@ -47419,7 +47426,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-31"
     },
@@ -47450,7 +47457,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-32"
     },
@@ -47481,7 +47488,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-33"
     },
@@ -47504,7 +47511,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-34"
     },
@@ -47527,7 +47534,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-35"
     },
@@ -47550,7 +47557,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-36"
     },
@@ -47574,7 +47581,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!H9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-37"
     },
@@ -47598,7 +47605,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!H9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-38"
     },
@@ -47622,7 +47629,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!H9",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-39"
     },
@@ -47652,7 +47659,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!C14 / sheet1!C15",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-40"
     },
@@ -47682,7 +47689,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D14 / sheet1!D15",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-41"
     },
@@ -47712,7 +47719,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D14 / sheet1!D15",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-42"
     },
@@ -47742,7 +47749,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!F14 / sheet1!F15",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-43"
     },
@@ -47772,7 +47779,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!F14 / sheet1!F15",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-44"
     },
@@ -47802,7 +47809,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G14 / sheet1!G15",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-45"
     },
@@ -47832,7 +47839,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!D19 / sheet1!D20 / sheet1!D22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-46"
     },
@@ -47855,7 +47862,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-47"
     },
@@ -47878,7 +47885,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-48"
     },
@@ -47901,7 +47908,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-49"
     },
@@ -47924,7 +47931,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-50"
     },
@@ -47947,7 +47954,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-51"
     },
@@ -47970,7 +47977,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-52"
     },
@@ -47993,7 +48000,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-53"
     },
@@ -48016,7 +48023,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-54"
     },
@@ -48039,7 +48046,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-55"
     },
@@ -48062,7 +48069,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-56"
     },
@@ -48085,7 +48092,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-57"
     },
@@ -48108,7 +48115,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-58"
     },
@@ -48131,7 +48138,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-59"
     },
@@ -48154,7 +48161,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-60"
     },
@@ -48177,7 +48184,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-61"
     },
@@ -48200,7 +48207,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-62"
     },
@@ -48223,7 +48230,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-63"
     },
@@ -48246,7 +48253,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-64"
     },
@@ -48269,7 +48276,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-65"
     },
@@ -48292,7 +48299,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-66"
     },
@@ -48315,7 +48322,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-67"
     },
@@ -48338,7 +48345,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-68"
     },
@@ -48361,7 +48368,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!F19 / sheet1!F20 / sheet1!F22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-69"
     },
@@ -48389,7 +48396,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G19 / sheet1!G20 / sheet1!G22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-70"
     },
@@ -48412,7 +48419,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G19 / sheet1!G20 / sheet1!G22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-71"
     },
@@ -48442,7 +48449,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!G19 / sheet1!G20 / sheet1!G22",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-72"
     },
@@ -48471,7 +48478,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!C24 / sheet1!C25",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-73"
     },
@@ -48509,7 +48516,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!C24 / sheet1!C25",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-74"
     },
@@ -48533,7 +48540,7 @@
       "kind": "course",
       "uncertain": false,
       "ref": "sheet1!C24 / sheet1!C25",
-      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "note": "按部长确认，采用本人上交的个人课表。",
       "sourceFile": "志工部\\朱岩-课表.xlsx",
       "id": "f20261017-75"
     },
