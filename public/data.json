@@ -7,7 +7,10 @@
     "updated": "2026-10-17",
     "calendarUrl": "https://jiaowu.buaa.edu.cn/index/xl.htm",
     "calendarNote": "按北航2026—2027校历：第一周2026-09-07，第一学期第19周截至2027-01-17，2027-01-18起寒假；第18—19周课程/考试安排尚未收集。",
-    "sourceCount": 58,
+    "sourceCount": 60,
+    "unverifiedTimetables": [
+      "朱岩"
+    ],
     "rosterCount": 64,
     "activePeopleCount": 64,
     "totalRecords": 64,
@@ -16,27 +19,20 @@
     "ownerName": "刘浩宇",
     "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
     "practiceRosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
-    "missingTimetables": [
-      "朱岩",
-      "王显"
-    ],
+    "missingTimetables": [],
     "unmatchedTimetables": [],
     "departmentStats": {
       "志工部": {
         "total": 35,
-        "withTimetable": 32,
+        "withTimetable": 33,
         "defaultNoClasses": 2,
-        "missing": [
-          "朱岩"
-        ]
+        "missing": []
       },
       "实践部": {
         "total": 29,
-        "withTimetable": 25,
+        "withTimetable": 26,
         "defaultNoClasses": 3,
-        "missing": [
-          "王显"
-        ]
+        "missing": []
       }
     },
     "duplicateTimetables": [
@@ -52,11 +48,8 @@
     ],
     "identityIssues": [],
     "newSourceFiles": [
-      "实践部\\【沙河】唐佳宇-课表.xlsx",
-      "实践部\\周婧一-课表.xlsx",
-      "实践部\\孙鹤嘉-课表.xlsx",
-      "实践部\\徐嘉璐-课表.xlsx",
-      "实践部\\沙河-邹霖柯-课表.pdf"
+      "实践部\\王显-课表.xlsx",
+      "志工部\\朱岩-课表.xlsx"
     ],
     "sourceManifest": [
       {
@@ -231,15 +224,6 @@
         "sha256": "2eab1ff07a1d46ed01167e6f5a4d2a62016425f61074d1621d07952db3316108"
       },
       {
-        "file": "实践部\\纪刘炀-课表.xlsx",
-        "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-4063c0557ee05b1a.xlsx",
-        "week": null,
-        "type": "semester",
-        "selected": false,
-        "mtime": 1789118962,
-        "sha256": "a6512d5285dab4643c44eb33e819fed08ad9f5fdaaad91f2f4aad29b2013ff6e"
-      },
-      {
         "file": "实践部\\纪刘炀+课表.xlsx",
         "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-463fb4a909a17c6e.xlsx",
         "week": 6,
@@ -247,6 +231,15 @@
         "selected": true,
         "mtime": 1791900563,
         "sha256": "c39a996d8b8048385653dbcaee1fec5f86925560e2c1d362c27a8b75bb003b42"
+      },
+      {
+        "file": "实践部\\纪刘炀-课表.xlsx",
+        "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-4063c0557ee05b1a.xlsx",
+        "week": null,
+        "type": "semester",
+        "selected": false,
+        "mtime": 1789118962,
+        "sha256": "a6512d5285dab4643c44eb33e819fed08ad9f5fdaaad91f2f4aad29b2013ff6e"
       },
       {
         "file": "实践部\\苏德那+课表.xlsx",
@@ -580,6 +573,24 @@
         "selected": true,
         "mtime": 1791793782,
         "sha256": "238554970e269df7d87c1af7f6cad24b5fe553f5211545e954898bd8414cb916"
+      },
+      {
+        "file": "实践部\\王显-课表.xlsx",
+        "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-10e07161af751552.xlsx",
+        "week": null,
+        "type": "semester",
+        "selected": true,
+        "mtime": 1792079283,
+        "sha256": "61352aa7a0ca1def7f7d507c25450cf2ac467a756f938877e7c69b6def457864"
+      },
+      {
+        "file": "志工部\\朱岩-课表.xlsx",
+        "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-4d7f0e00a58f5a11.xlsx",
+        "week": null,
+        "type": "semester",
+        "selected": true,
+        "mtime": 1792027275,
+        "sha256": "275b6219789ad706526ab6ccf32134955f19c8598cbf0e5a640fb0bbe63354f7"
       }
     ],
     "timetablePolicy": "semester_snapshot",
@@ -640,21 +651,40 @@
       "边琳杰"
     ],
     "rosterRevision": "2026-10-17-1",
-    "buildNumber": 7,
-    "dataRevision": "2026-10-17-personnel-duty-1",
-    "timetableUpdated": "2026-10-14",
-    "pendingTimetableRefresh": {
-      "requestedAt": "2026-10-17",
-      "reason": "本次新增课表尚未读取，当前课程资料仍为10月14日版本"
-    },
+    "buildNumber": 8,
+    "dataRevision": "2026-10-17-f-timetable-1",
+    "timetableUpdated": "2026-10-17",
     "dutyModule": {
       "ruleVersion": 1,
       "requestedAt": "2026-10-17",
       "start": "2026-10-19",
       "requestedEnd": "2027-01-17",
-      "newTimetablesPending": true
+      "newTimetablesPending": false,
+      "sourceUpdated": "2026-10-17"
     },
-    "calendarImageUrl": "https://jiaowu.buaa.edu.cn/__local/D/37/2B/B7474B9BB7AAF8EC0727E213C4F_CEFE8CF5_47E42.jpg"
+    "calendarImageUrl": "https://jiaowu.buaa.edu.cn/__local/D/37/2B/B7474B9BB7AAF8EC0727E213C4F_CEFE8CF5_47E42.jpg",
+    "timetableImport": {
+      "importedAt": "2026-10-17",
+      "readFiles": 62,
+      "activeFiles": 60,
+      "changed": [
+        {
+          "name": "王显",
+          "file": "实践部\\王显-课表.xlsx",
+          "events": 26,
+          "recommended": false,
+          "identity": "学号与任职名单一致"
+        },
+        {
+          "name": "朱岩",
+          "file": "志工部\\朱岩-课表.xlsx",
+          "events": 76,
+          "recommended": true,
+          "identity": "按文件姓名、部门匹配；表内未给出个人学号"
+        }
+      ],
+      "unchangedVerified": 58
+    }
   },
   "slots": [
     {
@@ -1526,15 +1556,6 @@
       "semesterAssumed": true,
       "timetableSources": [
         {
-          "file": "实践部\\纪刘炀-课表.xlsx",
-          "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-4063c0557ee05b1a.xlsx",
-          "week": null,
-          "type": "semester",
-          "selected": false,
-          "mtime": 1789118962,
-          "sha256": "a6512d5285dab4643c44eb33e819fed08ad9f5fdaaad91f2f4aad29b2013ff6e"
-        },
-        {
           "file": "实践部\\纪刘炀+课表.xlsx",
           "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-463fb4a909a17c6e.xlsx",
           "week": 6,
@@ -1542,6 +1563,15 @@
           "selected": true,
           "mtime": 1791900563,
           "sha256": "c39a996d8b8048385653dbcaee1fec5f86925560e2c1d362c27a8b75bb003b42"
+        },
+        {
+          "file": "实践部\\纪刘炀-课表.xlsx",
+          "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-4063c0557ee05b1a.xlsx",
+          "week": null,
+          "type": "semester",
+          "selected": false,
+          "mtime": 1789118962,
+          "sha256": "a6512d5285dab4643c44eb33e819fed08ad9f5fdaaad91f2f4aad29b2013ff6e"
         }
       ],
       "rosterSource": "实践部-任职信息统计（2026-2027）.xlsx",
@@ -3084,18 +3114,29 @@
     {
       "id": "r24375325",
       "name": "朱岩",
-      "campus": "待确认",
-      "source": "",
-      "sourceUrl": "",
+      "campus": "沙河",
+      "source": "志工部\\朱岩-课表.xlsx",
+      "sourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-4d7f0e00a58f5a11.xlsx",
       "notes": [
-        "任职名单中有此人，但尚未收集对应课表；不能将空白记录视为空闲。",
-        "任职备注：2026年秋季学期新加入"
+        "任职备注：2026年秋季学期新加入",
+        "不排课课程／原表备注：社会实践◇王博伟[2-17周]不排课◇燃烧综合实验◇郭志辉[15周]不排课◇流体机械综合实验◇刘贺[6-9周]不排课◇素质教育（博雅课程）（5）◇张智[1-16周]不排课",
+        "上传文件为“推荐课表”，含多个教学班；尚未确认个人实际选课，空白时段不能直接认定为空闲。"
       ],
       "coverageWeek": null,
       "coverageWeeks": [],
       "weekOverrides": [],
-      "hasTimetable": false,
-      "timetableSources": [],
+      "hasTimetable": true,
+      "timetableSources": [
+        {
+          "file": "志工部\\朱岩-课表.xlsx",
+          "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-4d7f0e00a58f5a11.xlsx",
+          "week": null,
+          "type": "semester",
+          "selected": true,
+          "mtime": 1792027275,
+          "sha256": "275b6219789ad706526ab6ccf32134955f19c8598cbf0e5a640fb0bbe63354f7"
+        }
+      ],
       "studentId": "24375325",
       "college": "能源与动力工程学院",
       "role": "学生干部",
@@ -3106,7 +3147,12 @@
       "rosterNotes": "2026年秋季学期新加入",
       "rosterStatus": "confirmed",
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%BF%97%E5%B7%A5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
-      "joinedSemester": "2026年秋季学期新加入"
+      "joinedSemester": "2026年秋季学期新加入",
+      "sourceWeek": null,
+      "semesterAssumed": false,
+      "alwaysConfirm": "上传文件为“推荐课表”，含多个教学班；尚未确认个人实际选课，空白时段不能直接认定为空闲。",
+      "timetableVerification": "recommended_unconfirmed",
+      "campusBasis": "课程地点推定；常驻校区需本人核对"
     },
     {
       "id": "r23373161",
@@ -3192,18 +3238,28 @@
     {
       "id": "r25121011",
       "name": "王显",
-      "campus": "待确认",
-      "source": "",
-      "sourceUrl": "",
+      "campus": "学院路",
+      "source": "实践部\\王显-课表.xlsx",
+      "sourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-10e07161af751552.xlsx",
       "notes": [
-        "任职名单中有此人，但尚未收集对应课表；不能将空白记录视为空闲。",
-        "任职备注：2026年秋季学期新加入"
+        "任职备注：2026年秋季学期新加入",
+        "不排课课程／原表备注：素质教育（博雅课程）（3）◇刘威[2-8周(双)]◇刘威[10-16周(双)]不排课"
       ],
       "coverageWeek": null,
       "coverageWeeks": [],
       "weekOverrides": [],
-      "hasTimetable": false,
-      "timetableSources": [],
+      "hasTimetable": true,
+      "timetableSources": [
+        {
+          "file": "实践部\\王显-课表.xlsx",
+          "url": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/timetable-10e07161af751552.xlsx",
+          "week": null,
+          "type": "semester",
+          "selected": true,
+          "mtime": 1792079283,
+          "sha256": "61352aa7a0ca1def7f7d507c25450cf2ac467a756f938877e7c69b6def457864"
+        }
+      ],
       "studentId": "25121011",
       "college": "外国语学院",
       "role": "学生干部",
@@ -3214,7 +3270,10 @@
       "rosterNotes": "2026年秋季学期新加入",
       "rosterStatus": "confirmed",
       "rosterSourceUrl": "https://buaa-team-schedule-2026.liuhaoyuray.chatgpt.site/sources/%E5%AE%9E%E8%B7%B5%E9%83%A8%E4%BB%BB%E8%81%8C%E4%BF%A1%E6%81%AF.csv",
-      "joinedSemester": "2026年秋季学期新加入"
+      "joinedSemester": "2026年秋季学期新加入",
+      "sourceWeek": null,
+      "semesterAssumed": false,
+      "campusBasis": "课程地点推定；常驻校区需本人核对"
     }
   ],
   "events": [
@@ -46342,6 +46401,2979 @@
       "note": "",
       "sourceFile": "志工部\\韩雨宸-课表.xlsx",
       "id": "e01559"
+    },
+    {
+      "person": "r24375325",
+      "day": 1,
+      "title": "电子工程技术训练",
+      "periods": [
+        1,
+        4
+      ],
+      "start": "08:00",
+      "end": "11:25",
+      "weeks": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "电子工程技术实训室（SH4-302）",
+      "teacher": "王虹霞",
+      "raw": "（本）电子工程技术训练\n王虹霞[10-17周]\n电子工程技术实训室（SH4-302）\n第1-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C4 / sheet1!C8 / sheet1!C9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-0"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "篮球场",
+      "teacher": "刘泽世",
+      "raw": "（本）体育（5）\n刘泽世[1-16周]\n篮球场\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-1"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "大学生活动中心羽毛球馆",
+      "teacher": "汪宇佳",
+      "raw": "（本）体育（5）\n汪宇佳[1-16周]\n大学生活动中心羽毛球馆\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-2"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "大学生活动中心文艺馆舞蹈厅",
+      "teacher": "张洋",
+      "raw": "（本）体育（5）\n张洋[1-16周]\n大学生活动中心文艺馆舞蹈厅\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-3"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "沙河田径场",
+      "teacher": "高胜杰",
+      "raw": "（本）体育（5）\n高胜杰[1-16周]\n沙河田径场\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-4"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "室内跑廊",
+      "teacher": "周宇娇",
+      "raw": "（本）体育（5）\n周宇娇[1-16周]\n室内跑廊\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-5"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "排球场",
+      "teacher": "赵海",
+      "raw": "（本）体育（5）\n赵海[1-16周]\n排球场\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-6"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "沙河田径场",
+      "teacher": "刘菁",
+      "raw": "（本）体育（5）\n刘菁[1-16周]\n沙河田径场\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-7"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "沙河田径场",
+      "teacher": "黄烨军",
+      "raw": "（本）体育（5）\n黄烨军[1-16周]\n沙河田径场\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-8"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "大学生活动中心游泳馆",
+      "teacher": "孙晓川",
+      "raw": "（本）体育（5）\n孙晓川[1-16周]\n大学生活动中心游泳馆\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-9"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "大学生活动中心比赛馆",
+      "teacher": "郭焱",
+      "raw": "（本）体育（5）\n郭焱[1-16周]\n大学生活动中心比赛馆\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-10"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "篮球场",
+      "teacher": "王菁菁",
+      "raw": "（本）体育（5）\n王菁菁[1-16周]\n篮球场\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-11"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "体育（5）",
+      "periods": [
+        1,
+        1
+      ],
+      "start": "08:00",
+      "end": "08:45",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "大学生活动中心比赛馆",
+      "teacher": "盛春媛",
+      "raw": "（本）体育（5）\n盛春媛[1-16周]\n大学生活动中心比赛馆\n第1-1节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4 / sheet1!D8",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-12"
+    },
+    {
+      "person": "r24375325",
+      "day": 6,
+      "title": "机械设计基础",
+      "periods": [
+        2,
+        3
+      ],
+      "start": "08:50",
+      "end": "10:35",
+      "weeks": [
+        6,
+        11
+      ],
+      "room": "基础课实验室（6号实验楼302）",
+      "teacher": "赵晓慈",
+      "raw": "（本）机械设计基础\n赵晓慈[6周\n11周]\n基础课实验室（6号实验楼302）\n第2-3节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!H4 / sheet1!H8 / sheet1!H9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-13"
+    },
+    {
+      "person": "r24375325",
+      "day": 6,
+      "title": "机械设计基础",
+      "periods": [
+        2,
+        3
+      ],
+      "start": "08:50",
+      "end": "10:35",
+      "weeks": [
+        6,
+        11
+      ],
+      "room": "基础课实验室（6号实验楼302）",
+      "teacher": "李龙",
+      "raw": "（本）机械设计基础\n李龙[6周\n11周]\n基础课实验室（6号实验楼302）\n第2-3节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!H4 / sheet1!H8 / sheet1!H9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-14"
+    },
+    {
+      "person": "r24375325",
+      "day": 6,
+      "title": "机械设计基础",
+      "periods": [
+        2,
+        3
+      ],
+      "start": "08:50",
+      "end": "10:35",
+      "weeks": [
+        6,
+        11
+      ],
+      "room": "基础课实验室（6号实验楼302）",
+      "teacher": "梁建宏",
+      "raw": "（本）机械设计基础\n梁建宏[6周\n11周]\n基础课实验室（6号实验楼302）\n第2-3节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!H4 / sheet1!H8 / sheet1!H9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-15"
+    },
+    {
+      "person": "r24375325",
+      "day": 1,
+      "title": "电子工程技术训练",
+      "periods": [
+        5,
+        8
+      ],
+      "start": "11:30",
+      "end": "16:35",
+      "weeks": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "电子工程技术实训室（SH4-302）",
+      "teacher": "李烨",
+      "raw": "（本）电子工程技术训练\n李烨[10-17周]\n电子工程技术实训室（SH4-302）\n第5-8节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C9 / sheet1!C14 / sheet1!C15 / sheet1!C19 / sheet1!C20 / sheet1!C22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-16"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "机械设计基础",
+      "periods": [
+        3,
+        5
+      ],
+      "start": "09:50",
+      "end": "12:15",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "SH2-108",
+      "teacher": "王延忠",
+      "raw": "（本）机械设计基础\n王延忠[1-4周\n6-16周]\nSH2-108\n第3-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-17"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "机械设计基础",
+      "periods": [
+        3,
+        5
+      ],
+      "start": "09:50",
+      "end": "12:15",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "SH2-109",
+      "teacher": "孙明磊",
+      "raw": "（本）机械设计基础\n孙明磊[1-4周\n6-16周]\nSH2-109\n第3-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-18"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "机械设计基础",
+      "periods": [
+        3,
+        5
+      ],
+      "start": "09:50",
+      "end": "12:15",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "room": "SH2-110",
+      "teacher": "张涛",
+      "raw": "（本）机械设计基础\n张涛[1-4周\n6-14周]\nSH2-110\n第3-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-19"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "机械设计基础",
+      "periods": [
+        3,
+        5
+      ],
+      "start": "09:50",
+      "end": "12:15",
+      "weeks": [
+        15,
+        16
+      ],
+      "room": "SH2-110",
+      "teacher": "张天霄",
+      "raw": "（本）机械设计基础\n张天霄[15-16周]\nSH2-110\n第3-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-20"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "机械设计基础",
+      "periods": [
+        3,
+        3
+      ],
+      "start": "09:50",
+      "end": "10:35",
+      "weeks": [
+        17
+      ],
+      "room": "SH2-109",
+      "teacher": "孙明磊",
+      "raw": "（本）机械设计基础\n孙明磊[17周]\nSH2-109\n第3-3节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-21"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "机械设计基础",
+      "periods": [
+        3,
+        3
+      ],
+      "start": "09:50",
+      "end": "10:35",
+      "weeks": [
+        17
+      ],
+      "room": "SH2-108",
+      "teacher": "王延忠",
+      "raw": "（本）机械设计基础\n王延忠[17周]\nSH2-108\n第3-3节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-22"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "机械设计基础",
+      "periods": [
+        3,
+        3
+      ],
+      "start": "09:50",
+      "end": "10:35",
+      "weeks": [
+        17
+      ],
+      "room": "SH2-110",
+      "teacher": "张涛",
+      "raw": "（本）机械设计基础\n张涛[17周]\nSH2-110\n第3-3节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-23"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "room": "J3-405",
+      "teacher": "王磊",
+      "raw": "（本）自动控制原理B\n王磊[1-3周\n6-11周]\nJ3-405\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-24"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "room": "J3-302",
+      "teacher": "杨凌宇",
+      "raw": "（本）自动控制原理B\n杨凌宇[1-3周\n6-11周]\nJ3-302\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-25"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "room": "J3-201",
+      "teacher": "孟德元",
+      "raw": "（本）自动控制原理B\n孟德元[1-3周\n6-11周]\nJ3-201\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-26"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        4
+      ],
+      "room": "J3-405",
+      "teacher": "王磊",
+      "raw": "（本）自动控制原理B\n王磊[4周]\nJ3-405\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-27"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        4
+      ],
+      "room": "J3-302",
+      "teacher": "杨凌宇",
+      "raw": "（本）自动控制原理B\n杨凌宇[4周]\nJ3-302\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-28"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        4
+      ],
+      "room": "J3-201",
+      "teacher": "孟德元",
+      "raw": "（本）自动控制原理B\n孟德元[4周]\nJ3-201\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-29"
+    },
+    {
+      "person": "r24375325",
+      "day": 4,
+      "title": "弹性力学",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "SH2-111",
+      "teacher": "董少静",
+      "raw": "（本）弹性力学\n董少静[1-3周\n5-17周]\nSH2-111\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-30"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "room": "J3-302",
+      "teacher": "杨凌宇",
+      "raw": "（本）自动控制原理B\n杨凌宇[1-3周\n6-11周]\nJ3-302\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-31"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "room": "J3-405",
+      "teacher": "王磊",
+      "raw": "（本）自动控制原理B\n王磊[1-3周\n6-11周]\nJ3-405\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-32"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "room": "J3-201",
+      "teacher": "孟德元",
+      "raw": "（本）自动控制原理B\n孟德元[1-3周\n6-11周]\nJ3-201\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-33"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        5
+      ],
+      "room": "J3-201",
+      "teacher": "孟德元",
+      "raw": "（本）自动控制原理B\n孟德元[5周]\nJ3-201\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-34"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        5
+      ],
+      "room": "J3-302",
+      "teacher": "杨凌宇",
+      "raw": "（本）自动控制原理B\n杨凌宇[5周]\nJ3-302\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-35"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "自动控制原理B",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        5
+      ],
+      "room": "J3-405",
+      "teacher": "王磊",
+      "raw": "（本）自动控制原理B\n王磊[5周]\nJ3-405\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-36"
+    },
+    {
+      "person": "r24375325",
+      "day": 6,
+      "title": "机械设计基础",
+      "periods": [
+        4,
+        5
+      ],
+      "start": "10:40",
+      "end": "12:15",
+      "weeks": [
+        6,
+        11
+      ],
+      "room": "基础课实验室（6号实验楼302）",
+      "teacher": "赵晓慈",
+      "raw": "（本）机械设计基础\n赵晓慈[6周\n11周]\n基础课实验室（6号实验楼302）\n第4-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!H9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-37"
+    },
+    {
+      "person": "r24375325",
+      "day": 6,
+      "title": "机械设计基础",
+      "periods": [
+        4,
+        5
+      ],
+      "start": "10:40",
+      "end": "12:15",
+      "weeks": [
+        6,
+        11
+      ],
+      "room": "基础课实验室（6号实验楼302）",
+      "teacher": "李龙",
+      "raw": "（本）机械设计基础\n李龙[6周\n11周]\n基础课实验室（6号实验楼302）\n第4-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!H9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-38"
+    },
+    {
+      "person": "r24375325",
+      "day": 6,
+      "title": "机械设计基础",
+      "periods": [
+        4,
+        5
+      ],
+      "start": "10:40",
+      "end": "12:15",
+      "weeks": [
+        6,
+        11
+      ],
+      "room": "基础课实验室（6号实验楼302）",
+      "teacher": "梁建宏",
+      "raw": "（本）机械设计基础\n梁建宏[6周\n11周]\n基础课实验室（6号实验楼302）\n第4-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!H9",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-39"
+    },
+    {
+      "person": "r24375325",
+      "day": 1,
+      "title": "气体动力学（2）",
+      "periods": [
+        6,
+        7
+      ],
+      "start": "14:00",
+      "end": "15:35",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9
+      ],
+      "room": "J1-201",
+      "teacher": "张伟昊",
+      "raw": "（本）气体动力学（2）\n张伟昊[1-4周\n6-9周]\nJ1-201\n第6-7节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C14 / sheet1!C15",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-40"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "传热学",
+      "periods": [
+        6,
+        7
+      ],
+      "start": "14:00",
+      "end": "15:35",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9
+      ],
+      "room": "J5-404",
+      "teacher": "罗翔",
+      "raw": "（本）传热学\n罗翔[1-4周\n6-9周]\nJ5-404\n第6-7节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D14 / sheet1!D15",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-41"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "航空发动机原理（1）",
+      "periods": [
+        6,
+        7
+      ],
+      "start": "14:00",
+      "end": "15:35",
+      "weeks": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "J5-404",
+      "teacher": "杜鹏程",
+      "raw": "（本）航空发动机原理（1）\n杜鹏程[10-17周]\nJ5-404\n第6-7节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D14 / sheet1!D15",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-42"
+    },
+    {
+      "person": "r24375325",
+      "day": 4,
+      "title": "传热学",
+      "periods": [
+        6,
+        7
+      ],
+      "start": "14:00",
+      "end": "15:35",
+      "weeks": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "room": "J5-404",
+      "teacher": "罗翔",
+      "raw": "（本）传热学\n罗翔[1-3周\n5-9周]\nJ5-404\n第6-7节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F14 / sheet1!F15",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-43"
+    },
+    {
+      "person": "r24375325",
+      "day": 4,
+      "title": "航空发动机原理（1）",
+      "periods": [
+        6,
+        7
+      ],
+      "start": "14:00",
+      "end": "15:35",
+      "weeks": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "J5-404",
+      "teacher": "杜鹏程",
+      "raw": "（本）航空发动机原理（1）\n杜鹏程[10-17周]\nJ5-404\n第6-7节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F14 / sheet1!F15",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-44"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "气体动力学（2）",
+      "periods": [
+        6,
+        7
+      ],
+      "start": "14:00",
+      "end": "15:35",
+      "weeks": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "room": "J1-201",
+      "teacher": "张伟昊",
+      "raw": "（本）气体动力学（2）\n张伟昊[1-3周\n5-9周]\nJ1-201\n第6-7节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G14 / sheet1!G15",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-45"
+    },
+    {
+      "person": "r24375325",
+      "day": 2,
+      "title": "航空发动机原理（2）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "J5-404",
+      "teacher": "刘广海",
+      "raw": "（本）航空发动机原理（2）\n刘广海[10-17周]\nJ5-404\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D19 / sheet1!D20 / sheet1!D22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-46"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "国家安全（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        3
+      ],
+      "room": "J3-211",
+      "teacher": "桂海潮",
+      "raw": "（本）国家安全（5）\n桂海潮[3周]\nJ3-211\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-47"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J4-203",
+      "teacher": "王海宇",
+      "raw": "（本）形势与政策（5）\n王海宇[7周]\nJ4-203\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-48"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J3-305",
+      "teacher": "裴振磊",
+      "raw": "（本）形势与政策（5）\n裴振磊[7周]\nJ3-305\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-49"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J3-206",
+      "teacher": "张绍丽",
+      "raw": "（本）形势与政策（5）\n张绍丽[7周]\nJ3-206\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-50"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J5-101",
+      "teacher": "张树焕",
+      "raw": "（本）形势与政策（5）\n张树焕[7周]\nJ5-101\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-51"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J4-306",
+      "teacher": "张静",
+      "raw": "（本）形势与政策（5）\n张静[7周]\nJ4-306\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-52"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J4-301",
+      "teacher": "宋芳芳",
+      "raw": "（本）形势与政策（5）\n宋芳芳[7周]\nJ4-301\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-53"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J4-201",
+      "teacher": "李明智",
+      "raw": "（本）形势与政策（5）\n李明智[7周]\nJ4-201\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-54"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J4-104",
+      "teacher": "丛龙达",
+      "raw": "（本）形势与政策（5）\n丛龙达[7周]\nJ4-104\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-55"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J4-206",
+      "teacher": "曲韵",
+      "raw": "（本）形势与政策（5）\n曲韵[7周]\nJ4-206\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-56"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J4-204",
+      "teacher": "郑健",
+      "raw": "（本）形势与政策（5）\n郑健[7周]\nJ4-204\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-57"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J3-405",
+      "teacher": "宋树洋",
+      "raw": "（本）形势与政策（5）\n宋树洋[7周]\nJ3-405\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-58"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        7
+      ],
+      "room": "J4-106",
+      "teacher": "赵洁",
+      "raw": "（本）形势与政策（5）\n赵洁[7周]\nJ4-106\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-59"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        9
+      ],
+      "room": "J5-211",
+      "teacher": "魏茜",
+      "raw": "（本）形势与政策（5）\n魏茜[9周]\nJ5-211\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-60"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        9
+      ],
+      "room": "J3-206",
+      "teacher": "徐墨客",
+      "raw": "（本）形势与政策（5）\n徐墨客[9周]\nJ3-206\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-61"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        9
+      ],
+      "room": "J4-201",
+      "teacher": "李富君",
+      "raw": "（本）形势与政策（5）\n李富君[9周]\nJ4-201\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-62"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        9
+      ],
+      "room": "J4-106",
+      "teacher": "冯骥",
+      "raw": "（本）形势与政策（5）\n冯骥[9周]\nJ4-106\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-63"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        9
+      ],
+      "room": "J4-203",
+      "teacher": "李钢",
+      "raw": "（本）形势与政策（5）\n李钢[9周]\nJ4-203\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-64"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        9
+      ],
+      "room": "J4-204",
+      "teacher": "鉴博言",
+      "raw": "（本）形势与政策（5）\n鉴博言[9周]\nJ4-204\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-65"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        9
+      ],
+      "room": "J3-305",
+      "teacher": "申文昊",
+      "raw": "（本）形势与政策（5）\n申文昊[9周]\nJ3-305\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-66"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        9
+      ],
+      "room": "J4-206",
+      "teacher": "王江伟",
+      "raw": "（本）形势与政策（5）\n王江伟[9周]\nJ4-206\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-67"
+    },
+    {
+      "person": "r24375325",
+      "day": 3,
+      "title": "形势与政策（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        11
+      ],
+      "room": "J4-201",
+      "teacher": "吕经纬",
+      "raw": "（本）形势与政策（5）\n吕经纬[11周]\nJ4-201\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E19 / sheet1!E20 / sheet1!E22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-68"
+    },
+    {
+      "person": "r24375325",
+      "day": 4,
+      "title": "心理健康（5）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        8
+      ],
+      "room": "J4-201",
+      "teacher": "陈俣含",
+      "raw": "（本）心理健康（5）\n陈俣含[8周]\nJ4-201\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F19 / sheet1!F20 / sheet1!F22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-69"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "复变函数",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        1,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "room": "J3-404",
+      "teacher": "张光宇",
+      "raw": "（本）复变函数\n张光宇[1周\n5-9周]\nJ3-404\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G19 / sheet1!G20 / sheet1!G22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-70"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "复变函数",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        2
+      ],
+      "room": "J3-404",
+      "teacher": "邱祥海",
+      "raw": "（本）复变函数\n邱祥海[2周]\nJ3-404\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G19 / sheet1!G20 / sheet1!G22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-71"
+    },
+    {
+      "person": "r24375325",
+      "day": 5,
+      "title": "航空发动机原理（2）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "J5-404",
+      "teacher": "刘广海",
+      "raw": "（本）航空发动机原理（2）\n刘广海[10-17周]\nJ5-404\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G19 / sheet1!G20 / sheet1!G22",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-72"
+    },
+    {
+      "person": "r24375325",
+      "day": 1,
+      "title": "复变函数",
+      "periods": [
+        11,
+        12
+      ],
+      "start": "19:00",
+      "end": "20:35",
+      "weeks": [
+        1,
+        2,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "room": "J3-404",
+      "teacher": "张光宇",
+      "raw": "（本）复变函数\n张光宇[1-2周\n6-10周]\nJ3-404\n第11-12节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C24 / sheet1!C25",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-73"
+    },
+    {
+      "person": "r24375325",
+      "day": 1,
+      "title": "计算机软件技术基础",
+      "periods": [
+        11,
+        12
+      ],
+      "start": "19:00",
+      "end": "20:35",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "SH2-109",
+      "teacher": "樊江",
+      "raw": "（本）计算机软件技术基础\n樊江[1-4周\n6-17周]\nSH2-109\n第11-12节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C24 / sheet1!C25",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-74"
+    },
+    {
+      "person": "r24375325",
+      "day": 1,
+      "title": "复变函数",
+      "periods": [
+        11,
+        12
+      ],
+      "start": "19:00",
+      "end": "20:35",
+      "weeks": [
+        3,
+        4
+      ],
+      "room": "J3-404",
+      "teacher": "邱祥海",
+      "raw": "（本）复变函数\n邱祥海[3-4周]\nJ3-404\n第11-12节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C24 / sheet1!C25",
+      "note": "推荐课表中的教学班，个人实际选课待确认。",
+      "sourceFile": "志工部\\朱岩-课表.xlsx",
+      "id": "f20261017-75"
+    },
+    {
+      "person": "r25121011",
+      "day": 1,
+      "title": "体育（3）",
+      "periods": [
+        1,
+        2
+      ],
+      "start": "08:00",
+      "end": "09:35",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "网球场",
+      "teacher": "汪宇佳",
+      "raw": "（本）体育（3）\n汪宇佳[1-16周]\n网球场\n第1-2节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C4",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-76"
+    },
+    {
+      "person": "r25121011",
+      "day": 2,
+      "title": "国家安全（3）",
+      "periods": [
+        1,
+        2
+      ],
+      "start": "08:00",
+      "end": "09:35",
+      "weeks": [
+        7
+      ],
+      "room": "主南201",
+      "teacher": "高静",
+      "raw": "（本）国家安全（3）\n高静[7周]\n主南201\n第1-2节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-77"
+    },
+    {
+      "person": "r25121011",
+      "day": 2,
+      "title": "国家安全（3）",
+      "periods": [
+        1,
+        2
+      ],
+      "start": "08:00",
+      "end": "09:35",
+      "weeks": [
+        13
+      ],
+      "room": "主南201",
+      "teacher": "高静",
+      "raw": "（本）国家安全（3）\n高静[13周]\n主南201\n第1-2节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D4",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-78"
+    },
+    {
+      "person": "r25121011",
+      "day": 3,
+      "title": "德语分析阅读（1）",
+      "periods": [
+        1,
+        2
+      ],
+      "start": "08:00",
+      "end": "09:35",
+      "weeks": [
+        1
+      ],
+      "room": "(三)128",
+      "teacher": "温静",
+      "raw": "（本）德语分析阅读（1）\n温静[1周]\n(三)128\n第1-2节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E4",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-79"
+    },
+    {
+      "person": "r25121011",
+      "day": 3,
+      "title": "德语分析阅读（1）",
+      "periods": [
+        1,
+        2
+      ],
+      "start": "08:00",
+      "end": "09:35",
+      "weeks": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "主南108",
+      "teacher": "温静",
+      "raw": "（本）德语分析阅读（1）\n温静[2-4周\n6-17周]\n主南108\n第1-2节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E4",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-80"
+    },
+    {
+      "person": "r25121011",
+      "day": 4,
+      "title": "大学计算机基础",
+      "periods": [
+        1,
+        2
+      ],
+      "start": "08:00",
+      "end": "09:35",
+      "weeks": [
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        14
+      ],
+      "room": "机房",
+      "teacher": "吴秀娟",
+      "raw": "（本）大学计算机基础\n吴秀娟[3周\n5-10周\n14周]\n机房\n第1-2节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F4",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-81"
+    },
+    {
+      "person": "r25121011",
+      "day": 1,
+      "title": "概率统计A",
+      "periods": [
+        3,
+        5
+      ],
+      "start": "09:50",
+      "end": "12:15",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "主M304",
+      "teacher": "张思容",
+      "raw": "（本）概率统计A\n张思容[1-16周]\n主M304\n第3-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C10",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-82"
+    },
+    {
+      "person": "r25121011",
+      "day": 1,
+      "title": "综合英语（1）",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        1
+      ],
+      "room": "F118",
+      "teacher": "夏琨",
+      "raw": "（本）综合英语（1）\n夏琨[1周]\nF118\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C10",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-83"
+    },
+    {
+      "person": "r25121011",
+      "day": 2,
+      "title": "大学计算机基础",
+      "periods": [
+        3,
+        4
+      ],
+      "start": "09:50",
+      "end": "11:25",
+      "weeks": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "room": "机房",
+      "teacher": "吴秀娟",
+      "raw": "（本）大学计算机基础\n吴秀娟[2-4周\n6-14周]\n机房\n第3-4节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D10",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-84"
+    },
+    {
+      "person": "r25121011",
+      "day": 3,
+      "title": "中级德语（1）",
+      "periods": [
+        3,
+        5
+      ],
+      "start": "09:50",
+      "end": "12:15",
+      "weeks": [
+        1,
+        2
+      ],
+      "room": "(三)129",
+      "teacher": "陈群",
+      "raw": "（本）中级德语（1）\n陈群[1-2周]\n(三)129\n第3-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E10",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-85"
+    },
+    {
+      "person": "r25121011",
+      "day": 3,
+      "title": "中级德语（1）",
+      "periods": [
+        3,
+        5
+      ],
+      "start": "09:50",
+      "end": "12:15",
+      "weeks": [
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "(三)127",
+      "teacher": "陈群",
+      "raw": "（本）中级德语（1）\n陈群[3-4周\n6-17周]\n(三)127\n第3-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E10",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-86"
+    },
+    {
+      "person": "r25121011",
+      "day": 4,
+      "title": "毛泽东思想和中国特色社会主义理论体系概论",
+      "periods": [
+        3,
+        5
+      ],
+      "start": "09:50",
+      "end": "12:15",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "room": "主323",
+      "teacher": "裴振磊",
+      "raw": "（本）毛泽东思想和中国特色社会主义理论体系概论\n裴振磊[1-16周]\n主323\n第3-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F10",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-87"
+    },
+    {
+      "person": "r25121011",
+      "day": 5,
+      "title": "集合论与图论",
+      "periods": [
+        3,
+        5
+      ],
+      "start": "09:50",
+      "end": "12:15",
+      "weeks": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "主M402",
+      "teacher": "马宇晴",
+      "raw": "（本）集合论与图论\n马宇晴[1-3周\n5-17周]\n主M402\n第3-5节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!G10",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-88"
+    },
+    {
+      "person": "r25121011",
+      "day": 3,
+      "title": "心理健康（3）",
+      "periods": [
+        6,
+        7
+      ],
+      "start": "14:00",
+      "end": "15:35",
+      "weeks": [
+        6
+      ],
+      "room": "主北203",
+      "teacher": "聂静",
+      "raw": "（本）心理健康（3）\n聂静[6周]\n主北203\n第6-7节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E16",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-89"
+    },
+    {
+      "person": "r25121011",
+      "day": 3,
+      "title": "形势与政策（3）",
+      "periods": [
+        6,
+        7
+      ],
+      "start": "14:00",
+      "end": "15:35",
+      "weeks": [
+        7
+      ],
+      "room": "(三)103",
+      "teacher": "范卓怡",
+      "raw": "（本）形势与政策（3）\n范卓怡[7周]\n(三)103\n第6-7节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!E16",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-90"
+    },
+    {
+      "person": "r25121011",
+      "day": 4,
+      "title": "工科高等代数",
+      "periods": [
+        6,
+        7
+      ],
+      "start": "14:00",
+      "end": "15:35",
+      "weeks": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "(三)204",
+      "teacher": "王拥军",
+      "raw": "（本）工科高等代数\n王拥军[2-17周]\n(三)204\n第6-7节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F16",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-91"
+    },
+    {
+      "person": "r25121011",
+      "day": 5,
+      "title": "网球课（15:00-17:00）",
+      "periods": [
+        7,
+        9
+      ],
+      "start": "15:00",
+      "end": "17:00",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "",
+      "teacher": "",
+      "raw": "网球课（15：00-17：00）",
+      "kind": "other",
+      "uncertain": false,
+      "ref": "sheet1!G16 / sheet1!G22",
+      "note": "原表未注明具体周次，按教学阶段每周保留。",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-92"
+    },
+    {
+      "person": "r25121011",
+      "day": 1,
+      "title": "中级德语（1）",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "主南308",
+      "teacher": "梁亮",
+      "raw": "（本）中级德语（1）\n梁亮[1-4周\n6-17周]\n主南308\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C22",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-93"
+    },
+    {
+      "person": "r25121011",
+      "day": 2,
+      "title": "工科高等代数",
+      "periods": [
+        8,
+        9
+      ],
+      "start": "15:50",
+      "end": "17:25",
+      "weeks": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "(三)204",
+      "teacher": "王拥军",
+      "raw": "（本）工科高等代数\n王拥军[2-17周]\n(三)204\n第8-9节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D22",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-94"
+    },
+    {
+      "person": "r25121011",
+      "day": 3,
+      "title": "志愿服务",
+      "periods": [
+        8,
+        10
+      ],
+      "start": "15:50",
+      "end": "18:15",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "",
+      "teacher": "",
+      "raw": "志愿服务",
+      "kind": "other",
+      "uncertain": false,
+      "ref": "sheet1!E22",
+      "note": "原表未注明具体周次，按教学阶段每周保留。",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-95"
+    },
+    {
+      "person": "r25121011",
+      "day": 4,
+      "title": "中级德语（1）",
+      "periods": [
+        8,
+        10
+      ],
+      "start": "15:50",
+      "end": "18:15",
+      "weeks": [
+        1,
+        2
+      ],
+      "room": "(三)129",
+      "teacher": "陈群",
+      "raw": "（本）中级德语（1）\n陈群[1-2周]\n(三)129\n第8-10节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F22",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-96"
+    },
+    {
+      "person": "r25121011",
+      "day": 4,
+      "title": "中级德语（1）",
+      "periods": [
+        8,
+        10
+      ],
+      "start": "15:50",
+      "end": "18:15",
+      "weeks": [
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "主南409",
+      "teacher": "陈群",
+      "raw": "（本）中级德语（1）\n陈群[3-4周\n6-17周]\n主南409\n第8-10节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F22",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-97"
+    },
+    {
+      "person": "r25121011",
+      "day": 1,
+      "title": "综合英语（1）",
+      "periods": [
+        11,
+        12
+      ],
+      "start": "19:00",
+      "end": "20:35",
+      "weeks": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "B101",
+      "teacher": "夏琨",
+      "raw": "（本）综合英语（1）\n夏琨[2-4周\n6-17周]\nB101\n第11-12节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!C28 / sheet1!C33",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-98"
+    },
+    {
+      "person": "r25121011",
+      "day": 2,
+      "title": "中级德语听力（1）",
+      "periods": [
+        11,
+        12
+      ],
+      "start": "19:00",
+      "end": "20:35",
+      "weeks": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "主南108",
+      "teacher": "王莺",
+      "raw": "（本）中级德语听力（1）\n王莺[1-4周\n6-17周]\n主南108\n第11-12节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!D28 / sheet1!D33",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-99"
+    },
+    {
+      "person": "r25121011",
+      "day": 4,
+      "title": "中级德语（1）",
+      "periods": [
+        11,
+        12
+      ],
+      "start": "19:00",
+      "end": "20:35",
+      "weeks": [
+        1
+      ],
+      "room": "(三)113",
+      "teacher": "梁亮",
+      "raw": "（本）中级德语（1）\n梁亮[1周]\n(三)113\n第11-12节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F28 / sheet1!F33",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-100"
+    },
+    {
+      "person": "r25121011",
+      "day": 4,
+      "title": "中级德语（1）",
+      "periods": [
+        11,
+        12
+      ],
+      "start": "19:00",
+      "end": "20:35",
+      "weeks": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "room": "主南208",
+      "teacher": "梁亮",
+      "raw": "（本）中级德语（1）\n梁亮[2-4周\n6-17周]\n主南208\n第11-12节",
+      "kind": "course",
+      "uncertain": false,
+      "ref": "sheet1!F28 / sheet1!F33",
+      "note": "",
+      "sourceFile": "实践部\\王显-课表.xlsx",
+      "id": "f20261017-101"
     }
   ],
   "issues": []

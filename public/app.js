@@ -127,6 +127,7 @@ function dutyRangeText(){return dutyPlan.start+' 至 '+dutyPlan.end}
 function dutyStatusText(p){return p.formal?'按已登记安排核验通过':(p.complete?'草案条件满足，资料仍待核对':'值班草案，尚有缺口')}
 function renderDuty(){
  const info=DATA.meta.pendingTimetableRefresh;$('dutyDataStatus').textContent=info?'新课表尚未读取：当前课程资料仍为 '+(DATA.meta.timetableUpdated||'2026-10-14')+'。本次人员调整已生效；以下只能生成基于现有资料的草案。':'当前资料更新于 '+(DATA.meta.timetableUpdated||DATA.meta.updated)+'。请核对课程和校区后使用排班结果。';renderDutyRoster();if(!dutyPlan)computeDuty(false);
+ const recommended=DATA.people.filter(p=>p.timetableVerification==='recommended_unconfirmed');if(recommended.length)$('dutyDataStatus').textContent+=' '+recommended.map(p=>p.name).join('、')+'上传的是推荐课表，个人实际选课尚未确认，暂不能据此认定可值班。';
 }
 function computeDuty(variant=false){
  invalidateDuty();try{if($('dutyStart').value<'2026-10-17'||$('dutyEnd').value>DUTY.endDates(DATA).semester)throw Error('请在本次生效日期与本学期范围内选择');if(variant)dutySeed++;dutyPlan=DUTY.generate(DATA,{campus:$('dutyCampus').value,start:$('dutyStart').value,end:$('dutyEnd').value,overrides:dutyOptions.overrides,seed:dutySeed},storeState.rules);$('dutyPending').hidden=true;renderDutyOutput()}catch(e){toast(e.message||'无法计算排班，请检查日期')}
