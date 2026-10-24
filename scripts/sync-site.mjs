@@ -1,3 +1,4 @@
+import { integrateLottery } from './integrate-lottery.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -40,7 +41,7 @@ const sourceHash=crypto.createHash('sha256').update(JSON.stringify(assets)).dige
 const statePath=path.join(root,'.sync/source.json');
 let previous;try{previous=JSON.parse(await fs.readFile(statePath,'utf8'));}catch{}
 if(previous?.sourceHash===sourceHash&&await fs.stat(path.join(root,'public/index.html')).catch(()=>null)){
-  console.log('平台没有更新。');process.exit(0);
+  await integrateLottery(root);console.log('课表没有更新，已保留幸运抽奖。');process.exit(0);
 }
 if(previous?.buildNumber>data.meta.buildNumber)throw Error('Refusing an older source release');
 if(data.meta?.week1!=='2026-09-07'||!Array.isArray(data.people)||!data.people.length||!Array.isArray(data.events))throw Error('Unexpected schedule data');
@@ -62,4 +63,6 @@ await fs.mkdir(path.join(root,'public'),{recursive:true});
 for(const [name,content] of Object.entries(output))await fs.writeFile(path.join(root,'public',name),content);
 await fs.mkdir(path.dirname(statePath),{recursive:true});
 await fs.writeFile(statePath,JSON.stringify({origin,sourceHash,buildNumber:data.meta.buildNumber,uiVersion:data.meta.uiVersion,sourceUpdated:data.meta.updated,syncedAt:new Date().toISOString()},null,2)+'\n');
+await integrateLottery(root);
 console.log(`已同步：${data.meta.activePeopleCount} 位现任人员，界面 ${data.meta.uiVersion}。`);
+

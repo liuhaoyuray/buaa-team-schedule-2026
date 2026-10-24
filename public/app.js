@@ -11,7 +11,7 @@ function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTi
 const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 function weekDate(week,day=1){return E.dateISO(Date.parse(DATA.meta.week1+'T00:00:00Z')+((week-1)*7+day-1)*E.DAY)}
 function selectWeek(select){select.innerHTML=Array.from({length:DATA.meta.maxWeek},(_,i)=>`<option value="${i+1}">第 ${i+1} 周 · ${weekDate(i+1).slice(5).replace('-','/')}</option>`).join('');select.value=state.week}
-function setView(view){state.view=view;document.querySelectorAll('.view').forEach(n=>n.classList.toggle('active',n.id===view+'View'));document.querySelectorAll('nav button').forEach(n=>n.classList.toggle('active',n.dataset.view===view));const titles={"query":["时段查询","查看指定时段的课程、空闲人员和联系方式。"],"week":["一周总览","查看每一节的空闲人数，点击格子查看名单。"],"person":["个人课表","按教学周查看课程、地点和备注。"],"directory":["人员名录","查看职务、课表收集情况和联系方式。"],"duty":["值班表","逐次核验有效期内的安排，再分别安排两部门值班。"],"planner":["共同排期","选好同学，查找能一起参加工作的时间。"],"settings":["数据与校历","查看数据来源，设置停课或补课。"]};$('pageTitle').textContent=titles[view][0];$('pageIntro').textContent=titles[view][1];if(view==='week')renderWeek();if(view==='person')renderPerson();if(view==='settings')renderSettings();if(view==='directory')renderDirectory();if(view==='planner')renderPlanner();if(view==='duty')renderDuty()}
+function setView(view){state.view=view;document.querySelectorAll('.view').forEach(n=>n.classList.toggle('active',n.id===view+'View'));document.querySelectorAll('nav button').forEach(n=>n.classList.toggle('active',n.dataset.view===view));if(window.LotteryPanel)window.LotteryPanel.setActive(view==='lottery');const titles={"lottery":["幸运抽奖","志工部与实践部的幸运时刻，开始滚动，点击停止揭晓。"],"query":["时段查询","查看指定时段的课程、空闲人员和联系方式。"],"week":["一周总览","查看每一节的空闲人数，点击格子查看名单。"],"person":["个人课表","按教学周查看课程、地点和备注。"],"directory":["人员名录","查看职务、课表收集情况和联系方式。"],"duty":["值班表","逐次核验有效期内的安排，再分别安排两部门值班。"],"planner":["共同排期","选好同学，查找能一起参加工作的时间。"],"settings":["数据与校历","查看数据来源，设置停课或补课。"]};$('pageTitle').textContent=titles[view][0];$('pageIntro').textContent=titles[view][1];if(view==='week')renderWeek();if(view==='person')renderPerson();if(view==='settings')renderSettings();if(view==='directory')renderDirectory();if(view==='planner')renderPlanner();if(view==='duty')renderDuty()}
 function eventsForDisplay(events){const known=events.filter(e=>!e.uncertain),display=events.filter(e=>!e.uncertain||!known.some(k=>k.title===e.title&&k.start===e.start&&k.end===e.end));const map=new Map();for(const e of display){const key=e.title+'|'+e.start+'|'+e.end+'|'+e.uncertain;if(!map.has(key))map.set(key,{...e,rooms:new Set()});if(e.room)map.get(key).rooms.add(e.room)}return [...map.values()].map(e=>({...e,room:[...e.rooms].join(' / ')}))}
 function runQuery(){
  const date=$('date').value,start=$('start').value,end=$('end').value;
@@ -169,3 +169,40 @@ function renderDutyDisplayMarkers(){
  for(const q of list){const p=q.person,button=document.querySelector('[data-duty-slot="'+p.dutyDisplayOnly.slot+'"][data-duty-dept="'+p.department+'"]');if(!button)continue;const cell=button.closest('td'),badge=document.createElement('span');badge.className='duty-person duty-display-only';badge.textContent=p.name+'（仅展示）';badge.title='无需到岗，不计实际班次、人数或覆盖';badge.style.cssText='border:1px dashed #8798ad;background:rgba(135,152,173,.10);color:var(--muted)';cell.insertBefore(badge,cell.querySelector('.duty-cell-note'))}
  const metadata=document.querySelector('#dutyOutput .duty-metadata');if(metadata){const note=document.createElement('span');note.style.display='block';note.textContent='大四仅展示：'+list.map(q=>q.person.name).join('、')+'。无需到岗，不计实际值班和缺口覆盖；部长不进入值班格。';metadata.append(note)}
 }
+
+
+/* BUAA_LOTTERY_PLATFORM_INTEGRATION */
+(() => {
+ 'use strict';
+ const frame=document.getElementById('lotteryFrame'),shell=document.getElementById('lotteryShell');
+ const loading=document.getElementById('lotteryLoading'),button=document.getElementById('lotteryFullscreen');
+ const targetOrigin=location.protocol==='file:'?'*':location.origin;
+ let active=false,loaded=false;
+ function viewport(){
+  if(!loaded||!active)return;
+  const rect=frame.getBoundingClientRect(),aside=document.querySelector('body>aside');
+  const stickyBottom=aside&&getComputedStyle(aside).position==='sticky'?Math.max(0,aside.getBoundingClientRect().bottom+8):0;
+  const visibleTop=Math.max(0,rect.top,stickyBottom),visibleBottom=Math.min(innerHeight,rect.bottom);
+  frame.contentWindow.postMessage({type:'buaa-lottery-viewport',top:Math.max(0,visibleTop-rect.top),height:Math.max(120,visibleBottom-visibleTop)},targetOrigin);
+ }
+ function notify(){if(loaded){frame.contentWindow.postMessage({type:'buaa-lottery-visibility',active},targetOrigin);viewport();}}
+ window.LotteryPanel={setActive(value){
+  active=Boolean(value);
+  if(active&&!frame.hasAttribute('src'))frame.src='lottery.html';
+  if(active&&location.hash!=='#lottery')history.replaceState(null,'','#lottery');
+  else if(!active&&location.hash==='#lottery')history.replaceState(null,'',location.pathname+location.search);
+  requestAnimationFrame(notify);
+ }};
+ frame.addEventListener('load',()=>{if(!frame.hasAttribute('src'))return;loaded=true;loading.hidden=true;notify();});
+ window.addEventListener('message',event=>{
+  if(event.source!==frame.contentWindow||(location.protocol!=='file:'&&event.origin!==location.origin))return;
+  if(event.data?.type==='buaa-lottery-height'&&Number.isFinite(event.data.height)&&event.data.height>=100&&event.data.height<=10000)frame.style.height=Math.ceil(event.data.height)+'px';
+  if(event.data?.type==='buaa-lottery-modal')viewport();
+ });
+ window.addEventListener('resize',viewport);
+ window.addEventListener('scroll',viewport,{passive:true});
+ document.addEventListener('fullscreenchange',()=>requestAnimationFrame(viewport));
+ button.addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(shell.requestFullscreen)await shell.requestFullscreen();else toast('当前浏览器不支持全屏，可使用浏览器的全屏模式。');}catch{toast('未能进入全屏，请使用浏览器的全屏模式。');}});
+ window.addEventListener('hashchange',()=>{if(location.hash==='#lottery')setView('lottery');});
+ if(location.hash==='#lottery')setView('lottery');
+})();

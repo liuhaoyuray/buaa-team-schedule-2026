@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080d20" />
+  <meta name="description" content="2026 秋季学期 · 志愿者工作部与社会实践部 65 人随机抽奖" />
+  <title>幸运抽奖 · 志工部 & 实践部</title>
+  <style>
+    :root { color-scheme: dark; --bg:#080d20; --card:rgba(17,26,52,.86); --card-edge:rgba(174,197,255,.14); --text:#eef3ff; --muted:#a8b5d1; --accent:#8c9cff; --cyan:#76e7e1; }
+    *{box-sizing:border-box}
+    html{min-height:100%;scroll-behavior:smooth}
+    body{min-height:100vh;margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:radial-gradient(ellipse 65% 55% at 53% -10%,#27376c 0%,transparent 85%),radial-gradient(circle at 10% 83%,rgba(30,108,129,.22),transparent 45%),var(--bg);letter-spacing:.01em}
+    body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(225,234,255,.024) 1px,transparent 1px),linear-gradient(90deg,rgba(225,234,255,.024) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(to bottom,black,transparent 83%);pointer-events:none;z-index:-1}
+    button,input{font:inherit} button{cursor:pointer} button:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px} button:disabled{opacity:.42;cursor:not-allowed}
+    .wrap{max-width:1180px;margin:0 auto;padding:38px 28px 50px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:30px}
+    .identity{display:flex;align-items:center;gap:14px}
+    .logo{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;color:#0a1832;font-size:25px;font-weight:900;background:linear-gradient(135deg,#abbbff,#6ce4e0);box-shadow:0 10px 35px #6f9bff2b}
+    .brand{font-size:19px;font-weight:780;letter-spacing:.03em}.eyebrow{font-size:11px;color:#9bacdb;letter-spacing:.22em;margin-bottom:5px;font-weight:800}
+    .top-right{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .capsule{border:1px solid #ffffff26;border-radius:999px;background:#ffffff08;padding:10px 14px;font-size:12px;color:#cad5f1}
+    .live{display:inline-block;width:7px;height:7px;background:#75e5d8;border-radius:50%;margin-right:8px;box-shadow:0 0 0 5px #75e5d822}
+    h1{font-size:clamp(32px,4.1vw,52px);line-height:1.18;margin:7px 0 12px;font-weight:850;letter-spacing:-.045em}
+    .intro{color:var(--muted);line-height:1.8;font-size:14px;margin:0 0 27px}
+    .intro strong{color:#e9edff;font-weight:750}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) 305px;gap:20px}
+    .stage{position:relative;overflow:hidden;min-height:497px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:38px 35px 31px;border:1px solid #a6adff38;border-radius:27px;background:radial-gradient(ellipse 70% 65% at 50% 35%,#27356e66,transparent 86%),linear-gradient(160deg,#121e3e 0%,#0c152c 80%);box-shadow:0 28px 85px #00000045}
+    .stage:before{content:"";position:absolute;width:460px;height:460px;border:1px solid rgba(169,194,255,.09);border-radius:50%;top:8px;left:50%;transform:translateX(-50%);box-shadow:0 0 0 65px rgba(151,168,255,.028),0 0 0 130px rgba(151,168,255,.019);pointer-events:none}
+    .stage:after{content:"";height:1px;position:absolute;inset:auto 9% 88px;background:linear-gradient(90deg,transparent,#c6d5ff23,transparent)}
+    .stage.is-spinning{border-color:#a4bcff7a;box-shadow:0 0 0 1px #8daaff1c,0 25px 85px #00000040,0 0 80px #4b5fef18}
+    .stage.is-winner{border-color:#79e8e19e;box-shadow:0 0 0 1px #61d9cf29,0 25px 85px #00000040,0 0 80px #3bd2cf20}
+    .stage-top{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:9px;color:#b9c6e6;letter-spacing:.24em;text-transform:uppercase;font-size:12px;font-weight:800}
+    .stage-top .pin{width:6px;height:6px;border-radius:50%;background:#8ac5fe}
+    .center{position:relative;z-index:1;width:100%;padding:25px 0 28px}
+    .stage-state{font-size:14px;color:#adbedf;letter-spacing:.08em;margin-bottom:27px}
+    .draw-name{font-size:clamp(58px,7.5vw,94px);line-height:1.1;min-height:1.25em;font-weight:900;letter-spacing:.07em;overflow-wrap:anywhere;text-shadow:0 5px 40px #9eafff36;margin:0 0 22px;transition:color .25s}
+    .stage.is-winner .draw-name{color:#91f4eb;text-shadow:0 5px 46px #50dbce55}
+    .stage.is-spinning .draw-name{letter-spacing:.04em}
+    .person-details{min-height:69px;display:flex;align-items:center;justify-content:center;gap:11px;flex-wrap:wrap}
+    .pill{font-size:14px;line-height:1.6;border:1px solid #bdd1ff2e;background:#ffffff0a;color:#d6e0f8;padding:9px 15px;border-radius:999px}
+    .pill.department{color:#9be9e5;border-color:#76e7e146;background:#76e7e10b}
+    .stage-bottom{position:relative;z-index:1;color:#8697be;font-size:12px;line-height:1.65}
+    .toolbar{margin-top:19px;display:flex;gap:12px}
+    .action{border-radius:15px;padding:17px 23px;border:1px solid #b8c5fd30;font-weight:800;font-size:15px;letter-spacing:.03em;display:inline-flex;gap:10px;justify-content:center;align-items:center;transition:transform .12s,background .12s}
+    .action:active{transform:scale(.98)}.action svg{width:19px;height:19px}
+    .action.primary{flex:1.8;border:0;color:#0c1730;background:linear-gradient(115deg,#a3b2ff,#77e5e0);box-shadow:0 10px 32px #5e9ffb24}
+    .action.primary.stop{background:linear-gradient(115deg,#ffce91,#ff999f)}
+    .action.secondary{flex:1;color:#ccd8f5;background:#16203b}
+    .sidebar{display:flex;flex-direction:column;gap:17px}
+    .panel{border:1px solid var(--card-edge);background:var(--card);border-radius:23px;padding:22px 21px;box-shadow:0 10px 35px #00000019}
+    .panel h2{margin:0 0 19px;font-size:15px;font-weight:820;display:flex;align-items:center;justify-content:space-between}
+    .panel h2 small{font-size:11px;color:#99a7c6;font-weight:550}
+    .metrics{display:grid;grid-template-columns:1fr 1fr;gap:11px}.metric{background:#ffffff08;border-radius:15px;padding:15px 13px}.metric span{display:block;font-size:11px;color:#a6b4d3}.metric strong{font-size:30px;font-weight:850;line-height:1.7;font-variant-numeric:tabular-nums}
+    .selectors{display:flex;gap:6px;background:#060d23;padding:5px;border-radius:13px;margin-top:15px}
+    .filter{border:0;border-radius:10px;flex:1;background:transparent;color:#9daccc;padding:9px 0;font-size:12px;font-weight:730;white-space:nowrap}
+    .filter.active{color:white;background:#2e3e6a;box-shadow:0 3px 10px #00000020}
+    .setting{margin-top:17px;display:flex;gap:11px;align-items:center;color:#ced8ef;font-size:12px;cursor:pointer;line-height:1.5}
+    .setting input{accent-color:#8eb5fb;width:17px;height:17px;cursor:pointer}
+    .history-panel{flex:1;min-height:211px}
+    .history{margin:0;padding:0;list-style:none;max-height:360px;overflow:auto;scrollbar-color:#516083 transparent;scrollbar-width:thin}
+    .history li{display:flex;gap:12px;align-items:center;border-bottom:1px solid #ffffff13;padding:13px 0}
+    .history li:last-child{border:0}
+    .order{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:8px;font-size:11px;background:#718cf91b;color:#a9bdff;font-weight:790}
+    .w-name{font-weight:750;font-size:14px}.w-sub{color:#8d9fc5;font-size:11px;margin-top:5px;line-height:1.5}
+    .empty{display:flex;align-items:center;justify-content:center;text-align:center;color:#7c8cad;font-size:12px;line-height:1.8;min-height:120px}
+    .history-actions{margin-top:13px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+    .text-button{background:none;color:#abbfff;border:0;font-size:12px;padding:8px 0;font-weight:700}
+    .text-button:hover{color:#d6dfff}
+    .foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;margin-top:24px;color:#8192b4;font-size:12px;line-height:1.7}
+    .foot strong{color:#adbeda}.foot button{background:none;border:0;color:#a5b5ed;cursor:pointer;padding:4px 0;font-size:12px;font-weight:750}
+    .modal-layer{position:fixed;inset:0;z-index:30;background:#020713c4;backdrop-filter:blur(9px);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-layer.show{display:flex}
+    .modal{width:min(710px,100%);max-height:min(720px,90vh);overflow:hidden;background:#131d36;border:1px solid #aabdfb45;border-radius:22px;box-shadow:0 25px 90px #000b;display:flex;flex-direction:column}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:22px 24px 8px;gap:10px}
+    .modal-head h2{font-size:20px;margin:0}.close{background:#ffffff0b;border:1px solid #ffffff13;border-radius:12px;color:#d7e2ff;width:37px;height:37px;font-size:24px;line-height:1}
+    .modal-toolbar{padding:12px 24px 16px}.search{width:100%;height:44px;padding:0 15px;border:1px solid #a8baf136;border-radius:12px;color:#e7eaff;background:#09122b;outline:none}
+    .roster{overflow:auto;padding:0 24px 24px;scrollbar-color:#455476 transparent}
+    .roster-row{display:grid;grid-template-columns:42px 85px minmax(130px,1fr) 110px;gap:12px;padding:12px 0;align-items:center;border-bottom:1px solid #ffffff0f;font-size:12px;color:#a6b7d4}
+    .roster-row.heading{color:#8193b7;font-size:11px;font-weight:750;position:sticky;top:0;background:#131d36}
+    .roster-row strong{color:#f0f3ff;font-size:13px;font-weight:740}
+    .roster-row em{font-style:normal;color:#a7b5d0}
+    .burst{pointer-events:none;position:absolute;inset:0;overflow:hidden;z-index:3}
+    .confetti{position:absolute;width:7px;height:12px;border-radius:1px;animation:burst 1.45s ease-out both}
+    @keyframes burst{0%{transform:translateY(-40px) rotate(0deg);opacity:0}12%{opacity:1}100%{transform:translateY(510px) rotate(600deg);opacity:0}}
+    @media(max-width:860px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.wrap{max-width:740px;padding:24px 17px 40px}.stage{min-height:440px}.stage:before{top:-16px}}
+    @media(max-width:570px){.top{flex-direction:column;align-items:stretch;margin-bottom:22px}.top-right{justify-content:flex-start}.brand{font-size:16px}.logo{width:45px;height:45px;border-radius:14px}.capsule{font-size:11px;padding:8px 11px}.intro{font-size:12px;margin-bottom:20px}.layout{gap:14px}.stage{padding:29px 15px 25px;min-height:380px;border-radius:22px}.center{padding:8px 0}.draw-name{font-size:clamp(48px,12vw,72px);margin-bottom:16px}.stage-state{margin-bottom:18px}.person-details{min-height:78px;gap:7px}.pill{padding:7px 10px;font-size:12px}.stage:after{inset:auto 9% 65px}.action{padding:15px 10px;font-size:14px}.sidebar{grid-template-columns:1fr}.panel{padding:19px}.roster-row{grid-template-columns:24px 61px minmax(92px,1fr) 67px;gap:6px;font-size:10px}.roster-row strong{font-size:12px}.modal-head,.modal-toolbar{padding-left:15px;padding-right:15px}.roster{padding-left:15px;padding-right:15px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+<link rel="stylesheet" href="lottery-embed.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="identity"><div class="logo" aria-hidden="true">✦</div><div><div class="eyebrow">BUAA · 2026 AUTUMN</div><div class="brand">志工部 × 实践部</div></div></div>
+      <div class="top-right"><span class="capsule"><span class="live"></span>随机抽取 · 公平参与</span><span class="capsule">仅本地运行 · 无需联网</span></div>
+    </header>
+    <h1>幸运抽奖 <span style="color:#93a8f5">/ Lucky Draw</span></h1>
+    <p class="intro">来自<strong>志愿者工作部</strong>和<strong>社会实践部</strong>的 <strong>65 位同学</strong>。点击开始，名单随机滚动；点击停止，揭晓幸运同学。</p>
+    <main class="layout">
+      <section aria-label="抽奖舞台">
+        <div class="stage" id="stage" aria-live="polite" aria-atomic="true">
+          <div class="stage-top"><span class="pin"></span><span id="stageTop">LUCKY DRAW · READY</span><span class="pin"></span></div>
+          <div class="center">
+            <div class="stage-state" id="stageState">准备好迎接幸运时刻了吗？</div>
+            <div class="draw-name" id="drawName">准备抽奖</div>
+            <div class="person-details" id="personDetails"><span class="pill">65 位同学 · 等待揭晓</span></div>
+          </div>
+          <div class="stage-bottom" id="stageBottom">系统从符合条件的同学中随机抽取，每人机会均等</div>
+          <div class="burst" id="burst" aria-hidden="true"></div>
+        </div>
+        <div class="toolbar">
+          <button type="button" class="action primary" id="drawButton" aria-label="开始抽奖"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span id="drawButtonLabel">开始抽奖</span></button>
+          <button type="button" class="action secondary" id="resetButton"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 11a9 9 0 1 1 3 6.7M3 4v7h7"/></svg>重置抽奖</button>
+        </div>
+      </section>
+      <aside class="sidebar">
+        <section class="panel">
+          <h2>奖池概览 <small>实时更新</small></h2>
+          <div class="metrics"><div class="metric"><span>当前可抽人数</span><strong id="availableCount">65</strong></div><div class="metric"><span>已中奖人次</span><strong id="drawCount">0</strong></div></div>
+          <div class="selectors" role="group" aria-label="抽奖范围">
+            <button type="button" class="filter active" data-filter="全部" aria-pressed="true">全部 65</button>
+            <button type="button" class="filter" data-filter="志愿者工作部" aria-pressed="false">志工部 35</button>
+            <button type="button" class="filter" data-filter="社会实践部" aria-pressed="false">实践部 30</button>
+          </div>
+          <label class="setting"><input type="checkbox" id="noRepeat" checked/><span>中奖后不重复抽取 <span style="color:#7f91b6">（可关闭）</span></span></label>
+        </section>
+        <section class="panel history-panel">
+          <h2>中奖记录 <small id="historyCount">共 0 人次</small></h2>
+          <ol class="history" id="history"><li class="empty">还没有中奖记录<br/>好运即将发生 ✨</li></ol>
+          <div class="history-actions"><button type="button" class="text-button" id="copyButton">复制中奖记录</button><button type="button" class="text-button" id="rosterButton">查看全部名单 →</button></div>
+        </section>
+      </aside>
+    </main>
+    <footer class="foot"><span>名单依据 2026 秋季学期任职信息表整理 · 仅保留姓名、学院、部门</span><span><strong>提示：</strong>切换部门可单独抽取；点击重置可清空中奖记录。</span></footer>
+  </div>
+  <div class="modal-layer" id="modalLayer" role="presentation">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head"><h2 id="modalTitle">全部参与名单 <span style="color:#869ad0;font-size:13px">· 65 人</span></h2><button type="button" class="close" id="closeModal" aria-label="关闭名单">×</button></div>
+      <div class="modal-toolbar"><input class="search" id="searchInput" type="search" placeholder="搜索姓名 / 学院 / 部门" aria-label="搜索参与名单"/></div>
+      <div class="roster" id="rosterContent"></div>
+    </div>
+  </div>
+  <script>
+    'use strict';
+    const PEOPLE = [{"name":"刘浩宇","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"万释鸿","college":"法学院","department":"志愿者工作部"},{"name":"杨宸","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"张景涵","college":"法学院","department":"志愿者工作部"},{"name":"陈奕霖","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"姬米","college":"外国语学院","department":"志愿者工作部"},{"name":"于欣彤","college":"法学院","department":"志愿者工作部"},{"name":"王东源","college":"法学院","department":"志愿者工作部"},{"name":"向瑞博","college":"自动化科学与电气工程学院","department":"志愿者工作部"},{"name":"李泓澄","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"杨宸铖","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"何熠","college":"士谔书院","department":"志愿者工作部"},{"name":"余思蕊","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"张睿滢","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"陈韵竹","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"邵文然","college":"外国语学院","department":"志愿者工作部"},{"name":"赵涵宽","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"赵蕾","college":"机械工程及自动化学院","department":"志愿者工作部"},{"name":"贾若羽","college":"仪器科学与光电工程学院","department":"志愿者工作部"},{"name":"梁惠","college":"交通科学与工程学院","department":"志愿者工作部"},{"name":"韩雨宸","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"胡涵婷","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"赵依然","college":"新媒体艺术与设计学院","department":"志愿者工作部"},{"name":"李敏","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"朱岩","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"邵飞涵","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"张予凡","college":"外国语学院","department":"志愿者工作部"},{"name":"贾紫茹","college":"外国语学院","department":"志愿者工作部"},{"name":"于佳宁","college":"电子信息学院","department":"志愿者工作部"},{"name":"张天睿","college":"可靠性与系统工程学院","department":"志愿者工作部"},{"name":"寇德江","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"郑舒文","college":"机械工程及自动化学院","department":"志愿者工作部"},{"name":"刘沐然","college":"法学院","department":"志愿者工作部"},{"name":"方梓诺","college":"法学院","department":"志愿者工作部"},{"name":"孙楷睿","college":"士谔书院","department":"志愿者工作部"},{"name":"牛葳","college":"电子信息工程学院","department":"社会实践部"},{"name":"纪刘炀","college":"传源书院","department":"社会实践部"},{"name":"苏德那","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"罗灿林","college":"宇航学院","department":"社会实践部"},{"name":"陈家宝","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"张宸瑶","college":"人文社会科学学院（公共管理学院）","department":"社会实践部"},{"name":"张欣瑞","college":"北京学院","department":"社会实践部"},{"name":"胡成明","college":"化学学院","department":"社会实践部"},{"name":"钟翔","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"樊祎菲","college":"电子信息工程学院","department":"社会实践部"},{"name":"刘佳","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"祝楷焜","college":"能源与动力工程学院","department":"社会实践部"},{"name":"邹简","college":"知行书院","department":"社会实践部"},{"name":"李璨","college":"人文社会科学学院（公共管理学院）","department":"社会实践部"},{"name":"刘允成","college":"航空科学与工程学院","department":"社会实践部"},{"name":"边琳杰","college":"外国语学院","department":"社会实践部"},{"name":"唐佳宇","college":"航空科学与工程学院","department":"社会实践部"},{"name":"邓博文","college":"交通科学与工程学院","department":"社会实践部"},{"name":"李楠","college":"人文社会科学学院","department":"社会实践部"},{"name":"王显","college":"外国语学院","department":"社会实践部"},{"name":"周婧一","college":"新媒体艺术与设计学院","department":"社会实践部"},{"name":"史英超","college":"化学学院","department":"社会实践部"},{"name":"杨昊霖","college":"电子信息工程学院","department":"社会实践部"},{"name":"孙鹤嘉","college":"仪器科学与光电工程学院","department":"社会实践部"},{"name":"李姮","college":"宇航学院","department":"社会实践部"},{"name":"邱硕","college":"人文与社会科学高等研究院","department":"社会实践部"},{"name":"徐嘉璐","college":"法学院","department":"社会实践部"},{"name":"李柏如","college":"人文社会科学学院","department":"社会实践部"},{"name":"张依柔","college":"生物与医学工程学院","department":"社会实践部"},{"name":"邹霖柯","college":"能源与动力工程学院","department":"社会实践部"}].map((person,id)=>({...person,id}));
+    const $ = (id)=>document.getElementById(id);
+    const stage = $('stage');
+    const drawButton = $('drawButton');
+    const history = [];
+    let departmentFilter = '全部';
+    let spinning = false;
+    let spinTimer = null;
+
+    function randomIndex(max) {
+      if (max <= 1) return 0;
+      if (globalThis.crypto && typeof globalThis.crypto.getRandomValues === 'function') {
+        const b = new Uint32Array(1);
+        const limit = Math.floor(4294967296 / max) * max;
+        do { globalThis.crypto.getRandomValues(b); } while (b[0] >= limit);
+        return b[0] % max;
+      }
+      return Math.floor(Math.random()*max);
+    }
+    function eligiblePeople() {
+      const taken = $('noRepeat').checked ? new Set(history.map(p=>p.id)) : new Set();
+      return PEOPLE.filter(p=>(departmentFilter==='全部'||p.department===departmentFilter)&&!taken.has(p.id));
+    }
+    function displayPerson(person) {
+      $('drawName').textContent = person.name;
+      const container = $('personDetails');
+      container.replaceChildren();
+      const college = document.createElement('span'); college.className='pill'; college.textContent=person.college;
+      const dept = document.createElement('span'); dept.className='pill department'; dept.textContent=person.department;
+      container.append(college,dept);
+    }
+    function updateCounters(){
+      $('availableCount').textContent = eligiblePeople().length;
+      $('drawCount').textContent = history.length;
+      $('historyCount').textContent = `共 ${history.length} 人次`;
+      if (!spinning) drawButton.disabled = eligiblePeople().length===0;
+    }
+    function renderHistory(){
+      const root = $('history'); root.replaceChildren();
+      if(!history.length){const li=document.createElement('li');li.className='empty';li.innerHTML='还没有中奖记录<br>好运即将发生 ✨';root.append(li);return;}
+      history.slice().reverse().forEach((person,reverseIdx)=>{
+        const li = document.createElement('li');
+        const order=document.createElement('span');order.className='order';order.textContent=String(history.length-reverseIdx).padStart(2,'0');
+        const detail=document.createElement('div');
+        const name=document.createElement('div');name.className='w-name';name.textContent=person.name;
+        const sub=document.createElement('div');sub.className='w-sub';sub.textContent=`${person.college} · ${person.department}`;
+        detail.append(name,sub);li.append(order,detail);root.append(li);
+      });
+    }
+    function showInitial(message='准备好迎接幸运时刻了吗？'){
+      stage.classList.remove('is-spinning','is-winner');
+      $('stageTop').textContent='LUCKY DRAW · READY';
+      $('stageState').textContent=message;
+      $('drawName').textContent='准备抽奖';
+      $('personDetails').replaceChildren();
+      const label=document.createElement('span');label.className='pill';label.textContent=`${eligiblePeople().length} 位同学 · 等待揭晓`;
+      $('personDetails').append(label);
+      $('stageBottom').textContent='系统从符合条件的同学中随机抽取，每人机会均等';
+      $('burst').replaceChildren();
+    }
+    function startDraw(){
+      const pool=eligiblePeople();
+      if(!pool.length) return;
+      spinning=true;
+      stage.classList.remove('is-winner');stage.classList.add('is-spinning');
+      $('stageTop').textContent='LUCKY DRAW · RUNNING';
+      $('stageState').textContent='正在随机抽取…';
+      $('stageBottom').textContent='请点击「停止抽奖」揭晓结果';
+      $('burst').replaceChildren();
+      drawButton.classList.add('stop');
+      drawButton.setAttribute('aria-label','停止抽奖');
+      $('drawButtonLabel').textContent='停止抽奖';
+      $('drawButton').querySelector('svg').innerHTML='<rect x="6" y="6" width="12" height="12" rx="2"/>';
+      $('resetButton').disabled=true;
+      $('noRepeat').disabled=true;
+      document.querySelectorAll('.filter').forEach(b=>b.disabled=true);
+      function flicker(){ displayPerson(pool[randomIndex(pool.length)]); }
+      flicker();spinTimer=setInterval(flicker,75);
+    }
+    function showConfetti(){
+      const root=$('burst');root.replaceChildren();
+      const colors=['#95a6ff','#82e4df','#eac38b','#ffffff','#bc9dff'];
+      for(let i=0;i<44;i++){
+        const b=document.createElement('span');b.className='confetti';
+        b.style.left=`${4+Math.random()*92}%`;
+        b.style.top=`${-15+Math.random()*32}%`;
+        b.style.background=colors[randomIndex(colors.length)];
+        b.style.animationDelay=`${Math.random()*.26}s`;
+        b.style.animationDuration=`${1.05+Math.random()*.9}s`;
+        root.append(b);
+      }
+      setTimeout(()=>root.replaceChildren(),2500);
+    }
+    function stopDraw(){
+      if(!spinning) return;
+      clearInterval(spinTimer);spinTimer=null;spinning=false;
+      const pool=eligiblePeople();
+      const winner=pool[randomIndex(pool.length)];
+      if (winner) {
+        history.push(winner);displayPerson(winner);
+        stage.classList.remove('is-spinning');stage.classList.add('is-winner');
+        $('stageTop').textContent='LUCKY DRAW · WINNER';
+        $('stageState').textContent='🎉 恭喜这位幸运同学！';
+        $('stageBottom').textContent=`第 ${history.length} 轮抽奖 · 已公平随机选出`;
+        showConfetti();
+      }
+      drawButton.classList.remove('stop');
+      drawButton.setAttribute('aria-label','开始抽奖');
+      $('drawButtonLabel').textContent='再次抽奖';
+      drawButton.querySelector('svg').innerHTML='<path d="M8 5v14l11-7z"/>';
+      $('resetButton').disabled=false;$('noRepeat').disabled=false;
+      document.querySelectorAll('.filter').forEach(b=>b.disabled=false);
+      renderHistory();updateCounters();
+      if (!eligiblePeople().length) $('stageBottom').textContent+=' · 当前奖池已抽完';
+    }
+    drawButton.addEventListener('click',()=>spinning?stopDraw():startDraw());
+    $('resetButton').addEventListener('click',()=>{
+      if(spinning)return;
+      if(history.length && !window.confirm('确定要清空所有中奖记录，重新开始抽奖吗？'))return;
+      history.length=0;
+      $('drawButtonLabel').textContent='开始抽奖';
+      showInitial();renderHistory();updateCounters();
+    });
+    document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',()=>{
+      if(spinning)return;
+      departmentFilter=button.dataset.filter;
+      document.querySelectorAll('.filter').forEach(b=>{const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
+      $('drawButtonLabel').textContent='开始抽奖';
+      showInitial('已切换抽奖范围，点击开始抽奖');updateCounters();
+    }));
+    $('noRepeat').addEventListener('change',()=>{if(spinning)return;updateCounters();showInitial('抽奖规则已更新，点击开始抽奖');});
+    $('copyButton').addEventListener('click',async()=>{
+      if(!history.length){window.alert('目前还没有中奖记录。');return;}
+      const data=['序号\t姓名\t学院\t部门',...history.map((p,i)=>`${i+1}\t${p.name}\t${p.college}\t${p.department}`)].join('\n');
+      try{await navigator.clipboard.writeText(data);$('copyButton').textContent='已复制 ✓';setTimeout(()=>$('copyButton').textContent='复制中奖记录',1500);}
+      catch(e){window.prompt('复制以下中奖记录：',data);}
+    });
+    function renderRoster(){
+      const search=$('searchInput').value.trim().toLowerCase();
+      const list=PEOPLE.filter(p=>`${p.name} ${p.college} ${p.department}`.toLowerCase().includes(search));
+      const root=$('rosterContent');root.replaceChildren();
+      const heading=document.createElement('div');heading.className='roster-row heading';
+      ['序号','姓名','学院（书院）','部门'].forEach(t=>{let e=document.createElement('span');e.textContent=t;heading.append(e);});root.append(heading);
+      list.forEach(p=>{const row=document.createElement('div');row.className='roster-row';
+        const fields=[String(p.id+1).padStart(2,'0'),p.name,p.college,p.department];
+        fields.forEach((v,i)=>{const c=document.createElement(i===1?'strong':'span');c.textContent=v;row.append(c);});root.append(row);
+      });
+      if(!list.length){const hint=document.createElement('div');hint.className='empty';hint.textContent='没有找到符合条件的同学';root.append(hint);}
+    }
+    $('rosterButton').addEventListener('click',()=>{$('searchInput').value='';renderRoster();$('modalLayer').classList.add('show');$('searchInput').focus();});
+    $('closeModal').addEventListener('click',()=>$('modalLayer').classList.remove('show'));
+    $('modalLayer').addEventListener('click',e=>{if(e.target===$('modalLayer'))$('modalLayer').classList.remove('show');});
+    $('searchInput').addEventListener('input',renderRoster);
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')$('modalLayer').classList.remove('show');});
+    updateCounters();
+  </script>
+<script src="lottery-embed.js"></script>
+</body>
+</html>
