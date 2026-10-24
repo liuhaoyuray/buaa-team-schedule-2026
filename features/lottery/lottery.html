@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#080d20" />
-  <meta name="description" content="2026 秋季学期 · 志愿者工作部与社会实践部 65 人随机抽奖" />
+  <meta name="description" content="2026 秋季学期 · 志愿者工作部与社会实践部 64 人随机抽奖" />
   <title>幸运抽奖 · 志工部 & 实践部</title>
   <style>
     :root { color-scheme: dark; --bg:#080d20; --card:rgba(17,26,52,.86); --card-edge:rgba(174,197,255,.14); --text:#eef3ff; --muted:#a8b5d1; --accent:#8c9cff; --cyan:#76e7e1; }
@@ -96,7 +96,7 @@
       <div class="top-right"><span class="capsule"><span class="live"></span>随机抽取 · 公平参与</span><span class="capsule">仅本地运行 · 无需联网</span></div>
     </header>
     <h1>幸运抽奖 <span style="color:#93a8f5">/ Lucky Draw</span></h1>
-    <p class="intro">来自<strong>志愿者工作部</strong>和<strong>社会实践部</strong>的 <strong>65 位同学</strong>。点击开始，名单随机滚动；点击停止，揭晓幸运同学。</p>
+    <p class="intro">来自<strong>志愿者工作部</strong>和<strong>社会实践部</strong>的 <strong>64 位同学</strong>。点击开始，名单随机滚动；点击停止，揭晓幸运同学。</p>
     <main class="layout">
       <section aria-label="抽奖舞台">
         <div class="stage" id="stage" aria-live="polite" aria-atomic="true">
@@ -104,7 +104,7 @@
           <div class="center">
             <div class="stage-state" id="stageState">准备好迎接幸运时刻了吗？</div>
             <div class="draw-name" id="drawName">准备抽奖</div>
-            <div class="person-details" id="personDetails"><span class="pill">65 位同学 · 等待揭晓</span></div>
+            <div class="person-details" id="personDetails"><span class="pill">64 位同学 · 等待揭晓</span></div>
           </div>
           <div class="stage-bottom" id="stageBottom">系统从符合条件的同学中随机抽取，每人机会均等</div>
           <div class="burst" id="burst" aria-hidden="true"></div>
@@ -117,11 +117,11 @@
       <aside class="sidebar">
         <section class="panel">
           <h2>奖池概览 <small>实时更新</small></h2>
-          <div class="metrics"><div class="metric"><span>当前可抽人数</span><strong id="availableCount">65</strong></div><div class="metric"><span>已中奖人次</span><strong id="drawCount">0</strong></div></div>
+          <div class="metrics"><div class="metric"><span>当前可抽人数</span><strong id="availableCount">64</strong></div><div class="metric"><span>已中奖人次</span><strong id="drawCount">0</strong></div></div>
           <div class="selectors" role="group" aria-label="抽奖范围">
-            <button type="button" class="filter active" data-filter="全部" aria-pressed="true">全部 65</button>
+            <button type="button" class="filter active" data-filter="全部" aria-pressed="true">全部 64</button>
             <button type="button" class="filter" data-filter="志愿者工作部" aria-pressed="false">志工部 35</button>
-            <button type="button" class="filter" data-filter="社会实践部" aria-pressed="false">实践部 30</button>
+            <button type="button" class="filter" data-filter="社会实践部" aria-pressed="false">实践部 29</button>
           </div>
           <label class="setting"><input type="checkbox" id="noRepeat" checked/><span>中奖后不重复抽取 <span style="color:#7f91b6">（可关闭）</span></span></label>
         </section>
@@ -136,14 +136,14 @@
   </div>
   <div class="modal-layer" id="modalLayer" role="presentation">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal-head"><h2 id="modalTitle">全部参与名单 <span style="color:#869ad0;font-size:13px">· 65 人</span></h2><button type="button" class="close" id="closeModal" aria-label="关闭名单">×</button></div>
+      <div class="modal-head"><h2 id="modalTitle">全部参与名单 <span style="color:#869ad0;font-size:13px">· 64 人</span></h2><button type="button" class="close" id="closeModal" aria-label="关闭名单">×</button></div>
       <div class="modal-toolbar"><input class="search" id="searchInput" type="search" placeholder="搜索姓名 / 学院 / 部门" aria-label="搜索参与名单"/></div>
       <div class="roster" id="rosterContent"></div>
     </div>
   </div>
   <script>
     'use strict';
-    const PEOPLE = [{"name":"刘浩宇","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"万释鸿","college":"法学院","department":"志愿者工作部"},{"name":"杨宸","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"张景涵","college":"法学院","department":"志愿者工作部"},{"name":"陈奕霖","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"姬米","college":"外国语学院","department":"志愿者工作部"},{"name":"于欣彤","college":"法学院","department":"志愿者工作部"},{"name":"王东源","college":"法学院","department":"志愿者工作部"},{"name":"向瑞博","college":"自动化科学与电气工程学院","department":"志愿者工作部"},{"name":"李泓澄","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"杨宸铖","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"何熠","college":"士谔书院","department":"志愿者工作部"},{"name":"余思蕊","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"张睿滢","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"陈韵竹","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"邵文然","college":"外国语学院","department":"志愿者工作部"},{"name":"赵涵宽","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"赵蕾","college":"机械工程及自动化学院","department":"志愿者工作部"},{"name":"贾若羽","college":"仪器科学与光电工程学院","department":"志愿者工作部"},{"name":"梁惠","college":"交通科学与工程学院","department":"志愿者工作部"},{"name":"韩雨宸","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"胡涵婷","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"赵依然","college":"新媒体艺术与设计学院","department":"志愿者工作部"},{"name":"李敏","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"朱岩","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"邵飞涵","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"张予凡","college":"外国语学院","department":"志愿者工作部"},{"name":"贾紫茹","college":"外国语学院","department":"志愿者工作部"},{"name":"于佳宁","college":"电子信息学院","department":"志愿者工作部"},{"name":"张天睿","college":"可靠性与系统工程学院","department":"志愿者工作部"},{"name":"寇德江","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"郑舒文","college":"机械工程及自动化学院","department":"志愿者工作部"},{"name":"刘沐然","college":"法学院","department":"志愿者工作部"},{"name":"方梓诺","college":"法学院","department":"志愿者工作部"},{"name":"孙楷睿","college":"士谔书院","department":"志愿者工作部"},{"name":"牛葳","college":"电子信息工程学院","department":"社会实践部"},{"name":"纪刘炀","college":"传源书院","department":"社会实践部"},{"name":"苏德那","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"罗灿林","college":"宇航学院","department":"社会实践部"},{"name":"陈家宝","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"张宸瑶","college":"人文社会科学学院（公共管理学院）","department":"社会实践部"},{"name":"张欣瑞","college":"北京学院","department":"社会实践部"},{"name":"胡成明","college":"化学学院","department":"社会实践部"},{"name":"钟翔","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"樊祎菲","college":"电子信息工程学院","department":"社会实践部"},{"name":"刘佳","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"祝楷焜","college":"能源与动力工程学院","department":"社会实践部"},{"name":"邹简","college":"知行书院","department":"社会实践部"},{"name":"李璨","college":"人文社会科学学院（公共管理学院）","department":"社会实践部"},{"name":"刘允成","college":"航空科学与工程学院","department":"社会实践部"},{"name":"边琳杰","college":"外国语学院","department":"社会实践部"},{"name":"唐佳宇","college":"航空科学与工程学院","department":"社会实践部"},{"name":"邓博文","college":"交通科学与工程学院","department":"社会实践部"},{"name":"李楠","college":"人文社会科学学院","department":"社会实践部"},{"name":"王显","college":"外国语学院","department":"社会实践部"},{"name":"周婧一","college":"新媒体艺术与设计学院","department":"社会实践部"},{"name":"史英超","college":"化学学院","department":"社会实践部"},{"name":"杨昊霖","college":"电子信息工程学院","department":"社会实践部"},{"name":"孙鹤嘉","college":"仪器科学与光电工程学院","department":"社会实践部"},{"name":"李姮","college":"宇航学院","department":"社会实践部"},{"name":"邱硕","college":"人文与社会科学高等研究院","department":"社会实践部"},{"name":"徐嘉璐","college":"法学院","department":"社会实践部"},{"name":"李柏如","college":"人文社会科学学院","department":"社会实践部"},{"name":"张依柔","college":"生物与医学工程学院","department":"社会实践部"},{"name":"邹霖柯","college":"能源与动力工程学院","department":"社会实践部"}].map((person,id)=>({...person,id}));
+    const PEOPLE = [{"name":"刘浩宇","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"万释鸿","college":"法学院","department":"志愿者工作部"},{"name":"杨宸","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"张景涵","college":"法学院","department":"志愿者工作部"},{"name":"陈奕霖","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"姬米","college":"外国语学院","department":"志愿者工作部"},{"name":"于欣彤","college":"法学院","department":"志愿者工作部"},{"name":"王东源","college":"法学院","department":"志愿者工作部"},{"name":"向瑞博","college":"自动化科学与电气工程学院","department":"志愿者工作部"},{"name":"李泓澄","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"杨宸铖","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"何熠","college":"士谔书院","department":"志愿者工作部"},{"name":"余思蕊","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"张睿滢","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"陈韵竹","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"邵文然","college":"外国语学院","department":"志愿者工作部"},{"name":"赵涵宽","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"赵蕾","college":"机械工程及自动化学院","department":"志愿者工作部"},{"name":"贾若羽","college":"仪器科学与光电工程学院","department":"志愿者工作部"},{"name":"梁惠","college":"交通科学与工程学院","department":"志愿者工作部"},{"name":"韩雨宸","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"胡涵婷","college":"生物与医学工程学院","department":"志愿者工作部"},{"name":"赵依然","college":"新媒体艺术与设计学院","department":"志愿者工作部"},{"name":"李敏","college":"电子信息工程学院","department":"志愿者工作部"},{"name":"朱岩","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"邵飞涵","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"张予凡","college":"外国语学院","department":"志愿者工作部"},{"name":"贾紫茹","college":"外国语学院","department":"志愿者工作部"},{"name":"于佳宁","college":"电子信息学院","department":"志愿者工作部"},{"name":"张天睿","college":"可靠性与系统工程学院","department":"志愿者工作部"},{"name":"寇德江","college":"能源与动力工程学院","department":"志愿者工作部"},{"name":"郑舒文","college":"机械工程及自动化学院","department":"志愿者工作部"},{"name":"刘沐然","college":"法学院","department":"志愿者工作部"},{"name":"方梓诺","college":"法学院","department":"志愿者工作部"},{"name":"孙楷睿","college":"士谔书院","department":"志愿者工作部"},{"name":"牛葳","college":"电子信息工程学院","department":"社会实践部"},{"name":"纪刘炀","college":"传源书院","department":"社会实践部"},{"name":"苏德那","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"罗灿林","college":"宇航学院","department":"社会实践部"},{"name":"陈家宝","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"张宸瑶","college":"人文社会科学学院（公共管理学院）","department":"社会实践部"},{"name":"胡成明","college":"化学学院","department":"社会实践部"},{"name":"钟翔","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"樊祎菲","college":"电子信息工程学院","department":"社会实践部"},{"name":"刘佳","college":"自动化科学与电气工程学院","department":"社会实践部"},{"name":"祝楷焜","college":"能源与动力工程学院","department":"社会实践部"},{"name":"邹简","college":"知行书院","department":"社会实践部"},{"name":"李璨","college":"人文社会科学学院（公共管理学院）","department":"社会实践部"},{"name":"刘允成","college":"航空科学与工程学院","department":"社会实践部"},{"name":"边琳杰","college":"外国语学院","department":"社会实践部"},{"name":"唐佳宇","college":"航空科学与工程学院","department":"社会实践部"},{"name":"邓博文","college":"交通科学与工程学院","department":"社会实践部"},{"name":"李楠","college":"人文社会科学学院","department":"社会实践部"},{"name":"王显","college":"外国语学院","department":"社会实践部"},{"name":"周婧一","college":"新媒体艺术与设计学院","department":"社会实践部"},{"name":"史英超","college":"化学学院","department":"社会实践部"},{"name":"杨昊霖","college":"电子信息工程学院","department":"社会实践部"},{"name":"孙鹤嘉","college":"仪器科学与光电工程学院","department":"社会实践部"},{"name":"李姮","college":"宇航学院","department":"社会实践部"},{"name":"邱硕","college":"人文与社会科学高等研究院","department":"社会实践部"},{"name":"徐嘉璐","college":"法学院","department":"社会实践部"},{"name":"李柏如","college":"人文社会科学学院","department":"社会实践部"},{"name":"张依柔","college":"生物与医学工程学院","department":"社会实践部"},{"name":"邹霖柯","college":"能源与动力工程学院","department":"社会实践部"}].map((person,id)=>({...person,id}));
     const $ = (id)=>document.getElementById(id);
     const stage = $('stage');
     const drawButton = $('drawButton');
@@ -302,3 +302,4 @@
 <script src="lottery-embed.js"></script>
 </body>
 </html>
+

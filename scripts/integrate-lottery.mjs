@@ -1,3 +1,4 @@
+import { applyPlatformUI } from './platform-ui.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -8,6 +9,7 @@ export async function integrateLottery(root){
  let template=await fs.readFile(path.join(output,'index.template.html'),'utf8');
  let app=await fs.readFile(path.join(output,'app.js'),'utf8');
  const [panel,css,ui]=await Promise.all(['panel.html','panel.css','lottery-ui.js'].map(name=>fs.readFile(path.join(feature,name),'utf8')));
+ if(template.includes('id="lotteryView"'))template=template.replace(/<section id="lotteryView"[\s\S]*?<\/section>/,()=>panel);
  if(!template.includes('id="lotteryView"')){
   const anchor='<button data-view="settings">';
   if(!template.includes(anchor)||!template.includes('<section id="settingsView"')||!template.includes('</style>'))throw Error('Platform navigation changed; cannot integrate lottery safely');
@@ -20,6 +22,7 @@ export async function integrateLottery(root){
   app=app.replace(anchor,'if(window.LotteryPanel)window.LotteryPanel.setActive(view===\'lottery\');const titles={"lottery":["幸运抽奖","志工部与实践部的幸运时刻，开始滚动，点击停止揭晓。"],"query":');
  }
  if(!app.includes(marker)&&!app.includes('window.LotteryPanel={'))app+='\n'+marker+'\n'+ui;
+ ({template,app}=await applyPlatformUI(root,template,app));
  new vm.Script(app);
  const [data,engine]=await Promise.all(['data.js','engine.js'].map(name=>fs.readFile(path.join(output,name),'utf8')));
  let html=template;
@@ -34,5 +37,6 @@ export async function integrateLottery(root){
   const filename=path.join(output,name);
   if(await fs.readFile(filename,'utf8').catch(()=>null)!==content)await fs.writeFile(filename,content);
  }
- return {people:65,departments:{'志愿者工作部':35,'社会实践部':30}};
+ return {people:64,departments:{'志愿者工作部':35,'社会实践部':29}};
 }
+

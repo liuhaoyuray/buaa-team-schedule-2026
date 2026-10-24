@@ -14,7 +14,7 @@
  function notify(){if(loaded){frame.contentWindow.postMessage({type:'buaa-lottery-visibility',active},targetOrigin);viewport();}}
  window.LotteryPanel={setActive(value){
   active=Boolean(value);
-  if(active&&!frame.hasAttribute('src'))frame.src='lottery.html';
+  if(active&&!frame.hasAttribute('src'))frame.src='lottery.html?v=20261024-64';
   if(active&&location.hash!=='#lottery')history.replaceState(null,'','#lottery');
   else if(!active&&location.hash==='#lottery')history.replaceState(null,'',location.pathname+location.search);
   requestAnimationFrame(notify);

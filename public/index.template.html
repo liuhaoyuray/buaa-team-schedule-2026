@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>北航 · 人员课表查询</title><meta name="description" content="志工部与实践部人员课程、已有安排和空闲时段查询"><style>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>北航 · 志工实践工作台</title><meta name="description" content="志工部与实践部人员课程、已有安排和空闲时段查询"><style>
 :root{color-scheme:light;--ink:#1d303c;--muted:#526873;--blue:#185a76;--line:#d7e1e7;--shadow:0 10px 35px -24px #213c5240,inset 0 1px 0 #fff}
 *{box-sizing:border-box}body{margin:0;color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#eef3f5;background-image:radial-gradient(ellipse at 85% 0,#d6e9e980,transparent 45%),radial-gradient(ellipse at 10% 20%,#dce7ef80,transparent 45%);background-attachment:fixed}
 button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid #d9e3e9;border-radius:10px;background:#ffffffb3;color:#315466;padding:10px 15px;transition:background .15s,box-shadow .15s}button:hover{background:#fff;box-shadow:0 3px 12px #29445612}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #65a5b577;outline-offset:2px}input,select,textarea{color:#263e4b;background:#ffffffe0;padding:11px 12px;min-width:0;max-width:100%;border:1px solid #d1dde4;border-radius:10px;min-height:46px}input:focus,select:focus{background:white}a{color:#176582;text-underline-offset:4px}h1,h2,h3,p{margin:0}h1{font-size:32px;line-height:1.35;font-weight:700;letter-spacing:-.6px}h2{font-size:20px;font-weight:650}h3{font-size:17px;font-weight:650}.muted{color:var(--muted);line-height:1.8}.small{font-size:14px}
@@ -48,9 +48,169 @@ body.clear-mode .ambient{opacity:.25}body.clear-mode aside,body.clear-mode .card
 
 .lottery-tools{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:15px}.lottery-tools p{max-width:780px}.lottery-tools button{flex-shrink:0}.lottery-shell{border-radius:20px;overflow:hidden;border:1px solid #cddde5;background:#080d20;position:relative}.lottery-shell iframe{display:block;width:100%;height:930px;border:0;background:#080d20}.lottery-loading{color:#d7e2ff;padding:24px}.lottery-loading[hidden]{display:none}.lottery-shell:fullscreen{border:0;border-radius:0;overflow:auto;width:100%;height:100%;background:#080d20}.lottery-shell:fullscreen iframe{min-height:100vh}@media(max-width:570px){.lottery-tools{align-items:flex-start;flex-direction:column}.lottery-tools button{font-size:14px}.lottery-shell{border-radius:16px}}
 
-</style></head><body><div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
-<aside><div class="brand"><div class="brand-mark">航</div><div><strong>人员课表查询</strong><small>2026年秋季学期</small></div></div><nav aria-label="主导航"><button class="active" data-view="query"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>时段查询</button><button data-view="week"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-12 0v10m6-10v10"/></svg></span>一周总览</button><button data-view="duty"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18m-12 5 2 2 4-4"/></svg></span>值班表</button><button data-view="planner"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4m-9 8 3 3 6-6"/></svg></span>共同排期</button><button data-view="person"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="19" rx="3"/><path d="M8 8h8m-8 5h8m-8 5h5"/></svg></span>个人课表</button><button data-view="directory"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2"/></svg></span>人员名录</button><button data-view="lottery"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v11H4zM3 6h18v4H3zM12 6v15"/><path d="M12 6H8a2 2 0 1 1 2-2l2 2zm0 0h4a2 2 0 1 0-2-2l-2 2z"/></svg></span>幸运抽奖</button><button data-view="settings"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V9m8 10V4m8 15v-7"/><circle cx="4" cy="7" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="20" cy="10" r="2"/></svg></span>数据与校历</button></nav><button id="openSelection" class="cart-launch">工作名单<span id="selectionCount">0</span></button><div class="sidebar-foot"><strong>校团委 · 志工部 / 实践部</strong><br><span id="sidebarCount"></span><br><br>第一周 · 2026.09.07<br>课表按教学周查询。</div></aside>
-<main><header class="top"><div><p class="eyebrow">北航校团委 · 志工部 / 实践部</p><h1 id="pageTitle">时段查询</h1><p class="intro" id="pageIntro">查看指定时段的课程、空闲人员和联系方式。</p></div><div class="header-tags"><div class="term-tag">2026 秋季学期</div><button id="displayMode" class="display-toggle" aria-pressed="false">切换清晰模式</button><span class="access-label"><i></i>公开访问</span></div></header>
+</style><style id="buaa-night-theme">
+/* Shared with the lottery's midnight, periwinkle and cyan palette. Print keeps its existing light layout. */
+@media screen {
+ :root{color-scheme:dark;--ink:#eef3ff;--muted:#a7b7d5;--blue:#aabbff;--line:#ffffff16;--shadow:0 18px 50px #00000026}
+ body[data-platform-theme="night"]{color:#eef3ff;background:#080d20;background-image:radial-gradient(ellipse at 58% -15%,#27376c99,transparent 60%),radial-gradient(ellipse at 0 78%,#17667526,transparent 48%);background-attachment:fixed;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.01em}
+ body[data-platform-theme="night"]::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(#e1eaff05 1px,transparent 1px),linear-gradient(90deg,#e1eaff05 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(#000,transparent 85%)}
+ body[data-platform-theme="night"] :is(.ambient,.lens-surface){display:none}
+ body[data-platform-theme="night"]>aside{inset:20px auto 20px 20px;width:232px;padding:25px 14px;background:linear-gradient(160deg,#16213bf2,#0e172cee);border:1px solid #aec5ff24;border-radius:24px;box-shadow:0 18px 60px #00000030;backdrop-filter:blur(20px)}
+ body[data-platform-theme="night"] aside::before,
+ body[data-platform-theme="night"] aside::after,
+ body[data-platform-theme="night"] .card::before,
+ body[data-platform-theme="night"] .card::after,
+ body[data-platform-theme="night"] .stat::after,
+ body[data-platform-theme="night"] dialog::before{display:none}
+ body[data-platform-theme="night"] .brand{padding:0 10px 27px;gap:12px}
+ body[data-platform-theme="night"] .brand-mark{width:40px;height:40px;border-radius:13px;color:#101a33;background:linear-gradient(135deg,#aabbff,#76e7e1);box-shadow:0 8px 26px #6f9bff1e;border:0}
+ body[data-platform-theme="night"] .brand strong{font-size:18px;font-weight:800;letter-spacing:.04em;color:#f1f4ff}
+ body[data-platform-theme="night"] .brand small{font-size:11px;color:#9cacd0;letter-spacing:.08em;margin-top:5px}
+ body[data-platform-theme="night"] nav{gap:5px}
+ body[data-platform-theme="night"] nav button{padding:12px 14px;border:1px solid transparent;background:transparent;box-shadow:none;color:#a9b9d5;font-size:14px;border-radius:12px;gap:12px}
+ body[data-platform-theme="night"] nav button:hover{background:#ffffff08;border-color:#ffffff0a;color:#eef3ff}
+ body[data-platform-theme="night"] nav button.active{color:#c8f6f2;background:linear-gradient(110deg,#91a5ff24,#76e7e10b);border-color:#a3b8ff32;box-shadow:inset 3px 0 0 #8ed8e2;font-weight:750}
+ body[data-platform-theme="night"] .nav-icon{width:19px;height:19px;color:#a4b6ee}
+ body[data-platform-theme="night"] .nav-icon svg{width:19px;height:19px}
+ body[data-platform-theme="night"] .sidebar-foot{font-size:12px;color:#8d9fc2;border-color:#aec5ff1a;padding:17px 10px 0;line-height:1.85}
+ body[data-platform-theme="night"] .sidebar-foot strong{color:#bac9e5}
+ body[data-platform-theme="night"] .cart-launch{margin:18px 4px 16px;padding:11px 13px;border-color:#a5b9ff26;background:#ffffff05;color:#c9d6f5;font-size:13px}
+ body[data-platform-theme="night"] .cart-launch span{background:#8fa8f326;color:#cfddff}
+ body[data-platform-theme="night"]>main{margin-left:268px;padding:37px 32px 24px;max-width:1900px}
+ body[data-platform-theme="night"] .top{margin-bottom:29px;gap:24px}
+ body[data-platform-theme="night"] h1{color:#f0f3ff;font-size:36px;line-height:1.25;font-weight:850;letter-spacing:.01em}
+ body[data-platform-theme="night"] .eyebrow{color:#97abd1;font-size:11px;font-weight:750;letter-spacing:.14em;margin-bottom:11px}
+ body[data-platform-theme="night"] .intro{color:#a6b6d3;line-height:1.85;font-size:14px;margin-top:12px}
+ body[data-platform-theme="night"] .header-tags{gap:9px}
+ body[data-platform-theme="night"] .term-tag{color:#bdcbed;background:#ffffff05;border:1px solid #aec5ff24;box-shadow:none;backdrop-filter:none;font-size:12px;padding:7px 13px}
+ body[data-platform-theme="night"] .access-label{color:#92cfc6;font-size:11px}
+ body[data-platform-theme="night"] .access-label i{background:#76e7e1;box-shadow:0 0 0 4px #76e7e10c}
+ body[data-platform-theme="night"] :is(.card,.stat){background:linear-gradient(145deg,#16213bed,#101a30f2);border:1px solid #aec5ff24;box-shadow:0 12px 36px #00000020;backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:22px}
+ body[data-platform-theme="night"] .card{padding:25px;margin-bottom:22px}
+ body[data-platform-theme="night"] :is(h2,h3,.stat-num,.planner-pool strong,.slot-top strong,.slot-time,.duty-stat strong,.duty-dialog-item strong,.person-name,.event-line strong){color:#eaf0ff}
+ body[data-platform-theme="night"] h2{font-size:18px;font-weight:760}
+ body[data-platform-theme="night"] h3{font-size:15px;font-weight:730}
+ body[data-platform-theme="night"] :is(.muted,.planner-help,.planner-selected,.duty-rules,.duty-metadata,.duty-table-title small,.note-list,.duty-summary-note){color:#a7b7d5}
+ body[data-platform-theme="night"] :is(label,.stat-title,.quick span,.week-info,.cell-free,.source-row,.duty-stat span){color:#a8bad7}
+ body[data-platform-theme="night"] :is(input,select,textarea){color:#e0e9ff;background:#0b142a;border:1px solid #a9bdff30;box-shadow:inset 0 1px 3px #00000012;border-radius:11px;accent-color:#8edbdc}
+ body[data-platform-theme="night"] :is(input,select,textarea):focus{background:#101c35;border-color:#8ebecf}
+ body[data-platform-theme="night"] input::placeholder{color:#7f91b3}
+ body[data-platform-theme="night"] input:is([type=date],[type=time])::-webkit-calendar-picker-indicator{opacity:.8}
+ body[data-platform-theme="night"] option{background:#111d35;color:#e0e9ff}
+ body[data-platform-theme="night"] button{color:#c9d7f3;background:#1a2642;border:1px solid #a9bdff29;box-shadow:none;border-radius:11px;transition:background .15s,border-color .15s,transform .15s}
+ body[data-platform-theme="night"] button:hover{background:#253452;border-color:#b3c7ff4d;box-shadow:none}
+ body[data-platform-theme="night"] button:active{transform:translateY(1px)}
+ body[data-platform-theme="night"] button:disabled{opacity:.4}
+ body[data-platform-theme="night"] :is(button,input,select,textarea,a):focus-visible{outline:3px solid #76e7e1;outline-offset:3px}
+ body[data-platform-theme="night"] .primary{background:linear-gradient(115deg,#a3b2ff,#77e5e0);border-color:transparent;color:#101b34;font-weight:800;box-shadow:0 8px 26px #5e9ffb14}
+ body[data-platform-theme="night"] .primary:hover{background:linear-gradient(115deg,#bac5ff,#96eee8);border-color:transparent;color:#101b34}
+ body[data-platform-theme="night"] a{color:#a9c4ff}
+ body[data-platform-theme="night"] .display-toggle{font-size:12px;padding:6px 11px;border-radius:22px}
+ body[data-platform-theme="night"] .quick{gap:8px}
+ body[data-platform-theme="night"] .quick button{background:#ffffff05;color:#aebedf;border-color:#ffffff15}
+ body[data-platform-theme="night"] .quick button.selected{background:#9daeff22;color:#d4ddff;border-color:#a6b7ff55}
+ body[data-platform-theme="night"] .query-strip{border-color:#aec5ff1b;color:#ccdaf6}
+ body[data-platform-theme="night"] .dot{background:#76e7e1;box-shadow:0 0 0 4px #76e7e10b}
+ body[data-platform-theme="night"] .summary{gap:14px}
+ body[data-platform-theme="night"] .stat{padding:20px 22px;min-height:120px}
+ body[data-platform-theme="night"] .stat::before{top:23px;right:22px;left:auto;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
+ body[data-platform-theme="night"] .stat-num{font-size:36px;font-weight:800;line-height:1.35;margin-top:11px;letter-spacing:-.02em}
+ body[data-platform-theme="night"] .stat-title{font-size:12px}
+ body[data-platform-theme="night"] .stat-num small{color:#97aaca;font-size:12px}
+ body[data-platform-theme="night"] .tabs{background:#070e23;border-color:#a9bdff16;padding:5px;border-radius:12px}
+ body[data-platform-theme="night"] .tabs button{color:#99accd;background:transparent;border-color:transparent;box-shadow:none}
+ body[data-platform-theme="night"] .tabs button.active{color:#edf4ff;background:#2c3c64;border-color:#a4b9ff20;box-shadow:none}
+ body[data-platform-theme="night"] .person{background:linear-gradient(145deg,#16223b,#101b31);border:1px solid #aec5ff24;border-radius:18px;box-shadow:none;padding:21px}
+ body[data-platform-theme="night"] .person:hover{border-color:#8dbfdb60;box-shadow:0 10px 26px #00000018}
+ body[data-platform-theme="night"] .avatar{background:linear-gradient(145deg,#9caeff20,#76e7e10a);border:1px solid #a9bdff26;color:#c1d4ff;border-radius:12px}
+ body[data-platform-theme="night"] :is(.person-name,.person-name:hover){background:transparent;border:0;box-shadow:none;color:#eef3ff;font-weight:750}
+ body[data-platform-theme="night"] .badge{border:1px solid transparent}
+ body[data-platform-theme="night"] .badge.free{background:#76e7c91a;border-color:#76e7c930;color:#9be9d5}
+ body[data-platform-theme="night"] .badge.course{background:#a5b6ff1a;border-color:#a5b6ff30;color:#c1ceff}
+ body[data-platform-theme="night"] .badge.other{background:#76d5e71a;border-color:#76d5e730;color:#9de3ef}
+ body[data-platform-theme="night"] .badge.unknown{background:#eac38b18;border-color:#eac38b30;color:#eac38b}
+ body[data-platform-theme="night"] .contact{border-color:#aec5ff18;color:#b8cbec}
+ body[data-platform-theme="night"] .event-line{border-color:#94b7df66}
+ body[data-platform-theme="night"] .pick-person{color:#b7c8e7;background:#ffffff03;border-color:#a9bdff20}
+ body[data-platform-theme="night"] .pick-person[aria-pressed=true]{background:#76e7e112;color:#9be9e5;border-color:#76e7e146}
+ body[data-platform-theme="night"] :is(.empty,.planner-empty){color:#a6b6d3}
+ body[data-platform-theme="night"] .planner-empty{background:#111c32;border-color:#8196be50}
+ body[data-platform-theme="night"] :is(th,td,.selection-row,.source-row,.duty-dialog-item,.planner-pool label){border-color:#aec5ff1a}
+ body[data-platform-theme="night"] th{background:#1b2946;color:#c1d1ef;font-weight:650}
+ body[data-platform-theme="night"] td{color:#cad8f0;background:transparent}
+ body[data-platform-theme="night"] :is(.table-scroll,.planner-pool){scrollbar-color:#40577e #101a2d}
+ body[data-platform-theme="night"] .heat{background:var(--heat)!important;color:#c4f3e9!important;border:1px solid #76e7c926;box-shadow:none}
+ body[data-platform-theme="night"] .heat:hover{background:#76e7c92b!important;border-color:#76e7c960}
+ body[data-platform-theme="night"] .heat small{color:#9bbabf}
+ body[data-platform-theme="night"] .course-cell{background:#a5b6ff12;border-color:#a5b6ff77;color:#c5d1f6}
+ body[data-platform-theme="night"] .course-cell.other{background:#76d5e712;border-color:#76d5e777}
+ body[data-platform-theme="night"] .course-cell.uncertain{background:#eac38b13;border-color:#eac38b80;color:#e9d3b1}
+ body[data-platform-theme="night"] .rank-item{background:#76e7c90c;border-color:#76e7c926;color:#a0dfcf}
+ body[data-platform-theme="night"] :is(.notice,.duty-issue,.duty-stale-label){background:#eac38b0b;border-color:#eac38b36;color:#e2c9a6}
+ body[data-platform-theme="night"] .duty-issue strong{color:#f1d4a9}
+ body[data-platform-theme="night"] .duty-clean{background:#76e7c90c;border-color:#76e7c930;color:#a0dfcf}
+ body[data-platform-theme="night"] .planner-pool small{color:#97aaca}
+ body[data-platform-theme="night"] .planner-pool .no-table{color:#eac38b}
+ body[data-platform-theme="night"] .planner-pool label:has(input:checked){background:#a5b6ff12}
+ body[data-platform-theme="night"] .planner-days label{color:#b3c4e4;background:#0e1830;border-color:#a5b6ff25}
+ body[data-platform-theme="night"] .slot-card{background:#111c34;border-color:#aec5ff26;border-radius:18px}
+ body[data-platform-theme="night"] .slot-card :is(details,summary){color:#aec4ef}
+ body[data-platform-theme="night"] .selection-context{background:#0c162d;color:#bbccec}
+ body[data-platform-theme="night"] :is(.duty-rules summary,.duty-large-summary){color:#d3def4}
+ body[data-platform-theme="night"] .duty-stat{background:#0e1930;border-color:#aec5ff26}
+ body[data-platform-theme="night"] .duty-table td{background:#0e1930}
+ body[data-platform-theme="night"] :is(.duty-table .duty-empty,.duty-workload .duty-shortage){background:#eac38b0a}
+ body[data-platform-theme="night"] .duty-person{background:#a5b6ff1c;color:#c4d0ff}
+ body[data-platform-theme="night"] .duty-practice .duty-person{background:#76e7c918;color:#a0e4d2}
+ body[data-platform-theme="night"] :is(.duty-unfilled,.duty-reason){color:#eac38b}
+ body[data-platform-theme="night"] .duty-table .duty-cell-note{color:#98accd}
+ body[data-platform-theme="night"] .duty-dialog-item summary{color:#acc5ff}
+ body[data-platform-theme="night"] dialog{background:linear-gradient(150deg,#182540,#111a30);border:1px solid #aabdfb45;color:#eef3ff;box-shadow:0 25px 90px #00000099;backdrop-filter:blur(16px);border-radius:22px}
+ body[data-platform-theme="night"] dialog::backdrop{background:#020713bf;backdrop-filter:blur(8px)}
+ body[data-platform-theme="night"] .toast{color:#daf5ef;background:#1d3342;border-color:#76e7e14d;box-shadow:0 12px 38px #00000066}
+ body[data-platform-theme="night"] .page-foot{color:#8296bb;font-size:12px;line-height:1.9;margin-top:26px}
+ body[data-platform-theme="night"] .lottery-shell{border-color:#aec5ff24;border-radius:24px;box-shadow:0 18px 50px #00000020}
+ body[data-platform-theme="night"].clear-mode :is(aside,.card,.stat,dialog,.term-tag,.person,.slot-card){background:#101b30;border-color:#a5b6ff55;box-shadow:none}
+ body[data-platform-theme="night"].clear-mode{background:#080f20}
+ body[data-platform-theme="night"].clear-mode::before{display:none}
+ @media(max-width:1180px){body[data-platform-theme="night"]>aside{width:210px;left:16px}body[data-platform-theme="night"]>main{margin-left:238px;padding:30px 24px}}
+ @media(max-height:790px) and (min-width:851px){body[data-platform-theme="night"]>aside{padding-top:20px;padding-bottom:18px}body[data-platform-theme="night"] .brand{padding-bottom:18px}body[data-platform-theme="night"] nav button{padding-top:10px;padding-bottom:10px}body[data-platform-theme="night"] .sidebar-foot{font-size:11px}}
+ @media(max-width:850px){
+  body[data-platform-theme="night"]>aside{position:sticky;inset:auto;top:8px;width:auto;margin:8px 10px 0;padding:12px;border-radius:18px;background:#111c32f2;z-index:4}
+  body[data-platform-theme="night"] .brand{padding:0 3px 12px;gap:9px}
+  body[data-platform-theme="night"] .brand-mark{width:32px;height:32px;font-size:18px;border-radius:10px}
+  body[data-platform-theme="night"] .brand strong{font-size:16px}
+  body[data-platform-theme="night"] .brand small{display:none}
+  body[data-platform-theme="night"] .sidebar-foot{display:none}
+  body[data-platform-theme="night"] nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;overflow:visible}
+  body[data-platform-theme="night"] nav button{font-size:12px;padding:9px 2px;justify-content:center;white-space:nowrap;gap:0;border-radius:9px}
+  body[data-platform-theme="night"] .nav-icon{display:none}
+  body[data-platform-theme="night"] .cart-launch{position:absolute;top:12px;right:12px;margin:0;padding:5px 9px;font-size:12px;gap:8px;border-radius:9px}
+  body[data-platform-theme="night"]>main{margin:0;padding:25px 14px 18px}
+  body[data-platform-theme="night"] .top{gap:12px;align-items:flex-start;margin-bottom:22px}
+  body[data-platform-theme="night"] h1{font-size:29px}
+  body[data-platform-theme="night"] .eyebrow{font-size:10px;letter-spacing:.07em;margin-bottom:10px}
+  body[data-platform-theme="night"] .intro{font-size:13px;line-height:1.85;max-width:245px;margin-top:10px}
+  body[data-platform-theme="night"] .header-tags{max-width:100px;gap:8px}
+  body[data-platform-theme="night"] .term-tag{font-size:11px;padding:6px 9px;white-space:nowrap}
+  body[data-platform-theme="night"] .display-toggle{font-size:11px;padding:6px 9px}
+  body[data-platform-theme="night"] .card{padding:20px 16px;border-radius:19px}
+  body[data-platform-theme="night"] h2{font-size:17px}
+  body[data-platform-theme="night"] .stat{min-height:108px;padding:17px 18px}
+  body[data-platform-theme="night"] .stat::before{top:22px;right:18px}
+  body[data-platform-theme="night"] .stat-num{font-size:31px}
+  body[data-platform-theme="night"] .person{padding:19px;border-radius:17px}
+  body[data-platform-theme="night"] .summary{gap:10px}
+  body[data-platform-theme="night"] .lottery-shell{border-radius:19px}
+ }
+ @media(prefers-contrast:more){body[data-platform-theme="night"] :is(.card,.stat,.person,dialog,aside){background:#101b30;border-color:#a5b6ff80}body[data-platform-theme="night"] .muted{color:#c3d0e9}}
+ @media(prefers-reduced-motion:reduce){body[data-platform-theme="night"] *{transition:none!important;scroll-behavior:auto!important}}
+}
+
+</style>
+</head><body data-platform-theme="night"><div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+<aside><div class="brand"><div class="brand-mark">航</div><div><strong>志工 · 实践</strong><small>2026 AUTUMN · 工作台</small></div></div><nav aria-label="主导航"><button class="active" data-view="query"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>时段查询</button><button data-view="week"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-12 0v10m6-10v10"/></svg></span>一周总览</button><button data-view="duty"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18m-12 5 2 2 4-4"/></svg></span>值班表</button><button data-view="planner"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4m-9 8 3 3 6-6"/></svg></span>共同排期</button><button data-view="person"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="19" rx="3"/><path d="M8 8h8m-8 5h8m-8 5h5"/></svg></span>个人课表</button><button data-view="directory"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2"/></svg></span>人员名录</button><button data-view="lottery"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v11H4zM3 6h18v4H3zM12 6v15"/><path d="M12 6H8a2 2 0 1 1 2-2l2 2zm0 0h4a2 2 0 1 0-2-2l-2 2z"/></svg></span>幸运抽奖</button><button data-view="settings"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V9m8 10V4m8 15v-7"/><circle cx="4" cy="7" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="20" cy="10" r="2"/></svg></span>数据与校历</button></nav><button id="openSelection" class="cart-launch">工作名单<span id="selectionCount">0</span></button><div class="sidebar-foot"><strong>校团委 · 志工部 / 实践部</strong><br><span id="sidebarCount"></span><br><br>第一周 · 2026.09.07<br>课表按教学周查询。</div></aside>
+<main><header class="top"><div><p class="eyebrow">BUAA · 校团委 / 两部门工作台</p><h1 id="pageTitle">时段查询</h1><p class="intro" id="pageIntro">查看指定时段的课程、空闲人员和联系方式。</p></div><div class="header-tags"><div class="term-tag">2026 秋季学期</div><button id="displayMode" class="display-toggle" aria-pressed="false">切换清晰模式</button><span class="access-label"><i></i>公开访问</span></div></header>
 <section id="queryView" class="view active"><div class="card"><div class="control-title"><div><h2>选择日期与时间</h2></div><button id="today">回到今天</button></div><div class="fields"><label>日期<input id="date" type="date" min="2026-09-07" max="2027-01-17"></label><label>开始时间<input id="start" type="time" value="14:00"></label><label>结束时间<input id="end" type="time" value="15:35"></label><label>部门<select id="department"><option value="">两个部门</option><option>志工部</option><option>实践部</option></select></label><label>校区<select id="campus"><option value="">全部校区</option><option>学院路</option><option>沙河</option><option>待确认</option></select></label><label>学院 / 书院<select id="college"><option value="">全部学院</option></select></label><label>职务<select id="role"><option value="">全部职务</option><option>部长</option><option>副部长</option><option>学生干部</option></select></label><label>查找人员<input id="search" placeholder="姓名、学号或电话" type="search"></label></div><div class="quick"><span>常用时段</span><button data-range="08:00,09:35">第 1–2 节</button><button data-range="09:50,12:15">第 3–5 节</button><button data-range="14:00,15:35">第 6–7 节</button><button data-range="15:50,18:15">第 8–10 节</button><button data-range="19:00,21:25">第 11–13 节</button><button data-range="08:00,12:15">整个上午</button><button data-range="14:00,18:15">整个下午</button></div><div class="query-strip"><span class="dot"></span><strong id="queryLabel"></strong><span class="muted small" id="weekLabel"></span></div><div id="queryNotice"></div></div><div class="summary" id="summary"></div><div class="card"><div class="result-head"><div class="tabs" id="statusTabs"></div><button id="copyFree">复制空闲名单</button><button id="exportQuery">导出查询结果</button></div><p class="muted small" style="margin-bottom:18px">“空闲”指课表中没有课程或其他登记安排，能否参加工作请联系本人确认。</p><div class="results" id="results"></div></div></section>
 <section id="weekView" class="view"><div class="card"><div class="control-title"><h2>各时段空闲人数</h2><div class="week-control"><button id="prevWeek" aria-label="上一周">←</button><select id="weekSelect" aria-label="选择教学周"></select><button id="nextWeek" aria-label="下一周">→</button></div></div><div class="row"><p class="muted small" id="weekRange"></p><span class="spacer"></span><label>部门<select id="weekDept"><option value="">两个部门</option><option>志工部</option><option>实践部</option></select></label><label>校区<select id="weekCampus"><option value="">全部校区</option><option>学院路</option><option>沙河</option><option>待确认</option></select></label></div><p class="muted small" style="margin:18px 0">绿色越深，空闲人数越多。点击任意格子查看人员名单；“需确认”不计入空闲人数。</p><div class="table-scroll" id="heatmap"></div></div><div class="card"><h2>空闲人数较多的时段</h2><p class="muted small" style="margin-top:8px">按连续 2 小时内没有已知安排的人数排序，覆盖每日 08:00–22:00。</p><div class="rank-list" id="ranking"></div></div></section>
 <section id="personView" class="view"><div class="card"><div class="personal-select"><h2>查看个人一周安排</h2><select id="personSelect" aria-label="选择同学"></select><select id="personWeek" aria-label="选择教学周"></select><span class="spacer"></span><button id="editContact">修改联系方式</button><a id="sourceLink" target="_blank" rel="noopener">查看原始课表 ↗</a></div><div id="personMeta" style="margin:18px 0"></div><div class="table-scroll" id="personalGrid"></div></div><div class="card"><h2>备注与未排课课程</h2><ul class="note-list" id="personNotes"></ul></div></section>
@@ -66,11 +226,12 @@ body.clear-mode .ambient{opacity:.25}body.clear-mode aside,body.clear-mode .card
  </div><div class="card"><div class="control-title"><h2>建议时段</h2><span id="plannerResultCount" class="muted small"></span></div><p class="muted small" id="plannerResultIntro">先选好同学和时间范围，再开始查找。</p><div class="planner-results" id="plannerResults"></div></div>
 </section>
 <section id="lotteryView" class="view" aria-label="两部门幸运抽奖">
- <div class="lottery-tools"><p class="muted small">沿用抽奖文件中的65人名单：志工部35人、实践部30人。切换平台页面保留本轮记录；刷新页面会清空。</p><button id="lotteryFullscreen" type="button">全屏抽奖</button></div>
+ <div class="lottery-tools"><p class="muted small">志工部35人 · 实践部29人，共64人。切换页面保留本轮记录；刷新页面会清空。</p><button id="lotteryFullscreen" type="button">全屏抽奖</button></div>
  <div class="lottery-shell" id="lotteryShell"><p id="lotteryLoading" class="lottery-loading" role="status">正在加载抽奖页面…</p><iframe id="lotteryFrame" title="志工部与实践部幸运抽奖" allow="clipboard-write; fullscreen" allowfullscreen></iframe></div>
 </section>
 <section id="settingsView" class="view"><div class="settings-grid"><div class="card"><h2>校历与查询规则</h2><p class="muted" style="margin-top:14px;line-height:1.9">第一周：<strong>2026 年 9 月 7 日 — 9 月 13 日</strong><br>按连续自然周编号，单双周按教学周序号判断。<br>节次时间来自所收集的北航课表，支持第 1–14 节。<br>课程数据主要覆盖第 1–17 周，第 18–19 周显示待确认。<br><a href="https://jiaowu.buaa.edu.cn/index/xl.htm" target="_blank" rel="noopener">查看北航官方校历 ↗</a></p><div class="notice">节假日、临时停课和补课以学校通知为准。可按学校通知设置停课或补课。</div><h3>设置特殊日期</h3><div class="rule-grid"><label>实际日期<input id="ruleDate" type="date"></label><label>教学安排<select id="ruleMode"><option value="stop">课程停课</option><option value="replace">改上其他日课表</option></select></label><label>对应教学周<select id="ruleWeek"></select></label><label>对应星期<select id="ruleDay"><option value="1">周一</option><option value="2">周二</option><option value="3">周三</option><option value="4">周四</option><option value="5">周五</option><option value="6">周六</option><option value="7">周日</option></select></label></div><div class="row" style="margin-top:15px"><button id="saveRule" class="primary">保存日期设置</button><span class="muted small">已有值班等安排仍按实际日期保留。</span></div><div id="rulesList" style="margin-top:16px"></div></div><div class="card"><h2>数据完整性</h2><div id="dataQuality"></div><p class="muted small" style="margin:16px 0">统一将单周标题课表作为整学期课表；课程内明确的周次、单双周仍按标注执行。未注明实验周次的安排尽量沿用对应课程周范围；具体实验日期不明确时保留待确认。</p><h3>联系方式与日期设置备份</h3><p class="muted small" style="margin:10px 0 16px">手动修改只保存在当前浏览器，换设备时可导出、导入备份。</p><div class="row"><button id="exportBackup">导出设置备份</button><button id="importBackup">导入设置备份</button><input type="file" id="backupFile" accept=".json" hidden></div></div></div><div class="card"><div class="control-title"><h2>课表与任职信息来源</h2><p class="muted small">课程地点推定的校区请向本人确认</p></div><div id="sources"></div></div></section>
 <footer class="page-foot" id="pageFooter"></footer></main>
 <dialog id="dutyDialog"><div class="dialog-head"><h2 id="dutyDialogTitle"></h2><button id="dutyDialogClose">关闭</button></div><p id="dutyDialogIntro" class="muted small" style="margin-top:10px"></p><div id="dutyDialogBody" class="duty-dialog-list"></div></dialog><dialog id="selectionDialog"><div class="dialog-head"><h2>工作名单</h2><button id="selectionClose">关闭</button></div><p class="muted small" style="margin-top:10px">所选同学保存在当前浏览器。更换查询时段后，下方状态会重新计算。</p><div class="selection-context" id="selectionContext"></div><div class="selection-tools"><button id="selectionCopy" class="primary">复制名单与联系方式</button><button id="selectionExport">导出 CSV</button><button id="selectionToPlanner">查找共同时间</button><button id="selectionClear">清空名单</button></div><div id="selectionRows"></div></dialog><dialog id="contactDialog"><h2>修改联系方式</h2><p class="muted small" style="margin-top:8px">修改仅保存在当前浏览器。</p><p class="muted small" id="contactName" style="margin-top:9px"></p><textarea id="contactValue" placeholder="手机号、微信号或联系备注"></textarea><div class="row"><button id="contactSave" class="primary">保存</button><button id="contactCancel">取消</button></div></dialog><div id="toast" class="toast" hidden role="status"></div>
 <script>/*__DATA__*/</script><script>/*__ENGINE__*/</script><script>/*__APP__*/</script></body></html>
+
 
