@@ -8,13 +8,13 @@
   if(!loaded||!active)return;
   const rect=frame.getBoundingClientRect(),aside=document.querySelector('body>aside');
   const stickyBottom=aside&&getComputedStyle(aside).position==='sticky'?Math.max(0,aside.getBoundingClientRect().bottom+8):0;
-  const visibleTop=Math.max(0,rect.top,stickyBottom),visibleBottom=Math.min(innerHeight,rect.bottom);
+  const visibleTop=Math.max(0,rect.top,stickyBottom),visibleBottom=Math.min(innerHeight,rect.bottom,document.querySelector('.ws-mobile-nav')?.getBoundingClientRect().top||innerHeight);
   frame.contentWindow.postMessage({type:'buaa-lottery-viewport',top:Math.max(0,visibleTop-rect.top),height:Math.max(120,visibleBottom-visibleTop)},targetOrigin);
  }
  function notify(){if(loaded){frame.contentWindow.postMessage({type:'buaa-lottery-visibility',active},targetOrigin);viewport();}}
  window.LotteryPanel={setActive(value){
   active=Boolean(value);
-  if(active&&!frame.hasAttribute('src'))frame.src='lottery.html?v=20261024-64';
+  if(active&&!frame.hasAttribute('src'))frame.src='lottery.html?v=20261024-workspace3';
   if(active&&location.hash!=='#lottery')history.replaceState(null,'','#lottery');
   else if(!active&&location.hash==='#lottery')history.replaceState(null,'',location.pathname+location.search);
   requestAnimationFrame(notify);

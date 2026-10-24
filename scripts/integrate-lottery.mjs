@@ -1,3 +1,4 @@
+import { applyWorkspaceUpgrade } from './workspace-upgrade.mjs';
 import { applyPlatformUI } from './platform-ui.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -23,6 +24,7 @@ export async function integrateLottery(root){
  }
  if(!app.includes(marker)&&!app.includes('window.LotteryPanel={'))app+='\n'+marker+'\n'+ui;
  ({template,app}=await applyPlatformUI(root,template,app));
+ ({template,app}=await applyWorkspaceUpgrade(root,template,app));
  new vm.Script(app);
  const [data,engine]=await Promise.all(['data.js','engine.js'].map(name=>fs.readFile(path.join(output,name),'utf8')));
  let html=template;
@@ -32,11 +34,12 @@ export async function integrateLottery(root){
   html=html.replace(placeholder,()=>code.replaceAll('</script','<\\/script'));
  }
  const generated={'index.template.html':template,'app.js':app,'index.html':html};
- for(const name of ['lottery.html','lottery-embed.css','lottery-embed.js'])generated[name]=await fs.readFile(path.join(feature,name),'utf8');
+ for(const name of ['lottery.html','lottery-embed.css','lottery-embed.js','lottery-session.js'])generated[name]=await fs.readFile(path.join(feature,name),'utf8');
  for(const [name,content] of Object.entries(generated)){
   const filename=path.join(output,name);
   if(await fs.readFile(filename,'utf8').catch(()=>null)!==content)await fs.writeFile(filename,content);
  }
  return {people:64,departments:{'志愿者工作部':35,'社会实践部':29}};
 }
+
 

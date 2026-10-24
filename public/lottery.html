@@ -93,7 +93,7 @@
   <div class="wrap">
     <header class="top">
       <div class="identity"><div class="logo" aria-hidden="true">✦</div><div><div class="eyebrow">BUAA · 2026 AUTUMN</div><div class="brand">志工部 × 实践部</div></div></div>
-      <div class="top-right"><span class="capsule"><span class="live"></span>随机抽取 · 公平参与</span><span class="capsule">仅本地运行 · 无需联网</span></div>
+      <div class="top-right"><span class="capsule"><span class="live"></span>随机抽取 · 公平参与</span><span class="capsule">本机记录 · 自动保存</span></div>
     </header>
     <h1>幸运抽奖 <span style="color:#93a8f5">/ Lucky Draw</span></h1>
     <p class="intro">来自<strong>志愿者工作部</strong>和<strong>社会实践部</strong>的 <strong>64 位同学</strong>。点击开始，名单随机滚动；点击停止，揭晓幸运同学。</p>
@@ -299,6 +299,7 @@
     document.addEventListener('keydown',e=>{if(e.key==='Escape')$('modalLayer').classList.remove('show');});
     updateCounters();
   </script>
+<script src="lottery-session.js?v=3"></script>
 <script src="lottery-embed.js"></script>
 </body>
 </html>

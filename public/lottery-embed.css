@@ -1,2 +1,4 @@
 html.platform-embedded,html.platform-embedded body{min-height:0}html.platform-embedded .wrap{padding:28px 24px 34px}@media(max-width:570px){html.platform-embedded .wrap{padding:24px 16px 30px}.roster-row{grid-template-columns:26px 56px minmax(0,1fr) 70px;gap:8px}.roster-row span,.roster-row strong{overflow-wrap:anywhere}.modal-head{padding-left:16px;padding-right:16px}.modal-toolbar{padding-left:16px;padding-right:16px}.roster{padding-left:16px;padding-right:16px}}
 html.platform-embedded .modal-layer{top:var(--platform-viewport-top,0px);bottom:auto;height:var(--platform-viewport-height,100vh)}html.platform-embedded .modal{max-height:100%}
+
+.session-actions{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #ffffff13;margin-top:10px;padding-top:7px}.session-note{font-size:10px;line-height:1.8;color:#8d9fc5;margin:10px 0 0}.session-actions button:disabled{opacity:.35}
