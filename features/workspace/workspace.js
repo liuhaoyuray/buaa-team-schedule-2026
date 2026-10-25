@@ -3,7 +3,7 @@ function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceAp
 function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshCounts();}
 (() => {
  'use strict';
- const routes=[['office','报销台账','▤','登录后管理云端报销和发票'],['colleges','学院系号','⌕','47组学院、书院与系号查询'],['home','部门工作台','⌂','今天的协作概览'],['query','时段查询','◷','查空闲、筛选人员'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看一个人的安排'],['directory','人员名录','♧','查部门和联系方式'],['duty','值班表','▦','计算排班、导出Excel'],['lottery','幸运抽奖','✦','64人名单、公平随机抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
+ const routes=[['office','报销台账','▤','免登录整理报销、导出材料'],['colleges','学院系号','⌕','47组学院、书院与系号查询'],['home','部门工作台','⌂','今天的协作概览'],['query','时段查询','◷','查空闲、筛选人员'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看一个人的安排'],['directory','人员名录','♧','查部门和联系方式'],['duty','值班表','▦','计算排班、导出Excel'],['lottery','幸运抽奖','✦','64人名单、公平随机抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
@@ -80,7 +80,7 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
   else if(b.dataset.wsPage){pageNumber=Number(b.dataset.wsPage);refreshQuery();$('wsQueryTools').scrollIntoView({block:'start'});}
   else if(b.dataset.wsHit!==undefined)chooseHit(Number(b.dataset.wsHit));
  });
- $('wsSearchLaunch').onclick=openSearch;$('wsMoreSearch').onclick=openSearch;$('wsMoreButton').onclick=()=>$('wsMoreDialog').showModal();
+ $('wsSearchLaunch').onclick=openSearch;$('wsMoreSearch').onclick=openSearch;$('wsMoreButton').onclick=()=>$('wsMoreDialog').showModal();if($('officeMore'))$('officeMore').onclick=()=>$('wsMoreDialog').showModal();
  $('wsMoreRoutes').innerHTML=routes.map(r=>'<button data-ws-route="'+r[0]+'"><span>'+r[2]+'</span><strong>'+r[1]+'</strong><small>'+r[3]+'</small></button>').join('');
  $('wsGlobalSearch').oninput=()=>{hitIndex=0;renderSearch();};
  $('wsGlobalSearch').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();hitIndex=(hitIndex+(e.key==='ArrowDown'?1:-1)+Math.max(hits.length,1))%Math.max(hits.length,1);renderSearch();$('wsSearchOption'+hitIndex)?.scrollIntoView({block:'nearest'});}if(e.key==='Enter'){e.preventDefault();chooseHit(hitIndex);}};

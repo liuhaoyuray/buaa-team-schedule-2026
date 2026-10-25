@@ -11,7 +11,7 @@ function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTi
 const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 function weekDate(week,day=1){return E.dateISO(Date.parse(DATA.meta.week1+'T00:00:00Z')+((week-1)*7+day-1)*E.DAY)}
 function selectWeek(select){select.innerHTML=Array.from({length:DATA.meta.maxWeek},(_,i)=>`<option value="${i+1}">第 ${i+1} 周 · ${weekDate(i+1).slice(5).replace('-','/')}</option>`).join('');select.value=state.week}
-function setView(view){state.view=view;document.querySelectorAll('.view').forEach(n=>n.classList.toggle('active',n.id===view+'View'));document.querySelectorAll('nav button').forEach(n=>n.classList.toggle('active',n.dataset.view===view));if(window.LotteryPanel)window.LotteryPanel.setActive(view==='lottery');const titles={"office":["报销台账","登录私密云台账，分类整理材料，跟进每笔办理进度。"],"colleges":["学院系号","按系号或名称查询，确认后快速复制。"],"home":["部门工作台","把两部门的日常协作，安排得更从容。"],"lottery":["幸运抽奖","志工部与实践部的幸运时刻，开始滚动，点击停止揭晓。"],"query":["时段查询","查看指定时段的课程、空闲人员和联系方式。"],"week":["一周总览","查看每一节的空闲人数，点击格子查看名单。"],"person":["个人课表","按教学周查看课程、地点和备注。"],"directory":["人员名录","查看职务、课表收集情况和联系方式。"],"duty":["值班表","逐次核验有效期内的安排，再分别安排两部门值班。"],"planner":["共同排期","选好同学，查找能一起参加工作的时间。"],"settings":["数据与校历","查看数据来源，设置停课或补课。"]};$('pageTitle').textContent=titles[view][0];$('pageIntro').textContent=titles[view][1];if(view==='week')renderWeek();if(view==='person')renderPerson();if(view==='settings')renderSettings();if(view==='directory')renderDirectory();if(view==='planner')renderPlanner();if(view==='duty')renderDuty();if(window.WorkspaceApp)window.WorkspaceApp.onView(view)}
+function setView(view){state.view=view;document.querySelectorAll('.view').forEach(n=>n.classList.toggle('active',n.id===view+'View'));document.querySelectorAll('nav button').forEach(n=>n.classList.toggle('active',n.dataset.view===view));if(window.LotteryPanel)window.LotteryPanel.setActive(view==='lottery');const titles={"office":["报销台账","免登录整理报销材料，云端同步办理进度。"],"colleges":["学院系号","按系号或名称查询，确认后快速复制。"],"home":["部门工作台","把两部门的日常协作，安排得更从容。"],"lottery":["幸运抽奖","志工部与实践部的幸运时刻，开始滚动，点击停止揭晓。"],"query":["时段查询","查看指定时段的课程、空闲人员和联系方式。"],"week":["一周总览","查看每一节的空闲人数，点击格子查看名单。"],"person":["个人课表","按教学周查看课程、地点和备注。"],"directory":["人员名录","查看职务、课表收集情况和联系方式。"],"duty":["值班表","逐次核验有效期内的安排，再分别安排两部门值班。"],"planner":["共同排期","选好同学，查找能一起参加工作的时间。"],"settings":["数据与校历","查看数据来源，设置停课或补课。"]};$('pageTitle').textContent=titles[view][0];$('pageIntro').textContent=titles[view][1];if(view==='week')renderWeek();if(view==='person')renderPerson();if(view==='settings')renderSettings();if(view==='directory')renderDirectory();if(view==='planner')renderPlanner();if(view==='duty')renderDuty();if(window.WorkspaceApp)window.WorkspaceApp.onView(view)}
 function eventsForDisplay(events){const known=events.filter(e=>!e.uncertain),display=events.filter(e=>!e.uncertain||!known.some(k=>k.title===e.title&&k.start===e.start&&k.end===e.end));const map=new Map();for(const e of display){const key=e.title+'|'+e.start+'|'+e.end+'|'+e.uncertain;if(!map.has(key))map.set(key,{...e,rooms:new Set()});if(e.room)map.get(key).rooms.add(e.room)}return [...map.values()].map(e=>({...e,room:[...e.rooms].join(' / ')}))}
 function runQueryOriginal(){
  const date=$('date').value,start=$('start').value,end=$('end').value;
@@ -217,7 +217,7 @@ function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceAp
 function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshCounts();}
 (() => {
  'use strict';
- const routes=[['office','报销台账','▤','登录后管理云端报销和发票'],['colleges','学院系号','⌕','47组学院、书院与系号查询'],['home','部门工作台','⌂','今天的协作概览'],['query','时段查询','◷','查空闲、筛选人员'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看一个人的安排'],['directory','人员名录','♧','查部门和联系方式'],['duty','值班表','▦','计算排班、导出Excel'],['lottery','幸运抽奖','✦','64人名单、公平随机抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
+ const routes=[['office','报销台账','▤','免登录整理报销、导出材料'],['colleges','学院系号','⌕','47组学院、书院与系号查询'],['home','部门工作台','⌂','今天的协作概览'],['query','时段查询','◷','查空闲、筛选人员'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看一个人的安排'],['directory','人员名录','♧','查部门和联系方式'],['duty','值班表','▦','计算排班、导出Excel'],['lottery','幸运抽奖','✦','64人名单、公平随机抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
@@ -294,7 +294,7 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
   else if(b.dataset.wsPage){pageNumber=Number(b.dataset.wsPage);refreshQuery();$('wsQueryTools').scrollIntoView({block:'start'});}
   else if(b.dataset.wsHit!==undefined)chooseHit(Number(b.dataset.wsHit));
  });
- $('wsSearchLaunch').onclick=openSearch;$('wsMoreSearch').onclick=openSearch;$('wsMoreButton').onclick=()=>$('wsMoreDialog').showModal();
+ $('wsSearchLaunch').onclick=openSearch;$('wsMoreSearch').onclick=openSearch;$('wsMoreButton').onclick=()=>$('wsMoreDialog').showModal();if($('officeMore'))$('officeMore').onclick=()=>$('wsMoreDialog').showModal();
  $('wsMoreRoutes').innerHTML=routes.map(r=>'<button data-ws-route="'+r[0]+'"><span>'+r[2]+'</span><strong>'+r[1]+'</strong><small>'+r[3]+'</small></button>').join('');
  $('wsGlobalSearch').oninput=()=>{hitIndex=0;renderSearch();};
  $('wsGlobalSearch').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();hitIndex=(hitIndex+(e.key==='ArrowDown'?1:-1)+Math.max(hits.length,1))%Math.max(hits.length,1);renderSearch();$('wsSearchOption'+hitIndex)?.scrollIntoView({block:'nearest'});}if(e.key==='Enter'){e.preventDefault();chooseHit(hitIndex);}};
@@ -334,5 +334,7 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  document.addEventListener('click',async event=>{const b=event.target.closest('button');if(!b)return;if(b.dataset.collegeQuery){$('collegeSearch').value=b.dataset.collegeQuery;renderColleges();}if(b.dataset.copyCollege){try{await navigator.clipboard.writeText(b.dataset.copyCollege);toast('系号 '+b.dataset.copyCollege+' 已复制');}catch{toast('请手动复制系号：'+b.dataset.copyCollege);}}});
  renderColleges();
 })();
+
+window.addEventListener("message",e=>{const f=document.getElementById("localLedger");if(f&&e.source===f.contentWindow&&e.origin==="https://buaa-office-reimbursement-2026.liuhaoyuray.chatgpt.site"&&e.data?.type==="office-ledger-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(650,e.data.height))+"px";});
 
 /* OFFICE_UPGRADE_END */
