@@ -1,3 +1,4 @@
+import { applyOfficeUpgrade } from './office-upgrade.mjs';
 import { applyWorkspaceUpgrade } from './workspace-upgrade.mjs';
 import { applyPlatformUI } from './platform-ui.mjs';
 import fs from 'node:fs/promises';
@@ -25,6 +26,7 @@ export async function integrateLottery(root){
  if(!app.includes(marker)&&!app.includes('window.LotteryPanel={'))app+='\n'+marker+'\n'+ui;
  ({template,app}=await applyPlatformUI(root,template,app));
  ({template,app}=await applyWorkspaceUpgrade(root,template,app));
+ ({template,app}=await applyOfficeUpgrade(root,template,app));
  new vm.Script(app);
  const [data,engine]=await Promise.all(['data.js','engine.js'].map(name=>fs.readFile(path.join(output,name),'utf8')));
  let html=template;
@@ -41,5 +43,6 @@ export async function integrateLottery(root){
  }
  return {people:64,departments:{'志愿者工作部':35,'社会实践部':29}};
 }
+
 
 

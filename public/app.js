@@ -11,7 +11,7 @@ function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTi
 const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 function weekDate(week,day=1){return E.dateISO(Date.parse(DATA.meta.week1+'T00:00:00Z')+((week-1)*7+day-1)*E.DAY)}
 function selectWeek(select){select.innerHTML=Array.from({length:DATA.meta.maxWeek},(_,i)=>`<option value="${i+1}">第 ${i+1} 周 · ${weekDate(i+1).slice(5).replace('-','/')}</option>`).join('');select.value=state.week}
-function setView(view){state.view=view;document.querySelectorAll('.view').forEach(n=>n.classList.toggle('active',n.id===view+'View'));document.querySelectorAll('nav button').forEach(n=>n.classList.toggle('active',n.dataset.view===view));if(window.LotteryPanel)window.LotteryPanel.setActive(view==='lottery');const titles={"home":["部门工作台","把两部门的日常协作，安排得更从容。"],"lottery":["幸运抽奖","志工部与实践部的幸运时刻，开始滚动，点击停止揭晓。"],"query":["时段查询","查看指定时段的课程、空闲人员和联系方式。"],"week":["一周总览","查看每一节的空闲人数，点击格子查看名单。"],"person":["个人课表","按教学周查看课程、地点和备注。"],"directory":["人员名录","查看职务、课表收集情况和联系方式。"],"duty":["值班表","逐次核验有效期内的安排，再分别安排两部门值班。"],"planner":["共同排期","选好同学，查找能一起参加工作的时间。"],"settings":["数据与校历","查看数据来源，设置停课或补课。"]};$('pageTitle').textContent=titles[view][0];$('pageIntro').textContent=titles[view][1];if(view==='week')renderWeek();if(view==='person')renderPerson();if(view==='settings')renderSettings();if(view==='directory')renderDirectory();if(view==='planner')renderPlanner();if(view==='duty')renderDuty();if(window.WorkspaceApp)window.WorkspaceApp.onView(view)}
+function setView(view){state.view=view;document.querySelectorAll('.view').forEach(n=>n.classList.toggle('active',n.id===view+'View'));document.querySelectorAll('nav button').forEach(n=>n.classList.toggle('active',n.dataset.view===view));if(window.LotteryPanel)window.LotteryPanel.setActive(view==='lottery');const titles={"office":["报销台账","登录私密云台账，分类整理材料，跟进每笔办理进度。"],"colleges":["学院系号","按系号或名称查询，确认后快速复制。"],"home":["部门工作台","把两部门的日常协作，安排得更从容。"],"lottery":["幸运抽奖","志工部与实践部的幸运时刻，开始滚动，点击停止揭晓。"],"query":["时段查询","查看指定时段的课程、空闲人员和联系方式。"],"week":["一周总览","查看每一节的空闲人数，点击格子查看名单。"],"person":["个人课表","按教学周查看课程、地点和备注。"],"directory":["人员名录","查看职务、课表收集情况和联系方式。"],"duty":["值班表","逐次核验有效期内的安排，再分别安排两部门值班。"],"planner":["共同排期","选好同学，查找能一起参加工作的时间。"],"settings":["数据与校历","查看数据来源，设置停课或补课。"]};$('pageTitle').textContent=titles[view][0];$('pageIntro').textContent=titles[view][1];if(view==='week')renderWeek();if(view==='person')renderPerson();if(view==='settings')renderSettings();if(view==='directory')renderDirectory();if(view==='planner')renderPlanner();if(view==='duty')renderDuty();if(window.WorkspaceApp)window.WorkspaceApp.onView(view)}
 function eventsForDisplay(events){const known=events.filter(e=>!e.uncertain),display=events.filter(e=>!e.uncertain||!known.some(k=>k.title===e.title&&k.start===e.start&&k.end===e.end));const map=new Map();for(const e of display){const key=e.title+'|'+e.start+'|'+e.end+'|'+e.uncertain;if(!map.has(key))map.set(key,{...e,rooms:new Set()});if(e.room)map.get(key).rooms.add(e.room)}return [...map.values()].map(e=>({...e,room:[...e.rooms].join(' / ')}))}
 function runQueryOriginal(){
  const date=$('date').value,start=$('start').value,end=$('end').value;
@@ -210,13 +210,14 @@ function renderDutyDisplayMarkers(){
 
 
 
+
 /* WORKSPACE_UPGRADE_START */
 function renderResults(){renderResultsOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshQuery();}
 function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshQuery();}
 function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshCounts();}
 (() => {
  'use strict';
- const routes=[['home','部门工作台','⌂','今天的协作概览'],['query','时段查询','◷','查空闲、筛选人员'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看一个人的安排'],['directory','人员名录','♧','查部门和联系方式'],['duty','值班表','▦','计算排班、导出Excel'],['lottery','幸运抽奖','✦','64人名单、公平随机抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
+ const routes=[['office','报销台账','▤','登录后管理云端报销和发票'],['colleges','学院系号','⌕','47组学院、书院与系号查询'],['home','部门工作台','⌂','今天的协作概览'],['query','时段查询','◷','查空闲、筛选人员'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看一个人的安排'],['directory','人员名录','♧','查部门和联系方式'],['duty','值班表','▦','计算排班、导出Excel'],['lottery','幸运抽奖','✦','64人名单、公平随机抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
@@ -231,7 +232,7 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  function onView(view){
   document.body.dataset.workspaceView=view;$('wsBreadcrumb').textContent=labelOf(view);
   document.querySelectorAll('.ws-mobile-nav [data-ws-route]').forEach(b=>{const current=b.dataset.wsRoute===view;b.classList.toggle('active',current);b.setAttribute('aria-current',current?'page':'false');});
-  $('wsMoreButton').classList.toggle('active',!['home','query','planner','lottery'].includes(view));
+  $('wsMoreButton').classList.toggle('active',!['home','office','colleges','query'].includes(view));
   document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.view===view?'page':'false'));
   if(location.hash!=='#'+view)history.replaceState(null,'','#'+view);
   if(view==='home')refreshHome();if(view==='query')refreshQuery();
@@ -239,16 +240,10 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  }
  function refreshCounts(){
   $('wsHomeSelectionCount').textContent=selectedIds.size;
-  const total=active.length,known=active.filter(p=>p.hasTimetable||p.defaultNoClasses).length;
-  $('wsOverview').innerHTML=[['现任同学',total,'志工部 '+active.filter(p=>p.department==='志工部').length+' · 实践部 '+active.filter(p=>p.department==='实践部').length],['可查询课表',known,'含按设置默认无课的同学'],['工作名单',selectedIds.size,'已选择 · 只保存在当前浏览器']].map(([title,count,note],i)=>'<button class="ws-overview-item" '+(i===2?'id="wsOverviewSelection"':'data-ws-route="'+(i===0?'directory':'settings')+'"')+'><span>'+title+'</span><strong>'+count+'<small>人</small></strong><p>'+note+'</p><b aria-hidden="true">↗</b></button>').join('');
-  $('wsOverviewSelection').onclick=()=>$('selectionDialog').showModal();
  }
  function refreshHome(){
   const date=today(),info=E.dayInfo(date,DATA,storeState.rules);
   $('wsGreeting').textContent=date.replaceAll('-','.')+' / '+(info.valid?'第 '+info.week+' 教学周':'学期范围外');
-  $('wsOrbitWeek').textContent=info.valid?'第 '+info.week+' 周 · '+(info.week%2?'单周':'双周'):'2026 · 秋季';
-  document.querySelector('.chip-one b').textContent=active.filter(p=>p.department==='志工部').length;
-  document.querySelector('.chip-two b').textContent=active.filter(p=>p.department==='实践部').length;
   $('wsDataNote').textContent='课程资料更新于 '+(DATA.meta.timetableUpdated||DATA.meta.updated)+'。空闲只代表没有已登记安排；未收课表、实验时间不明确等情况仍保留“待确认”，参加工作请联系本人确认。';
   refreshCounts();renderSaved();refreshAvailability();
  }
@@ -328,4 +323,16 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(routes.some(r=>r[0]===target)&&state.view!==target)route(target);});
 })();
 
+
 /* WORKSPACE_UPGRADE_END */
+/* OFFICE_UPGRADE_START */
+(() => {
+ 'use strict';
+ const colleges=[{"code":1,"name":"材料科学与工程学院"},{"code":2,"name":"电子信息工程学院"},{"code":3,"name":"自动化科学与电气工程学院"},{"code":4,"name":"能源与动力工程学院"},{"code":5,"name":"航空科学与工程学院"},{"code":6,"name":"计算机学院"},{"code":7,"name":"机械工程及自动化学院"},{"code":8,"name":"经济管理学院"},{"code":9,"name":"数学科学学院"},{"code":10,"name":"生物与医学工程学院"},{"code":11,"name":"人文社会科学学院"},{"code":12,"name":"外国语学院"},{"code":13,"name":"交通科学与工程学院"},{"code":14,"name":"可靠性与系统工程学院"},{"code":15,"name":"宇航学院"},{"code":16,"name":"飞行学院"},{"code":17,"name":"仪器科学与光电工程学院"},{"code":18,"name":"北京学院"},{"code":19,"name":"物理学院"},{"code":20,"name":"法学院"},{"code":21,"name":"软件学院"},{"code":23,"name":"沈元学院"},{"code":24,"name":"中法工程师学院"},{"code":26,"name":"新媒体艺术与设计学院"},{"code":27,"name":"化学学院"},{"code":28,"name":"马克思主义学院"},{"code":29,"name":"人文与社会科学高等研究院"},{"code":30,"name":"空间与地球科学学院"},{"code":31,"name":"无人系统研究院"},{"code":32,"name":"航空发动机研究院"},{"code":33,"name":"体育部"},{"code":39,"name":"网络空间安全学院"},{"code":41,"name":"集成电路科学与工程学院"},{"code":42,"name":"人工智能学院"},{"code":43,"name":"前沿科学技术创新研究院"},{"code":45,"name":"医学科学与工程学院"},{"code":60,"name":"中法航空学院"},{"code":61,"name":"中法未来科技学院"},{"code":63,"name":"中西智能学院"},{"code":71,"name":"传源书院"},{"code":73,"name":"士谔书院"},{"code":74,"name":"冯如书院"},{"code":75,"name":"士嘉书院"},{"code":76,"name":"守锷书院"},{"code":77,"name":"致真书院"},{"code":78,"name":"项目制"},{"code":79,"name":"知行书院"}];
+ function renderColleges(){const q=$('collegeSearch').value.trim().replace(/\s/g,'');const numeric=q.match(/^(\d{1,2})(?:系)?$/);const rows=colleges.filter(x=>!q||(numeric?x.code===Number(numeric[1]):x.name.includes(q)));$('collegeCount').textContent=rows.length+' / '+colleges.length+' 组';$('collegeResults').innerHTML=rows.map(x=>'<article class="college-item"><span class="college-code">'+x.code+'<small>系</small></span><strong>'+escapeHTML(x.name)+'</strong><button data-copy-college="'+x.code+'">复制系号</button></article>').join('')||'<div class="ws-empty">模板中未找到这一单位，请确认名称或补充系号。</div>';}
+ $('collegeSearch').oninput=renderColleges;$('collegeClear').onclick=()=>{$('collegeSearch').value='';renderColleges();$('collegeSearch').focus();};
+ document.addEventListener('click',async event=>{const b=event.target.closest('button');if(!b)return;if(b.dataset.collegeQuery){$('collegeSearch').value=b.dataset.collegeQuery;renderColleges();}if(b.dataset.copyCollege){try{await navigator.clipboard.writeText(b.dataset.copyCollege);toast('系号 '+b.dataset.copyCollege+' 已复制');}catch{toast('请手动复制系号：'+b.dataset.copyCollege);}}});
+ renderColleges();
+})();
+
+/* OFFICE_UPGRADE_END */

@@ -3,7 +3,7 @@ function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceAp
 function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshCounts();}
 (() => {
  'use strict';
- const routes=[['home','部门工作台','⌂','今天的协作概览'],['query','时段查询','◷','查空闲、筛选人员'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看一个人的安排'],['directory','人员名录','♧','查部门和联系方式'],['duty','值班表','▦','计算排班、导出Excel'],['lottery','幸运抽奖','✦','64人名单、公平随机抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
+ const routes=[['office','报销台账','▤','登录后管理云端报销和发票'],['colleges','学院系号','⌕','47组学院、书院与系号查询'],['home','部门工作台','⌂','今天的协作概览'],['query','时段查询','◷','查空闲、筛选人员'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看一个人的安排'],['directory','人员名录','♧','查部门和联系方式'],['duty','值班表','▦','计算排班、导出Excel'],['lottery','幸运抽奖','✦','64人名单、公平随机抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
@@ -18,7 +18,7 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  function onView(view){
   document.body.dataset.workspaceView=view;$('wsBreadcrumb').textContent=labelOf(view);
   document.querySelectorAll('.ws-mobile-nav [data-ws-route]').forEach(b=>{const current=b.dataset.wsRoute===view;b.classList.toggle('active',current);b.setAttribute('aria-current',current?'page':'false');});
-  $('wsMoreButton').classList.toggle('active',!['home','query','planner','lottery'].includes(view));
+  $('wsMoreButton').classList.toggle('active',!['home','office','colleges','query'].includes(view));
   document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.view===view?'page':'false'));
   if(location.hash!=='#'+view)history.replaceState(null,'','#'+view);
   if(view==='home')refreshHome();if(view==='query')refreshQuery();
@@ -26,16 +26,10 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  }
  function refreshCounts(){
   $('wsHomeSelectionCount').textContent=selectedIds.size;
-  const total=active.length,known=active.filter(p=>p.hasTimetable||p.defaultNoClasses).length;
-  $('wsOverview').innerHTML=[['现任同学',total,'志工部 '+active.filter(p=>p.department==='志工部').length+' · 实践部 '+active.filter(p=>p.department==='实践部').length],['可查询课表',known,'含按设置默认无课的同学'],['工作名单',selectedIds.size,'已选择 · 只保存在当前浏览器']].map(([title,count,note],i)=>'<button class="ws-overview-item" '+(i===2?'id="wsOverviewSelection"':'data-ws-route="'+(i===0?'directory':'settings')+'"')+'><span>'+title+'</span><strong>'+count+'<small>人</small></strong><p>'+note+'</p><b aria-hidden="true">↗</b></button>').join('');
-  $('wsOverviewSelection').onclick=()=>$('selectionDialog').showModal();
  }
  function refreshHome(){
   const date=today(),info=E.dayInfo(date,DATA,storeState.rules);
   $('wsGreeting').textContent=date.replaceAll('-','.')+' / '+(info.valid?'第 '+info.week+' 教学周':'学期范围外');
-  $('wsOrbitWeek').textContent=info.valid?'第 '+info.week+' 周 · '+(info.week%2?'单周':'双周'):'2026 · 秋季';
-  document.querySelector('.chip-one b').textContent=active.filter(p=>p.department==='志工部').length;
-  document.querySelector('.chip-two b').textContent=active.filter(p=>p.department==='实践部').length;
   $('wsDataNote').textContent='课程资料更新于 '+(DATA.meta.timetableUpdated||DATA.meta.updated)+'。空闲只代表没有已登记安排；未收课表、实验时间不明确等情况仍保留“待确认”，参加工作请联系本人确认。';
   refreshCounts();renderSaved();refreshAvailability();
  }
@@ -114,3 +108,4 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  route(initial);
  window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(routes.some(r=>r[0]===target)&&state.view!==target)route(target);});
 })();
+
