@@ -28,6 +28,8 @@ jobs:
           ref: main
       - name: 同步现有平台
         run: node scripts/sync-site.mjs
+      - name: 检查时长导入与同步接入
+        run: node --test tests/*.test.mjs
       - name: 保存变化
         shell: bash
         run: |
