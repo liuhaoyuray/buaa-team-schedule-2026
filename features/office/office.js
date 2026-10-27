@@ -7,4 +7,4 @@
  renderColleges();
 })();
 
-window.addEventListener("message",e=>{const f=document.getElementById("localLedger");if(f&&e.source===f.contentWindow&&e.origin==="https://buaa-office-reimbursement-2026.liuhaoyuray.chatgpt.site"&&e.data?.type==="office-ledger-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(650,e.data.height))+"px";});
+window.addEventListener("message",e=>{const f=document.getElementById("localLedger");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="office-ledger-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(650,e.data.height))+"px";});

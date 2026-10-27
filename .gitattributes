@@ -1,0 +1,4 @@
+features/reimbursement/vendor/** -text
+public/reimbursement/vendor/** -text
+features/reimbursement/templates/** -text
+public/reimbursement/templates/** -text

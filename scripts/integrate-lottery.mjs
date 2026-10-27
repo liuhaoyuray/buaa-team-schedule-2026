@@ -1,5 +1,6 @@
 import { applyOfficeUpgrade } from './office-upgrade.mjs';
 import { applyHoursUpgrade } from './hours-upgrade.mjs';
+import { applyReimbursementUpgrade } from './reimbursement-upgrade.mjs';
 import { applyWorkspaceUpgrade } from './workspace-upgrade.mjs';
 import { applyPlatformUI } from './platform-ui.mjs';
 import fs from 'node:fs/promises';
@@ -29,6 +30,7 @@ export async function integrateLottery(root){
  ({template,app}=await applyWorkspaceUpgrade(root,template,app));
  ({template,app}=await applyOfficeUpgrade(root,template,app));
  ({template,app}=await applyHoursUpgrade(root,template,app));
+ ({template,app}=await applyReimbursementUpgrade(root,template,app));
  new vm.Script(app);
  const [data,engine]=await Promise.all(['data.js','engine.js'].map(name=>fs.readFile(path.join(output,name),'utf8')));
  let html=template;
