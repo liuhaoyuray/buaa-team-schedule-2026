@@ -2,6 +2,8 @@ import {categories,requirements,attachmentLabels,parseMoney,money,mealPeople,val
 import {readInvoice,closeOcr} from './invoices.mjs';
 import {materialPackage} from './materials.mjs';
 const $=id=>document.getElementById(id),escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function syncAppearance(){try{document.body.classList.toggle('clear-mode',localStorage.getItem('buaa-schedule-2026-clear')==='true');}catch{}}
+syncAppearance();window.addEventListener('storage',event=>{if(event.key==='buaa-schedule-2026-clear')syncAppearance();});
 let invoices=[],attachments={},busy=false,revision=0;
 const profileKeys=['payee','payeeId','department','fund','contact','principal','principalId','acceptor'];
 try{const saved=JSON.parse(localStorage.getItem('buaa-reimbursement-profile-v2')||'{}');for(const k of profileKeys)if(typeof saved[k]==='string')$(k).value=saved[k];if(!saved.department&&!saved.fund){const old=JSON.parse(localStorage.getItem('buaa-reimbursement-profile-v1')||'{}');for(const k of ['department','fund'])if(typeof old[k]==='string')$(k).value=old[k];}}catch{}
