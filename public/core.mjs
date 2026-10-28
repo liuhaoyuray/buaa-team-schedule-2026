@@ -79,7 +79,7 @@ export function plan(people, templates, used = new Set(), choices = {}, edits = 
       }
       if (hits.size === 1) match = [...hits][0];
       else reason = hits.size > 1 ? '重名身份信息冲突，请手动确认' : '重名，须确认志愿者编号';
-    } else reason = '所有模板均未找到同名人员';
+    } else reason = '各岗位模板中均未找到同名人员';
     return { person, candidates, match, reason, allocations: [], prepared: 0, pending: person.hours ?? 0 };
   });
   const matchedIds = new Map();
