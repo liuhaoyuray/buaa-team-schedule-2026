@@ -3,7 +3,7 @@ function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceAp
 function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshCounts();}
 (() => {
  'use strict';
- const routes=[['office','报销台账','▤','免登录整理报销、导出材料'],['colleges','学院系号','⌕','47组学院、书院与系号查询'],['home','部门工作台','⌂','今天的协作概览'],['query','时段查询','◷','查空闲、筛选人员'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看一个人的安排'],['directory','人员名录','♧','查部门和联系方式'],['duty','值班表','▦','计算排班、导出Excel'],['lottery','幸运抽奖','✦','64人名单、公平随机抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
+ const routes=[['home','部门工作台','⌂','常用功能与协作概览'],['office','报销材料','▤','根据发票生成报销材料'],['hours','志愿时长','◷','匹配人员名单并生成导入文件'],['query','时段查询','◷','按时间查询空闲人员'],['colleges','学院系号','⌕','按名称或系号查询学院'],['duty','值班表','▦','计算排班并导出值班表'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看个人课程安排'],['directory','人员名录','♧','查看人员与联系方式'],['lottery','幸运抽奖','✦','选择名单并抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
@@ -18,7 +18,7 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  function onView(view){
   document.body.dataset.workspaceView=view;$('wsBreadcrumb').textContent=labelOf(view);
   document.querySelectorAll('.ws-mobile-nav [data-ws-route]').forEach(b=>{const current=b.dataset.wsRoute===view;b.classList.toggle('active',current);b.setAttribute('aria-current',current?'page':'false');});
-  $('wsMoreButton').classList.toggle('active',!['home','office','colleges','query'].includes(view));
+  $('wsMoreButton').classList.toggle('active',!['home','office','hours','query'].includes(view));
   document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.view===view?'page':'false'));
   if(location.hash!=='#'+view)history.replaceState(null,'','#'+view);
   if(view==='home')refreshHome();if(view==='query')refreshQuery();
