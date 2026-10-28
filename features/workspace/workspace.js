@@ -30,14 +30,14 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  function refreshHome(){
   const date=today(),info=E.dayInfo(date,DATA,storeState.rules);
   $('wsGreeting').textContent=date.replaceAll('-','.')+' / '+(info.valid?'第 '+info.week+' 教学周':'学期范围外');
-  $('wsDataNote').textContent='课程资料更新于 '+(DATA.meta.timetableUpdated||DATA.meta.updated)+'。空闲只代表没有已登记安排；未收课表、实验时间不明确等情况仍保留“待确认”，参加工作请联系本人确认。';
+  $('wsDataNote').textContent='课程资料更新于 '+(DATA.meta.timetableUpdated||DATA.meta.updated)+'。未注明周次的课程按每周计算；实验等时间不固定的安排按已知时段占用。未提供课表或时间范围的信息不视为空闲。';
   refreshCounts();renderSaved();refreshAvailability();
  }
  function refreshAvailability(){
   const date=$('wsQuickDate').value,[start,end]=$('wsQuickTime').value.split(',');
   if(!date){$('wsAvailabilityResult').innerHTML='<p class="ws-empty">先选一个日期。</p>';return;}
   const rows=E.query(DATA,date,start,end,{},storeState.rules),free=rows.filter(r=>r.status==='free'),unknown=rows.filter(r=>r.status==='unknown');
-  $('wsAvailabilityResult').innerHTML='<div class="ws-availability-total"><strong>'+free.length+'<small>人空闲</small></strong><span>'+unknown.length+' 人待确认</span></div><div class="ws-dept-bars">'+['志工部','实践部'].map(dept=>{const total=rows.filter(r=>r.person.department===dept).length,n=free.filter(r=>r.person.department===dept).length;return '<div><p><span>'+dept+'</span><strong>'+n+' / '+total+'</strong></p><div class="ws-bar"><i style="width:'+Math.round(n/Math.max(total,1)*100)+'%"></i></div></div>';}).join('')+'</div>';
+  $('wsAvailabilityResult').innerHTML='<div class="ws-availability-total"><strong>'+free.length+'<small>人空闲</small></strong><span>'+unknown.length+' 人安排信息不完整</span></div><div class="ws-dept-bars">'+['志工部','实践部'].map(dept=>{const total=rows.filter(r=>r.person.department===dept).length,n=free.filter(r=>r.person.department===dept).length;return '<div><p><span>'+dept+'</span><strong>'+n+' / '+total+'</strong></p><div class="ws-bar"><i style="width:'+Math.round(n/Math.max(total,1)*100)+'%"></i></div></div>';}).join('')+'</div>';
  }
  const queryData=()=>({fields:Object.fromEntries(fields.map(id=>[id,$(id).value])),status:state.status});
  function renderSaved(){

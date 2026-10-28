@@ -32,14 +32,24 @@ export async function integrateLottery(root){
  ({template,app}=await applyHoursUpgrade(root,template,app));
  ({template,app}=await applyReimbursementUpgrade(root,template,app));
  new vm.Script(app);
- const [data,engine]=await Promise.all(['data.js','engine.js'].map(name=>fs.readFile(path.join(output,name),'utf8')));
+ const [data,rawEngine]=await Promise.all(['data.js','engine.js'].map(name=>fs.readFile(path.join(output,name),'utf8')));
+ // Uncertain timing with an explicit bounded interval is reserved; an unknown end remains uncertain.
+ const oldClassify="const known=active.filter(e=>!e.uncertain),unknown=active.filter(e=>e.uncertain),reasons=[];";
+ const newClassify="const known=active.filter(e=>!e.uncertain||(!e.endUnknown&&e.start&&e.end)),unknown=active.filter(e=>e.uncertain&&(e.endUnknown||!e.start||!e.end)),reasons=[];";
+ let engine=rawEngine.replace(oldClassify,newClassify);
+ if(!engine.includes(newClassify))throw Error('Schedule engine changed; review occupancy policy');
+ engine=engine.replace("return {status,events:active,reasons:[...new Set(reasons)]};","return {status,events:active.map(e=>e.uncertain&&!e.endUnknown&&e.start&&e.end?{...e,uncertain:false}:e),reasons:[...new Set(reasons)]};");
+ app=app.replace("unknown:'待确认'","unknown:'信息不完整'").replaceAll('周次／时间需确认','按已知时段占用').replaceAll('待确认：','信息不完整：').replace("r.status==='free'?'空闲':'需确认'","r.status==='free'?'空闲':'信息不完整'");
+
  let html=template;
  for(const [tag,code] of [['DATA',data],['ENGINE',engine],['APP',app]]){
   const placeholder='/*__'+tag+'__*/';
   if(!html.includes(placeholder))throw Error('Missing platform script placeholder: '+tag);
   html=html.replace(placeholder,()=>code.replaceAll('</script','<\\/script'));
  }
- const generated={'index.template.html':template,'app.js':app,'index.html':html};
+ const generated={'index.template.html':template,'app.js':app,'index.html':html,'engine.js':engine};
+ for(const name of ['signature.html','signature.js'])generated[name]=await fs.readFile(path.join(root,'features/office',name),'utf8');
+ generated['signature-colleges.json']=await fs.readFile(path.join(root,'features/office/colleges.json'),'utf8');
  for(const name of ['lottery.html','lottery-embed.css','lottery-embed.js','lottery-session.js'])generated[name]=await fs.readFile(path.join(feature,name),'utf8');
  for(const [name,content] of Object.entries(generated)){
   const filename=path.join(output,name);

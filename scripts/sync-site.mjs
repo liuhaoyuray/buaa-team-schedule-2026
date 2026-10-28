@@ -35,7 +35,16 @@ for(let attempt=0;attempt<5;attempt++){
   const template=source.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,whole=>{const i=appScripts.findIndex(s=>s[0]===whole);return i<0?'':'<script>/*__'+tags[i]+'__*/</script>'});
   assets={'index.template.html':template,'app.js':appScripts[2][1],'engine.js':appScripts[1][1],'data.json':JSON.stringify(data)};
   new vm.Script(assets['app.js']);new vm.Script(assets['engine.js']);break;
- }catch(error){if(local||attempt===4)throw error;console.log('源平台正在更新，稍后重试。');await new Promise(r=>setTimeout(r,10000));}
+ }catch(error){
+  if(local)throw error;
+  if(attempt===4){
+   const cached=await fs.stat(path.join(root,'public/data.js')).catch(()=>null);
+   if(!cached||!await fs.stat(path.join(root,'public/index.template.html')).catch(()=>null))throw error;
+   console.warn('源平台暂不可读取，使用仓库中上次成功同步的课表发布；稍后会自动重试。原因：'+error.message);
+   await integrateLottery(root);process.exit(0);
+  }
+  console.log('源平台正在更新，稍后重试。');await new Promise(r=>setTimeout(r,10000));
+ }
 }
 const sourceHash=crypto.createHash('sha256').update(JSON.stringify(assets)).digest('hex');
 const statePath=path.join(root,'.sync/source.json');
