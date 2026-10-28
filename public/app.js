@@ -80,7 +80,7 @@ $('directoryDept').onchange=renderDirectory;$('directoryStatus').onchange=render
 $('exportPeople').onclick=()=>{const esc=v=>'"'+String(v||'').replaceAll('"','""')+'"';const rows=[['姓名','部门','学号','学院（书院）','职务','电话或联系备注','校区','课表收集','任职备注'],...directoryPeople().map(p=>[p.name,p.department,p.studentId,p.college,p.role,getContact(p),p.campus,p.defaultNoClasses?'默认无课':p.hasTimetable?'已收集':'未收集',p.rosterNotes||''])];download('人员名录.csv','\uFEFF'+rows.map(r=>r.map(esc).join(',')).join('\r\n'),'text/csv;charset=utf-8')};
 
 $('sidebarCount').textContent=DATA.meta.activePeopleCount+' 位现任同学'+(DATA.meta.unmatchedTimetables.length?' · '+DATA.meta.unmatchedTimetables.length+' 份课表待核对':'');
-$('pageFooter').textContent='课程资料 '+(DATA.meta.timetableUpdated||DATA.meta.updated).replaceAll('-','.')+' · 人员调整 '+DATA.meta.updated.replaceAll('-','.')+' · 志工部 '+DATA.meta.volunteerCount+' 人 / 实践部 '+DATA.meta.practiceCount+' 人 · 待补课表者不计为空闲 · 不包含未登记的临时调课与考试安排';
+$('pageFooter').hidden=true;
 
 // Selected people and display preferences are local to this browser.
 function persistSelectionOriginal(){try{localStorage.setItem('buaa-schedule-2026-selection',JSON.stringify([...selectedIds]))}catch{toast('当前浏览器无法保存工作名单')}renderSelection();document.querySelectorAll('[data-pick]').forEach(b=>{const active=selectedIds.has(b.dataset.pick);b.setAttribute('aria-pressed',String(active));b.textContent=active?'已加入工作名单':'加入工作名单'})}
@@ -127,7 +127,7 @@ function dutyPeopleMap(){return new Map(DATA.people.map(p=>[p.id,p]))}
 function dutyRangeText(){return dutyPlan.start+' 至 '+dutyPlan.end}
 function dutyStatusText(p){return p.formal?'按已登记安排核验通过':(p.complete?'草案条件满足，资料仍待核对':'值班草案，尚有缺口')}
 function renderDuty(){
- const info=DATA.meta.pendingTimetableRefresh;$('dutyDataStatus').textContent=info?'新课表尚未读取：当前课程资料仍为 '+(DATA.meta.timetableUpdated||'2026-10-14')+'。本次人员调整已生效；以下只能生成基于现有资料的草案。':'当前资料更新于 '+(DATA.meta.timetableUpdated||DATA.meta.updated)+'。请核对课程和校区后使用排班结果。';renderDutyRoster();if(!dutyPlan)computeDuty(false);
+ const info=DATA.meta.pendingTimetableRefresh;$('dutyDataStatus').textContent=info?'新课表尚未读取：当前课程资料仍为 '+(DATA.meta.timetableUpdated||'2026-10-14')+'。本次人员调整已生效；以下只能生成基于现有资料的草案。':'当前资料更新于 '+(DATA.meta.timetableUpdated||DATA.meta.updated)+'。请核对课程和校区后使用排班结果。';renderDutyRoster();
  const recommended=DATA.people.filter(p=>p.timetableVerification==='recommended_unconfirmed');if(recommended.length)$('dutyDataStatus').textContent+=' '+recommended.map(p=>p.name).join('、')+'上传的是推荐课表，个人实际选课尚未确认，暂不能据此认定可值班。';
 }
 function computeDuty(variant=false){
@@ -217,7 +217,7 @@ function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceAp
 function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshCounts();}
 (() => {
  'use strict';
- const routes=[['home','部门工作台','⌂','常用功能与协作概览'],['office','报销材料','▤','根据发票生成报销材料'],['hours','志愿时长','◷','匹配人员名单并生成导入文件'],['query','时段查询','◷','按时间查询空闲人员'],['colleges','学院系号','⌕','按名称或系号查询学院'],['duty','值班表','▦','计算排班并导出值班表'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看个人课程安排'],['directory','人员名录','♧','查看人员与联系方式'],['lottery','幸运抽奖','✦','选择名单并抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
+ const routes=[['home','部门工作台','⌂','常用功能与协作概览'],['office','报销材料','▤','根据发票生成报销材料'],['hours','志愿时长','◷','匹配人员名单并生成导入文件'],['query','时段查询','◷','按时间查询空闲人员'],['colleges','学院系号','⌕','按名称或系号查询学院'],['duty','值班表','▦','查看已确定的每周值班安排'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看个人课程安排'],['directory','人员名录','♧','查看人员与联系方式'],['lottery','幸运抽奖','✦','选择名单并抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
@@ -244,7 +244,6 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  function refreshHome(){
   const date=today(),info=E.dayInfo(date,DATA,storeState.rules);
   $('wsGreeting').textContent=date.replaceAll('-','.')+' / '+(info.valid?'第 '+info.week+' 教学周':'学期范围外');
-  $('wsDataNote').textContent='课程资料更新于 '+(DATA.meta.timetableUpdated||DATA.meta.updated)+'。未注明周次的课程按每周计算；实验等时间不固定的安排按已知时段占用。未提供课表或时间范围的信息不视为空闲。';
   refreshCounts();renderSaved();refreshAvailability();
  }
  function refreshAvailability(){
@@ -323,7 +322,6 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(routes.some(r=>r[0]===target)&&state.view!==target)route(target);});
 })();
 
-
 /* WORKSPACE_UPGRADE_END */
 /* OFFICE_UPGRADE_START */
 (() => {
@@ -341,3 +339,76 @@ window.addEventListener("message",e=>{const f=document.getElementById("localLedg
 /* HOURS_FRAME_START */
 window.addEventListener("message",e=>{const f=document.getElementById("hoursFrame");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="hours-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(650,e.data.height))+"px";});
 /* HOURS_FRAME_END */
+/* CONFIRMED_DUTY_START */
+(()=>{'use strict';const official={
+  "source": "26秋值班表.xlsx",
+  "titles": {
+    "志工部": "2026-2027学年春季学期 共青团北京航空航天大学委员会 志愿者工作部 学生干部值班表",
+    "实践部": "2026-2027学年春季学期 共青团北京航空航天大学委员会 社会实践部 学生干部值班表"
+  },
+  "sheets": {
+    "志工部": [
+      [
+        "张天睿\n寇德江（线上）",
+        "杨  宸\n胡涵婷\n梁  惠（线上）",
+        "李泓澄\n万释鸿",
+        "于佳宁\n邵飞涵（线上）",
+        "于欣彤\n韩雨宸\n朱  岩（线上）"
+      ],
+      [
+        "张予凡\n贾紫茹",
+        "张睿滢\n陈奕霖（线上）",
+        "何  熠\n向瑞博\n赵蕾（线上）",
+        "张天睿\n张景涵",
+        "孙楷睿\n张予凡\n梁  惠（线上）"
+      ],
+      [
+        "刘沐然\n赵  蕾（线上）",
+        "陈韵竹\n郑舒文（线上）",
+        "赵依然\n邵飞涵（线上）\n朱  岩（线上）",
+        "邵文然\n杨宸铖（线上）",
+        "余思蕊\n方梓诺\n寇德江（线上）"
+      ],
+      [
+        "王东源\n贾若羽\n杨宸铖（线上）",
+        "刘沐然\n方梓诺\n赵涵宽（线上）",
+        "于佳宁\n李  敏\n郑舒文（线上）",
+        "孙楷睿\n贾紫茹\n陈奕霖（线上）",
+        "姬  米\n赵涵宽（线上）"
+      ]
+    ],
+    "实践部": [
+      [
+        "樊祎菲\n邱  硕\n史英超（线上）",
+        "钟  翔\n胡成明（线上）",
+        "孙鹤嘉\n杨昊霖\n唐佳宇（线上）",
+        "刘  佳\n李  璨\n祝楷焜（线上）",
+        "周婧一\n邹霖柯（线上）"
+      ],
+      [
+        "张依柔\n刘允成（线上）",
+        "邹  简\n李柏如\n罗灿林（线上）",
+        "周婧一\n邹霖柯（线上）",
+        "张依柔\n徐嘉璐\n罗灿林（线上）",
+        "张宸瑶\n刘允成（线上）"
+      ],
+      [
+        "王  显\n孙鹤嘉\n胡成明（线上）",
+        "苏德那\n王  显\n李  姮（线上）",
+        "苏德那\n徐嘉璐",
+        "纪刘炀\n杨昊霖\n李  姮（线上）",
+        "邱  硕\n陈家宝"
+      ],
+      [
+        "刘  佳\n邓博文（线上）",
+        "纪刘炀\n唐佳宇（线上）",
+        "钟  翔\n边琳杰\n史英超（线上）",
+        "李柏如\n邓博文（线上）",
+        "邹  简\n李  楠\n祝楷焜（线上）"
+      ]
+    ]
+  }
+}
+;let current='志工部';const days=['星期一','星期二','星期三','星期四','星期五'],times=['1–2节\n08:00–09:35','3–5节\n09:50–12:15','6–7节\n14:00–15:35','8–10节\n15:50–18:15'];function render(){document.querySelectorAll('[data-confirmed-dept]').forEach(b=>{const on=b.dataset.confirmedDept===current;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});$('confirmedDutyTable').innerHTML='<table><thead><tr><th>时间</th>'+days.map(d=>'<th>'+d+'</th>').join('')+'</tr></thead><tbody>'+official.sheets[current].map((row,i)=>'<tr><td>'+times[i]+'</td>'+row.map(x=>'<td>'+escapeHTML(x||'—')+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}document.querySelectorAll('[data-confirmed-dept]').forEach(b=>b.onclick=()=>{current=b.dataset.confirmedDept;render()});$('confirmedDutyExport').onclick=()=>{const q=x=>'"'+String(x??'').replaceAll('"','""')+'"';const rows=[];for(const dept of ['志工部','实践部']){rows.push([dept,'星期一','星期二','星期三','星期四','星期五']);official.sheets[dept].forEach((row,i)=>rows.push([times[i].replace('\n',' '),...row]));rows.push([])}download('已确定值班表.csv','\uFEFF'+rows.map(row=>row.map(q).join(',')).join('\r\n'),'text/csv;charset=utf-8')};render()})();
+
+/* CONFIRMED_DUTY_END */
