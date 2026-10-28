@@ -128,7 +128,7 @@ export async function exportTemplate(template, file, ExcelJS) {
 }
 export async function reportWorkbook(result, ExcelJS) {
   const wb = new ExcelJS.Workbook();
-  const headers = ['姓名','学号','身份证号','联系方式','拟录入时长（小时）','本次已分配时长','剩余待录入时长','未录入原因 / 匹配情况','模板志愿者编号','候选模板及编号','分配日期与时长','原始清单志愿者编号','资料来源','其他原始信息','备注'];
+  const headers = ['姓名','学号','身份证号','联系方式','名单中的总时长（小时）','本次已填入文件（小时）','尚未填入文件（小时）','未录入原因 / 匹配情况','模板志愿者编号','候选模板及编号','分配日期与时长','原始清单志愿者编号','资料来源','其他原始信息','备注'];
   function sheet(name, entries) {
     const ws = wb.addWorksheet(name); ws.addRow(headers);
     for (const e of entries) {
@@ -145,7 +145,7 @@ export async function reportWorkbook(result, ExcelJS) {
   sheet('未匹配及待处理',result.entries.filter(e => e.reason || e.pending > 0));
   sheet('全部人员核对',result.entries);
   const summary = wb.addWorksheet('时长与导入顺序');
-  summary.addRows([['项目','人数 / 文件数','时长（小时）'],['去重后人员',result.entries.length,result.total],['本次生成',result.entries.filter(e => e.prepared > 0).length,result.prepared],['待处理',result.entries.filter(e => e.reason || e.pending > 0).length,result.pending],['时长差额','',result.total-result.prepared-result.pending],['时长无法识别的人数',result.invalid,'须人工补正后核对'],[],['顺序','模板','日期','人数','时长','文件名']]);
+  summary.addRows([['项目','人数 / 文件数','时长（小时）'],['相同记录只计一次后的人数',result.entries.length,result.total],['本次已填入文件',result.entries.filter(e => e.prepared > 0).length,result.prepared],['尚未填入文件',result.entries.filter(e => e.reason || e.pending > 0).length,result.pending],['时长差额','',result.total-result.prepared-result.pending],['时长无法识别的人数',result.invalid,'须人工补正后核对'],[],['顺序','模板','日期','人数','时长','文件名']]);
   result.files.forEach((f,i) => summary.addRow([i+1,f.label,f.date,f.records.length,f.hours,f.name]));
   summary.columns=[{width:30},{width:22},{width:30},{width:16},{width:22},{width:95}];
   return wb.xlsx.writeBuffer();

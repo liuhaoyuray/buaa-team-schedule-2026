@@ -7,50 +7,50 @@ syncAppearance();window.addEventListener('storage',event=>{if(event.key==='buaa-
 
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fields = {name:'姓名',hours:'拟录入时长',student:'学号',card:'身份证号',phone:'联系方式',volunteerId:'志愿者编号（可选）'};
+const fields = {name:'姓名（必选）',hours:'总时长（必选）',student:'学号（选填）',card:'身份证号（选填）',phone:'联系方式（选填）',volunteerId:'志愿者编号（选填）'};
 let templates=[],lists=[],historyFiles=[],used=new Set(),people=[],result=null,choices={},edits={},busy=false,dirty=false,historyError=false;
 function status(message,error=false){$('status').textContent=message;$('status').classList.toggle('error',error);}
 function clearResult(){result=null;$('results').hidden=true;}
 function ready(){ $('analyze').disabled=busy || !templates.length || !lists.length || historyError; $('download').disabled=busy || !result || dirty; }
 async function action(fn){if(busy)return;busy=true;document.querySelectorAll('input,select,textarea,button').forEach(n=>n.disabled=true);try{await fn();}catch(error){status(error.message||String(error),true);}finally{busy=false;document.querySelectorAll('input,select,textarea,button').forEach(n=>n.disabled=false);if(templates.length)renderOrder();ready();}}
 async function readFile(file){if(!/\.xlsx$/i.test(file.name))throw Error('仅支持.xlsx：'+file.name);if(file.size>25*1024*1024)throw Error(file.name+'超过25MB，请拆分文件。');const buffer=await file.arrayBuffer();return {buffer,workbook:await loadWorkbook(buffer,window.ExcelJS)};}
-function invalidate(){clearResult();status('资料或规则已变化，请重新匹配。');}
+function invalidate(){clearResult();status('上传的文件或日期设置已更改，请重新匹配人员。');}
 function renderOrder(){
- $('templateOrder').innerHTML=templates.map((t,i)=>`<div class="template-item" data-template="${t.uid}"><div><strong>${i+1}. ${esc(t.filename)}</strong><p class="hint">模板内 ${t.rows.length} 人 · 组别编号 <input aria-label="模板编号" data-label="${t.uid}" value="${esc(t.label)}" maxlength="30"></p></div><button data-move="${t.uid}" data-delta="-1" ${i===0?'disabled':''} aria-label="上移模板">↑</button><button data-move="${t.uid}" data-delta="1" ${i===templates.length-1?'disabled':''} aria-label="下移模板">↓</button><details class="date-override" ${t.override.trim()?'open':''}><summary>单独设置该模板的日期（选填）</summary><label>按导入顺序填写日期，用逗号或换行分隔<textarea data-dates="${t.uid}" placeholder="格式：YYYY-MM-DD，每行填写一个日期">${esc(t.override)}</textarea></label></details></div>`).join('');
+ $('templateOrder').innerHTML=templates.map((t,i)=>`<div class="template-item" data-template="${t.uid}"><div><strong>第 ${i+1} 组：${esc(t.filename)}</strong><p class="hint">模板中的人员：${t.rows.length} 人</p><label class="group-label">下载文件中显示的组别名称 <input aria-label="下载文件中显示的组别名称" data-label="${t.uid}" value="${esc(t.label)}" maxlength="30"><small>只用于命名文件，不改变模板中的人员。</small></label></div><button data-move="${t.uid}" data-delta="-1" ${i===0?'disabled':''} aria-label="将此组向前移动">↑ 上移</button><button data-move="${t.uid}" data-delta="1" ${i===templates.length-1?'disabled':''} aria-label="将此组向后移动">↓ 下移</button><details class="date-override" ${t.override.trim()?'open':''}><summary>只为这一组另选日期（选填）</summary><p class="hint">填写后，这一组会使用这里的日期和先后顺序，代替上方的日期范围和选择。</p><label>从第一天要填的日期开始，每行填写一个日期<textarea data-dates="${t.uid}" placeholder="例如：2026-10-23&#10;2026-10-22&#10;2026-10-21">${esc(t.override)}</textarea></label></details></div>`).join('');
 }
 function mappingOptions(list,field){
  const sheet=list.workbook.getWorksheet(list.sheetName),row=sheet.getRow(list.headerRow),columns=Math.max(sheet.columnCount,1);
- return '<option value="">未提供</option>'+Array.from({length:columns},(_,i)=>`<option value="${i+1}" ${Number(list.fields[field])===i+1?'selected':''}>${i+1}列 · ${esc(text(scalar(row.getCell(i+1).value)).slice(0,50)||'无表头')}</option>`).join('');
+ return '<option value="">不使用这一项</option>'+Array.from({length:columns},(_,i)=>`<option value="${i+1}" ${Number(list.fields[field])===i+1?'selected':''}>第 ${i+1} 列 · ${esc(text(scalar(row.getCell(i+1).value)).slice(0,50)||'列名为空')}</option>`).join('');
 }
 function renderMappings(){
  $('mappings').innerHTML=lists.map((list,i)=>{
   const sheet=list.workbook.getWorksheet(list.sheetName), sample=[];
   for(let n=list.headerRow+1;n<=Math.min(list.headerRow+3,sheet.rowCount);n++)sample.push([list.fields.name?text(scalar(sheet.getCell(n,Number(list.fields.name)).value)):'未选择姓名',list.fields.hours?text(scalar(sheet.getCell(n,Number(list.fields.hours)).value)):'未选择时长'].join(' / '));
-  return `<div class="mapping" data-list="${i}"><h3>${esc(list.filename)}</h3><p class="hint">请确认工作表、表头和各字段对应的列。</p><div class="fields"><label>工作表<select data-sheet="${i}">${list.workbook.worksheets.map(s=>`<option ${s.name===list.sheetName?'selected':''}>${esc(s.name)}</option>`).join('')}</select></label><label>表头行号<input type="number" data-header="${i}" min="1" max="${sheet.rowCount}" value="${list.headerRow}"></label></div><div class="fields">${Object.entries(fields).map(([field,label])=>`<label>${label}<select data-field="${field}" data-list-index="${i}">${mappingOptions(list,field)}</select></label>`).join('')}</div><p class="hint">前 3 条姓名和时长：${esc(sample.join('；'))}。时长列应填写小时数；其他单位需先换算，或在匹配后补正。</p></div>`;
+  return `<div class="mapping" data-list="${i}"><h3>检查名单：${esc(list.filename)}</h3><p class="hint">先选择名单所在的工作表，再确认“姓名”“总时长”等内容分别在哪一列。其他身份信息有助于区分重名，名单没有时可以不选。</p><div class="fields"><label>名单所在的工作表<select data-sheet="${i}">${list.workbook.worksheets.map(s=>`<option ${s.name===list.sheetName?'selected':''}>${esc(s.name)}</option>`).join('')}</select></label><label>列名所在的行<input type="number" data-header="${i}" min="1" max="${sheet.rowCount}" value="${list.headerRow}"><small>例如第一行写着“姓名、学号、时长”，这里填 1。</small></label></div><div class="fields">${Object.entries(fields).map(([field,label])=>`<label>${label}<select data-field="${field}" data-list-index="${i}">${mappingOptions(list,field)}</select></label>`).join('')}</div><p class="hint">按所选列读取的前 3 条姓名和时长：${esc(sample.join('；'))}。请确认时长单位是小时；如果原表使用其他单位，请先换算或在下一步手动填写小时数。</p></div>`;
  }).join('');
 }
 function buildPeople(){return preparePeople(lists.flatMap(l=>readPeople(l.workbook,l.sheetName,l.headerRow,l.fields,l.filename)));}
 function setDates(){
  const defaultDates=dateRange($('start').value,$('end').value,$('direction').value);
  for(const t of templates)t.dates=t.override.trim()?customDates(t.override):defaultDates;
- if(new Set(templates.map(t=>t.label)).size!==templates.length)throw Error('模板编号不能重复，请修改模板编号。');
+ if(new Set(templates.map(t=>t.label)).size!==templates.length)throw Error('下载文件中的组别名称重复，请为每一组填写不同的名称。');
 }
 function allocate(){
- if(historyError)throw Error('历史文件读取失败，请重新选择有效历史文件，或清空历史文件选择。');
+ if(historyError)throw Error('以前导入的文件读取失败，请重新选择正确的文件，或清空所选文件。');
  setDates();result=plan(people,templates,used,choices,edits);
  result.files.forEach((f,i)=>{const ti=templates.findIndex(t=>t.uid===f.template),di=templates[ti].dates.indexOf(f.date);f.name=`${String(ti+1).padStart(2,'0')}_模板${safe(f.label)}_${String(di+1).padStart(3,'0')}_${f.date}.xlsx`;});
- dirty=false;renderResult();status(`核对完成：总计${result.total}小时 = 本次生成${result.prepared}小时 + 待处理${result.pending}小时。${result.invalid?'另有'+result.invalid+'条时长无法识别，需补正。':''}`);
+ dirty=false;renderResult();status(`检查完成：名单中能识别的总时长为 ${result.total} 小时，其中 ${result.prepared} 小时已安排进待下载文件，${result.pending} 小时还未安排。${result.invalid?'另有 '+result.invalid+' 条时长无法识别，尚未计入总时长。':''}`);
 }
 function renderResult(){
  $('results').hidden=false;
  const pendingCount=result.entries.filter(e=>e.reason||e.pending>0).length;
- $('totals').innerHTML=[[result.entries.length,'去重后人数'],[result.prepared+'h','本次可导入 · '+result.files.length+'份文件'],[result.pending+'h','剩余时长 · '+pendingCount+'人待处理'],[result.invalid||'通过',result.invalid?'时长待补正（未计入合计）':'原名单 = 本次生成 + 待处理']].map(([n,label])=>`<div><strong>${esc(n)}</strong><small>${esc(label)}</small></div>`).join('');
- $('fileOrder').innerHTML=result.files.map(f=>`<li>${esc(f.name)} · ${f.records.length}人 / ${f.hours}小时</li>`).join('')||'<li>尚无可导入记录，可先下载待处理明细。</li>';
+ $('totals').innerHTML=[[result.entries.length+' 人','名单人数（相同记录只计一次）'],[result.prepared+' 小时','已安排到文件中 · '+result.files.length+' 份文件'],[result.pending+' 小时','尚未安排到文件 · '+pendingCount+' 人需处理'],[result.invalid?result.invalid+' 条':'核对通过',result.invalid?'时长无法识别，未计入总时长':'可识别总时长 = 已安排 + 尚未安排']].map(([n,label])=>`<div><strong>${esc(n)}</strong><small>${esc(label)}</small></div>`).join('');
+ $('fileOrder').innerHTML=result.files.map(f=>`<li>${esc(f.name)} · 包含 ${f.records.length} 人，共 ${f.hours} 小时</li>`).join('')||'<li>暂时没有可以生成的导入文件；仍可下载人员明细，查看需要处理的原因。</li>';
  renderPeople();
 }
 function renderPeople(){
  const entries=result.entries.filter(e=>!$('onlyPending').checked||e.reason||e.pending>0);
- $('people').innerHTML='<table><thead><tr>'+['姓名 / 学号','拟录入时长','已分配 / 剩余','匹配情况','确认模板编号','资料来源'].map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+entries.map(e=>`<tr><td>${esc(e.person.name||'姓名未提供')}<small>${esc(e.person.student||'学号未提供')}</small></td><td><input aria-label="${esc(e.person.name)}拟录入时长" data-hours="${e.person.uid}" value="${esc(edits[e.person.uid]??e.person.rawHours??e.person.hours??'')}" inputmode="decimal"><small>小时</small></td><td>${e.prepared} / ${e.pending}<small>${e.person.hours===null?'原始时长无法识别':''}</small></td><td>${esc(e.reason||'已匹配，待导入')}<small>${esc(e.person.notes)}</small></td><td>${e.candidates.length?`<select aria-label="${esc(e.person.name)}确认编号" data-choice="${e.person.uid}"><option value="">自动匹配${e.match?'：'+esc(e.match.id):' / 待核对'}</option><option value="skip" ${choices[e.person.uid]==='skip'?'selected':''}>暂不录入</option>${e.candidates.map(c=>`<option value="${esc(c.id)}" ${choices[e.person.uid]===c.id?'selected':''}>模板${esc(c.label)} · ${esc(c.id)}${c.student?' · '+esc(c.student):''}${c.phone?' · '+esc(c.phone):''}</option>`).join('')}</select>`:'当前模板未找到同名人员，请核对报名信息或更新模板'}</td><td>${esc(e.person.sources.join('；'))}${e.person.duplicateCount?'<small>重复记录已去重</small>':''}</td></tr>`).join('')+'</tbody></table>';
+ $('people').innerHTML='<table><thead><tr>'+['姓名 / 学号','应录入总时长','已安排 / 未安排','需要检查什么','此人的志愿者编号','名单来源'].map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+(entries.length?entries.map(e=>`<tr><td>${esc(e.person.name||'姓名未提供')}<small>${esc(e.person.student||'学号未提供')}</small></td><td><input aria-label="${esc(e.person.name)}应录入总时长" data-hours="${e.person.uid}" value="${esc(edits[e.person.uid]??e.person.rawHours??e.person.hours??'')}" inputmode="decimal"><small>小时，可修改</small></td><td>${e.prepared} / ${e.pending} 小时<small>${e.person.hours===null?'原名单中的时长无法识别，请填写小时数':''}</small></td><td>${esc(e.reason||'已找到对应人员，时长已安排到文件中')}<small>${esc(e.person.notes)}</small></td><td>${e.candidates.length?`<select aria-label="${esc(e.person.name)}对应的志愿者编号" data-choice="${e.person.uid}"><option value="">${e.match?'自动匹配：'+esc(e.match.id):'请选择此人的编号'}</option><option value="skip" ${choices[e.person.uid]==='skip'?'selected':''}>本次先不处理此人</option>${e.candidates.map(c=>`<option value="${esc(c.id)}" ${choices[e.person.uid]===c.id?'selected':''}>第 ${esc(c.label)} 组 · 编号 ${esc(c.id)}${c.student?' · 学号 '+esc(c.student):''}${c.phone?' · 电话 '+esc(c.phone):''}</option>`).join('')}</select>`:'上传的模板中没有同名人员，请确认是否报名，或下载更新后的模板'}</td><td>${esc(e.person.sources.join('；'))}${e.person.duplicateCount?'<small>相同人员的重复记录只计一次</small>':''}</td></tr>`).join(''):`<tr><td colspan="6">${$('onlyPending').checked?'没有需要处理的人员。取消上方勾选可查看全部人员。':'名单中没有人员。'}</td></tr>`)+ '</tbody></table>';
 }
 const safe=value=>text(value).replace(/[<>:"/\\|?*\x00-\x1f]/g,'_').replace(/[. ]+$/,'').slice(0,70)||'项目';
 async function proofPng(){
@@ -67,32 +67,32 @@ async function proofPng(){
  return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('汇总图片生成失败')),'image/png'));
 }
 async function downloadAll(){
- if(!result)throw Error('请先匹配并核对。');
+ if(!result)throw Error('请先点击“匹配人员并查看结果”。');
  const zip=new window.JSZip(),folder=zip.folder(safe($('project').value)+'_时长导入材料');
  for(let i=0;i<result.files.length;i++){
-  const f=result.files[i],template=templates.find(t=>t.uid===f.template);status(`正在生成并校验 ${i+1}/${result.files.length}：${f.name}`);
+  const f=result.files[i],template=templates.find(t=>t.uid===f.template);status(`正在生成并检查第 ${i+1} / ${result.files.length} 份文件：${f.name}`);
   folder.file(f.name,await exportTemplate(template,f,window.ExcelJS));await new Promise(r=>setTimeout(r,0));
  }
  folder.file('00_未匹配人员明细及全部核对.xlsx',await reportWorkbook(result,window.ExcelJS));
  folder.file('00_共用佐证材料.png',await proofPng());
- const instructions=[$('project').value,'请依照下列顺序，逐个模板完成各日期的导入。','每人每天最多8小时；所有导入文件共用同一张佐证图片。',`去重名单可识别时长${result.total}h = 本次生成${result.prepared}h + 待处理${result.pending}h。`,result.invalid?`另有${result.invalid}条时长无法识别，未计入上述合计，须补正。`:'时长核对通过。',historyFiles.length?`本次已读取${historyFiles.length}份历史文件，避开${used.size}个人员日期组合。`:'未上传历史文件，请确认选择的日期未在系统中使用。','未匹配及待处理人员见明细文件；生成或下载不代表实际录入成功。',...result.files.map((f,i)=>`${i+1}. ${f.name}：${f.records.length}人，${f.hours}h`),'空白时长行无需录入；编号和名单顺序保留原模板。'];
+ const instructions=[$('project').value,'请按下面的顺序上传文件：先完成第一组的各个日期，再处理第二组，依次类推。','每人每天最多填 8 小时；所有导入文件可共用同一张图片。',`名单中能识别的时长共 ${result.total} 小时 = 已安排到文件中的 ${result.prepared} 小时 + 尚未安排的 ${result.pending} 小时。`,result.invalid?`另有 ${result.invalid} 条时长无法识别，未计入总时长，请在人员明细中检查。`:'名单总时长与安排结果核对一致。',historyFiles.length?`已读取 ${historyFiles.length} 份以前的导入文件，发现 ${used.size} 条某人某日已有时长的记录；这些人的相应日期已跳过。`:'未上传以前的导入文件，请自行确认所选日期是否已经录入过时长。','找不到对应人员、重名或日期不足的情况，请查看人员明细。生成文件后，还需要上传到志愿系统。',...result.files.map((f,i)=>`${i+1}. ${f.name}：${f.records.length} 人，共 ${f.hours} 小时`),'没有填写时长的行不会计入本次时长；姓名和志愿者编号保留系统模板中的内容。'];
  folder.file('00_导入顺序与核对说明.txt','\uFEFF'+instructions.join('\r\n'));
  status('正在打包…');const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:4}});
- const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=safe($('project').value)+'_时长导入材料.zip';a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);status(`已下载${result.files.length}份导入模板、共用图片及核对明细；时长校验通过。`);
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=safe($('project').value)+'_时长导入材料.zip';a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);status(`已下载压缩包，包含 ${result.files.length} 份导入文件、共用图片和人员明细。请按文件编号依次上传到志愿系统。`);
 }
 $('templates').onchange=()=>action(async()=>{
  templates=[];clearResult();renderOrder();
  const files=[...$('templates').files];if(files.length>30)throw Error('一次最多30份模板。');const next=[];
  for(const [i,file] of files.entries()){status('正在读取模板：'+file.name);const {buffer,workbook}=await readFile(file);next.push({...readTemplate(workbook,file.name,i),buffer});}
- templates=next;choices={};edits={};clearResult();renderOrder();ready();status('模板读取完成，请上传并核对人员清单。');
+ templates=next;choices={};edits={};clearResult();renderOrder();ready();status('已读取系统模板，请上传人员及总时长名单。');
 });
 $('lists').onchange=()=>action(async()=>{
  lists=[];clearResult();renderMappings();
  const files=[...$('lists').files];if(files.length>20)throw Error('一次最多20份人员清单。');const next=[];
  for(const file of files){status('正在读取清单：'+file.name);const {workbook}=await readFile(file);let selected=workbook.worksheets[0],guess=guessHeader(selected);for(const sheet of workbook.worksheets){const g=guessHeader(sheet);if(g.score>guess.score){selected=sheet;guess=g;}}next.push({filename:file.name,workbook,sheetName:selected.name,headerRow:guess.row,fields:guess.fields});}
- lists=next;choices={};edits={};clearResult();renderMappings();ready();status('请核对工作表、表头及列的对应关系，再匹配。');
+ lists=next;choices={};edits={};clearResult();renderMappings();ready();status('已读取名单，请检查下方选择的工作表和各列是否正确。');
 });
-$('history').onchange=()=>action(async()=>{historyError=true;clearResult();$('historyStatus').textContent='正在读取历史文件，读取成功前暂不生成。';const files=[...$('history').files];if(files.length>150)throw Error('一次最多150份历史文件。');const next=new Set();for(const file of files){status('正在读取历史记录：'+file.name);const {workbook}=await readFile(file);for(const k of readHistory(workbook,file.name))next.add(k);}used=next;historyFiles=files;historyError=false;invalidate();$('historyStatus').textContent=`已读取${files.length}份文件，避开${next.size}个人员日期组合。`;});
+$('history').onchange=()=>action(async()=>{historyError=true;clearResult();$('historyStatus').textContent='正在读取以前的导入文件，请稍候。';const files=[...$('history').files];if(files.length>150)throw Error('一次最多上传 150 份以前的导入文件。');const next=new Set();for(const file of files){status('正在读取以前的导入文件：'+file.name);const {workbook}=await readFile(file);for(const k of readHistory(workbook,file.name))next.add(k);}used=next;historyFiles=files;historyError=false;invalidate();$('historyStatus').textContent=`已读取 ${files.length} 份文件，发现 ${next.size} 条“某人某日已有时长”的记录；会跳过这些人的相应日期。`;});
 $('templateOrder').addEventListener('click',e=>{const b=e.target.closest('[data-move]');if(!b)return;const i=templates.findIndex(t=>String(t.uid)===b.dataset.move),j=i+Number(b.dataset.delta);if(j>=0&&j<templates.length){[templates[i],templates[j]]=[templates[j],templates[i]];invalidate();renderOrder();}});
 $('templateOrder').addEventListener('input',e=>{const t=templates.find(t=>String(t.uid)===(e.target.dataset.label??e.target.dataset.dates));if(!t)return;if(e.target.dataset.label!==undefined)t.label=e.target.value;else t.override=e.target.value;invalidate();});
 $('mappings').addEventListener('change',e=>{
@@ -105,7 +105,7 @@ for(const id of ['start','end','direction'])$(id).onchange=invalidate;
 $('analyze').onclick=()=>action(async()=>{people=buildPeople();if(people.length>20000)throw Error('单次人员清单最多2万人，请分批处理。');choices={};edits={};allocate();});
 $('recheck').onclick=()=>action(async()=>allocate());
 $('onlyPending').onchange=()=>{if(result)renderPeople();};
-$('people').addEventListener('input',e=>{if(e.target.dataset.choice!==undefined)choices[e.target.dataset.choice]=e.target.value;if(e.target.dataset.hours!==undefined)edits[e.target.dataset.hours]=e.target.value;dirty=true;$('download').disabled=true;status('已修改信息，请点击“保存更改并重新核对”。');});
+$('people').addEventListener('input',e=>{if(e.target.dataset.choice!==undefined)choices[e.target.dataset.choice]=e.target.value;if(e.target.dataset.hours!==undefined)edits[e.target.dataset.hours]=e.target.value;dirty=true;$('download').disabled=true;status('已修改人员信息，请点击“应用修改并重新计算”后再下载。');});
 $('download').onclick=()=>action(downloadAll);
 const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());$('start').value=$('end').value=today;
 if(!window.ExcelJS||!window.JSZip)status('工具加载失败，请刷新或检查网络后重试。',true);else{$('templates').disabled=$('lists').disabled=false;status('工具已准备好，请上传模板和人员清单。');}
