@@ -1,3 +1,4 @@
+import { applyDutyConfirmed } from './duty-confirmed.mjs';
 import { applyOfficeUpgrade } from './office-upgrade.mjs';
 import { applyHoursUpgrade } from './hours-upgrade.mjs';
 import { applyReimbursementUpgrade } from './reimbursement-upgrade.mjs';
@@ -31,6 +32,7 @@ export async function integrateLottery(root){
  ({template,app}=await applyOfficeUpgrade(root,template,app));
  ({template,app}=await applyHoursUpgrade(root,template,app));
  ({template,app}=await applyReimbursementUpgrade(root,template,app));
+ ({template,app}=await applyDutyConfirmed(root,template,app));
  new vm.Script(app);
  const [data,rawEngine]=await Promise.all(['data.js','engine.js'].map(name=>fs.readFile(path.join(output,name),'utf8')));
  // Uncertain timing with an explicit bounded interval is reserved; an unknown end remains uncertain.
@@ -58,6 +60,3 @@ export async function integrateLottery(root){
  }
  return {people:64,departments:{'志愿者工作部':35,'社会实践部':29}};
 }
-
-
-
