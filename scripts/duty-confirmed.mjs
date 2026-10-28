@@ -9,6 +9,7 @@ export async function applyDutyConfirmed(root,template,app){
  template=template.replace(/<style id="confirmed-duty-css">[\s\S]*?<\/style>/g,'').replace('</head>','<style id="confirmed-duty-css">'+css+'</style></head>');
  app=app.replace(/\$\('pageFooter'\)\.textContent=[^\n]*;/, "$('pageFooter').hidden=true;");
  app=app.replace('renderDutyRoster();if(!dutyPlan)computeDuty(false);','renderDutyRoster();');
+ app=app.replace('逐次核验有效期内的安排，再分别安排两部门值班。','查看已确定的每周值班安排。');
  app=app.replace(/\n\/\* CONFIRMED_DUTY_START \*\/[\s\S]*?\/\* CONFIRMED_DUTY_END \*\//g,'');
  app+='\n/* CONFIRMED_DUTY_START */\n'+js.replace('/*__CONFIRMED_DUTY__*/',()=>data)+'\n/* CONFIRMED_DUTY_END */';
  return {template,app};
