@@ -155,3 +155,5 @@
  @media(prefers-contrast:more){body[data-platform-theme="night"] :is(.card,.stat,.person,dialog,aside){background:#101b30;border-color:#a5b6ff80}body[data-platform-theme="night"] .muted{color:#c3d0e9}}
  @media(prefers-reduced-motion:reduce){body[data-platform-theme="night"] *{transition:none!important;scroll-behavior:auto!important}}
 }
+
+@media screen{body[data-platform-theme="night"] .brand-mark{background:#fff;border-radius:50%;overflow:hidden;padding:2px}body[data-platform-theme="night"] .brand-mark img{width:100%;height:100%;object-fit:contain}.home-brand{display:flex;align-items:center;gap:18px}.home-brand img{width:64px;height:64px;object-fit:contain;background:#fff;border-radius:50%;padding:3px;flex:none}.home-org{margin:0 0 4px;color:#a9c6eb;font-size:12px;letter-spacing:.06em}.home-brand .ws-greeting{margin:4px 0!important}.home-brand .ws-hero-note{margin:4px 0!important}@media(max-width:600px){.home-brand{align-items:flex-start;gap:12px}.home-brand img{width:48px;height:48px}.home-brand h1{font-size:23px!important}}}

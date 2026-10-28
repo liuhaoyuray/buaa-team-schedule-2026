@@ -2,3 +2,7 @@
 body.clear-mode{background:#080f20}body.clear-mode .card{background:#101b30;border-color:#a5b6ff55;box-shadow:none}
 
 .example{padding:12px 15px;border-radius:10px;background:#152943;color:#c5d8ef;font-size:12px;line-height:1.8;margin:16px 0}.group-label{color:#a7b9d5;font-size:12px}
+
+.hours-brand{display:flex;align-items:center;gap:9px;color:#b9cbe5;font-size:12px;font-weight:600;margin-bottom:20px}.hours-brand img{width:34px;height:34px;background:white;border-radius:50%;padding:1px}
+
+.date-shortcuts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.date-shortcuts button{font-size:12px;padding:7px 10px}.date-override textarea{min-height:100px}

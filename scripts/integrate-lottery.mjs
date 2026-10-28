@@ -47,6 +47,7 @@ export async function integrateLottery(root){
   if(!html.includes(placeholder))throw Error('Missing platform script placeholder: '+tag);
   html=html.replace(placeholder,()=>code.replaceAll('</script','<\\/script'));
  }
+ await fs.copyFile(path.join(root,'features/workspace/buaa-emblem.png'),path.join(output,'buaa-emblem.png'));
  const generated={'index.template.html':template,'app.js':app,'index.html':html,'engine.js':engine};
  for(const name of ['signature.html','signature.js'])generated[name]=await fs.readFile(path.join(root,'features/office',name),'utf8');
  generated['signature-colleges.json']=await fs.readFile(path.join(root,'features/office/colleges.json'),'utf8');

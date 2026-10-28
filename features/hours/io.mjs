@@ -128,12 +128,12 @@ export async function exportTemplate(template, file, ExcelJS) {
 }
 export async function reportWorkbook(result, ExcelJS) {
   const wb = new ExcelJS.Workbook();
-  const headers = ['姓名','学号','身份证号','联系方式','名单中的总时长（小时）','本次已填入文件（小时）','尚未填入文件（小时）','未录入原因 / 匹配情况','模板志愿者编号','候选模板及编号','分配日期与时长','原始清单志愿者编号','资料来源','其他原始信息','备注'];
+  const headers = ['姓名','学号','身份证号','联系方式','名单中的总时长（小时）','本次已填入文件（小时）','尚未填入文件（小时）','未录入原因 / 匹配情况','模板志愿者编号','候选岗位及编号','分配日期与时长','原始清单志愿者编号','资料来源','其他原始信息','备注'];
   function sheet(name, entries) {
     const ws = wb.addWorksheet(name); ws.addRow(headers);
     for (const e of entries) {
       const p = e.person;
-      ws.addRow([p.name,p.student || '未提供',p.card || '未提供',p.phone || '未提供',p.hours ?? p.rawHours,e.prepared,e.pending,e.reason || '已匹配并生成导入文件',e.match?.id || '',e.candidates.map(c => `模板${c.label}：${c.id}`).join('；'),e.allocations.map(a => `模板${a.template} ${a.date} ${a.hours}h`).join('；'),p.volunteerId,p.sources.join('；'),JSON.stringify(p.originals || p.original),[p.notes,p.duplicateCount ? `重复登记${p.duplicateCount}条，按同一身份相同时长仅计一次` : '',text(p.rawHours) !== text(p.hours) ? `本次采用${p.hours ?? '待确认'}小时；原时长列为${p.rawHours}` : ''].filter(Boolean).join('；')]);
+      ws.addRow([p.name,p.student || '未提供',p.card || '未提供',p.phone || '未提供',p.hours ?? p.rawHours,e.prepared,e.pending,e.reason || '已匹配并生成导入文件',e.match?.id || '',e.candidates.map(c => `岗位${c.label}：${c.id}`).join('；'),e.allocations.map(a => `岗位${a.template} ${a.date} ${a.hours}小时`).join('；'),p.volunteerId,p.sources.join('；'),JSON.stringify(p.originals || p.original),[p.notes,p.duplicateCount ? `重复登记${p.duplicateCount}条，按同一身份相同时长仅计一次` : '',text(p.rawHours) !== text(p.hours) ? `本次采用${p.hours ?? '待确认'}小时；原时长列为${p.rawHours}` : ''].filter(Boolean).join('；')]);
     }
     ws.columns.forEach((col, i) => { col.width = [16,20,25,20,22,22,22,48,28,65,65,28,75,90,65][i]; });
     for (const c of [2,3,4,9,10,12]) ws.getColumn(c).numFmt = '@';
@@ -145,7 +145,7 @@ export async function reportWorkbook(result, ExcelJS) {
   sheet('未匹配及待处理',result.entries.filter(e => e.reason || e.pending > 0));
   sheet('全部人员核对',result.entries);
   const summary = wb.addWorksheet('时长与导入顺序');
-  summary.addRows([['项目','人数 / 文件数','时长（小时）'],['相同记录只计一次后的人数',result.entries.length,result.total],['本次已填入文件',result.entries.filter(e => e.prepared > 0).length,result.prepared],['尚未填入文件',result.entries.filter(e => e.reason || e.pending > 0).length,result.pending],['时长差额','',result.total-result.prepared-result.pending],['时长无法识别的人数',result.invalid,'须人工补正后核对'],[],['顺序','模板','日期','人数','时长','文件名']]);
+  summary.addRows([['项目','人数 / 文件数','时长（小时）'],['相同记录只计一次后的人数',result.entries.length,result.total],['本次已填入文件',result.entries.filter(e => e.prepared > 0).length,result.prepared],['尚未填入文件',result.entries.filter(e => e.reason || e.pending > 0).length,result.pending],['时长差额','',result.total-result.prepared-result.pending],['时长无法识别的人数',result.invalid,'须人工补正后核对'],[],['顺序','岗位','日期','人数','时长','文件名']]);
   result.files.forEach((f,i) => summary.addRow([i+1,f.label,f.date,f.records.length,f.hours,f.name]));
   summary.columns=[{width:30},{width:22},{width:30},{width:16},{width:22},{width:95}];
   return wb.xlsx.writeBuffer();

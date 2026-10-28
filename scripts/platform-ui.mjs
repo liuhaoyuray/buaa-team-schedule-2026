@@ -7,6 +7,7 @@ export async function applyPlatformUI(root,template,app){
  template=template.replace('</head>','<style id="buaa-night-theme">\n'+css+'\n</style>\n</head>');
  template=template.replace(/<body([^>]*)>/,(_,attrs)=>'<body'+attrs.replace(/\sdata-platform-theme="[^"]*"/g,'')+' data-platform-theme="night">');
  template=template.replace(/<title>[\s\S]*?<\/title>/,'<title>北航 · 志工实践工作台</title>');
+ template=template.replace(/<div class="brand-mark">[\s\S]*?<\/div>/,'<div class="brand-mark"><img src="buaa-emblem.png" alt="北航校徽"></div>');
  template=template.replace('<strong>人员课表查询</strong>','<strong>志工 · 实践</strong>').replace('<small>2026年秋季学期</small>','<small>2026 AUTUMN · 工作台</small>');
  template=template.replace('北航校团委 · 志工部 / 实践部</p>','BUAA · 校团委 / 两部门工作台</p>');
  app=app.replace("clear?'切换玻璃效果':'切换清晰模式'","clear?'恢复氛围效果':'切换高对比'");
