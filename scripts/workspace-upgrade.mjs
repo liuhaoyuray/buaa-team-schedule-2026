@@ -24,6 +24,6 @@ export async function applyWorkspaceUpgrade(root,template,app){
  app=app.replace(/frame\.src='lottery\.html\?v=[^']*'/,"frame.src='lottery.html?v=20261024-workspace3'");
  app+='\n/* WORKSPACE_UPGRADE_START */\n'+js+'\n/* WORKSPACE_UPGRADE_END */';
  await fs.mkdir(path.join(root,'public/league'),{recursive:true});
- for(const name of ['index.html','league.css','league.js','data.json'])await fs.copyFile(path.join(root,'features/league',name),path.join(root,'public/league',name));
+ for(const name of ['index.html','league.css','league.js','model.mjs','data.json'])await fs.copyFile(path.join(root,'features/league',name),path.join(root,'public/league',name));
  return {template,app};
 }
