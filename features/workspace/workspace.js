@@ -3,7 +3,7 @@ function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceAp
 function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshCounts();}
 (() => {
  'use strict';
- const routes=[['home','部门工作台','⌂','常用功能与协作概览'],['office','报销材料','▤','根据发票生成报销材料'],['hours','志愿时长','◷','匹配人员名单并生成导入文件'],['query','时段查询','◷','按时间查询空闲人员'],['colleges','学院系号','⌕','按名称或系号查询学院'],['duty','值班表','▦','查看已确定的每周值班安排'],['gallery','活动记录','▣','查看和发布活动照片'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看个人课程安排'],['directory','人员名录','♧','查看人员与联系方式'],['lottery','幸运抽奖','✦','选择名单并抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
+ const routes=[['home','部门工作台','⌂','常用功能与协作概览'],['office','报销材料','▤','根据发票生成报销材料'],['hours','志愿时长','◷','匹配人员名单并生成导入文件'],['query','时段查询','◷','按时间查询空闲人员'],['colleges','学院系号','⌕','按名称或系号查询学院'],['duty','值班表','▦','查看已确定的每周值班安排'],['gallery','活动记录','▣','查看和发布活动照片'],['league','团统数据','▤','查询团组织和团员统计'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看个人课程安排'],['directory','人员名录','♧','查看人员与联系方式'],['lottery','幸运抽奖','✦','选择名单并抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};

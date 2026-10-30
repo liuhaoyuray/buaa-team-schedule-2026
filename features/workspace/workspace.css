@@ -183,3 +183,5 @@
 @media print{.ws-command-bar,.ws-mobile-nav,#wsQueryTools,#wsPagination{display:none!important}}
 
 @media screen{body[data-workspace-view="gallery"] .page-head{display:none}.gallery-header{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#aec1dd;font-size:13px}.gallery-header a{color:#9bddd4;white-space:nowrap}.gallery-frame{width:100%;height:1150px;min-height:80vh;border:0;border-radius:16px;background:#080f20}@media(max-width:600px){.gallery-header{align-items:flex-start}.gallery-frame{height:1300px}}}
+
+@media screen{body[data-workspace-view="league"] header.top{display:none}.league-frame{width:100%;height:1450px;min-height:80vh;border:0;background:transparent;display:block}@media(max-width:600px){.league-frame{height:1700px}}}
