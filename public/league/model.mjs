@@ -22,3 +22,11 @@ export function rowsFor(data,options={}){
  const map=new Map();for(const r of grouped){if(!map.has(r.college))map.set(r.college,{kind:'本研合计',college:r.college,level:'合计',parts:{},sourceRows:[],remark:'',codes:[],...empty()});const g=map.get(r.college);g.parts[r.kind]=r;g.sourceRows.push(r.kind+'明细表 '+r.sourceRows.join('、')+' 行');if(r.remark&&!g.remark.includes(r.remark))g.remark+=(g.remark?'；':'')+r.remark;for(const code of r.codes)if(!g.codes.includes(code))g.codes.push(code);for(const f of additive)g[f]=finiteSum(g[f],r[f]);}
  return [...map.values()].map(g=>{const u=g.parts['本科生'],p=g.parts['研究生'];return {...g,code:g.codes.join(' / '),undergradStudents:u?.students??null,gradStudents:p?.students??null,undergradMembers:u?.members??null,gradMembers:p?.members??null,originalNames:[...new Set([...(u?.originalNames||[]),...(p?.originalNames||[])])],youthRatioOriginal:null,studentRatioOriginal:null,youthOriginal:null,freshStudents:p?.freshStudents??null,otherStudents:p?.otherStudents??null,freshMembers:p?.freshMembers??null,otherMembers:p?.otherMembers??null,missingKinds:[!u?'本科生':'',!p?'研究生':''].filter(Boolean)}});
 }
+// A pair always represents the same source row or grouped unit in both scopes.
+export function pairRows(data,options={}){
+ const all=rowsFor(data,{...options,excludeFresh:false});
+ const without=rowsFor(data,{...options,excludeFresh:true});
+ const key=r=>[r.kind,r.college,r.level,r.row??''].join('\u0000');
+ const index=new Map(without.map(r=>[key(r),r]));
+ return all.map(included=>{let excluded=index.get(key(included));if(!excluded&&included.kind==='本科生'&&included.level==='2026级')excluded={...included,students:0,members:0,branches:0,branchesGeneral:0,newMembers:0,cadres:0,youthRatioOriginal:null,studentRatioOriginal:null,youthOriginal:null,excludedCohort:true};return {included,excluded:excluded??null}})
+}

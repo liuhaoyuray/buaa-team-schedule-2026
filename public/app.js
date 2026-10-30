@@ -322,6 +322,7 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(routes.some(r=>r[0]===target)&&state.view!==target)route(target);});
 })();
 
+window.addEventListener("message",e=>{const f=document.querySelector(".league-frame");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="league-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(850,e.data.height))+"px"});
 /* WORKSPACE_UPGRADE_END */
 /* OFFICE_UPGRADE_START */
 (() => {
