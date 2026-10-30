@@ -22,7 +22,7 @@ export async function applyWorkspaceUpgrade(root,template,app){
  app=app.replace('function renderResults(){','function renderResultsOriginal(){').replace('function runQuery(){','function runQueryOriginal(){').replace('function persistSelection(){','function persistSelectionOriginal(){');
  app=app.replace('visibleBottom=Math.min(innerHeight,rect.bottom)','visibleBottom=Math.min(innerHeight,rect.bottom,document.querySelector(\'.ws-mobile-nav\')?.getBoundingClientRect().top||innerHeight)');
  app=app.replace(/frame\.src='lottery\.html\?v=[^']*'/,"frame.src='lottery.html?v=20261024-workspace3'");
- app+='\n/* WORKSPACE_UPGRADE_START */\n'+js+'\n/* WORKSPACE_UPGRADE_END */';
+ app+='\n/* WORKSPACE_UPGRADE_START */\n'+js+'\nwindow.addEventListener("message",e=>{const f=document.querySelector(".league-frame");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="league-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(850,e.data.height))+"px"});\n/* WORKSPACE_UPGRADE_END */';
  await fs.mkdir(path.join(root,'public/league'),{recursive:true});
  for(const name of ['index.html','league.css','league.js','model.mjs','data.json'])await fs.copyFile(path.join(root,'features/league',name),path.join(root,'public/league',name));
  return {template,app};
