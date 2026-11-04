@@ -830,6 +830,8 @@ function renderDutyDisplayMarkers(){
 
 
 
+/* AWARDS_HEIGHT */
+window.addEventListener("message",e=>{const f=document.querySelector(".awards-frame");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="awards-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(850,e.data.height))+"px"});
 /* WORKSPACE_UPGRADE_START */
 function renderResults(){renderResultsOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshQuery();}
 function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshQuery();}
@@ -943,8 +945,6 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
 
 window.addEventListener("message",e=>{const f=document.querySelector(".league-frame");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="league-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(850,e.data.height))+"px"});
 /* WORKSPACE_UPGRADE_END */
-/* AWARDS_HEIGHT */
-window.addEventListener("message",e=>{const f=document.querySelector(".awards-frame");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="awards-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(850,e.data.height))+"px"});
 /* OFFICE_UPGRADE_START */
 (() => {
  'use strict';
