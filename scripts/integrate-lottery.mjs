@@ -3,6 +3,7 @@ import { applyOfficeUpgrade } from './office-upgrade.mjs';
 import { applyHoursUpgrade } from './hours-upgrade.mjs';
 import { applyReimbursementUpgrade } from './reimbursement-upgrade.mjs';
 import { applyWorkspaceUpgrade } from './workspace-upgrade.mjs';
+import { applyAwardsUpgrade } from './awards-upgrade.mjs';
 import { applyPlatformUI } from './platform-ui.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -29,6 +30,7 @@ export async function integrateLottery(root){
  if(!app.includes(marker)&&!app.includes('window.LotteryPanel={'))app+='\n'+marker+'\n'+ui;
  ({template,app}=await applyPlatformUI(root,template,app));
  ({template,app}=await applyWorkspaceUpgrade(root,template,app));
+ ({template,app}=await applyAwardsUpgrade(root,template,app));
  ({template,app}=await applyOfficeUpgrade(root,template,app));
  ({template,app}=await applyHoursUpgrade(root,template,app));
  ({template,app}=await applyReimbursementUpgrade(root,template,app));
