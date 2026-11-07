@@ -1,0 +1,85 @@
+name: Publish the prepared awards update
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/pages-awards-recovery.yml]
+concurrency:
+  group: schedule-pages
+  cancel-in-progress: false
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  publish:
+    if: github.event.head_commit.message == '恢复荣誉库网页发布'
+    runs-on: ubuntu-latest
+    timeout-minutes: 27
+    environment:
+      name: github-pages
+      url: ${{ steps.release.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Check the prepared awards data
+        run: |
+          node --input-type=module -e "import fs from 'node:fs'; const d=JSON.parse(fs.readFileSync('public/awards/data.json')); const r=d.records.filter(x=>x.award==='海淀区志愿服务项目大赛'); if(r.length!==2 || !r.some(x=>x.leader==='高于汝') || !r.some(x=>x.honor==='最佳组织奖')) process.exit(1)"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        id: artifact
+        with:
+          path: public
+          name: awards-pages-${{ github.run_attempt }}
+      - name: Publish and wait for the existing Pages release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ steps.artifact.outputs.artifact_id }}
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import {setTimeout as delay} from 'node:timers/promises';
+          const env = process.env;
+          const base = env.GITHUB_API_URL + '/repos/' + env.GITHUB_REPOSITORY + '/pages/deployments';
+          const headers = {
+            Authorization: 'Bearer ' + env.GH_TOKEN,
+            Accept: 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+          };
+          const version = '6ba01eff2bdaff781e7ea515e87a910dc4f1729f';
+          const tokenResponse = await fetch(env.ACTIONS_ID_TOKEN_REQUEST_URL, {
+            headers: {Authorization: 'Bearer ' + env.ACTIONS_ID_TOKEN_REQUEST_TOKEN},
+            signal: AbortSignal.timeout(20000)
+          });
+          if (!tokenResponse.ok) throw new Error('Could not obtain Pages authorization: ' + tokenResponse.status);
+          const token = (await tokenResponse.json()).value;
+          const start = await fetch(base, {
+            method: 'POST', headers,
+            body: JSON.stringify({
+              artifact_id: Number(env.ARTIFACT_ID),
+              pages_build_version: version,
+              oidc_token: token
+            }),
+            signal: AbortSignal.timeout(30000)
+          });
+          const result = await start.json();
+          if (!start.ok) throw new Error('Pages submission returned ' + start.status + ': ' + (result.message || 'unknown error'));
+          const id = result.id || version;
+          if (result.page_url) fs.appendFileSync(env.GITHUB_OUTPUT, 'page_url=' + result.page_url + '\n');
+          console.log('Pages accepted deployment ' + id);
+          let lastStatus;
+          for (let attempt = 0; attempt < 92; attempt++) {
+            const response = await fetch(base + '/' + encodeURIComponent(id), {headers,signal:AbortSignal.timeout(15000)});
+            const status = response.ok ? (await response.json()).status : 'HTTP ' + response.status;
+            if (status !== lastStatus || attempt % 4 === 0) console.log('Pages status: ' + (status || '(blank)'));
+            lastStatus = status;
+            if (status === 'succeed') process.exit(0);
+            if (['deployment_failed','deployment_perms_error','deployment_content_failed','deployment_cancelled','deployment_lost'].includes(status)) {
+              throw new Error('Pages returned ' + status);
+            }
+            await delay(15000);
+          }
+          throw new Error('Pages has not finished processing the deployment after 23 minutes.');
+          NODE
