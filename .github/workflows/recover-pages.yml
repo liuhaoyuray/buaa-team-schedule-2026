@@ -1,29 +1,19 @@
-name: Clear duplicate artifacts from the timed-out Pages run
+name: Inspect the awards Pages deployment status
 on:
   push:
     branches: [ops/recover-awards-pages-20261107]
     paths: [.github/workflows/recover-pages.yml]
 permissions:
-  actions: write
+  pages: read
 jobs:
-  clear:
+  status:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Clear only the two superseded packages from the failed run
+      - name: Read status for the exact awards deployment
         env:
           GH_TOKEN: ${{ github.token }}
-        shell: bash
         run: |
           set -euo pipefail
-          api="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY"
-          headers=(-H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json")
-          run=$(curl -fsS --max-time 15 "${headers[@]}" "$api/actions/runs/42362576591")
-          jq -e '.status == "completed" and .conclusion == "failure" and .head_sha == "6ba01eff2bdaff781e7ea515e87a910dc4f1729f"' <<<"$run" >/dev/null
-          artifacts=$(curl -fsS --max-time 15 "${headers[@]}" "$api/actions/runs/42362576591/artifacts")
-          for id in 13570463939 13569963339; do
-            if jq -e --argjson id "$id" 'any(.artifacts[]; .id == $id and .name == "github-pages")' <<<"$artifacts" >/dev/null; then
-              curl -fsS --max-time 15 "${headers[@]}" -X DELETE "$api/actions/artifacts/$id"
-              echo "Removed superseded package $id"
-            fi
-          done
+          url="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/pages/deployments/6ba01eff2bdaff781e7ea515e87a910dc4f1729f"
+          curl -fsS --max-time 20 -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "$url" | jq '{status, page_url, id}'
