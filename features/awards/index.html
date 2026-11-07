@@ -1,12 +1,33 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>北航志愿服务荣誉库</title><link rel="stylesheet" href="awards.css"></head><body><main>
-<header><div class="heading"><div class="seal" aria-hidden="true">✦</div><div><p class="eyebrow">北京航空航天大学 · 志愿服务</p><h1>志愿服务荣誉库</h1><p class="subtitle">找到每一份荣誉，也找到背后的北航力量。</p></div></div><div class="edition">历年荣誉档案<small id="updated">正在读取资料…</small></div></header>
+<header><div class="heading"><div class="seal" aria-hidden="true">✦</div><div><p class="eyebrow">北京航空航天大学 · 志愿服务</p><h1>志愿服务荣誉库</h1><p class="subtitle">按奖项、年度或姓名查找北航志愿服务荣誉。</p></div></div><div class="edition">历年荣誉档案<small id="updated">正在读取资料…</small></div></header>
 <nav class="tabs" aria-label="荣誉库栏目"><button data-tab="list" class="active">获奖查询</button><button data-tab="units">单位汇总</button><button data-tab="catalog">奖项目录</button><button data-tab="sources">资料与核对</button></nav>
-<section id="queryControls"><div class="searchbar"><label class="search">搜索荣誉档案<input id="search" type="search" placeholder="姓名、项目、团队、学院或关键词"></label><button id="reset">重置</button><div class="export"><label>导出范围<select id="exportScope"><option value="filtered">当前筛选的全部记录</option><option value="all">全部档案（含待核实）</option></select></label><button id="export" class="primary" disabled>导出 Excel ↗</button></div></div>
-<div class="filters"><label>奖项年度<select id="year"><option value="">全部年度</option></select></label><label>奖项级别<select id="level"><option value="">全部级别</option><option>校级</option><option>区级</option><option>市级</option><option>国家级</option></select></label><label>获奖对象<select id="kind"><option value="">个人、项目与团队</option><option>个人</option><option>项目</option><option>团队</option></select></label><label>奖项名称<select id="award"><option value="">全部奖项</option></select></label><label>所属 / 推荐单位<select id="unit"><option value="">全部单位</option></select></label><label>资料状态<select id="status"><option value="verified">已核实结果</option><option value="">全部记录</option><option value="pending">候选或待核实</option><option>结果公示</option><option>已公布结果</option><option>官方报道确认</option></select></label></div></section>
-<div id="notice" class="notice" role="status">正在加载荣誉档案…</div><section id="stats" class="stats" aria-label="筛选结果统计"></section>
-<section id="list" class="panel tabview"><div class="panel-head"><div><h2>荣誉名单</h2><p id="count"></p></div><span class="hint">点击“详情”查看资料出处</span></div><div class="table-wrap"><table><thead><tr><th>年度</th><th>获奖人员 / 项目 / 团队</th><th>所属 / 推荐单位</th><th>奖项与等级</th><th>资料状态</th><th>资料</th></tr></thead><tbody id="rows"></tbody></table></div><div class="pager"><span id="pageInfo"></span><div><button id="prev">← 上一页</button><button id="next">下一页 →</button></div></div></section>
-<section id="units" class="panel tabview" hidden><div class="panel-head"><div><h2>按单位看荣誉</h2><p>统计当前筛选条件内的荣誉条数，个人跨奖项、跨年分别计数。</p></div></div><div class="table-wrap"><table><thead><tr><th>所属 / 推荐单位</th><th>个人荣誉</th><th>项目荣誉</th><th>团队荣誉</th><th>合计</th></tr></thead><tbody id="unitRows"></tbody></table></div></section>
-<section id="catalog" class="tabview" hidden><div class="intro"><h2>从校内表彰，到更广阔的舞台</h2><p>依据破冰会介绍 PPT 整理奖项范围。以下数量基于全部档案，与上方查询筛选无关；未收录不代表北航未获奖。</p></div><div id="catalogCards" class="catalog-grid"></div></section>
-<section id="sources" class="tabview" hidden><div class="panel prose"><h2>整理范围与使用说明</h2><ul id="notes"></ul><h2>资料缺口与差异</h2><div id="issues"></div><h2>来源索引</h2><p>本地原件保留文件名、原件校验值与条目定位信息。涉及个人申报信息的原文件不在网页发布。</p><div id="sourceRows"></div></div></section>
+<section id="queryControls" class="query-controls">
+<div class="quick-picks" aria-label="常用奖项">
+  <button type="button" data-award="">全部奖项</button>
+  <button type="button" data-award="北京市五星级志愿者">北京市五星级志愿者</button>
+  <button type="button" data-award="北京航空航天大学十佳志愿者">北航十佳志愿者</button>
+  <button type="button" data-award="北京航空航天大学优秀志愿服务项目">北航优秀志愿服务项目</button>
+</div>
+<div class="main-filters">
+  <label class="search">关键词<input id="search" type="search" placeholder="姓名、项目、负责人或学院"></label>
+  <label>奖项<select id="award"><option value="">全部奖项</option></select></label>
+  <label>年度<select id="year"><option value="">全部年度</option></select></label>
+  <button id="export" class="primary" disabled>导出当前名单</button>
+</div>
+<details class="extra-filters"><summary>更多筛选</summary>
+<div class="filters">
+  <label>对象<select id="kind"><option value="">全部对象</option><option>个人</option><option>项目</option><option>团队</option></select></label>
+  <label>所属 / 推荐单位<select id="unit"><option value="">全部单位</option></select></label>
+  <label>名单状态<select id="status"><option value="">全部记录</option><option value="verified">获评与结果公示</option><option value="pending">推荐、候选或待核对</option></select></label>
+  <button id="reset">清空筛选</button>
+</div>
+</details>
+</section>
+<div id="notice" class="notice" role="status">正在加载荣誉档案…</div>
+<div id="fiveYears" class="five-years" aria-label="五星级志愿者历年名单" hidden></div>
+<section id="list" class="panel tabview"><div class="panel-head"><div><h2 id="listTitle">荣誉名单</h2><p id="count"></p></div><span class="hint">点击“详情”查看资料出处</span></div><div class="table-wrap"><table><thead><tr><th>年度</th><th>获奖人员 / 项目 / 团队</th><th>所属 / 推荐单位</th><th>奖项</th><th>名单状态</th><th>资料</th></tr></thead><tbody id="rows"></tbody></table></div><div class="pager"><span id="pageInfo"></span><div><button id="prev">← 上一页</button><button id="next">下一页 →</button></div></div></section>
+<section id="units" class="panel tabview" hidden><div class="panel-head"><div><h2>按单位看荣誉</h2><p>按当前筛选统计获评及结果公示记录。</p></div></div><div class="table-wrap"><table><thead><tr><th>所属 / 推荐单位</th><th>个人荣誉</th><th>项目荣誉</th><th>团队荣誉</th><th>合计</th></tr></thead><tbody id="unitRows"></tbody></table></div></section>
+<section id="catalog" class="tabview" hidden><div class="intro"><h2>奖项目录</h2><p>查看各奖项的已收录名单和年度覆盖。</p></div><div id="catalogCards" class="catalog-grid"></div></section>
+<section id="sources" class="tabview" hidden><div class="panel prose"><h2>整理范围与使用说明</h2><ul id="notes"></ul><h2>资料缺口与差异</h2><div id="issues"></div><h2>来源索引</h2><p>每条档案的详情里可以查看来源和原件定位。</p><div id="sourceRows"></div></div></section>
 <dialog id="detail"><div class="dialog-head"><span class="eyebrow">荣誉档案详情</span><button id="close" aria-label="关闭详情">×</button></div><div id="detailBody"></div></dialog>
 </main><script src="../vendor/exceljs-4.4.0.min.js"></script><script type="module" src="awards.js"></script></body></html>
