@@ -45,7 +45,11 @@ jobs:
       - name: 上传网页
         uses: actions/upload-pages-artifact@v4
         with:
+          name: github-pages-${{ github.run_attempt }}
           path: public
       - name: 发布网页
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
+          timeout: 900000
