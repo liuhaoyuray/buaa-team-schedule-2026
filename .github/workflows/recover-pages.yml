@@ -1,0 +1,41 @@
+name: Clear the timed-out awards Pages deployment
+on:
+  push:
+    branches: [ops/recover-awards-pages-20261107]
+    paths: [.github/workflows/recover-pages.yml]
+permissions:
+  pages: write
+jobs:
+  clear:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Cancel only the timed-out deployment from this update
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          endpoint="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/pages/deployments/6ba01eff2bdaff781e7ea515e87a910dc4f1729f"
+          headers=(-H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json")
+          before=$(curl -fsS --max-time 20 "${headers[@]}" "$endpoint")
+          state=$(jq -r '.status // "unknown"' <<<"$before")
+          echo "Initial Pages status: $state"
+          if [[ "$state" == succeed || "$state" == success ]]; then
+            exit 0
+          fi
+          code=$(curl -sS --max-time 20 "${headers[@]}" -X POST -o "$RUNNER_TEMP/pages-cancel.json" -w '%{http_code}' "$endpoint/cancel")
+          echo "Cancellation HTTP status: $code"
+          if [[ "$code" != 2* ]]; then
+            jq -r '.message // empty' "$RUNNER_TEMP/pages-cancel.json"
+            exit 1
+          fi
+          for attempt in {1..9}; do
+            state=$(curl -fsS --max-time 10 "${headers[@]}" "$endpoint" | jq -r '.status // "unknown"')
+            echo "Pages status: $state"
+            case "$state" in
+              cancelled|canceled|deployment_cancelled|deployment_canceled|succeed|success|failed|deployment_failed) exit 0 ;;
+            esac
+            sleep 5
+          done
+          echo "::warning::Pages accepted cancellation but still reports $state"
