@@ -17,7 +17,7 @@ export function select(records, filters = {}) {
     if (filters.status === 'verified' && !verified(row)) return false;
     if (filters.status === 'pending' && verified(row)) return false;
     if (filters.status && !['verified', 'pending'].includes(filters.status) && row.status !== filters.status) return false;
-    return !query || [row.name, row.unit, row.award, row.note, row.year, row.batch, row.leader]
+    return !query || [row.name, row.unit, row.award, row.note, row.year, row.batch, row.leader, row.grade, row.honor]
       .join(' ').toLowerCase().includes(query);
   }).sort((a,b) => (b.year || 0) - (a.year || 0) || a.award.localeCompare(b.award,'zh') || a.name.localeCompare(b.name,'zh'));
 }

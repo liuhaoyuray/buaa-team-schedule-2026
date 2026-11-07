@@ -81,7 +81,7 @@ function render() {
     '</td><td><strong>' + escape(row.name) + '</strong><span class="sub">' + escape(row.kind) +
     (row.leader ? ' · 负责人 ' + escape(row.leader) : '') +
     '</span></td><td>' + escape(row.unit || '原资料未注明') + '</td><td>' + escape(row.award) +
-    (row.grade ? '<span class="sub">' + escape(row.grade) + '</span>' : '') +
+    (row.grade || row.honor ? '<span class="sub">' + escape(row.grade || row.honor) + '</span>' : '') +
     '</td><td><span class="badge ' + (verified(row) ? '' : 'pending') + '">' +
     escape(row.status) + '</span></td><td><button class="text-button" data-detail="' +
     escape(row.id) + '">详情 ↗</button></td></tr>'
@@ -106,7 +106,7 @@ function detail(id) {
   const related = data.records.filter(record => record.name === row.name && record.id !== id);
   const details = [
     ['年度', currentYear(row)], ['奖项', row.award], ['批次', row.batch],
-    ['获奖等次', row.grade], ['对象', row.kind], ['所属 / 推荐单位', row.unit],
+    ['获奖等次', row.grade], ['获奖称号', row.honor], ['对象', row.kind], ['所属 / 推荐单位', row.unit],
     ['项目负责人', row.kind === '项目' ? row.leader || '待补负责人资料' : ''],
     ['名单状态', row.status], ['发布日期', row.published], ['补充信息', row.note]
   ].filter(([,value]) => value);
@@ -139,6 +139,7 @@ async function exportExcel() {
   const button = $('export');
   const records = rows;
   const includeGrade = records.some(row => row.grade);
+    const includeHonor = records.some(row => row.honor);
   const includeBatch = records.some(row => row.batch);
     const includeLeader = records.some(row => row.kind === '项目');
   button.disabled = true;
@@ -152,6 +153,7 @@ async function exportExcel() {
       ['年度',12, row => row.year], ['姓名 / 项目 / 团队',35,row => row.name],
       ['所属 / 推荐单位',30,row => row.unit], ['奖项',42,row => row.award],
       ...(includeGrade ? [['获奖等次',18,row => row.grade]] : []),
+      ...(includeHonor ? [['获奖称号',18,row => row.honor]] : []),
       ...(includeBatch ? [['批次',14,row => row.batch]] : []),
       ...(includeLeader ? [['项目负责人',22,row => row.leader], ['负责人依据',60,row => row.leaderSource]] : []),
       ['对象',12,row => row.kind], ['名单状态',22,row => row.status],
