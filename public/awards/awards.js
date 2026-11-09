@@ -1,4 +1,4 @@
-import {select, verified, groupUnits} from './model.mjs';
+import {compareAwards, select, verified, groupUnits} from './model.mjs';
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
@@ -215,11 +215,12 @@ try {
   const response = await fetch('data.json');
   if (!response.ok) throw Error('资料加载失败，请刷新后重试');
   data = await response.json();
+  const catalog = [...data.catalog].sort((a, b) => compareAwards({level: a.level, award: a.name}, {level: b.level, award: b.name}));
   $('updated').textContent = '资料整理于 ' + data.updated.replaceAll('-', '.');
   fill('year', [...new Set(select(data.records).map(currentYear))]);
-  fill('award', data.catalog.map(item => item.name));
+  fill('award', catalog.map(item => item.name));
   fill('unit', [...new Set(data.records.map(row => row.unit).filter(Boolean))].sort((a,b) => a.localeCompare(b,'zh')));
-  $('catalogCards').innerHTML = data.catalog.map(item => {
+  $('catalogCards').innerHTML = catalog.map(item => {
     const matches = select(data.records,{award:item.name});
     const confirmed = matches.filter(verified).length;
     const summary = matches.length
