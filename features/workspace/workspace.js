@@ -1,9 +1,9 @@
 function renderResults(){renderResultsOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshQuery();}
 function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshQuery();}
-function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshCounts();}
 (() => {
  'use strict';
- const routes=[['home','部门工作台','⌂','常用功能与协作概览'],['office','报销材料','▤','根据发票生成报销材料'],['hours','志愿时长','◷','匹配人员名单并生成导入文件'],['query','时段查询','◷','按时间查询空闲人员'],['colleges','学院系号','⌕','按名称或系号查询学院'],['duty','值班表','▦','查看已确定的每周值班安排'],['gallery','活动记录','▣','查看和发布活动照片'],['awards','志愿荣誉','✦','查询历年获奖人员、项目与团队'],['league','团统数据','▤','查询团组织和团员统计'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看个人课程安排'],['directory','人员名录','♧','查看人员与联系方式'],['lottery','幸运抽奖','✦','选择名单并抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
+ const routes=/*__NAVIGATION__*/[];
+ const routeById=new Map(routes.map(item=>[item.id,item]));
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
@@ -13,38 +13,47 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  let prefs=read('buaa-workspace-query-prefs-v3',{});if(!prefs||typeof prefs!=='object')prefs={};
  let sort=['department','name','campus'].includes(prefs.sort)?prefs.sort:'department',compact=prefs.compact===true,pageNumber=1,lastSignature='',visibleCards=[],hits=[],hitIndex=0;
  const pageSize=12;
- const labelOf=v=>routes.find(r=>r[0]===v)?.[1]||'部门工作台';
- function route(view){if(!routes.some(r=>r[0]===view))return;for(const id of ['wsSearchDialog','wsMoreDialog'])if($(id).open)$(id).close();setView(view);if(view==='planner'&&selectedIds.size&&!plannerIds.size)importSelectionToPlanner();}
+ function route(view, addHistory=false){
+  if(!routeById.has(view))return;
+  for(const id of ['wsSearchDialog','wsMoreDialog'])if($(id).open)$(id).close();
+  if(addHistory&&location.hash!=='#'+view)history.pushState(null,'','#'+view);
+  if(view==='week')$('weekSelect').value=state.week;
+  if(view==='person')$('personWeek').value=state.week;
+  setView(view);
+  if(view==='planner'&&selectedIds.size&&!plannerIds.size)importSelectionToPlanner();
+ }
  function onView(view){
-  document.body.dataset.workspaceView=view;$('wsBreadcrumb').textContent=labelOf(view);
-  document.querySelectorAll('.ws-mobile-nav [data-ws-route]').forEach(b=>{const current=b.dataset.wsRoute===view;b.classList.toggle('active',current);b.setAttribute('aria-current',current?'page':'false');});
-  $('wsMoreButton').classList.toggle('active',!['home','office','hours','query'].includes(view));
-  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.view===view?'page':'false'));
+  const {label,description,group}=routeById.get(view);
+  document.body.dataset.workspaceView=view;
+  $('wsBreadcrumb').textContent=label;
+  $('wsArea').textContent=group;
+  $('pageTitle').textContent=label;
+  $('pageIntro').textContent=description;
+  $('wsContextLinks').hidden=group!=='人员与排班';
+  document.querySelectorAll('nav [data-ws-route], #wsContextLinks [data-ws-route], .ws-more-routes [data-ws-route], .ws-mobile-nav [data-ws-route]').forEach(link=>{
+   const current=link.dataset.wsRoute===view;
+   link.classList.toggle('active',current);
+   if(current)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
+  });
+  $('wsMoreButton').classList.toggle('active',!document.querySelector('.ws-mobile-nav [aria-current="page"]'));
   if(location.hash!=='#'+view)history.replaceState(null,'','#'+view);
   if(view==='home')refreshHome();if(view==='query')refreshQuery();
   window.scrollTo({top:0,behavior:'instant'});
  }
- function refreshCounts(){
-  $('wsHomeSelectionCount').textContent=selectedIds.size;
- }
  function refreshHome(){
   const date=today(),info=E.dayInfo(date,DATA,storeState.rules);
-  $('wsGreeting').textContent=date.replaceAll('-','.')+' / '+(info.valid?'第 '+info.week+' 教学周':'学期范围外');
-  refreshCounts();renderSaved();refreshAvailability();
- }
- function refreshAvailability(){
-  const date=$('wsQuickDate').value,[start,end]=$('wsQuickTime').value.split(',');
-  if(!date){$('wsAvailabilityResult').innerHTML='<p class="ws-empty">先选一个日期。</p>';return;}
-  const rows=E.query(DATA,date,start,end,{},storeState.rules),free=rows.filter(r=>r.status==='free'),unknown=rows.filter(r=>r.status==='unknown');
-  $('wsAvailabilityResult').innerHTML='<div class="ws-availability-total"><strong>'+free.length+'<small>人空闲</small></strong><span>'+unknown.length+' 人安排信息不完整</span></div><div class="ws-dept-bars">'+['志工部','实践部'].map(dept=>{const total=rows.filter(r=>r.person.department===dept).length,n=free.filter(r=>r.person.department===dept).length;return '<div><p><span>'+dept+'</span><strong>'+n+' / '+total+'</strong></p><div class="ws-bar"><i style="width:'+Math.round(n/Math.max(total,1)*100)+'%"></i></div></div>';}).join('')+'</div>';
+  const [year,month,day]=date.split('-').map(Number);
+  $('wsGreeting').textContent=year+'年'+month+'月'+day+'日'+(info.valid?' · 第 '+info.week+' 教学周':'');
+  renderSaved();
  }
  const queryData=()=>({fields:Object.fromEntries(fields.map(id=>[id,$(id).value])),status:state.status});
  function renderSaved(){
   const chips=saved.map(q=>'<span class="ws-saved-chip"><button data-ws-saved="'+escapeHTML(q.id)+'">'+escapeHTML(q.label)+'</button><button data-ws-remove="'+escapeHTML(q.id)+'" aria-label="删除收藏 '+escapeHTML(q.label)+'">×</button></span>').join('');
-  $('wsQuerySaved').innerHTML=chips||'<span class="ws-subtle">把常用时间和筛选条件收藏在这里</span>';
-  $('wsHomeSaved').innerHTML=chips||'<div class="ws-saved-empty"><span>☆</span><div><strong>让常用的查询，一点就到。</strong><p>在时段查询里设置好条件，点击“收藏查询”。</p></div><button data-ws-route="query">创建第一个收藏 ↗</button></div>';
+  $('wsQuerySaved').hidden=$('wsHomeFavorites').hidden=!saved.length;
+  $('wsQuerySaved').innerHTML=chips;
+  $('wsHomeSaved').innerHTML=chips;
  }
- function applySaved(id){const q=saved.find(x=>x.id===id);if(!q)return;for(const id of fields){const value=String(q.fields[id]??'').slice(0,200);if($(id).tagName==='SELECT')$(id).value=[...$(id).options].some(o=>o.value===value)?value:'';else $(id).value=value;}state.status=Object.hasOwn(LABELS,q.status)||q.status==='all'?q.status:'free';runQuery();route('query');}
+ function applySaved(id){const q=saved.find(x=>x.id===id);if(!q)return;for(const id of fields){const value=String(q.fields[id]??'').slice(0,200);if($(id).tagName==='SELECT')$(id).value=[...$(id).options].some(o=>o.value===value)?value:'';else $(id).value=value;}state.status=Object.hasOwn(LABELS,q.status)||q.status==='all'?q.status:'free';runQuery();route('query',true);}
  function refreshQuery(){
   const signature=JSON.stringify(queryData());if(signature!==lastSignature){pageNumber=1;lastSignature=signature;}
   const cards=[...$('results').querySelectorAll(':scope > .person')];
@@ -56,6 +65,8 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
   cards.forEach((n,i)=>n.hidden=i<(pageNumber-1)*pageSize||i>=pageNumber*pageSize);visibleCards=cards.filter(n=>!n.hidden);
   $('results').classList.toggle('ws-compact',compact);$('wsResultSort').value=sort;$('wsDensity').setAttribute('aria-pressed',String(compact));$('wsDensity').textContent=compact?'舒展显示':'紧凑显示';
   $('wsResultCount').textContent=cards.length?'共 '+cards.length+' 人 · 显示 '+((pageNumber-1)*pageSize+1)+'–'+Math.min(pageNumber*pageSize,cards.length):'当前条件下暂无人员';
+  const activeFilters=['campus','college','role','search'].filter(id=>$(id).value.trim()).length;
+  $('wsFilterCount').textContent=activeFilters?' · 已选 '+activeFilters+' 项':'';
   $('wsSelectPage').disabled=!visibleCards.some(n=>state.results.some(r=>r.person.id===personOf(n)?.id&&r.status==='free'));
   const valid=$('date').value&&$('start').value&&$('end').value&&E.min($('end').value)>E.min($('start').value);
   $('wsSaveQuery').disabled=$('wsShareQuery').disabled=!valid;
@@ -63,16 +74,19 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  }
  function renderSearch(){
   const q=$('wsGlobalSearch').value.trim().toLocaleLowerCase();
-  hits=[...routes.filter(r=>(r[1]+' '+r[3]).toLocaleLowerCase().includes(q)).map(r=>({type:'route',id:r[0],title:r[1],sub:r[3],icon:r[2]})),...active.filter(p=>q&&[p.name,p.college,p.studentId,getContact(p)].some(v=>String(v||'').toLocaleLowerCase().includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'zh')).map(p=>({type:'person',id:p.id,title:p.name,sub:p.department+' · '+p.campus+' · '+(p.college||''),icon:p.name.slice(-1)}))].slice(0,12);
+  hits=[...routes.filter(r=>[r.label,r.description,r.group,r.aliases].join(' ').toLocaleLowerCase().includes(q)).map(r=>({type:'route',id:r.id,title:r.label,sub:r.description,icon:r.icon})),...active.filter(p=>q&&[p.name,p.college,p.studentId,getContact(p)].some(v=>String(v||'').toLocaleLowerCase().includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'zh')).map(p=>({type:'person',id:p.id,title:p.name,sub:p.department+' · '+p.campus+' · '+(p.college||''),icon:p.name.slice(-1)}))].slice(0,12);
   hitIndex=Math.min(Math.max(0,hitIndex),Math.max(0,hits.length-1));
-  $('wsSearchResults').innerHTML=hits.map((h,i)=>'<button id="wsSearchOption'+i+'" data-ws-hit="'+i+'" role="option" aria-selected="'+(i===hitIndex)+'"><span class="ws-search-icon">'+escapeHTML(h.icon)+'</span><span><strong>'+escapeHTML(h.title)+'</strong><small>'+escapeHTML(h.sub)+'</small></span><b>'+(h.type==='person'?'课表 ↗':'↗')+'</b></button>').join('')||'<div class="ws-empty">没有找到结果，试试姓名、学号或功能名。</div>';
+  $('wsSearchResults').innerHTML=hits.map((h,i)=>'<button id="wsSearchOption'+i+'" data-ws-hit="'+i+'" role="option" aria-selected="'+(i===hitIndex)+'"><span class="ws-search-icon">'+(h.type==='route'?h.icon:escapeHTML(h.icon))+'</span><span><strong>'+escapeHTML(h.title)+'</strong><small>'+escapeHTML(h.sub)+'</small></span><b>'+(h.type==='person'?'课表 ↗':'↗')+'</b></button>').join('')||'<div class="ws-empty">没有找到结果，试试姓名、学号或功能名。</div>';
   if(hits.length)$('wsGlobalSearch').setAttribute('aria-activedescendant','wsSearchOption'+hitIndex);else $('wsGlobalSearch').removeAttribute('aria-activedescendant');
  }
  function openSearch(){if($('wsMoreDialog').open)$('wsMoreDialog').close();$('wsGlobalSearch').value='';hitIndex=0;renderSearch();if(!$('wsSearchDialog').open)$('wsSearchDialog').showModal();$('wsGlobalSearch').focus();}
- function chooseHit(index){const h=hits[index];if(!h)return;if(h.type==='person'){state.selectedPerson=h.id;$('personSelect').value=h.id;$('personWeek').value=state.week;route('person');}else route(h.id);}
+ function chooseHit(index){const h=hits[index];if(!h)return;if(h.type==='person'){state.selectedPerson=h.id;$('personSelect').value=h.id;$('personWeek').value=state.week;route('person',true);}else route(h.id,true);}
  document.addEventListener('click',event=>{
-  const b=event.target.closest('button');if(!b)return;
-  if(b.dataset.wsRoute)route(b.dataset.wsRoute);
+  const b=event.target.closest('button, a[data-ws-route]');if(!b)return;
+  if(b.dataset.wsRoute){
+   if(b.tagName==='A'&&(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey))return;
+   event.preventDefault();route(b.dataset.wsRoute,true);
+  }
   else if(b.dataset.wsClose)$(b.dataset.wsClose).close();
   else if(b.dataset.wsSaved)applySaved(b.dataset.wsSaved);
   else if(b.dataset.wsRemove){saved=saved.filter(q=>q.id!==b.dataset.wsRemove);save('buaa-workspace-queries-v3',saved);renderSaved();}
@@ -80,14 +94,10 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
   else if(b.dataset.wsHit!==undefined)chooseHit(Number(b.dataset.wsHit));
  });
  $('wsSearchLaunch').onclick=openSearch;$('wsMoreSearch').onclick=openSearch;$('wsMoreButton').onclick=()=>$('wsMoreDialog').showModal();if($('officeMore'))$('officeMore').onclick=()=>$('wsMoreDialog').showModal();
- $('wsMoreRoutes').innerHTML=routes.map(r=>'<button data-ws-route="'+r[0]+'"><span>'+r[2]+'</span><strong>'+r[1]+'</strong><small>'+r[3]+'</small></button>').join('');
  $('wsGlobalSearch').oninput=()=>{hitIndex=0;renderSearch();};
  $('wsGlobalSearch').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();hitIndex=(hitIndex+(e.key==='ArrowDown'?1:-1)+Math.max(hits.length,1))%Math.max(hits.length,1);renderSearch();$('wsSearchOption'+hitIndex)?.scrollIntoView({block:'nearest'});}if(e.key==='Enter'){e.preventDefault();chooseHit(hitIndex);}};
  document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();}else if(e.key==='/'&&!e.target.closest('input,textarea,select,[contenteditable=true]')&&!document.querySelector('dialog[open]')){e.preventDefault();openSearch();}});
  window.addEventListener('message',e=>{if(e.source===$('lotteryFrame').contentWindow&&(location.protocol==='file:'||e.origin===location.origin)&&e.data?.type==='buaa-workspace-search')openSearch();});
- $('wsQuickDate').value=today();$('wsQuickDate').onchange=refreshAvailability;$('wsQuickTime').onchange=refreshAvailability;
- $('wsOpenQuick').onclick=()=>{const [start,end]=$('wsQuickTime').value.split(',');openTime($('wsQuickDate').value,start,end);};
- $('wsHomeSelection').onclick=()=>$('selectionDialog').showModal();
  $('wsResultSort').onchange=()=>{sort=$('wsResultSort').value;save('buaa-workspace-query-prefs-v3',{sort,compact});refreshQuery();};
  $('wsDensity').onclick=()=>{compact=!compact;save('buaa-workspace-query-prefs-v3',{sort,compact});refreshQuery();};
  $('wsSelectPage').onclick=()=>{let added=0;for(const card of visibleCards){const id=card.querySelector('[data-person]').dataset.person;if(state.results.some(r=>r.person.id===id&&r.status==='free')&&!selectedIds.has(id)){selectedIds.add(id);added++;}}persistSelection();toast(added?'已加入 '+added+' 位空闲同学':'本页空闲同学已在名单中');};
@@ -100,10 +110,10 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
   download('时段查询_'+$('date').value+'_'+(LABELS[state.status]||'全部')+'.csv','\uFEFF'+rows.map(r=>r.map(cell).join(',')).join('\r\n'),'text/csv;charset=utf-8');
  };
  $('copyFree').textContent='复制全部空闲';
- window.WorkspaceApp={onView,refreshQuery,refreshCounts,refreshHome,route,openSearch};
+ window.WorkspaceApp={onView,refreshQuery,refreshHome,route,openSearch};
  renderSaved();refreshQuery();refreshHome();
- let initial=location.hash.slice(1);if(!routes.some(r=>r[0]===initial))initial='home';
+ let initial=location.hash.slice(1);if(!routeById.has(initial))initial='home';
  if(initial==='query'){const params=new URLSearchParams(location.search);for(const field of fields.filter(f=>f!=='search')){const value=params.get(field);if(!value||value.length>200)continue;const input=$(field);if(input.tagName==='SELECT'){if([...input.options].some(o=>o.value===value))input.value=value;}else if((field==='date'&&/^\d{4}-\d{2}-\d{2}$/.test(value))||(['start','end'].includes(field)&&/^\d{2}:\d{2}$/.test(value)))input.value=value;}if(Object.hasOwn(LABELS,params.get('status'))||params.get('status')==='all')state.status=params.get('status');runQuery();}
  route(initial);
- window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(routes.some(r=>r[0]===target)&&state.view!==target)route(target);});
+ window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(routeById.has(target)&&state.view!==target)route(target);});
 })();
