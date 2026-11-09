@@ -1,6 +1,21 @@
 const additive=['students','members','branches','branchesGeneral','newMembers','cadres'];
 export const defaultAliases={'杭州国际创新研究院':'杭州北航国际创新研究院'};
 export function canonical(name,aliases=defaultAliases){return aliases[name]||name}
+function codeNumbers(code){
+ return String(code??'').split('/').map(part=>part.trim()).filter(part=>/^\d+$/.test(part)).map(Number);
+}
+export function compareDepartmentCode(a,b){
+ return Math.min(...codeNumbers(a.code))-Math.min(...codeNumbers(b.code))||a.college.localeCompare(b.college,'zh-CN');
+}
+export function unitCodes(records){
+ const codes=new Map();
+ for(const {college,code} of records){
+  const name=canonical(college);
+  if(!codes.has(name))codes.set(name,new Set());
+  for(const number of codeNumbers(code))codes.get(name).add(number);
+ }
+ return new Map([...codes].map(([name,numbers])=>[name,[...numbers].sort((a,b)=>a-b).join(' / ')]));
+}
 const finiteSum=(a,b)=>a==null||b==null?null:a+b;
 const empty=()=>Object.fromEntries(additive.map(k=>[k,0]));
 function selectedRows(data,{kind='',level='college',excludeFresh=false,search='',aliases=defaultAliases}={}){
