@@ -337,7 +337,31 @@ window.addEventListener("message",e=>{const f=document.querySelector(".league-fr
 /* OFFICE_UPGRADE_START */
 (() => {
  'use strict';
- const colleges=[{"code":1,"name":"材料科学与工程学院"},{"code":2,"name":"电子信息工程学院"},{"code":3,"name":"自动化科学与电气工程学院"},{"code":4,"name":"能源与动力工程学院"},{"code":5,"name":"航空科学与工程学院"},{"code":6,"name":"计算机学院"},{"code":7,"name":"机械工程及自动化学院"},{"code":8,"name":"经济管理学院"},{"code":9,"name":"数学科学学院"},{"code":10,"name":"生物与医学工程学院"},{"code":11,"name":"人文社会科学学院"},{"code":12,"name":"外国语学院"},{"code":13,"name":"交通科学与工程学院"},{"code":14,"name":"可靠性与系统工程学院"},{"code":15,"name":"宇航学院"},{"code":16,"name":"飞行学院"},{"code":17,"name":"仪器科学与光电工程学院"},{"code":18,"name":"北京学院"},{"code":19,"name":"物理学院"},{"code":20,"name":"法学院"},{"code":21,"name":"软件学院"},{"code":23,"name":"沈元学院"},{"code":24,"name":"中法工程师学院"},{"code":26,"name":"新媒体艺术与设计学院"},{"code":27,"name":"化学学院"},{"code":28,"name":"马克思主义学院"},{"code":29,"name":"人文与社会科学高等研究院"},{"code":30,"name":"空间与地球科学学院"},{"code":31,"name":"无人系统研究院"},{"code":32,"name":"航空发动机研究院"},{"code":33,"name":"体育部"},{"code":39,"name":"网络空间安全学院"},{"code":41,"name":"集成电路科学与工程学院"},{"code":42,"name":"人工智能学院"},{"code":43,"name":"前沿科学技术创新研究院"},{"code":45,"name":"医学科学与工程学院"},{"code":60,"name":"中法航空学院"},{"code":61,"name":"中法未来科技学院"},{"code":63,"name":"中西智能学院"},{"code":71,"name":"传源书院"},{"code":73,"name":"士谔书院"},{"code":74,"name":"冯如书院"},{"code":75,"name":"士嘉书院"},{"code":76,"name":"守锷书院"},{"code":77,"name":"致真书院"},{"code":78,"name":"项目制"},{"code":79,"name":"知行书院"}];
+ const colleges=[{"code":1,"name":"材料科学与工程学院"},{"code":2,"name":"电子信息工程学院"},{"code":3,"name":"自动化科学与电气工程学院"},{"code":4,"name":"能源与动力工程学院"},{"code":5,"name":"航空科学与工程学院"},{"code":6,"name":"计算机学院"},{"code":7,"name":"机械工程及自动化学院"},{"code":8,"name":"经济管理学院"},{"code":9,"name":"数学科学学院"},{"code":10,"name":"生物与医学工程学院"},{"code":11,"name":"人文社会科学学院"},{"code":12,"name":"外国语学院"},{"code":13,"name":"交通科学与工程学院"},{"code":14,"name":"可靠性与系统工程学院"},{"code":15,"name":"宇航学院"},{"code":16,"name":"飞行学院"},{"code":17,"name":"仪器科学与光电工程学院"},{"code":18,"name":"北京学院"},{"code":19,"name":"物理学院"},{"code":20,"name":"法学院"},{"code":21,"name":"软件学院"},{"code":23,"name":"沈元学院"},{"code":24,"name":"中法工程师学院"},{"code":26,"name":"新媒体艺术与设计学院"},{"code":27,"name":"化学学院"},{"code":28,"name":"马克思主义学院"},{"code":29,"name":"人文与社会科学高等研究院"},{"code":30,"name":"空间与地球科学学院"},{"code":31,"name":"无人系统研究院"},{"code":32,"name":"航空发动机研究院"},{"code":33,"name":"体育部"},{"code":39,"name":"网络空间安全学院"},{"code":41,"name":"集成电路科学与工程学院"},{"code":42,"name":"人工智能学院"},{"code":43,"name":"前沿科学技术创新研究院"},{"code":45,"name":"医学科学与工程学院"},{"code":57,"name":"杭州北航国际创新研究院"},{"code":60,"name":"中法航空学院"},{"code":61,"name":"中法未来科技学院"},{"code":63,"name":"中西智能学院"},{"code":71,"name":"传源书院"},{"code":73,"name":"士谔书院"},{"code":74,"name":"冯如书院"},{"code":75,"name":"士嘉书院"},{"code":76,"name":"守锷书院"},{"code":77,"name":"致真书院"},{"code":78,"name":"项目制"},{"code":79,"name":"知行书院"}];
+ $('exportColleges').onclick=async()=>{
+  const button=$('exportColleges');
+  button.disabled=true;
+  try{
+   if(!window.ExcelJS)await import('./vendor/exceljs-4.4.0.min.js');
+   const workbook=new window.ExcelJS.Workbook();
+   const sheet=workbook.addWorksheet('系号对照');
+   sheet.columns=[{header:'系号',width:12},{header:'学院 / 书院 / 单位',width:42}];
+   sheet.addRows([...colleges].sort((a,b)=>a.code-b.code).map(({code,name})=>[code,name]));
+   sheet.views=[{state:'frozen',ySplit:1}];
+   sheet.autoFilter='A1:B'+sheet.rowCount;
+   sheet.getRow(1).height=23;
+   sheet.getRow(1).eachCell(cell=>{
+    cell.font={bold:true,color:{argb:'FFFFFFFF'}};
+    cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF25455F'}};
+   });
+   download('北航系号与学院对照表.xlsx',await workbook.xlsx.writeBuffer(),
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  }catch{
+   toast('对照表导出失败，请刷新页面后重试。');
+  }finally{
+   button.disabled=false;
+  }
+ };
  function renderColleges(){const q=$('collegeSearch').value.trim().replace(/\s/g,'');const numeric=q.match(/^(\d{1,2})(?:系)?$/);const rows=colleges.filter(x=>!q||(numeric?x.code===Number(numeric[1]):x.name.includes(q)));$('collegeCount').textContent=rows.length+' / '+colleges.length+' 组';$('collegeResults').innerHTML=rows.map(x=>'<article class="college-item"><span class="college-code">'+x.code+'<small>系</small></span><strong>'+escapeHTML(x.name)+'</strong><button data-copy-college="'+x.code+'">复制系号</button></article>').join('')||'<div class="ws-empty">模板中未找到这一单位，请确认名称或补充系号。</div>';}
  $('collegeSearch').oninput=renderColleges;$('collegeClear').onclick=()=>{$('collegeSearch').value='';renderColleges();$('collegeSearch').focus();};
  document.addEventListener('click',async event=>{const b=event.target.closest('button');if(!b)return;if(b.dataset.collegeQuery){$('collegeSearch').value=b.dataset.collegeQuery;renderColleges();}if(b.dataset.copyCollege){try{await navigator.clipboard.writeText(b.dataset.copyCollege);toast('系号 '+b.dataset.copyCollege+' 已复制');}catch{toast('请手动复制系号：'+b.dataset.copyCollege);}}});
