@@ -1,6 +1,7 @@
 import {compareAwards, select, verified, groupUnits} from './model.mjs';
 
 const $ = id => document.getElementById(id);
+if (parent !== window) document.documentElement.dataset.embedded = 'true';
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'})[character]);
 const link = (url, title) => url && /^https:\/\//.test(url)

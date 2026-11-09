@@ -16,14 +16,13 @@ function eventsForDisplay(events){const known=events.filter(e=>!e.uncertain),dis
 function runQueryOriginal(){
  const date=$('date').value,start=$('start').value,end=$('end').value;
  const valid=date&&start&&end&&E.min(end)>E.min(start);$('copyFree').disabled=$('exportQuery').disabled=!valid;
- if(!valid){state.results=[];$('summary').innerHTML='';$('results').innerHTML='<div class="empty">请选择有效的日期和时间；结束时间应晚于开始时间。</div>';$('queryLabel').textContent='等待有效查询';$('weekLabel').textContent='';$('statusTabs').innerHTML='';$('queryNotice').innerHTML='';renderSelection();return}
+ if(!valid){state.results=[];$('results').innerHTML='<div class="empty">请选择有效的日期和时间；结束时间应晚于开始时间。</div>';$('queryLabel').textContent='等待有效查询';$('weekLabel').textContent='';$('statusTabs').innerHTML='';$('queryNotice').innerHTML='';renderSelection();return}
  const info=E.dayInfo(date,DATA,storeState.rules);state.week=Math.max(1,Math.min(DATA.meta.maxWeek,info.week));
  state.results=E.query(DATA,date,start,end,{department:$('department').value,campus:$('campus').value,college:$('college').value,role:$('role').value,search:$('search').value.trim()},storeState.rules);
  $('queryLabel').textContent=date.replaceAll('-','.')+' '+DAYS[info.day-1]+' '+start+' — '+end;
  $('weekLabel').textContent=info.valid?'第 '+info.week+' 周 · '+(info.week%2?'单周':'双周'):'学期范围之外';
  $('queryNotice').innerHTML=info.special?`<div class="notice">此日期已设置：${info.stop?'课程停课':'上第 '+info.courseWeek+' 周'+DAYS[info.courseDay-1]+'的课程'}。原有值班、组会等仍保留。</div>`:((date>='2026-09-25'&&date<='2026-09-27')||(date>='2026-10-01'&&date<='2026-10-07'))?'<div class="notice">此日期处于节假日期间，教学安排需根据学校通知确认。可在“数据与校历”设置停课或补课。</div>':'';
  const counts=Object.fromEntries(Object.keys(LABELS).map(k=>[k,state.results.filter(r=>r.status===k).length]));
- $('summary').innerHTML=Object.entries(LABELS).map(([k,v])=>`<div class="stat" style="--accent:${COLORS[k]}"><div class="stat-title">${v}</div><div class="stat-num">${counts[k]}<small>人</small></div></div>`).join('');
  $('statusTabs').innerHTML=[...Object.keys(LABELS),'all'].map(k=>`<button data-status="${k}" class="${state.status===k?'active':''}">${k==='all'?'全部':LABELS[k]} <span>${k==='all'?state.results.length:counts[k]}</span></button>`).join('');
  document.querySelectorAll('#statusTabs button').forEach(b=>b.onclick=()=>{state.status=b.dataset.status;runQuery()});renderResults();
  document.querySelectorAll('[data-range]').forEach(b=>b.classList.toggle('selected',b.dataset.range===start+','+end));renderSelection();
@@ -79,11 +78,10 @@ function renderDirectory(){const ps=directoryPeople();$('directoryTable').innerH
 $('directoryDept').onchange=renderDirectory;$('directoryStatus').onchange=renderDirectory;$('directorySearch').oninput=renderDirectory;
 $('exportPeople').onclick=()=>{const esc=v=>'"'+String(v||'').replaceAll('"','""')+'"';const rows=[['姓名','部门','学号','学院（书院）','职务','电话或联系备注','校区','课表收集','任职备注'],...directoryPeople().map(p=>[p.name,p.department,p.studentId,p.college,p.role,getContact(p),p.campus,p.defaultNoClasses?'默认无课':p.hasTimetable?'已收集':'未收集',p.rosterNotes||''])];download('人员名录.csv','\uFEFF'+rows.map(r=>r.map(esc).join(',')).join('\r\n'),'text/csv;charset=utf-8')};
 
-$('sidebarCount').textContent=DATA.meta.activePeopleCount+' 位现任同学'+(DATA.meta.unmatchedTimetables.length?' · '+DATA.meta.unmatchedTimetables.length+' 份课表待核对':'');
 $('pageFooter').hidden=true;
 
 // Selected people and display preferences are local to this browser.
-function persistSelectionOriginal(){try{localStorage.setItem('buaa-schedule-2026-selection',JSON.stringify([...selectedIds]))}catch{toast('当前浏览器无法保存工作名单')}renderSelection();document.querySelectorAll('[data-pick]').forEach(b=>{const active=selectedIds.has(b.dataset.pick);b.setAttribute('aria-pressed',String(active));b.textContent=active?'已加入工作名单':'加入工作名单'})}
+function persistSelection(){try{localStorage.setItem('buaa-schedule-2026-selection',JSON.stringify([...selectedIds]))}catch{toast('当前浏览器无法保存工作名单')}renderSelection();document.querySelectorAll('[data-pick]').forEach(b=>{const active=selectedIds.has(b.dataset.pick);b.setAttribute('aria-pressed',String(active));b.textContent=active?'已加入工作名单':'加入工作名单'})}
 function selectionRows(){const date=$('date').value,start=$('start').value,end=$('end').value,valid=date&&start&&end&&E.min(end)>E.min(start);return DATA.people.filter(p=>selectedIds.has(p.id)).map(person=>({person,...(valid?E.evaluate(person,date,start,end,DATA,storeState.rules):{status:'unknown',events:[],reasons:['请先选择有效的日期和时段']})}))}
 function renderSelection(){if(!$('selectionCount'))return;$('selectionCount').textContent=selectedIds.size;$('selectionContext').textContent='状态对应：'+($('queryLabel').textContent||'当前时段查询');const rows=selectionRows();$('selectionRows').innerHTML=rows.map(r=>`<div class="selection-row"><div><strong>${escapeHTML(r.person.name)}</strong><span class="badge ${r.status}">${LABELS[r.status]}</span><p class="muted">${escapeHTML(r.person.department)} · ${escapeHTML(r.person.campus)} · ${escapeHTML(getContact(r.person)||'未填写联系方式')}</p>${r.events.length?'<p>'+escapeHTML(eventsForDisplay(r.events).map(e=>e.title+' '+e.start+(e.endUnknown?' 起（结束待确认）':'–'+e.end)).join('；'))+'</p>':''}${r.reasons.length?'<p class="muted">'+escapeHTML(r.reasons.join('；'))+'</p>':''}</div><button data-remove-selection="${r.person.id}">移除</button></div>`).join('')||'<p class="planner-empty">还没有选择同学。<br>可在时段查询结果中点击“加入工作名单”。</p>';$('selectionCopy').disabled=$('selectionExport').disabled=$('selectionToPlanner').disabled=!rows.length;document.querySelectorAll('[data-remove-selection]').forEach(b=>b.onclick=()=>{selectedIds.delete(b.dataset.removeSelection);persistSelection()})}
 function selectionText(){const rows=selectionRows();return '工作名单（'+rows.length+' 人）\n'+$('queryLabel').textContent+'\n'+rows.map(r=>r.person.name+'｜'+r.person.department+'｜'+LABELS[r.status]+'｜'+(getContact(r.person)||'联系方式未填写')+(r.events.length?'｜'+eventsForDisplay(r.events).map(e=>e.title+' '+e.start+(e.endUnknown?' 起（结束待确认）':'–'+e.end)).join('；'):'')+(r.reasons.length?'｜'+r.reasons.join('；'):'')).join('\n')+'\n空闲依据现有课表，参加工作前请联系本人确认。'}
@@ -97,7 +95,7 @@ function findPlanner(partial=false){
  $('plannerResults').innerHTML=plannerResults.map((s,i)=>{const free=s.results.filter(r=>r.status==='free'),busy=s.results.filter(r=>r.status==='course'||r.status==='other'),unknown=s.results.filter(r=>r.status==='unknown');return `<article class="slot-card"><div class="slot-top"><strong>${s.date.replaceAll('-','.')} ${DAYS[s.day-1]}</strong><span class="badge ${s.free===s.total?'free':'course'}">${s.free}/${s.total} 人空闲</span></div><div class="slot-time">${s.start} — ${s.end}</div><p><strong>空闲：</strong>${free.map(r=>escapeHTML(r.person.name)).join('、')}</p>${unknown.length?'<p class="muted">信息不完整：'+unknown.map(r=>escapeHTML(r.person.name)).join('、')+'</p>':''}${busy.length||unknown.length?'<details><summary>查看其余 '+(busy.length+unknown.length)+' 人的安排</summary>'+[...busy,...unknown].map(r=>'<p><strong>'+escapeHTML(r.person.name)+'</strong> · '+LABELS[r.status]+'<br>'+escapeHTML(eventsForDisplay(r.events).map(e=>e.title+' '+e.start+(e.endUnknown?' 起（结束待确认）':'–'+e.end)).join('；')||r.reasons.join('；'))+'</p>').join('')+'</details>':''}<div class="row"><button data-slot-pick="${i}">将空闲人员加入名单</button><button data-slot-open="${i}">查看全员安排</button></div></article>`}).join('')||'<div class="planner-empty">'+(partial?'这个范围内，没有可确认为空闲的所选同学。':'这个范围内，没有所有所选同学共同空闲的时段。<br>可调整日期、时长，或点击“按可参加人数查找”。')+'</div>';
  document.querySelectorAll('[data-slot-open]').forEach(b=>b.onclick=()=>{const s=plannerResults[Number(b.dataset.slotOpen)];openTime(s.date,s.start,s.end);state.status='all';runQuery()});document.querySelectorAll('[data-slot-pick]').forEach(b=>b.onclick=()=>{const s=plannerResults[Number(b.dataset.slotPick)];s.results.filter(r=>r.status==='free').forEach(r=>selectedIds.add(r.person.id));openTime(s.date,s.start,s.end);persistSelection();toast('已将该时段空闲的同学加入工作名单')});
 }
-function setDisplayMode(clear){document.body.classList.toggle('clear-mode',clear);$('displayMode').textContent=clear?'恢复氛围效果':'切换高对比';$('displayMode').setAttribute('aria-pressed',String(clear));try{localStorage.setItem('buaa-schedule-2026-clear',String(clear))}catch{}}
+function setDisplayMode(clear){document.body.classList.toggle('clear-mode',clear);$('displayMode').textContent=clear?'关闭高对比':'开启高对比';$('displayMode').setAttribute('aria-pressed',String(clear));try{localStorage.setItem('buaa-schedule-2026-clear',String(clear))}catch{}}
 function setupGlass(){
  if(document.body.dataset.platformTheme==='night')return;
  // Approximate curved edge refraction. The separate layer leaves all text untouched.
@@ -216,10 +214,10 @@ window.addEventListener("message",e=>{const f=document.querySelector(".awards-fr
 /* WORKSPACE_UPGRADE_START */
 function renderResults(){renderResultsOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshQuery();}
 function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshQuery();}
-function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshCounts();}
 (() => {
  'use strict';
- const routes=[['home','部门工作台','⌂','常用功能与协作概览'],['office','报销材料','▤','根据发票生成报销材料'],['hours','志愿时长','◷','匹配人员名单并生成导入文件'],['query','时段查询','◷','按时间查询空闲人员'],['colleges','学院系号','⌕','按名称或系号查询学院'],['duty','值班表','▦','查看已确定的每周值班安排'],['gallery','活动记录','▣','查看和发布活动照片'],['awards','志愿荣誉','✦','查询历年获奖人员、项目与团队'],['league','团统数据','▤','查询团组织和团员统计'],['week','一周总览','▦','按节次查看空闲分布'],['planner','共同排期','⇄','寻找多人共同空闲'],['person','个人课表','▤','查看个人课程安排'],['directory','人员名录','♧','查看人员与联系方式'],['lottery','幸运抽奖','✦','选择名单并抽取'],['settings','数据与校历','⚙','数据来源与日期设置']];
+ const routes=[{"id":"home","label":"工作台首页","description":"打开常用操作","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z\"/></svg>","group":""},{"id":"query","label":"查空闲","description":"按日期和时段查找空闲人员","aliases":"时段查询 查课表","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>","group":"人员与排班"},{"id":"week","label":"一周空闲总览","description":"按教学周比较各节次的空闲人数","aliases":"一周总览","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 3v4m10-4v4M3 11h18m-12 0v10m6-10v10\"/></svg>","group":"人员与排班"},{"id":"planner","label":"共同排期","description":"为选中的同学找共同空闲的时间","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 3v4m10-4v4M3 11h18m-12 5 2 2 4-4\"/></svg>","group":"人员与排班"},{"id":"duty","label":"本学期值班表","description":"查看、下载已确认的值班安排","aliases":"值班安排","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\"/><path d=\"M9 4V2m6 2V2M8 10h8m-8 4h8m-8 4h4\"/></svg>","group":"人员与排班"},{"id":"person","label":"个人课表","description":"按姓名和教学周查看课程","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8m-8 4h8m-8 4h5\"/></svg>","group":"人员与排班"},{"id":"directory","label":"人员名录","description":"查找两部门成员及联系方式","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"8\" r=\"3\"/><path d=\"M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2\"/></svg>","group":"人员与排班"},{"id":"hours","label":"志愿时长导入","description":"按岗位和日期生成导入文件","aliases":"录时长 批量时长","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3h9l4 4v14H6zM14 3v5h5M9 12h7m-7 4h7\"/><path d=\"M3 8v13\"/></svg>","group":"材料办理"},{"id":"office","label":"报销材料","description":"上传发票，生成报销材料包","aliases":"报销台账 财务","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8m-8 4h5m0 4h3m-8 0h1\"/></svg>","group":"材料办理"},{"id":"colleges","label":"学院系号与签领表","description":"查询系号，生成物资签领表","aliases":"学院代码","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m3 9 9-5 9 5-9 5zM6 11v6c3 3 9 3 12 0v-6m3-2v8\"/></svg>","group":"材料办理"},{"id":"awards","label":"志愿服务荣誉库","description":"查找历年获奖人员、项目和团队","aliases":"志愿荣誉 五星级","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"5\"/><path d=\"m8 12-2 9 6-3 6 3-2-9\"/></svg>","group":"档案与活动"},{"id":"league","label":"团统数据","description":"查询和导出各学院团员统计","aliases":"团员 研究生 本科生","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20V4m0 16h16M8 16v-4m5 4V8m5 8v-6\"/></svg>","group":"档案与活动"},{"id":"gallery","label":"活动记录与照片","description":"查看或发布活动记录和照片","aliases":"照片墙 相册","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><circle cx=\"8\" cy=\"9\" r=\"1.5\"/><path d=\"m3 17 5-4 4 3 4-5 5 5\"/></svg>","group":"档案与活动"},{"id":"lottery","label":"幸运抽奖","description":"选择人员名单，开始现场抽奖","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 10h16v11H4zM3 6h18v4H3zM12 6v15m0-15H8a2 2 0 1 1 2-2l2 2Zm0 0h4a2 2 0 1 0-2-2l-2 2Z\"/></svg>","group":"其他工具"},{"id":"settings","label":"校历与数据设置","description":"查看课表来源，设置停课或补课日期","aliases":"数据与校历","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 7h16M4 12h16M4 17h16M8 5v4m8 1v4m-6 1v4\"/></svg>","group":"其他工具"}];
+ const routeById=new Map(routes.map(item=>[item.id,item]));
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
  const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
@@ -229,38 +227,47 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  let prefs=read('buaa-workspace-query-prefs-v3',{});if(!prefs||typeof prefs!=='object')prefs={};
  let sort=['department','name','campus'].includes(prefs.sort)?prefs.sort:'department',compact=prefs.compact===true,pageNumber=1,lastSignature='',visibleCards=[],hits=[],hitIndex=0;
  const pageSize=12;
- const labelOf=v=>routes.find(r=>r[0]===v)?.[1]||'部门工作台';
- function route(view){if(!routes.some(r=>r[0]===view))return;for(const id of ['wsSearchDialog','wsMoreDialog'])if($(id).open)$(id).close();setView(view);if(view==='planner'&&selectedIds.size&&!plannerIds.size)importSelectionToPlanner();}
+ function route(view, addHistory=false){
+  if(!routeById.has(view))return;
+  for(const id of ['wsSearchDialog','wsMoreDialog'])if($(id).open)$(id).close();
+  if(addHistory&&location.hash!=='#'+view)history.pushState(null,'','#'+view);
+  if(view==='week')$('weekSelect').value=state.week;
+  if(view==='person')$('personWeek').value=state.week;
+  setView(view);
+  if(view==='planner'&&selectedIds.size&&!plannerIds.size)importSelectionToPlanner();
+ }
  function onView(view){
-  document.body.dataset.workspaceView=view;$('wsBreadcrumb').textContent=labelOf(view);
-  document.querySelectorAll('.ws-mobile-nav [data-ws-route]').forEach(b=>{const current=b.dataset.wsRoute===view;b.classList.toggle('active',current);b.setAttribute('aria-current',current?'page':'false');});
-  $('wsMoreButton').classList.toggle('active',!['home','office','hours','query'].includes(view));
-  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.view===view?'page':'false'));
+  const {label,description,group}=routeById.get(view);
+  document.body.dataset.workspaceView=view;
+  $('wsBreadcrumb').textContent=label;
+  $('wsArea').textContent=group;
+  $('pageTitle').textContent=label;
+  $('pageIntro').textContent=description;
+  $('wsContextLinks').hidden=group!=='人员与排班';
+  document.querySelectorAll('nav [data-ws-route], #wsContextLinks [data-ws-route], .ws-more-routes [data-ws-route], .ws-mobile-nav [data-ws-route]').forEach(link=>{
+   const current=link.dataset.wsRoute===view;
+   link.classList.toggle('active',current);
+   if(current)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
+  });
+  $('wsMoreButton').classList.toggle('active',!document.querySelector('.ws-mobile-nav [aria-current="page"]'));
   if(location.hash!=='#'+view)history.replaceState(null,'','#'+view);
   if(view==='home')refreshHome();if(view==='query')refreshQuery();
   window.scrollTo({top:0,behavior:'instant'});
  }
- function refreshCounts(){
-  $('wsHomeSelectionCount').textContent=selectedIds.size;
- }
  function refreshHome(){
   const date=today(),info=E.dayInfo(date,DATA,storeState.rules);
-  $('wsGreeting').textContent=date.replaceAll('-','.')+' / '+(info.valid?'第 '+info.week+' 教学周':'学期范围外');
-  refreshCounts();renderSaved();refreshAvailability();
- }
- function refreshAvailability(){
-  const date=$('wsQuickDate').value,[start,end]=$('wsQuickTime').value.split(',');
-  if(!date){$('wsAvailabilityResult').innerHTML='<p class="ws-empty">先选一个日期。</p>';return;}
-  const rows=E.query(DATA,date,start,end,{},storeState.rules),free=rows.filter(r=>r.status==='free'),unknown=rows.filter(r=>r.status==='unknown');
-  $('wsAvailabilityResult').innerHTML='<div class="ws-availability-total"><strong>'+free.length+'<small>人空闲</small></strong><span>'+unknown.length+' 人安排信息不完整</span></div><div class="ws-dept-bars">'+['志工部','实践部'].map(dept=>{const total=rows.filter(r=>r.person.department===dept).length,n=free.filter(r=>r.person.department===dept).length;return '<div><p><span>'+dept+'</span><strong>'+n+' / '+total+'</strong></p><div class="ws-bar"><i style="width:'+Math.round(n/Math.max(total,1)*100)+'%"></i></div></div>';}).join('')+'</div>';
+  const [year,month,day]=date.split('-').map(Number);
+  $('wsGreeting').textContent=year+'年'+month+'月'+day+'日'+(info.valid?' · 第 '+info.week+' 教学周':'');
+  renderSaved();
  }
  const queryData=()=>({fields:Object.fromEntries(fields.map(id=>[id,$(id).value])),status:state.status});
  function renderSaved(){
   const chips=saved.map(q=>'<span class="ws-saved-chip"><button data-ws-saved="'+escapeHTML(q.id)+'">'+escapeHTML(q.label)+'</button><button data-ws-remove="'+escapeHTML(q.id)+'" aria-label="删除收藏 '+escapeHTML(q.label)+'">×</button></span>').join('');
-  $('wsQuerySaved').innerHTML=chips||'<span class="ws-subtle">把常用时间和筛选条件收藏在这里</span>';
-  $('wsHomeSaved').innerHTML=chips||'<div class="ws-saved-empty"><span>☆</span><div><strong>让常用的查询，一点就到。</strong><p>在时段查询里设置好条件，点击“收藏查询”。</p></div><button data-ws-route="query">创建第一个收藏 ↗</button></div>';
+  $('wsQuerySaved').hidden=$('wsHomeFavorites').hidden=!saved.length;
+  $('wsQuerySaved').innerHTML=chips;
+  $('wsHomeSaved').innerHTML=chips;
  }
- function applySaved(id){const q=saved.find(x=>x.id===id);if(!q)return;for(const id of fields){const value=String(q.fields[id]??'').slice(0,200);if($(id).tagName==='SELECT')$(id).value=[...$(id).options].some(o=>o.value===value)?value:'';else $(id).value=value;}state.status=Object.hasOwn(LABELS,q.status)||q.status==='all'?q.status:'free';runQuery();route('query');}
+ function applySaved(id){const q=saved.find(x=>x.id===id);if(!q)return;for(const id of fields){const value=String(q.fields[id]??'').slice(0,200);if($(id).tagName==='SELECT')$(id).value=[...$(id).options].some(o=>o.value===value)?value:'';else $(id).value=value;}state.status=Object.hasOwn(LABELS,q.status)||q.status==='all'?q.status:'free';runQuery();route('query',true);}
  function refreshQuery(){
   const signature=JSON.stringify(queryData());if(signature!==lastSignature){pageNumber=1;lastSignature=signature;}
   const cards=[...$('results').querySelectorAll(':scope > .person')];
@@ -272,6 +279,8 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
   cards.forEach((n,i)=>n.hidden=i<(pageNumber-1)*pageSize||i>=pageNumber*pageSize);visibleCards=cards.filter(n=>!n.hidden);
   $('results').classList.toggle('ws-compact',compact);$('wsResultSort').value=sort;$('wsDensity').setAttribute('aria-pressed',String(compact));$('wsDensity').textContent=compact?'舒展显示':'紧凑显示';
   $('wsResultCount').textContent=cards.length?'共 '+cards.length+' 人 · 显示 '+((pageNumber-1)*pageSize+1)+'–'+Math.min(pageNumber*pageSize,cards.length):'当前条件下暂无人员';
+  const activeFilters=['campus','college','role','search'].filter(id=>$(id).value.trim()).length;
+  $('wsFilterCount').textContent=activeFilters?' · 已选 '+activeFilters+' 项':'';
   $('wsSelectPage').disabled=!visibleCards.some(n=>state.results.some(r=>r.person.id===personOf(n)?.id&&r.status==='free'));
   const valid=$('date').value&&$('start').value&&$('end').value&&E.min($('end').value)>E.min($('start').value);
   $('wsSaveQuery').disabled=$('wsShareQuery').disabled=!valid;
@@ -279,16 +288,19 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
  }
  function renderSearch(){
   const q=$('wsGlobalSearch').value.trim().toLocaleLowerCase();
-  hits=[...routes.filter(r=>(r[1]+' '+r[3]).toLocaleLowerCase().includes(q)).map(r=>({type:'route',id:r[0],title:r[1],sub:r[3],icon:r[2]})),...active.filter(p=>q&&[p.name,p.college,p.studentId,getContact(p)].some(v=>String(v||'').toLocaleLowerCase().includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'zh')).map(p=>({type:'person',id:p.id,title:p.name,sub:p.department+' · '+p.campus+' · '+(p.college||''),icon:p.name.slice(-1)}))].slice(0,12);
+  hits=[...routes.filter(r=>[r.label,r.description,r.group,r.aliases].join(' ').toLocaleLowerCase().includes(q)).map(r=>({type:'route',id:r.id,title:r.label,sub:r.description,icon:r.icon})),...active.filter(p=>q&&[p.name,p.college,p.studentId,getContact(p)].some(v=>String(v||'').toLocaleLowerCase().includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'zh')).map(p=>({type:'person',id:p.id,title:p.name,sub:p.department+' · '+p.campus+' · '+(p.college||''),icon:p.name.slice(-1)}))].slice(0,12);
   hitIndex=Math.min(Math.max(0,hitIndex),Math.max(0,hits.length-1));
-  $('wsSearchResults').innerHTML=hits.map((h,i)=>'<button id="wsSearchOption'+i+'" data-ws-hit="'+i+'" role="option" aria-selected="'+(i===hitIndex)+'"><span class="ws-search-icon">'+escapeHTML(h.icon)+'</span><span><strong>'+escapeHTML(h.title)+'</strong><small>'+escapeHTML(h.sub)+'</small></span><b>'+(h.type==='person'?'课表 ↗':'↗')+'</b></button>').join('')||'<div class="ws-empty">没有找到结果，试试姓名、学号或功能名。</div>';
+  $('wsSearchResults').innerHTML=hits.map((h,i)=>'<button id="wsSearchOption'+i+'" data-ws-hit="'+i+'" role="option" aria-selected="'+(i===hitIndex)+'"><span class="ws-search-icon">'+(h.type==='route'?h.icon:escapeHTML(h.icon))+'</span><span><strong>'+escapeHTML(h.title)+'</strong><small>'+escapeHTML(h.sub)+'</small></span><b>'+(h.type==='person'?'课表 ↗':'↗')+'</b></button>').join('')||'<div class="ws-empty">没有找到结果，试试姓名、学号或功能名。</div>';
   if(hits.length)$('wsGlobalSearch').setAttribute('aria-activedescendant','wsSearchOption'+hitIndex);else $('wsGlobalSearch').removeAttribute('aria-activedescendant');
  }
  function openSearch(){if($('wsMoreDialog').open)$('wsMoreDialog').close();$('wsGlobalSearch').value='';hitIndex=0;renderSearch();if(!$('wsSearchDialog').open)$('wsSearchDialog').showModal();$('wsGlobalSearch').focus();}
- function chooseHit(index){const h=hits[index];if(!h)return;if(h.type==='person'){state.selectedPerson=h.id;$('personSelect').value=h.id;$('personWeek').value=state.week;route('person');}else route(h.id);}
+ function chooseHit(index){const h=hits[index];if(!h)return;if(h.type==='person'){state.selectedPerson=h.id;$('personSelect').value=h.id;$('personWeek').value=state.week;route('person',true);}else route(h.id,true);}
  document.addEventListener('click',event=>{
-  const b=event.target.closest('button');if(!b)return;
-  if(b.dataset.wsRoute)route(b.dataset.wsRoute);
+  const b=event.target.closest('button, a[data-ws-route]');if(!b)return;
+  if(b.dataset.wsRoute){
+   if(b.tagName==='A'&&(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey))return;
+   event.preventDefault();route(b.dataset.wsRoute,true);
+  }
   else if(b.dataset.wsClose)$(b.dataset.wsClose).close();
   else if(b.dataset.wsSaved)applySaved(b.dataset.wsSaved);
   else if(b.dataset.wsRemove){saved=saved.filter(q=>q.id!==b.dataset.wsRemove);save('buaa-workspace-queries-v3',saved);renderSaved();}
@@ -296,14 +308,10 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
   else if(b.dataset.wsHit!==undefined)chooseHit(Number(b.dataset.wsHit));
  });
  $('wsSearchLaunch').onclick=openSearch;$('wsMoreSearch').onclick=openSearch;$('wsMoreButton').onclick=()=>$('wsMoreDialog').showModal();if($('officeMore'))$('officeMore').onclick=()=>$('wsMoreDialog').showModal();
- $('wsMoreRoutes').innerHTML=routes.map(r=>'<button data-ws-route="'+r[0]+'"><span>'+r[2]+'</span><strong>'+r[1]+'</strong><small>'+r[3]+'</small></button>').join('');
  $('wsGlobalSearch').oninput=()=>{hitIndex=0;renderSearch();};
  $('wsGlobalSearch').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();hitIndex=(hitIndex+(e.key==='ArrowDown'?1:-1)+Math.max(hits.length,1))%Math.max(hits.length,1);renderSearch();$('wsSearchOption'+hitIndex)?.scrollIntoView({block:'nearest'});}if(e.key==='Enter'){e.preventDefault();chooseHit(hitIndex);}};
  document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();}else if(e.key==='/'&&!e.target.closest('input,textarea,select,[contenteditable=true]')&&!document.querySelector('dialog[open]')){e.preventDefault();openSearch();}});
  window.addEventListener('message',e=>{if(e.source===$('lotteryFrame').contentWindow&&(location.protocol==='file:'||e.origin===location.origin)&&e.data?.type==='buaa-workspace-search')openSearch();});
- $('wsQuickDate').value=today();$('wsQuickDate').onchange=refreshAvailability;$('wsQuickTime').onchange=refreshAvailability;
- $('wsOpenQuick').onclick=()=>{const [start,end]=$('wsQuickTime').value.split(',');openTime($('wsQuickDate').value,start,end);};
- $('wsHomeSelection').onclick=()=>$('selectionDialog').showModal();
  $('wsResultSort').onchange=()=>{sort=$('wsResultSort').value;save('buaa-workspace-query-prefs-v3',{sort,compact});refreshQuery();};
  $('wsDensity').onclick=()=>{compact=!compact;save('buaa-workspace-query-prefs-v3',{sort,compact});refreshQuery();};
  $('wsSelectPage').onclick=()=>{let added=0;for(const card of visibleCards){const id=card.querySelector('[data-person]').dataset.person;if(state.results.some(r=>r.person.id===id&&r.status==='free')&&!selectedIds.has(id)){selectedIds.add(id);added++;}}persistSelection();toast(added?'已加入 '+added+' 位空闲同学':'本页空闲同学已在名单中');};
@@ -316,12 +324,12 @@ function persistSelection(){persistSelectionOriginal();if(window.WorkspaceApp)wi
   download('时段查询_'+$('date').value+'_'+(LABELS[state.status]||'全部')+'.csv','\uFEFF'+rows.map(r=>r.map(cell).join(',')).join('\r\n'),'text/csv;charset=utf-8');
  };
  $('copyFree').textContent='复制全部空闲';
- window.WorkspaceApp={onView,refreshQuery,refreshCounts,refreshHome,route,openSearch};
+ window.WorkspaceApp={onView,refreshQuery,refreshHome,route,openSearch};
  renderSaved();refreshQuery();refreshHome();
- let initial=location.hash.slice(1);if(!routes.some(r=>r[0]===initial))initial='home';
+ let initial=location.hash.slice(1);if(!routeById.has(initial))initial='home';
  if(initial==='query'){const params=new URLSearchParams(location.search);for(const field of fields.filter(f=>f!=='search')){const value=params.get(field);if(!value||value.length>200)continue;const input=$(field);if(input.tagName==='SELECT'){if([...input.options].some(o=>o.value===value))input.value=value;}else if((field==='date'&&/^\d{4}-\d{2}-\d{2}$/.test(value))||(['start','end'].includes(field)&&/^\d{2}:\d{2}$/.test(value)))input.value=value;}if(Object.hasOwn(LABELS,params.get('status'))||params.get('status')==='all')state.status=params.get('status');runQuery();}
  route(initial);
- window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(routes.some(r=>r[0]===target)&&state.view!==target)route(target);});
+ window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(routeById.has(target)&&state.view!==target)route(target);});
 })();
 
 window.addEventListener("message",e=>{const f=document.querySelector(".league-frame");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="league-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(850,e.data.height))+"px"});

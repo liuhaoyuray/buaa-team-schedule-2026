@@ -1,0 +1,51 @@
+:root, body { background: #0c1422; }
+.card, .download-card, .panel {
+  border-color: #2a3951;
+  border-radius: 12px;
+  background: #141f31;
+  box-shadow: none;
+}
+.primary { background: #aac8ff; color: #102347; }
+.primary:hover { background: #c0d6ff; }
+.steps span {
+  border-color: #2a3951;
+  border-radius: 8px;
+  background: #141f31;
+  color: #d6e3fa;
+}
+html[data-embedded="true"] main {
+  max-width: none;
+  padding: 0 0 25px;
+}
+html[data-embedded="true"] .intro { padding: 0 0 17px; }
+html[data-embedded="true"] .intro h1 { display: none; }
+html[data-embedded="true"] .intro p { margin: 0 0 10px; }
+html[data-embedded="true"] .intro .steps { margin: 0; }
+html[data-embedded="true"] .ws-module-header {
+  justify-content: flex-start;
+  padding: 0 0 12px;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+html[data-embedded="true"] .ws-module-header > :not(.ws-module-meta) { display: none; }
+html[data-embedded="true"] .ws-module-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px 9px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: start;
+  color: #a8b8cf;
+  font-size: 12px;
+}
+html[data-embedded="true"] .ws-module-meta :is(span, small) { margin: 0; color: inherit; }
+
+@media (max-width: 420px) {
+  input[type="date"] { min-width: 0; }
+  .fields label { min-width: 0; }
+}

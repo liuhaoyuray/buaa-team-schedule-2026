@@ -397,7 +397,7 @@ body.clear-mode .ambient{opacity:.25}body.clear-mode aside,body.clear-mode .card
 
 @media screen{body[data-workspace-view="gallery"] .page-head{display:none}.gallery-header{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#aec1dd;font-size:13px}.gallery-header a{color:#9bddd4;white-space:nowrap}.gallery-frame{width:100%;height:1150px;min-height:80vh;border:0;border-radius:16px;background:#080f20}@media(max-width:600px){.gallery-header{align-items:flex-start}.gallery-frame{height:1300px}}}
 
-@media screen{body[data-workspace-view="league"] header.top{display:none}.league-frame{width:100%;height:1450px;min-height:80vh;border:0;background:transparent;display:block}@media(max-width:600px){.league-frame{height:1700px}}}
+@media screen{.league-frame{width:100%;height:1450px;min-height:80vh;border:0;background:transparent;display:block}@media(max-width:600px){.league-frame{height:1700px}}}
 
 </style>
 <style id="office-upgrade-css">@media screen{
@@ -412,16 +412,433 @@ body.clear-mode .ambient{opacity:.25}body.clear-mode aside,body.clear-mode .card
 
 @media screen{.signature-fold{margin:20px 0;border:1px solid #a5b6ff30;border-radius:14px;padding:16px;background:#101c31}.signature-fold summary{cursor:pointer;font-weight:700;color:#dbe8ff}.signature-fold iframe{width:100%;height:1050px;border:0;margin-top:14px}}
 </style><style id="hours-nav-css">aside nav [data-view="hours"]{order:2}aside nav [data-view="query"]{order:3}aside nav [data-view="colleges"]{order:4}aside nav [data-view="duty"]{order:5}.office-home-links{grid-template-columns:repeat(4,minmax(0,1fr))}body[data-workspace-view="hours"] .page-head{display:none}#hoursFrame{border:0;width:100%;min-height:850px;display:block;background:transparent}@media(max-width:1100px){.office-home-links{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:850px){.office-home-links{grid-template-columns:1fr}}</style><style id="confirmed-duty-css">@media screen{.confirmed-duty{margin-bottom:18px}.confirmed-duty h2{margin:8px 0 0}.confirmed-duty>p{color:#afc2dd;font-size:13px;margin:12px 0;line-height:1.8}.confirmed-tag{font-size:11px;color:#9be8d5;background:#72d4b720;border:1px solid #72d4b74a;border-radius:30px;padding:4px 10px}.confirmed-source{font-size:11px!important;color:#94a9c8!important}.confirmed-tabs{display:flex;gap:8px;margin:20px 0 14px}.confirmed-tabs button.active{background:#a8dcd5;color:#102135;font-weight:700}.confirmed-duty table{width:100%;border-collapse:collapse;min-width:680px}.confirmed-duty th,.confirmed-duty td{padding:14px 12px;border:1px solid #aabbe029;text-align:center;vertical-align:top;white-space:pre-line;line-height:1.8}.confirmed-duty th{background:#1c304b}.confirmed-duty td:first-child{white-space:nowrap;color:#aac4e1}.duty-draft-fold{margin:18px 0}.duty-draft-fold>summary{padding:16px 20px;border:1px solid #a5b6ff30;border-radius:14px;cursor:pointer;color:#dbe8ff;font-weight:700}.duty-draft-fold[open]>summary{margin-bottom:14px}}
-</style></head><body data-platform-theme="night"><div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
-<aside><div class="brand"><div class="brand-mark"><img src="buaa-emblem.png" alt="北航校徽"></div><div><strong>志工 · 实践</strong><small>2026 AUTUMN · 工作台</small></div></div><nav aria-label="主导航"><!--HOURS-NAV--><button data-view="hours"><span class="nav-icon" aria-hidden="true">◷</span>志愿时长</button><!--/HOURS-NAV--><!--OFFICE-NAV--><button data-view="office"><span class="nav-icon">▤</span>报销材料</button><button data-view="colleges"><span class="nav-icon">⌕</span>学院系号</button><!--/OFFICE-NAV--><!--WS-NAV--><button data-view="home"><span class="nav-icon" aria-hidden="true">⌂</span>部门工作台</button><!--/WS-NAV--><button class="active" data-view="query"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>时段查询</button><button data-view="week"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-12 0v10m6-10v10"/></svg></span>一周总览</button><button data-view="duty"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18m-12 5 2 2 4-4"/></svg></span>值班表</button><button data-view="planner"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4m-9 8 3 3 6-6"/></svg></span>共同排期</button><button data-view="person"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="19" rx="3"/><path d="M8 8h8m-8 5h8m-8 5h5"/></svg></span>个人课表</button><button data-view="directory"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2"/></svg></span>人员名录</button><button data-view="lottery"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v11H4zM3 6h18v4H3zM12 6v15"/><path d="M12 6H8a2 2 0 1 1 2-2l2 2zm0 0h4a2 2 0 1 0-2-2l-2 2z"/></svg></span>幸运抽奖</button><button data-view="settings"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V9m8 10V4m8 15v-7"/><circle cx="4" cy="7" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="20" cy="10" r="2"/></svg></span>数据与校历</button></nav><button id="officeMore" class="cart-launch">☷ 更多工具</button><button id="openSelection" class="cart-launch">工作名单<span id="selectionCount">0</span></button><div class="sidebar-foot"><strong>校团委 · 志工部 / 实践部</strong><br><span id="sidebarCount"></span><br><br>第一周 · 2026.09.07<br>课表按教学周查询。</div></aside>
-<main><!--WS-BAR--><div id="wsCommandBar" class="ws-command-bar"><span id="wsBreadcrumb">部门工作台</span><button id="wsSearchLaunch" class="ws-search-launch"><span aria-hidden="true">⌕</span><span>搜索功能或同学</span><kbd>Ctrl K</kbd></button></div>
-<!--/WS-BAR--><header class="top"><div><p class="eyebrow">BUAA · 校团委 / 两部门工作台</p><h1 id="pageTitle">时段查询</h1><p class="intro" id="pageIntro">查看指定时段的课程、空闲人员和联系方式。</p></div><div class="header-tags"><div class="term-tag">2026 秋季学期</div><button id="displayMode" class="display-toggle" aria-pressed="false">切换清晰模式</button><span class="access-label"><i></i>公开访问</span></div></header>
+</style><style id="buaa-workspace-shell">
+@media screen {
+  body[data-platform-theme="night"] {
+    --ws-background: #0c1422;
+    --ws-sidebar: #101a2a;
+    --ws-surface: #141f31;
+    --ws-line: #2a3951;
+    --ws-muted: #a8b8cf;
+    --ws-text: #eaf1fc;
+    --ws-accent: #96baff;
+    --ws-active: #203451;
+    --ws-sidebar-width: 228px;
+    color: var(--ws-text);
+    background: var(--ws-background);
+    letter-spacing: normal;
+  }
+
+  body[data-platform-theme="night"]::before { display: none; }
+  body[data-platform-theme="night"] > aside {
+    inset: 0 auto 0 0;
+    width: var(--ws-sidebar-width);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 22px 14px 14px;
+    border: 0;
+    border-right: 1px solid var(--ws-line);
+    border-radius: 0;
+    background: var(--ws-sidebar);
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  body[data-platform-theme="night"] .brand {
+    flex: none;
+    gap: 11px;
+    padding: 0 8px 19px;
+  }
+  body[data-platform-theme="night"] .brand-mark {
+    width: 37px;
+    height: 37px;
+    padding: 1px;
+    box-shadow: none;
+  }
+  body[data-platform-theme="night"] .brand-mark img { display: block; }
+  body[data-platform-theme="night"] .brand strong { font-size: 16px; letter-spacing: normal; }
+  body[data-platform-theme="night"] .brand small { margin-top: 4px; color: var(--ws-muted); letter-spacing: normal; }
+  body[data-platform-theme="night"] > aside nav {
+    display: block;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .ws-nav-group { margin-top: 19px; }
+  .ws-nav-group > p {
+    margin: 0 0 6px 10px;
+    color: var(--ws-muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .ws-icon { display: block; width: 19px; height: 19px; flex: none; }
+  [data-ws-route]:focus-visible, .ws-result-actions > summary:focus-visible, .ws-query-filters > summary:focus-visible {
+    outline: 2px solid var(--ws-accent);
+    outline-offset: 2px;
+  }
+  body[data-platform-theme="night"] > aside nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    padding: 7px 9px;
+    margin: 2px 2px 2px 0;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--ws-text);
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .ws-route-icon { color: var(--ws-accent); flex: none; }
+  body[data-platform-theme="night"] > aside nav a strong { font-weight: 500; }
+  body[data-platform-theme="night"] > aside nav a:hover,
+  body[data-platform-theme="night"] > aside nav a.active {
+    background: var(--ws-active);
+    border-color: #405a80;
+  }
+  body[data-platform-theme="night"] > aside nav a.active strong { font-weight: 750; }
+  body[data-platform-theme="night"] .ws-all-tools {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 42px;
+    margin: 14px 0 0;
+    padding: 7px 10px;
+    border-color: var(--ws-line);
+    color: var(--ws-text);
+    background: transparent;
+    flex: none;
+  }
+  body[data-platform-theme="night"] .ws-all-tools:hover { background: var(--ws-active); }
+  .ws-all-tools .ws-icon { color: var(--ws-accent); }
+
+  body[data-platform-theme="night"] > main {
+    margin-left: var(--ws-sidebar-width);
+    max-width: 1600px;
+    padding: 0 clamp(22px, 3vw, 48px) 38px;
+  }
+  .ws-command-bar {
+    min-height: 65px;
+    margin: 0 0 25px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--ws-line);
+  }
+  .ws-location, .ws-command-actions { display: flex; align-items: center; gap: 10px; }
+  .ws-location { min-width: 0; font-size: 13px; }
+  #wsArea { color: var(--ws-muted); flex: none; }
+  #wsArea:empty { display: none; }
+  #wsArea:not(:empty)::after { content: "/"; padding-left: 10px; color: var(--ws-muted); }
+  #wsBreadcrumb { color: var(--ws-text); font-size: inherit; font-weight: 650; }
+  #wsBreadcrumb::before { content: none; }
+  body[data-platform-theme="night"] .ws-search-launch,
+  body[data-platform-theme="night"] .ws-selection-launch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 39px;
+    padding: 7px 10px;
+    border-color: var(--ws-line);
+    border-radius: 8px;
+    background: var(--ws-surface);
+    color: var(--ws-text);
+    white-space: nowrap;
+    font-size: 13px;
+  }
+  body[data-platform-theme="night"] .ws-search-launch { width: auto; }
+  .ws-search-launch kbd { margin-left: 18px; }
+  #selectionCount {
+    min-width: 22px;
+    padding: 1px 5px;
+    border-radius: 7px;
+    color: #dbe8ff;
+    background: var(--ws-active);
+    text-align: center;
+  }
+  body[data-platform-theme="night"] header.top { margin-bottom: 18px; }
+  body[data-platform-theme="night"] header.top h1 { font-size: clamp(27px, 2.5vw, 35px); }
+  body[data-platform-theme="night"] header.top .intro {
+    max-width: none;
+    margin-top: 6px;
+    color: var(--ws-muted);
+    font-size: 14px;
+  }
+  body[data-workspace-view="home"] header.top { display: none; }
+  body[data-platform-theme="night"] :is(.card, .person) {
+    border-color: var(--ws-line);
+    border-radius: 12px;
+    background: var(--ws-surface);
+    box-shadow: none;
+  }
+  body[data-platform-theme="night"] .card { margin-bottom: 16px; }
+  body[data-platform-theme="night"] .primary {
+    background: #aac8ff;
+    color: #102347;
+    box-shadow: none;
+  }
+
+  .ws-welcome {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+    padding: clamp(24px, 3.4vw, 44px);
+    border: 1px solid #3b5378;
+    border-radius: 16px;
+    background: linear-gradient(105deg, #172941, #203a60);
+  }
+  .ws-welcome::after {
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 0 45%;
+    content: "";
+    background: repeating-radial-gradient(ellipse at 100% 110%, transparent 0 22px, #88b0eb21 23px 24px, transparent 25px 34px);
+    mask-image: linear-gradient(to right, transparent, black 70%);
+    pointer-events: none;
+  }
+  .ws-welcome-org { margin-bottom: 10px; color: #b3cef3; font-size: 13px; font-weight: 650; }
+  body[data-platform-theme="night"] .ws-welcome h1 { font-size: clamp(26px, 3vw, 40px); }
+  .ws-welcome-copy { margin-top: 11px; color: #c1d1e7; font-size: 14px; line-height: 1.7; }
+  .ws-welcome-date { color: #e2ecfc; font-size: 13px; white-space: nowrap; }
+  .ws-quick-start, .ws-home-favorites, .ws-home-groups { margin-top: 25px; }
+  #homeView h2 { margin-bottom: 11px; }
+  .ws-quick-grid, .ws-home-groups { display: grid; gap: 12px; }
+  .ws-quick-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ws-home-groups { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
+  .ws-quick-grid > a, .ws-route-group > div > a {
+    min-width: 0;
+    color: var(--ws-text);
+    text-decoration: none;
+  }
+  body[data-platform-theme="night"] .ws-quick-grid > a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-content: start;
+    gap: 12px 8px;
+    min-height: 126px;
+    padding: 15px;
+    background: var(--ws-surface);
+    border: 1px solid var(--ws-line);
+    border-radius: 11px;
+    color: var(--ws-text);
+  }
+  .ws-quick-grid .ws-route-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #20344f;
+  }
+  .ws-quick-grid .ws-route-label { grid-row: 2; grid-column: 1 / -1; }
+  .ws-quick-grid .ws-route-arrow { grid-column: 2; grid-row: 1; align-self: center; }
+  .ws-route-arrow { color: var(--ws-muted); }
+  .ws-route-arrow .ws-icon { width: 15px; height: 15px; }
+  .ws-route-label strong, .ws-route-label small { display: block; }
+  .ws-quick-grid .ws-route-label strong { font-size: 16px; }
+  .ws-route-label small { margin-top: 4px; color: var(--ws-muted); font-size: 13px; line-height: 1.55; }
+  .ws-home-groups .ws-route-group {
+    padding: 14px;
+    background: var(--ws-surface);
+    border: 1px solid var(--ws-line);
+    border-radius: 11px;
+  }
+  .ws-route-group h3 { margin: 1px 2px 9px; }
+  body[data-platform-theme="night"] .ws-route-group a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    min-height: 54px;
+    padding: 7px 6px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: var(--ws-text);
+  }
+  .ws-route-group a .ws-route-label { flex: 1; }
+  .ws-route-group a strong { font-size: 14px; }
+  body[data-platform-theme="night"] :is(.ws-quick-grid, .ws-route-group > div) > a:hover,
+  body[data-platform-theme="night"] .ws-route-group a.active {
+    background: var(--ws-active);
+    border-color: #405a80;
+  }
+  .ws-home-favorites { padding: 14px; border: 1px solid var(--ws-line); border-radius: 11px; }
+  #wsHomeSaved, #wsQuerySaved { display: flex; flex-wrap: wrap; gap: 6px; }
+  #wsQuerySaved { margin-top: 8px; }
+  body[data-platform-theme="night"] #wsMoreDialog { width: min(760px, calc(100% - 32px)); }
+  .ws-more-routes { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .ws-more-routes .ws-route-group { padding: 8px; border-top: 1px solid var(--ws-line); }
+  .ws-more-routes .ws-route-group span { margin: 0; font-size: inherit; }
+  .ws-more-routes .ws-route-group small { font-size: 12px; }
+  #wsMoreSearch { display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+  .ws-context-links { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; }
+  body[data-platform-theme="night"] .ws-context-links a {
+    display: flex;
+    align-items: center;
+    min-height: 39px;
+    padding: 7px 10px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--ws-muted);
+    white-space: nowrap;
+    font-size: 13px;
+  }
+  .ws-context-links .ws-route-icon { display: none; }
+  body[data-platform-theme="night"] .ws-context-links a:is(.active, :hover) {
+    color: var(--ws-text);
+    background: var(--ws-active);
+    border-color: #405a80;
+  }
+  .ws-display-settings { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+  .ws-display-settings p { margin-top: 4px; }
+  #queryView .fields { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ws-query-filters { margin: 12px 0; }
+  .ws-query-filters > summary { padding: 5px 0; color: #b8d1ff; cursor: pointer; font-size: 13px; }
+  .ws-query-filters > .fields { padding-top: 9px; }
+  #queryView .result-head { margin-bottom: 10px; }
+  .ws-result-actions { position: relative; }
+  .ws-result-actions > summary {
+    padding: 8px 10px;
+    border: 1px solid var(--ws-line);
+    border-radius: 8px;
+    background: var(--ws-surface);
+    cursor: pointer;
+    color: var(--ws-text);
+  }
+  .ws-result-actions > div {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: calc(100% + 5px);
+    display: grid;
+    gap: 4px;
+    width: max-content;
+    padding: 7px;
+    border: 1px solid #486084;
+    border-radius: 8px;
+    background: var(--ws-sidebar);
+    box-shadow: 0 6px 24px #0006;
+  }
+  .ws-result-actions button { text-align: left; }
+  #wsContextLinks[hidden], #wsQuerySaved[hidden], #wsHomeFavorites[hidden] { display: none; }
+
+  @media (max-width: 1130px) {
+    body[data-platform-theme="night"] { --ws-sidebar-width: 207px; }
+    .ws-quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ws-home-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 850px) {
+    body[data-platform-theme="night"] > aside {
+      position: static;
+      width: auto;
+      padding: 10px 16px;
+      border: 0;
+      border-bottom: 1px solid var(--ws-line);
+    }
+    body[data-platform-theme="night"] .brand { padding: 0; min-height: 35px; }
+    body[data-platform-theme="night"] .brand-mark { width: 33px; height: 33px; }
+    body[data-platform-theme="night"] > aside nav, body[data-platform-theme="night"] .ws-all-tools { display: none; }
+    body[data-platform-theme="night"] > main { margin: 0; padding: 0 14px calc(88px + env(safe-area-inset-bottom)); }
+    .ws-command-bar { min-height: 55px; margin-bottom: 14px; }
+    .ws-search-launch kbd, #wsArea { display: none; }
+    #wsBreadcrumb { font-size: 12px; white-space: normal; }
+    .ws-command-actions { gap: 6px; }
+    body[data-platform-theme="night"] .ws-search-launch,
+    body[data-platform-theme="night"] .ws-selection-launch { min-height: 38px; padding: 6px 8px; }
+    .ws-selection-launch > svg { display: none; }
+    .ws-welcome { align-items: start; flex-direction: column; gap: 10px; }
+    .ws-welcome-org { margin-bottom: 6px; }
+    .ws-welcome-copy { margin-top: 8px; }
+    .ws-quick-start, .ws-home-favorites, .ws-home-groups { margin-top: 18px; }
+    .ws-quick-grid, .ws-home-groups { gap: 8px; }
+    body[data-platform-theme="night"] .ws-quick-grid > a { padding: 11px; min-height: 113px; gap: 8px; }
+    .ws-quick-grid .ws-route-label strong { font-size: 15px; }
+    .ws-route-label small { font-size: 12px; }
+    .ws-mobile-nav { background: var(--ws-sidebar); border-color: var(--ws-line); }
+    body[data-platform-theme="night"] .ws-mobile-nav button { min-height: 45px; color: var(--ws-muted); font-size: 12px; }
+    body[data-platform-theme="night"] .ws-mobile-nav .active { color: var(--ws-text); background: var(--ws-active); }
+    .ws-mobile-nav button span { font-size: inherit; }
+    body[data-platform-theme="night"] #wsMoreDialog { width: 100%; }
+    .ws-context-links { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; padding: 3px; }
+    #queryView .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ws-query-top { align-items: center; }
+    .ws-query-top .ws-query-actions { width: auto; }
+  }
+  @media (max-width: 520px) {
+    .ws-home-groups, .ws-more-routes { grid-template-columns: 1fr; }
+    .ws-search-launch > span { display: none; }
+    body[data-platform-theme="night"] .ws-search-launch { width: 39px; justify-content: center; }
+    #queryView .quick { flex-wrap: wrap; }
+    body[data-platform-theme="night"] .ws-welcome h1 { font-size: clamp(22px, 6.7vw, 26px); }
+  }
+  @media (prefers-contrast: more) {
+    body[data-platform-theme="night"] { --ws-line: #788ba8; --ws-muted: #d3e0f4; }
+  }
+  body[data-platform-theme="night"].clear-mode { --ws-line: #788ba8; --ws-muted: #d3e0f4; }
+}
+
+@media print {
+  .ws-context-links, .ws-query-filters, .ws-result-actions, .ws-display-settings { display: none !important; }
+}
+
+</style>
+</head><body data-platform-theme="night"><div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+<aside><div class="brand"><div class="brand-mark"><img src="buaa-emblem.png" alt="北航校徽"></div><div><strong>志工 · 实践</strong><small>北航校团委</small></div></div><nav aria-label="主导航"><a href="#home" data-ws-route="home"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"/></svg></span><span class="ws-route-label"><strong>工作台首页</strong></span></a><div class="ws-nav-group"><p>人员与排班</p><a href="#query" data-ws-route="query"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="ws-route-label"><strong>查空闲</strong></span></a><a href="#planner" data-ws-route="planner"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-12 5 2 2 4-4"/></svg></span><span class="ws-route-label"><strong>共同排期</strong></span></a><a href="#duty" data-ws-route="duty"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2m6 2V2M8 10h8m-8 4h8m-8 4h4"/></svg></span><span class="ws-route-label"><strong>本学期值班表</strong></span></a></div><div class="ws-nav-group"><p>材料办理</p><a href="#hours" data-ws-route="hours"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 12h7m-7 4h7"/><path d="M3 8v13"/></svg></span><span class="ws-route-label"><strong>志愿时长导入</strong></span></a><a href="#office" data-ws-route="office"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h5m0 4h3m-8 0h1"/></svg></span><span class="ws-route-label"><strong>报销材料</strong></span></a><a href="#colleges" data-ws-route="colleges"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5zM6 11v6c3 3 9 3 12 0v-6m3-2v8"/></svg></span><span class="ws-route-label"><strong>学院系号与签领表</strong></span></a></div><div class="ws-nav-group"><p>档案与活动</p><a href="#awards" data-ws-route="awards"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="m8 12-2 9 6-3 6 3-2-9"/></svg></span><span class="ws-route-label"><strong>志愿服务荣誉库</strong></span></a><a href="#league" data-ws-route="league"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4m0 16h16M8 16v-4m5 4V8m5 8v-6"/></svg></span><span class="ws-route-label"><strong>团统数据</strong></span></a><a href="#gallery" data-ws-route="gallery"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m3 17 5-4 4 3 4-5 5 5"/></svg></span><span class="ws-route-label"><strong>活动记录与照片</strong></span></a></div></nav><button type="button" id="officeMore" class="ws-all-tools" aria-haspopup="dialog"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span>全部功能</span></button></aside>
+<main><!--WS-BAR--><div id="wsCommandBar" class="ws-command-bar">
+  <div class="ws-location"><span id="wsArea"></span><span id="wsBreadcrumb">工作台首页</span></div>
+  <div class="ws-command-actions">
+    <button id="wsSearchLaunch" class="ws-search-launch" aria-label="搜索功能或同学"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 5 5"/></svg><span>搜索功能或同学</span><kbd>Ctrl K</kbd></button>
+    <button id="openSelection" class="ws-selection-launch"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2"/></svg><span>工作名单</span><span id="selectionCount">0</span></button>
+  </div>
+</div>
+<!--/WS-BAR--><header class="top"><div><h1 id="pageTitle">查空闲</h1><p class="intro" id="pageIntro"></p></div></header><div class="ws-context-links" id="wsContextLinks" role="navigation" aria-label="人员与排班工具" hidden><a href="#query" data-ws-route="query"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="ws-route-label"><strong>查空闲</strong></span></a><a href="#week" data-ws-route="week"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-12 0v10m6-10v10"/></svg></span><span class="ws-route-label"><strong>一周空闲总览</strong></span></a><a href="#planner" data-ws-route="planner"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-12 5 2 2 4-4"/></svg></span><span class="ws-route-label"><strong>共同排期</strong></span></a><a href="#person" data-ws-route="person"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h8m-8 4h5"/></svg></span><span class="ws-route-label"><strong>个人课表</strong></span></a><a href="#duty" data-ws-route="duty"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2m6 2V2M8 10h8m-8 4h8m-8 4h4"/></svg></span><span class="ws-route-label"><strong>本学期值班表</strong></span></a><a href="#directory" data-ws-route="directory"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2"/></svg></span><span class="ws-route-label"><strong>人员名录</strong></span></a></div>
 <!--WS-HOME--><section id="homeView" class="view" aria-label="部门工作台">
- <div class="ws-hero office-compact"><div class="home-brand"><img src="buaa-emblem.png" alt="北航校徽"><div><p class="home-org">北京航空航天大学 · 校团委</p><h1>志工部、实践部工作台</h1><p id="wsGreeting" class="ws-greeting"></p><p class="ws-hero-note">常用工作集中处理，选择一项开始。</p></div></div></div><div class="office-home-links"><button class="office-home-link" data-ws-route="office"><span>▤</span><strong>报销材料</strong><small>整理发票并生成报销材料。</small><b>材料生成</b></button><button class="office-home-link" data-ws-route="hours"><span>◷</span><strong>志愿时长</strong><small>按岗位和日期生成时长导入文件。</small><b>批量导入</b></button><button class="office-home-link" data-ws-route="query"><span>◷</span><strong>查空闲</strong><small>选择时间，查看人员空闲情况。</small><b>课程查询</b></button><button class="office-home-link" data-ws-route="colleges"><span>⌕</span><strong>学院系号</strong><small>查询系号，制作学院物资签领表。</small><b>系号与签领</b></button></div>
-<div class="office-utility"><button data-ws-route="awards">✦ 志愿服务荣誉库</button><button data-ws-route="league">▤ 团统数据查询</button><button data-ws-route="gallery">▣ 活动记录与照片</button><button data-ws-route="duty">▦ 值班安排</button><button data-ws-route="lottery">✦ 幸运抽奖</button><button id="wsHomeSelection">工作名单 <span id="wsHomeSelectionCount">0</span></button></div><details class="office-fold"><summary>快速看空闲</summary><div class="card ws-availability"><div class="ws-section-head"><div><p class="ws-kicker">AVAILABILITY</p><h2>快速看空闲</h2></div><span class="ws-small-label">以已登记安排为准</span></div><div class="ws-availability-fields"><label>哪一天<input id="wsQuickDate" type="date" min="2026-09-07" max="2027-01-17"></label><label>哪个时段<select id="wsQuickTime"><option value="08:00,09:35">1–2节 · 08:00–09:35</option><option value="09:50,12:15">3–5节 · 09:50–12:15</option><option value="14:00,15:35" selected>6–7节 · 14:00–15:35</option><option value="15:50,18:15">8–10节 · 15:50–18:15</option><option value="19:00,21:25">11–13节 · 19:00–21:25</option></select></label></div><div id="wsAvailabilityResult" aria-live="polite"></div><button id="wsOpenQuick" class="ws-text-action">查看这个时段的完整名单 <span>↗</span></button></div></details><details class="office-fold"><summary>已收藏的查询</summary><div id="wsHomeSaved"></div></details></section>
+  <header class="ws-welcome">
+    <div>
+      <p class="ws-welcome-org">北京航空航天大学 · 校团委</p>
+      <h1>志工部、实践部工作台</h1>
+      <p class="ws-welcome-copy">查课表和排班、办材料、找活动档案。</p>
+    </div>
+    <p id="wsGreeting" class="ws-welcome-date"></p>
+  </header>
+
+  <section class="ws-quick-start" aria-labelledby="wsQuickTitle">
+    <h2 id="wsQuickTitle">常用操作</h2>
+    <div class="ws-quick-grid"><a href="#query" data-ws-route="query"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="ws-route-label"><strong>查空闲</strong><small>按日期和时段查找空闲人员</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#hours" data-ws-route="hours"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 12h7m-7 4h7"/><path d="M3 8v13"/></svg></span><span class="ws-route-label"><strong>志愿时长导入</strong><small>按岗位和日期生成导入文件</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#office" data-ws-route="office"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h5m0 4h3m-8 0h1"/></svg></span><span class="ws-route-label"><strong>报销材料</strong><small>上传发票，生成报销材料包</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#duty" data-ws-route="duty"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2m6 2V2M8 10h8m-8 4h8m-8 4h4"/></svg></span><span class="ws-route-label"><strong>本学期值班表</strong><small>查看、下载已确认的值班安排</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a></div>
+  </section>
+
+  <section id="wsHomeFavorites" class="ws-home-favorites" aria-labelledby="wsFavoritesTitle" hidden>
+    <h2 id="wsFavoritesTitle">已收藏的空闲查询</h2>
+    <div id="wsHomeSaved"></div>
+  </section>
+
+  <div class="ws-home-groups" aria-label="其他常用功能"><section class="ws-route-group"><h3>人员与排班</h3><div><a href="#week" data-ws-route="week"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-12 0v10m6-10v10"/></svg></span><span class="ws-route-label"><strong>一周空闲总览</strong><small>按教学周比较各节次的空闲人数</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#planner" data-ws-route="planner"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-12 5 2 2 4-4"/></svg></span><span class="ws-route-label"><strong>共同排期</strong><small>为选中的同学找共同空闲的时间</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#person" data-ws-route="person"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h8m-8 4h5"/></svg></span><span class="ws-route-label"><strong>个人课表</strong><small>按姓名和教学周查看课程</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#directory" data-ws-route="directory"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2"/></svg></span><span class="ws-route-label"><strong>人员名录</strong><small>查找两部门成员及联系方式</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a></div></section><section class="ws-route-group"><h3>材料办理</h3><div><a href="#colleges" data-ws-route="colleges"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5zM6 11v6c3 3 9 3 12 0v-6m3-2v8"/></svg></span><span class="ws-route-label"><strong>学院系号与签领表</strong><small>查询系号，生成物资签领表</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a></div></section><section class="ws-route-group"><h3>档案与活动</h3><div><a href="#awards" data-ws-route="awards"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="m8 12-2 9 6-3 6 3-2-9"/></svg></span><span class="ws-route-label"><strong>志愿服务荣誉库</strong><small>查找历年获奖人员、项目和团队</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#league" data-ws-route="league"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4m0 16h16M8 16v-4m5 4V8m5 8v-6"/></svg></span><span class="ws-route-label"><strong>团统数据</strong><small>查询和导出各学院团员统计</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#gallery" data-ws-route="gallery"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m3 17 5-4 4 3 4-5 5 5"/></svg></span><span class="ws-route-label"><strong>活动记录与照片</strong><small>查看或发布活动记录和照片</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a></div></section></div>
+</section>
 <!--/WS-HOME--><!--WS-GALLERY--><section id="galleryView" class="view" aria-label="活动记录"><div class="gallery-header"><p>查看活动与照片，也可以发布新的活动记录。</p><a href="https://buaa-volunteer-activity-wall-2026.liuhaoyuray.chatgpt.site" target="_blank" rel="noopener">在新窗口打开 ↗</a></div><iframe class="gallery-frame" title="活动记录与照片" src="https://buaa-volunteer-activity-wall-2026.liuhaoyuray.chatgpt.site" loading="lazy"></iframe></section><!--/WS-GALLERY--><!--WS-LEAGUE--><section id="leagueView" class="view" aria-label="团统数据查询"><iframe class="league-frame" title="团统数据查询" src="league/index.html" loading="lazy"></iframe></section><!--/WS-LEAGUE--><!--AWARDS-START--><section id="awardsView" class="view" aria-label="志愿服务荣誉库"><iframe class="awards-frame" title="志愿服务荣誉库" src="awards/index.html" loading="lazy" style="width:100%;height:1100px;border:0;border-radius:14px"></iframe></section><!--AWARDS-END--><!--OFFICE-VIEWS--><section id="officeView" class="view" aria-label="报销材料"><iframe id="localLedger" src="reimbursement.html" title="报销材料生成" style="border:0;width:100%;min-height:850px;display:block" loading="lazy"></iframe><a class="office-standalone" href="reimbursement.html" target="_blank" rel="noopener">单独打开材料生成 ↗</a></section>
 <section id="collegesView" class="view" aria-label="学院系号查询"><div class="card colleges-panel"><div class="ws-section-head"><div><p class="ws-kicker">DEPARTMENT LOOKUP</p><h2>学院与书院，快速查系号。</h2></div><span id="collegeCount" class="ws-small-label">47组</span></div><label for="collegeSearch">输入系号、学院全称或关键词</label><div class="college-search-row"><input id="collegeSearch" type="search" placeholder="例如：2、电子、法学院、知行" autocomplete="off"><button id="collegeClear">清空</button></div><div class="college-examples"><button data-college-query="2">2系</button><button data-college-query="电子">电子信息</button><button data-college-query="法学院">法学院</button><button data-college-query="知行">知行书院</button></div><details class="signature-fold"><summary>制作学院物资签领表</summary><iframe title="制作学院物资签领表" src="signature.html" loading="lazy"></iframe></details><div id="collegeResults" class="college-results" aria-live="polite"></div><p class="office-note">依据签领表 Sheet1 的系号与单位整理，共47组。来源表为2025年资料，未收录或存在歧义的单位需另行确认，不推测系号。</p></div></section>
-<!--/OFFICE-VIEWS--><!--HOURS-VIEW--><section id="hoursView" class="view" aria-label="志愿时长"><iframe id="hoursFrame" src="hours.html?embedded=1" title="志愿时长导入" loading="lazy"></iframe></section><!--/HOURS-VIEW--><section id="queryView" class="view active"><div class="card"><div class="control-title"><div><h2>选择日期与时间</h2></div><button id="today">回到今天</button></div><div class="fields"><label>日期<input id="date" type="date" min="2026-09-07" max="2027-01-17"></label><label>开始时间<input id="start" type="time" value="14:00"></label><label>结束时间<input id="end" type="time" value="15:35"></label><label>部门<select id="department"><option value="">两个部门</option><option>志工部</option><option>实践部</option></select></label><label>校区<select id="campus"><option value="">全部校区</option><option>学院路</option><option>沙河</option><option>待确认</option></select></label><label>学院 / 书院<select id="college"><option value="">全部学院</option></select></label><label>职务<select id="role"><option value="">全部职务</option><option>部长</option><option>副部长</option><option>学生干部</option></select></label><label>查找人员<input id="search" placeholder="姓名、学号或电话" type="search"></label></div><div class="quick"><span>常用时段</span><button data-range="08:00,09:35">第 1–2 节</button><button data-range="09:50,12:15">第 3–5 节</button><button data-range="14:00,15:35">第 6–7 节</button><button data-range="15:50,18:15">第 8–10 节</button><button data-range="19:00,21:25">第 11–13 节</button><button data-range="08:00,12:15">整个上午</button><button data-range="14:00,18:15">整个下午</button></div><div class="query-strip"><span class="dot"></span><strong id="queryLabel"></strong><span class="muted small" id="weekLabel"></span></div><div id="queryNotice"></div></div><div class="summary" id="summary"></div><div class="card"><div class="result-head"><div class="tabs" id="statusTabs"></div><button id="copyFree">复制空闲名单</button><button id="exportQuery">导出查询结果</button></div><p class="muted small" style="margin-bottom:18px">“空闲”指课表中没有课程或其他登记安排，能否参加工作请联系本人确认。</p><!--WS-QUERY--><div id="wsQueryTools" class="ws-query-tools"><div class="ws-query-top"><p id="wsResultCount" aria-live="polite"></p><div class="ws-query-actions"><label class="ws-sr-only" for="wsResultSort">结果排序</label><select id="wsResultSort"><option value="department">按部门</option><option value="name">按姓名</option><option value="campus">按校区</option></select><button id="wsDensity" aria-pressed="false">紧凑显示</button><button id="wsSelectPage">选择本页空闲</button></div></div><div class="ws-query-bottom"><div id="wsQuerySaved"></div><div class="ws-save-actions"><button id="wsSaveQuery">☆ 收藏查询</button><button id="wsShareQuery">复制查询链接</button></div></div></div>
+<!--/OFFICE-VIEWS--><!--HOURS-VIEW--><section id="hoursView" class="view" aria-label="志愿时长"><iframe id="hoursFrame" src="hours.html?embedded=1" title="志愿时长导入" loading="lazy"></iframe></section><!--/HOURS-VIEW--><section id="queryView" class="view active"><div class="card"><div class="control-title"><div><h2>选择日期与时间</h2></div><button id="today">回到今天</button></div><div class="fields"><label>日期<input id="date" type="date" min="2026-09-07" max="2027-01-17"></label><label>开始时间<input id="start" type="time" value="14:00"></label><label>结束时间<input id="end" type="time" value="15:35"></label><label>部门<select id="department"><option value="">两个部门</option><option>志工部</option><option>实践部</option></select></label></div><details class="ws-query-filters"><summary>更多筛选<span id="wsFilterCount"></span></summary><div class="fields"><label>校区<select id="campus"><option value="">全部校区</option><option>学院路</option><option>沙河</option><option>待确认</option></select></label><label>学院 / 书院<select id="college"><option value="">全部学院</option></select></label><label>职务<select id="role"><option value="">全部职务</option><option>部长</option><option>副部长</option><option>学生干部</option></select></label><label>查找人员<input id="search" placeholder="姓名、学号或电话" type="search"></label></div></details><div class="quick"><span>常用时段</span><button data-range="08:00,09:35">第 1–2 节</button><button data-range="09:50,12:15">第 3–5 节</button><button data-range="14:00,15:35">第 6–7 节</button><button data-range="15:50,18:15">第 8–10 节</button><button data-range="19:00,21:25">第 11–13 节</button><button data-range="08:00,12:15">整个上午</button><button data-range="14:00,18:15">整个下午</button></div><div class="query-strip"><span class="dot"></span><strong id="queryLabel"></strong><span class="muted small" id="weekLabel"></span></div><div id="queryNotice"></div></div><div class="card"><div class="result-head"><div class="tabs" id="statusTabs"></div><button id="copyFree">复制空闲名单</button></div><!--WS-QUERY--><div id="wsQueryTools" class="ws-query-tools">
+  <div class="ws-query-top">
+    <p id="wsResultCount" aria-live="polite"></p>
+    <div class="ws-query-actions">
+      <label class="ws-sort"><span class="ws-sr-only">结果排序</span><select id="wsResultSort"><option value="department">按部门排序</option><option value="name">按姓名排序</option><option value="campus">按校区排序</option></select></label>
+      <details class="ws-result-actions">
+        <summary>更多操作</summary>
+        <div>
+          <button id="exportQuery">导出筛选结果</button>
+          <button id="wsSelectPage">选择本页空闲</button>
+          <button id="wsDensity" aria-pressed="false">紧凑显示</button>
+          <button id="wsSaveQuery">收藏查询</button>
+          <button id="wsShareQuery">复制查询链接</button>
+        </div>
+      </details>
+    </div>
+  </div>
+  <div id="wsQuerySaved" hidden></div>
+</div>
 <!--/WS-QUERY--><div class="results" id="results"></div><!--WS-PAGER--><div id="wsPagination" class="ws-pagination" aria-label="查询结果分页"></div><!--/WS-PAGER--></div></section>
 <section id="weekView" class="view"><div class="card"><div class="control-title"><h2>各时段空闲人数</h2><div class="week-control"><button id="prevWeek" aria-label="上一周">←</button><select id="weekSelect" aria-label="选择教学周"></select><button id="nextWeek" aria-label="下一周">→</button></div></div><div class="row"><p class="muted small" id="weekRange"></p><span class="spacer"></span><label>部门<select id="weekDept"><option value="">两个部门</option><option>志工部</option><option>实践部</option></select></label><label>校区<select id="weekCampus"><option value="">全部校区</option><option>学院路</option><option>沙河</option><option>待确认</option></select></label></div><p class="muted small" style="margin:18px 0">绿色越深，空闲人数越多。点击任意格子查看人员名单；“需确认”不计入空闲人数。</p><div class="table-scroll" id="heatmap"></div></div><div class="card"><h2>空闲人数较多的时段</h2><p class="muted small" style="margin-top:8px">按连续 2 小时内没有已知安排的人数排序，覆盖每日 08:00–22:00。</p><div class="rank-list" id="ranking"></div></div></section>
 <section id="personView" class="view"><div class="card"><div class="personal-select"><h2>查看个人一周安排</h2><select id="personSelect" aria-label="选择同学"></select><select id="personWeek" aria-label="选择教学周"></select><span class="spacer"></span><button id="editContact">修改联系方式</button><a id="sourceLink" target="_blank" rel="noopener">查看原始课表 ↗</a></div><div id="personMeta" style="margin:18px 0"></div><div class="table-scroll" id="personalGrid"></div></div><div class="card"><h2>备注与未排课课程</h2><ul class="note-list" id="personNotes"></ul></div></section>
@@ -441,12 +858,12 @@ body.clear-mode .ambient{opacity:.25}body.clear-mode aside,body.clear-mode .card
  <div class="lottery-tools"><p class="muted small">志工部35人 · 实践部29人，共64人。中奖记录保存在当前浏览器，刷新可继续；支持撤销与导出。</p><button id="lotteryFullscreen" type="button">全屏抽奖</button></div>
  <div class="lottery-shell" id="lotteryShell"><p id="lotteryLoading" class="lottery-loading" role="status">正在加载抽奖页面…</p><iframe id="lotteryFrame" title="志工部与实践部幸运抽奖" allow="clipboard-write; fullscreen" allowfullscreen></iframe></div>
 </section>
-<section id="settingsView" class="view"><div class="settings-grid"><div class="card"><h2>校历与查询规则</h2><p class="muted" style="margin-top:14px;line-height:1.9">第一周：<strong>2026 年 9 月 7 日 — 9 月 13 日</strong><br>按连续自然周编号，单双周按教学周序号判断。<br>节次时间来自所收集的北航课表，支持第 1–14 节。<br>课程数据主要覆盖第 1–17 周，第 18–19 周显示待确认。<br><a href="https://jiaowu.buaa.edu.cn/index/xl.htm" target="_blank" rel="noopener">查看北航官方校历 ↗</a></p><div class="notice">节假日、临时停课和补课以学校通知为准。可按学校通知设置停课或补课。</div><h3>设置特殊日期</h3><div class="rule-grid"><label>实际日期<input id="ruleDate" type="date"></label><label>教学安排<select id="ruleMode"><option value="stop">课程停课</option><option value="replace">改上其他日课表</option></select></label><label>对应教学周<select id="ruleWeek"></select></label><label>对应星期<select id="ruleDay"><option value="1">周一</option><option value="2">周二</option><option value="3">周三</option><option value="4">周四</option><option value="5">周五</option><option value="6">周六</option><option value="7">周日</option></select></label></div><div class="row" style="margin-top:15px"><button id="saveRule" class="primary">保存日期设置</button><span class="muted small">已有值班等安排仍按实际日期保留。</span></div><div id="rulesList" style="margin-top:16px"></div></div><div class="card"><h2>数据完整性</h2><div id="dataQuality"></div><p class="muted small" style="margin:16px 0">统一将单周标题课表作为整学期课表；课程内明确的周次、单双周仍按标注执行。未注明实验周次的安排尽量沿用对应课程周范围；具体实验日期不明确时保留待确认。</p><h3>联系方式与日期设置备份</h3><p class="muted small" style="margin:10px 0 16px">手动修改只保存在当前浏览器，换设备时可导出、导入备份。</p><div class="row"><button id="exportBackup">导出设置备份</button><button id="importBackup">导入设置备份</button><input type="file" id="backupFile" accept=".json" hidden></div></div></div><div class="card"><div class="control-title"><h2>课表与任职信息来源</h2><p class="muted small">课程地点推定的校区请向本人确认</p></div><div id="sources"></div></div></section>
+<section id="settingsView" class="view"><section class="card ws-display-settings"><div><h2>显示设置</h2><p class="muted">提高文字和边框的对比度。</p></div><button id="displayMode" aria-pressed="false">开启高对比</button></section><div class="settings-grid"><div class="card"><h2>校历与查询规则</h2><p class="muted" style="margin-top:14px;line-height:1.9">第一周：<strong>2026 年 9 月 7 日 — 9 月 13 日</strong><br>按连续自然周编号，单双周按教学周序号判断。<br>节次时间来自所收集的北航课表，支持第 1–14 节。<br>课程数据主要覆盖第 1–17 周，第 18–19 周显示待确认。<br><a href="https://jiaowu.buaa.edu.cn/index/xl.htm" target="_blank" rel="noopener">查看北航官方校历 ↗</a></p><div class="notice">节假日、临时停课和补课以学校通知为准。可按学校通知设置停课或补课。</div><h3>设置特殊日期</h3><div class="rule-grid"><label>实际日期<input id="ruleDate" type="date"></label><label>教学安排<select id="ruleMode"><option value="stop">课程停课</option><option value="replace">改上其他日课表</option></select></label><label>对应教学周<select id="ruleWeek"></select></label><label>对应星期<select id="ruleDay"><option value="1">周一</option><option value="2">周二</option><option value="3">周三</option><option value="4">周四</option><option value="5">周五</option><option value="6">周六</option><option value="7">周日</option></select></label></div><div class="row" style="margin-top:15px"><button id="saveRule" class="primary">保存日期设置</button><span class="muted small">已有值班等安排仍按实际日期保留。</span></div><div id="rulesList" style="margin-top:16px"></div></div><div class="card"><h2>数据完整性</h2><div id="dataQuality"></div><p class="muted small" style="margin:16px 0">统一将单周标题课表作为整学期课表；课程内明确的周次、单双周仍按标注执行。未注明实验周次的安排尽量沿用对应课程周范围；具体实验日期不明确时保留待确认。</p><h3>联系方式与日期设置备份</h3><p class="muted small" style="margin:10px 0 16px">手动修改只保存在当前浏览器，换设备时可导出、导入备份。</p><div class="row"><button id="exportBackup">导出设置备份</button><button id="importBackup">导入设置备份</button><input type="file" id="backupFile" accept=".json" hidden></div></div></div><div class="card"><div class="control-title"><h2>课表与任职信息来源</h2><p class="muted small">课程地点推定的校区请向本人确认</p></div><div id="sources"></div></div></section>
 <footer class="page-foot" id="pageFooter"></footer></main>
 <dialog id="dutyDialog"><div class="dialog-head"><h2 id="dutyDialogTitle"></h2><button id="dutyDialogClose">关闭</button></div><p id="dutyDialogIntro" class="muted small" style="margin-top:10px"></p><div id="dutyDialogBody" class="duty-dialog-list"></div></dialog><dialog id="selectionDialog"><div class="dialog-head"><h2>工作名单</h2><button id="selectionClose">关闭</button></div><p class="muted small" style="margin-top:10px">所选同学保存在当前浏览器。更换查询时段后，下方状态会重新计算。</p><div class="selection-context" id="selectionContext"></div><div class="selection-tools"><button id="selectionCopy" class="primary">复制名单与联系方式</button><button id="selectionExport">导出 CSV</button><button id="selectionToPlanner">查找共同时间</button><button id="selectionClear">清空名单</button></div><div id="selectionRows"></div></dialog><dialog id="contactDialog"><h2>修改联系方式</h2><p class="muted small" style="margin-top:8px">修改仅保存在当前浏览器。</p><p class="muted small" id="contactName" style="margin-top:9px"></p><textarea id="contactValue" placeholder="手机号、微信号或联系备注"></textarea><div class="row"><button id="contactSave" class="primary">保存</button><button id="contactCancel">取消</button></div></dialog><div id="toast" class="toast" hidden role="status"></div>
 <!--WS-DIALOGS--><dialog id="wsSearchDialog" class="ws-search-dialog" aria-labelledby="wsSearchTitle"><div class="dialog-head"><h2 id="wsSearchTitle">你想找什么？</h2><button data-ws-close="wsSearchDialog" aria-label="关闭搜索">×</button></div><label class="ws-sr-only" for="wsGlobalSearch">搜索姓名、学院、学号或功能</label><input id="wsGlobalSearch" type="search" placeholder="姓名、学院、学号，或要做的事…" autocomplete="off"><div id="wsSearchResults" role="listbox" aria-label="搜索结果"></div><p class="ws-search-hint"><span><kbd>↑</kbd> <kbd>↓</kbd> 选择　<kbd>Enter</kbd> 打开</span><span><kbd>Esc</kbd> 关闭</span></p></dialog>
-<dialog id="wsMoreDialog" class="ws-more-dialog" aria-labelledby="wsMoreTitle"><div class="dialog-head"><h2 id="wsMoreTitle">全部功能</h2><button data-ws-close="wsMoreDialog">关闭</button></div><div id="wsMoreRoutes" class="ws-more-routes"></div><button id="wsMoreSearch" class="ws-wide-button">⌕ 搜索同学与功能</button></dialog>
-<div class="ws-mobile-nav" role="navigation" aria-label="快捷导航"><button data-ws-route="home"><span>⌂</span>工作台</button><button data-ws-route="office"><span>▤</span>报销</button><button data-ws-route="hours"><span>◷</span>时长</button><button data-ws-route="query"><span>◷</span>查空闲</button><button id="wsMoreButton"><span>☷</span>更多</button></div>
+<dialog id="wsMoreDialog" class="ws-more-dialog" aria-labelledby="wsMoreTitle"><div class="dialog-head"><h2 id="wsMoreTitle">全部功能</h2><button data-ws-close="wsMoreDialog">关闭</button></div><div class="ws-more-routes"><section class="ws-route-group"><h3>首页</h3><div><a href="#home" data-ws-route="home"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"/></svg></span><span class="ws-route-label"><strong>工作台首页</strong><small>打开常用操作</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a></div></section><section class="ws-route-group"><h3>人员与排班</h3><div><a href="#query" data-ws-route="query"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="ws-route-label"><strong>查空闲</strong><small>按日期和时段查找空闲人员</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#week" data-ws-route="week"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-12 0v10m6-10v10"/></svg></span><span class="ws-route-label"><strong>一周空闲总览</strong><small>按教学周比较各节次的空闲人数</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#planner" data-ws-route="planner"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-12 5 2 2 4-4"/></svg></span><span class="ws-route-label"><strong>共同排期</strong><small>为选中的同学找共同空闲的时间</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#person" data-ws-route="person"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h8m-8 4h5"/></svg></span><span class="ws-route-label"><strong>个人课表</strong><small>按姓名和教学周查看课程</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#duty" data-ws-route="duty"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2m6 2V2M8 10h8m-8 4h8m-8 4h4"/></svg></span><span class="ws-route-label"><strong>本学期值班表</strong><small>查看、下载已确认的值班安排</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#directory" data-ws-route="directory"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2"/></svg></span><span class="ws-route-label"><strong>人员名录</strong><small>查找两部门成员及联系方式</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a></div></section><section class="ws-route-group"><h3>材料办理</h3><div><a href="#hours" data-ws-route="hours"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 12h7m-7 4h7"/><path d="M3 8v13"/></svg></span><span class="ws-route-label"><strong>志愿时长导入</strong><small>按岗位和日期生成导入文件</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#office" data-ws-route="office"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h5m0 4h3m-8 0h1"/></svg></span><span class="ws-route-label"><strong>报销材料</strong><small>上传发票，生成报销材料包</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#colleges" data-ws-route="colleges"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5zM6 11v6c3 3 9 3 12 0v-6m3-2v8"/></svg></span><span class="ws-route-label"><strong>学院系号与签领表</strong><small>查询系号，生成物资签领表</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a></div></section><section class="ws-route-group"><h3>档案与活动</h3><div><a href="#awards" data-ws-route="awards"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="m8 12-2 9 6-3 6 3-2-9"/></svg></span><span class="ws-route-label"><strong>志愿服务荣誉库</strong><small>查找历年获奖人员、项目和团队</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#league" data-ws-route="league"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4m0 16h16M8 16v-4m5 4V8m5 8v-6"/></svg></span><span class="ws-route-label"><strong>团统数据</strong><small>查询和导出各学院团员统计</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#gallery" data-ws-route="gallery"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m3 17 5-4 4 3 4-5 5 5"/></svg></span><span class="ws-route-label"><strong>活动记录与照片</strong><small>查看或发布活动记录和照片</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a></div></section><section class="ws-route-group"><h3>其他工具</h3><div><a href="#lottery" data-ws-route="lottery"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v11H4zM3 6h18v4H3zM12 6v15m0-15H8a2 2 0 1 1 2-2l2 2Zm0 0h4a2 2 0 1 0-2-2l-2 2Z"/></svg></span><span class="ws-route-label"><strong>幸运抽奖</strong><small>选择人员名单，开始现场抽奖</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a><a href="#settings" data-ws-route="settings"><span class="ws-route-icon"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16M8 5v4m8 1v4m-6 1v4"/></svg></span><span class="ws-route-label"><strong>校历与数据设置</strong><small>查看课表来源，设置停课或补课日期</small></span><span class="ws-route-arrow"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a></div></section></div><button id="wsMoreSearch" class="ws-wide-button"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 5 5"/></svg> 搜索功能或同学</button></dialog>
+<div class="ws-mobile-nav" role="navigation" aria-label="快捷导航"><button type="button" data-ws-route="home"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"/></svg><span>首页</span></button><button type="button" data-ws-route="query"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>查空闲</span></button><button type="button" data-ws-route="hours"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 12h7m-7 4h7"/><path d="M3 8v13"/></svg><span>录时长</span></button><button type="button" data-ws-route="office"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h5m0 4h3m-8 0h1"/></svg><span>报销</span></button><button type="button" id="wsMoreButton" aria-haspopup="dialog"><svg class="ws-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span>全部</span></button></div>
 <!--/WS-DIALOGS--><script>/*__DATA__*/</script><script>/*__ENGINE__*/</script><script>/*__APP__*/</script></body></html>
 
 
