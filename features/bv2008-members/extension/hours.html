@@ -1,0 +1,24 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="app.css"><script src="vendor/exceljs-4.4.0.min.js" defer></script><script src="hours-app.mjs" type="module"></script><title>志愿北京 · 录入时长</title></head><body>
+<main>
+<header><p class="eyebrow">志愿北京 · 时长录入</p><h1>逐人录入时长</h1>
+<nav class="mode-nav"><a id="mode-member" href="index.html?mode=member">添加团体成员</a><a id="mode-activity" href="index.html?mode=activity">添加活动志愿者</a><a id="mode-hours" aria-current="page" href="hours.html">录入时长</a></nav></header>
+<section class="card"><h2>1. 核对岗位</h2><p id="hours-target">正在读取当前岗位…</p><button id="hours-connect">重新检查</button><p class="hint">在官网进入活动岗位的「计时 → 时长录入」。每批对应一个岗位。</p></section>
+<section class="card"><h2>2. 选择名单、日期与证明</h2>
+<label>人员时长清单 <input id="hours-file" type="file" accept=".xlsx"></label>
+<label>工作表 <select id="hours-sheet"></select></label>
+<p class="hint">表头包含「姓名」「志愿者编号」（或「证件号码」）「总时长」。总时长按半小时递增。</p>
+<div class="actions"><label>开始日期 <input id="hours-start" type="date"></label><label>结束日期 <input id="hours-end" type="date"></label>
+<label>分配顺序 <select id="hours-order"><option value="asc">从早到晚</option><option value="desc">从晚到早</option></select></label></div>
+<label>本批共用证明图片 <input id="hours-proof" type="file" accept=".png,.jpg,.jpeg"></label>
+<p class="hint">使用本次服务的真实证明图片，小于 3 MB。每天最多分配 8 小时。官网标记已有记录的日期会跳过。</p>
+<label>备注 <textarea id="hours-notes" maxlength="600" rows="2"></textarea></label>
+</section>
+<section class="card"><h2>3. 核对后开始</h2><label class="check"><input id="hours-confirm" type="checkbox">我已核对岗位、实际服务日期、总时长和证明图片。</label>
+<div class="actions"><button id="hours-run" class="primary">开始或继续录入</button><button id="hours-pause">暂停</button><button id="hours-export">下载明细</button></div>
+<p id="hours-status" role="status" aria-live="polite"></p>
+<div class="table-wrap"><table><thead><tr><th>原表行号</th><th>姓名</th><th>总时长</th><th>本批已录</th><th>待录</th><th>情况</th></tr></thead><tbody id="hours-results"></tbody></table></div>
+<div id="hours-unknown" class="hint"></div>
+<p class="hint">提交中断时先到官网核对对应日期，再记录核对结果。刷新后重新选择原文件、日期范围和证明图可以恢复进度。</p>
+</section>
+<section class="card"><h2>需要批量导入并提交上级审批？</h2><p>工作台已有按岗位、日期生成模板和避开历史记录的功能。生成材料后，使用官网的「批量导入时长」提交审批。</p><a href="https://liuhaoyuray.github.io/buaa-team-schedule-2026/#hours" target="_blank" rel="noopener">打开工作台时长导入</a></section>
+</main></body></html>

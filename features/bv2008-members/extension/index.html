@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>志愿北京 · 批量添加成员</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="vendor/exceljs-4.4.0.min.js" defer></script>
+  <script src="app.mjs" type="module"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">志愿北京 · 团体管理</p>
+      <h1 id="mode-title">批量添加团体成员</h1>
+      <p id="mode-description">核对团体和名单后开始。扩展会逐条填写并提交，最后汇总结果。</p>
+      <nav class="mode-nav" aria-label="录入类型">
+        <a id="mode-member" href="?mode=member">添加团体成员</a>
+        <a id="mode-activity" href="?mode=activity">添加活动志愿者</a>
+        <a id="mode-hours" href="hours.html">录入时长</a>
+      </nav>
+    </header>
+    <section class="card" aria-labelledby="target-title">
+      <h2 id="target-title">1. 核对目标团体</h2>
+      <p id="target" role="status">正在检查官网标签页…</p>
+      <div class="actions">
+        <button id="go-site" type="button">打开官网标签页</button>
+        <button id="connect" type="button">重新检查</button>
+      </div>
+      <p id="target-hint" class="hint">请登录团体账号，打开「志愿者管理 → 我的成员 → 正式成员」，再点击浏览器工具栏里的扩展图标。</p>
+    </section>
+    <section class="card" aria-labelledby="roster-title">
+      <h2 id="roster-title">2. 读取名单</h2>
+      <p id="roster-hint" class="hint">请选择含「姓名」和「证件号码」两列表头的 .xlsx 文件。证件号码列请使用文本格式。</p>
+      <label for="workbook">名单文件</label>
+      <input type="file" id="workbook" accept=".xlsx">
+      <label id="sheet-label" hidden>工作表 <select id="sheet"></select></label>
+      <details>
+        <summary>也可以从 Excel 复制两列</summary>
+        <label id="paste-label" for="paste">粘贴姓名和证件号码</label>
+        <textarea id="paste" rows="3" autocomplete="off" spellcheck="false"></textarea>
+        <button id="read-paste" type="button">读取粘贴内容</button>
+      </details>
+      <p class="hint">每批最多 500 人。要恢复进度，请在同一浏览器重新选择原名单和工作表。</p>
+    </section>
+    <section class="card" aria-labelledby="run-title">
+      <h2 id="run-title">3. 开始处理</h2>
+      <label class="check"><input id="confirm" type="checkbox"> <span id="confirm-label">我已核对目标团体和名单，并已与这些志愿者沟通。</span></label>
+      <div class="actions">
+        <button id="start" class="primary" type="button">开始或继续添加</button>
+        <button id="pause" type="button">暂停</button>
+        <button id="retry" type="button">重跑官网拒绝项</button>
+        <button id="download" type="button">下载结果清单</button>
+      </div>
+      <p class="hint">加载较慢时会自动等待。每次提交最多等 90 秒，结果不明时会暂停并保留进度。</p>
+      <p id="notice" role="status" aria-live="polite"></p>
+      <p id="counts"></p>
+      <div class="actions result-filters">
+        <label>筛选结果 <select id="filter">
+          <option value="all">全部</option>
+          <option value="problem">需要处理</option>
+          <option value="added">已添加</option>
+          <option id="existing-option" value="existing">已是成员</option>
+        </select></label>
+      </div>
+      <div class="table-wrap" tabindex="0" aria-label="成员处理结果">
+        <table>
+          <thead><tr><th>原表行号</th><th>姓名</th><th id="id-heading">证件号码</th><th>状态</th><th>原因或下一步</th></tr></thead>
+          <tbody id="results"></tbody>
+        </table>
+      </div>
+      <p class="hint">修正资料后，可把修正的行单独复制成一批。证件号只在当前会话使用。下载清单包含行号、状态和原因。</p>
+    </section>
+  </main>
+  <dialog id="review">
+    <form method="dialog">
+      <h2>核对官网结果</h2>
+      <p id="review-text"></p>
+      <p id="review-hint">请先在目标团体的正式成员列表核对，再选下面对应的结果。</p>
+      <div class="actions">
+        <button value="cancel" autofocus>取消</button>
+        <button value="pending">确认未添加，重新排队</button>
+        <button class="primary" value="added">确认已添加</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

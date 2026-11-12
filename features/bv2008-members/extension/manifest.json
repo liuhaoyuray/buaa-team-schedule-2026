@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "志愿北京 · 批量添加志愿者",
+  "version": "0.4.0",
+  "description": "在志愿北京团体后台，按名单批量添加团体成员或活动岗位志愿者。",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "action": {"default_title": "批量添加志愿者"},
+  "background": {"service_worker": "background.js"}
+}

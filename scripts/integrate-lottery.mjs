@@ -5,6 +5,7 @@ import { applyReimbursementUpgrade } from './reimbursement-upgrade.mjs';
 import { applyWorkspaceShell, applyWorkspaceUpgrade } from './workspace-upgrade.mjs';
 import { applyAwardsUpgrade } from './awards-upgrade.mjs';
 import { applyPlatformUI } from './platform-ui.mjs';
+import { writeMemberImport } from './bv2008-members.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -62,5 +63,6 @@ export async function integrateLottery(root){
   const filename=path.join(output,name);
   if(await fs.readFile(filename,'utf8').catch(()=>null)!==content)await fs.writeFile(filename,content);
  }
+ await writeMemberImport(root,output);
  return {people:64,departments:{'志愿者工作部':35,'社会实践部':29}};
 }

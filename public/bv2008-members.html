@@ -1,0 +1,42 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>志愿北京录入助手 · 安装与使用</title><style>
+body{margin:0;background:#f1f5fa;color:#17253a;font:16px/1.7 "Segoe UI","Microsoft YaHei",sans-serif}main{max-width:850px;margin:auto;padding:30px 20px 60px}section{background:white;border:1px solid #d8e2ee;border-radius:12px;padding:22px;margin:16px 0}h1{line-height:1.3}h2{font-size:1.25rem;margin-top:0}a{color:#075f83}.button{display:inline-block;background:#075f83;color:white;padding:9px 16px;border-radius:7px;text-decoration:none;font-weight:650}li+li{margin-top:10px}img{max-width:100%;border:1px solid #d8e2ee;border-radius:7px}code{overflow-wrap:anywhere}p{margin:10px 0}.hint{color:#476077}nav{display:flex;gap:15px;flex-wrap:wrap}
+</style></head><body><main>
+<a href="index.html#home">← 工作台</a><h1>志愿北京录入助手</h1>
+<p>支持添加团体成员、添加活动岗位志愿者，以及逐人分配日期、上传证明并录入时长。</p>
+<p><a class="button" href="https://liuhaoyuray.github.io/buaa-team-schedule-2026/bv2008-batch-helper.user.js">安装最新脚本</a></p>
+<nav><a href="#install">首次安装</a><a href="#permissions">权限设置</a><a href="#use">使用方法</a><a href="#update">自动更新</a><a href="#help">常见问题</a></nav>
+<section id="install"><h2>1. 安装篡改猴</h2><p>使用电脑上的 Edge 或 Chrome 打开这份教程。</p><ol>
+<li>打开<a href="https://www.tampermonkey.net/" target="_blank" rel="noopener">篡改猴官方网站</a>，选择与你浏览器对应的稳定版，进入扩展商店，点「获取」或「添加至浏览器」，再确认添加扩展。</li>
+<li>安装完成后，点击浏览器右上角的扩展图标，将「篡改猴」固定到工具栏，方便以后打开管理面板。</li>
+</ol></section>
+<section id="permissions"><h2>2. 打开运行脚本所需的权限</h2><ol>
+<li>Edge 在地址栏输入 <code>edge://extensions</code>，Chrome 输入 <code>chrome://extensions</code>。</li>
+<li>找到「篡改猴」，点「详细信息」。如果有「允许运行用户脚本」或「允许用户脚本」开关，请打开。较旧浏览器如果提示使用开发人员模式，就按提示回到扩展管理页打开「开发人员模式」。</li>
+<li>在篡改猴的「网站访问权限」中允许它在志愿北京运行。使用特定网站设置时，添加 <code>https://www.bv2008.cn/*</code>；使用试运行网址时再添加 <code>https://test1.bv2008.cn/*</code>。</li>
+</ol><p class="hint">篡改猴管理面板如果仍显示「请启用允许用户脚本」，返回浏览器扩展详情检查开关，再刷新管理面板。</p>
+<p class="hint">下图展示开关的位置，请将「允许运行用户脚本」打开。</p><img src="bv2008-guide/permissions.png" alt="浏览器篡改猴扩展详情中的用户脚本权限示例" loading="lazy"></section>
+<section><h2>3. 安装录入助手</h2><ol>
+<li>确认篡改猴已启用后，点击本教程顶部的「安装最新脚本」。</li>
+<li>浏览器会打开篡改猴安装确认页，核对名称为「志愿北京 · 批量录入助手」，点「安装」。已有旧版时，确认更新或重新安装同名脚本。</li>
+<li>打开志愿北京，登录自己的团体账号并刷新网页，右上角会出现「批量录入」按钮。</li>
+</ol><img src="bv2008-guide/install.png" alt="录入助手在篡改猴中的安装确认页" loading="lazy">
+<p>如果点击安装链接只显示代码，可以<a href="bv2008-batch-helper.user.js" download>下载脚本文件</a>，再打开「篡改猴 → 管理面板 → 实用工具」，点击<strong>「导入」这一行的「选择文件」</strong>，选中下载的 .user.js 文件，最后在确认页安装。</p></section>
+<section id="use"><h2>按要办的事选择入口</h2><ol>
+<li><strong>添加团体成员</strong>。官网进入「志愿者管理 → 我的成员 → 正式成员」，打开「批量录入」。导入姓名、证件号码两列，核对团体后开始。</li>
+<li><strong>添加活动志愿者</strong>。在「我的活动」展开活动，在对应岗位点「招募」，进入「已录用」。导入姓名加志愿者编号或证件号码，核对活动和岗位后开始。</li>
+<li><strong>逐人录时长</strong>。进入活动岗位的「计时 → 时长录入」，打开助手的「录入时长」。导入姓名、编号或证件号码、总时长三列，选择实际服务的日期范围、日期顺序和本批共用证明图片，核对后开始。</li>
+</ol>
+<p>时长按每天最多 8 小时分配，按 0.5 小时递增。遇到官网标记已有时长、待审核或其他记录的日期会避开；切换日期后也会检查表单是否已带出旧记录。日期不足的剩余时长会留在明细里。</p>
+<p>录时长依据官网当前账号权限和服务日期范围执行。证明图片请使用真实服务材料，PNG 或 JPG 格式，小于 3 MB。</p>
+<p>需要批量文件并提交上级审批时，可用<a href="index.html#hours">工作台的志愿时长导入</a>按岗位和日期生成材料，再从官网「批量导入时长」提交申请。</p></section>
+<section id="update"><h2>以后如何更新</h2>
+<p>这个版本已经配置在线更新地址。首次安装后，篡改猴会按它的检查周期从本项目获取更新。新版发布后，刷新志愿北京即可运行已更新的脚本。</p>
+<p>需要马上更新时，在篡改猴的「已安装脚本」中找到本助手，点「检查更新」；也可以再次点击本教程顶部的安装链接。篡改猴设置中，请保持「脚本更新」功能启用。</p>
+<p>自动检查按浏览器和篡改猴的设置运行，发布后立即生效需要执行一次检查更新。正在录入时请先暂停，等当前提交完成后再刷新页面。</p></section>
+<section id="help"><h2>遇到问题时</h2><ul>
+<li>没有出现「批量录入」。检查篡改猴和本脚本是否都已启用、是否允许用户脚本及网站访问，再刷新志愿北京。</li>
+<li>显示请打开正式成员或计时页面。先在官网打开对应的后台页面，再点面板中的「重新检查」。</li>
+<li>结果显示「待核对」。先去官网核对对应人员、日期和时长，再回助手记录核对结果。</li>
+<li>刷新后继续。重新选择同一份原文件、日期范围与证明图片，读取保存的进度后继续。</li>
+</ul><p><a href="bv2008-member-import.zip" download>下载独立扩展备用版</a></p></section>
+</main></body></html>
