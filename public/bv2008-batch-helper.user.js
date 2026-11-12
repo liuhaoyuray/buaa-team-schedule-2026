@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         志愿北京 · 批量录入助手
 // @namespace    buaa-volunteer-tools
-// @version      0.5.0
+// @version      0.6.0
 // @description  按 Excel 名单添加团体和活动志愿者，录入或批量报批时长、生成汇总证明并避开历史日期，支持进度恢复。
 // @match        https://www.bv2008.cn/*
 // @match        https://bv2008.cn/*
@@ -215,6 +215,127 @@ return module.exports; })();
     page.HTMLAnchorElement.prototype.click = intercept;
   });
   document.addEventListener("buaa-hours-template-cancel", () => cancel());
+})();
+
+(() => {
+  if (globalThis.__buaaProjectInfoBridge) return;
+  globalThis.__buaaProjectInfoBridge = true;
+  const page = typeof unsafeWindow === "undefined" ? window : unsafeWindow;
+  const importNative =
+    typeof unsafeWindow === "undefined"
+      ? (url) => import(url)
+      : (url) => page.Function("url", "return import(url)")(url);
+  let modulePromise;
+  async function nativeModule() {
+    const urls = [
+      ...page.document.querySelectorAll(
+        'script[src],link[rel="modulepreload"][href]',
+      ),
+    ]
+      .map((node) => node.src || node.href)
+      .concat(
+        page.performance
+          ?.getEntriesByType("resource")
+          .map((entry) => entry.name) || [],
+      );
+    const url = urls.find((value) => {
+      try {
+        const candidate = new URL(value, page.location.href);
+        return (
+          candidate.origin === page.location.origin &&
+          /^\/js\/bootstrap-[\w-]+\.js$/.test(candidate.pathname)
+        );
+      } catch {
+        return false;
+      }
+    });
+    if (!url) throw Error("尚未找到官网已加载的项目信息模块");
+    modulePromise ||= importNative(url).catch((error) => {
+      modulePromise = null;
+      throw error;
+    });
+    return modulePromise;
+  }
+  const current = (request) => {
+    const [path, query] = page.location.hash.split("?");
+    const params = new URLSearchParams(query);
+    return (
+      path === "#/projectActivityManage/myProject/durationInput" &&
+      params.get("activityId") === request.activityId &&
+      params.get("postId") === request.postId
+    );
+  };
+  document.addEventListener("buaa-hours-project-request", async (event) => {
+    let request;
+    try {
+      request = JSON.parse(event.detail);
+    } catch {
+      return;
+    }
+    if (!/^[\w-]{1,100}$/.test(request?.requestId || "") || !current(request))
+      return;
+    const reply = (value) =>
+      document.dispatchEvent(
+        new CustomEvent("buaa-hours-project-result", {
+          detail: JSON.stringify({ requestId: request.requestId, ...value }),
+        }),
+      );
+    try {
+      const api = await nativeModule();
+      const reader = (marker) =>
+        Object.values(api).find(
+          (value) =>
+            typeof value === "function" &&
+            Function.prototype.toString.call(value).includes(marker),
+        );
+      const details = reader("/activity/findDetailsByIid");
+      const dates = reader("/activityScheduling/getServerTimeByActivityId");
+      if (!details || !dates) throw Error("官网项目信息入口已变化");
+      // Reuse the site's authenticated read operations; never expose its session credentials.
+      const results = await Promise.allSettled([
+        details({ iid: request.activityId }),
+        dates({ activityId: request.activityId }),
+      ]);
+      if (!current(request)) throw Error("当前活动已改变");
+      const detailResponse =
+        results[0].status === "fulfilled" ? results[0].value : null;
+      const dateResponse =
+        results[1].status === "fulfilled" ? results[1].value : null;
+      const info = detailResponse?.success
+        ? detailResponse.data?.resultData?.dataMap?.details
+        : null;
+      if (info?.iid && String(info.iid) !== request.activityId)
+        throw Error("官网返回的活动与当前活动不一致");
+      const activityName = String(info?.activityName || "")
+        .trim()
+        .slice(0, 100);
+      const post = info?.activityPostList?.find(
+        (post) => String(post.iid) === request.postId,
+      );
+      const serviceDates =
+        dateResponse?.success && Array.isArray(dateResponse.data?.resultData)
+          ? dateResponse.data.resultData
+          : [];
+      reply({
+        activityName,
+        postName: String(post?.postName || "").slice(0, 100),
+        dates: [
+          ...new Set(
+            serviceDates.filter(
+              (date) =>
+                typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date),
+            ),
+          ),
+        ].sort(),
+        reason:
+          !activityName || !serviceDates.length
+            ? "官网信息未完整返回，可重新读取或手动补充。"
+            : "",
+      });
+    } catch (error) {
+      reply({ reason: error.message || "项目信息暂时无法自动读取" });
+    }
+  });
 })();
 
 (() => {
@@ -758,41 +879,97 @@ return module.exports; })();
   } = globalThis.__buaaMemberAdapter;
   const { lookup, verifyName, displayedValue, sameTarget } =
     globalThis.__buaaActivityAdapter;
-  const route = '#/projectActivityManage/myProject/durationInput';
+  const route = "#/projectActivityManage/myProject/durationInput";
   const result = (status, reason) => ({ status, reason });
   let busy = false;
   let proof = null;
-  let lastNumber = '';
+  let lastNumber = "";
+  const projectCache = new Map();
+  const projectKey = (target) =>
+    [target.id, target.activityId, target.postId].join("|");
+  async function targetStatus() {
+    const current = target();
+    if (!current.id) return { ...current, busy };
+    const key = projectKey(current);
+    const cached = projectCache.get(key);
+    if (cached && Date.now() - cached.at < 60000)
+      return { ...current, ...cached.value, busy };
+    const requestId = crypto.randomUUID();
+    let receive, timer;
+    try {
+      const metadata = await new Promise((resolve) => {
+        receive = (event) => {
+          let data;
+          try {
+            data = JSON.parse(event.detail);
+          } catch {
+            return;
+          }
+          if (data.requestId === requestId) resolve(data);
+        };
+        document.addEventListener("buaa-hours-project-result", receive);
+        timer = setTimeout(
+          () =>
+            resolve({
+              reason: "读取项目信息超时，可点重新检查；也可手动补充。",
+            }),
+          12000,
+        );
+        document.dispatchEvent(
+          new CustomEvent("buaa-hours-project-request", {
+            detail: JSON.stringify({ ...current, requestId }),
+          }),
+        );
+      });
+      if (!sameTarget(target(), current))
+        return { reason: "读取期间活动已切换，请重新检查。" };
+      const dates = (metadata.dates || [])
+        .filter((date) => /^\d{4}-\d{2}-\d{2}$/.test(date))
+        .sort();
+      const value = {
+        activityName: metadata.activityName || "",
+        postName: metadata.postName || "",
+        dates,
+        metadataReason: metadata.reason || "",
+      };
+      if (value.activityName && dates.length)
+        projectCache.set(key, { at: Date.now(), value });
+      return { ...current, ...value, busy };
+    } finally {
+      clearTimeout(timer);
+      document.removeEventListener("buaa-hours-project-result", receive);
+    }
+  }
   function target() {
-    const [page, query] = location.hash.split('?');
+    const [page, query] = location.hash.split("?");
     const params = new URLSearchParams(query);
     const group = readGroup();
     if (
       page !== route ||
       !group ||
-      !params.get('activityId') ||
-      !params.get('postId') ||
-      params.get('fromSettings') === '1' ||
-      (params.get('orgId') && params.get('orgId') !== group.id) ||
-      ![...document.querySelectorAll('.DurationInputList')].some(visible)
+      !params.get("activityId") ||
+      !params.get("postId") ||
+      params.get("fromSettings") === "1" ||
+      (params.get("orgId") && params.get("orgId") !== group.id) ||
+      ![...document.querySelectorAll(".DurationInputList")].some(visible)
     ) {
-      return { reason: '请打开目标活动岗位的「计时 → 时长录入」页面。' };
+      return { reason: "请打开目标活动岗位的「计时 → 时长录入」页面。" };
     }
     return {
       ...group,
-      activityId: params.get('activityId'),
-      postId: params.get('postId'),
+      activityId: params.get("activityId"),
+      postId: params.get("postId"),
     };
   }
   const changed = (expected) =>
-    location.hash.split('?')[0] !== route ||
+    location.hash.split("?")[0] !== route ||
     (target().id && !sameTarget(target(), expected));
   const dialog = () =>
     [...document.querySelectorAll('.ant-modal, [role="dialog"]')]
       .filter(visible)
       .find((form) => form.querySelector('input[placeholder="请输入时长"]'));
   async function close(form) {
-    const cancel = find(form, 'button', '取消');
+    const cancel = find(form, "button", "取消");
     if (cancel && enabled(cancel)) cancel.click();
     return waitStable(
       () => !form.isConnected || !visible(form),
@@ -801,95 +978,167 @@ return module.exports; })();
     );
   }
   async function open(person, expected) {
-    if (changed(expected)) throw Error('目标团体、活动或岗位已改变。');
-    if (dialog()) throw Error('请先关闭官网的录时长弹窗。');
-    const page = [...document.querySelectorAll('.DurationInputList')].find(
+    if (changed(expected)) throw Error("目标团体、活动或岗位已改变。");
+    if (dialog()) throw Error("请先关闭官网的录时长弹窗。");
+    const page = [...document.querySelectorAll(".DurationInputList")].find(
       visible,
     );
-    if (!page) throw Error('请切到官网的「时长录入」页签。');
+    if (!page) throw Error("请切到官网的「时长录入」页签。");
     const found = await lookup(page, person, expected, true, target);
     if (!found || found.changed)
-      throw Error('官网人员检索尚未完成，请稍后继续。');
+      throw Error("官网人员检索尚未完成，请稍后继续。");
     if (found.total !== 1 || found.rows.length !== 1)
-      throw Object.assign(Error('无法唯一匹配这个岗位中的志愿者。'), {personIssue:true});
+      throw Object.assign(Error("无法唯一匹配这个岗位中的志愿者。"), {
+        personIssue: true,
+      });
     const row = found.rows[0];
     if (
-      person.identifier === 'number' &&
-      displayedValue(found.table, row, '志愿者编号') !== person.cert
+      person.identifier === "number" &&
+      displayedValue(found.table, row, "志愿者编号") !== person.cert
     )
-      throw Error('志愿者编号不一致。');
+      throw Error("志愿者编号不一致。");
     if (!(await verifyName(row, person.name)))
-      throw Object.assign(Error('姓名不一致，请核对名单。'), {personIssue:true});
-    lastNumber = displayedValue(found.table, row, '志愿者编号');
-    if (!lastNumber) throw Error('未能读取志愿者编号，请等待官网名单加载。');
-    const actions = [...row.querySelectorAll('a,button')].filter(
+      throw Object.assign(Error("姓名不一致，请核对名单。"), {
+        personIssue: true,
+      });
+    lastNumber = displayedValue(found.table, row, "志愿者编号");
+    if (!lastNumber) throw Error("未能读取志愿者编号，请等待官网名单加载。");
+    const actions = [...row.querySelectorAll("a,button")].filter(
       (el) => visible(el) && /^(录入|调整|计时)$/.test(clean(el.textContent)),
     );
     if (actions.length !== 1 || !found.unchanged())
-      throw Error('无法确认这个人的录时长入口。');
+      throw Error("无法确认这个人的录时长入口。");
     actions[0].click();
     const form = await waitStable(
       () => {
         const form = dialog();
-        return form && !isLoading(form) && enabled(find(form, 'button', '确定'))
+        return form && !isLoading(form) && enabled(find(form, "button", "确定"))
           ? form
           : null;
       },
       timing.page,
       300,
     );
-    if (!form) throw Error('录时长表单仍在加载。');
+    if (!form) throw Error("录时长表单仍在加载。");
     return form;
   }
   function dateControl(form) {
-    const item = [...form.querySelectorAll('.ant-form-item')].find(
-      (item) =>
-        clean(item.querySelector('label')?.textContent).replace(
-          /[：:*]/g,
-          '',
-        ).match(/^(?:服务)?日期$/),
+    const item = [...form.querySelectorAll(".ant-form-item")].find((item) =>
+      clean(item.querySelector("label")?.textContent)
+        .replace(/[：:*]/g, "")
+        .match(/^(?:服务)?日期$/),
     );
     return (
-      item?.querySelector('.ant-select-selector') ||
-      form.querySelector('.ant-select-selector')
+      item?.querySelector(".ant-select-selector") ||
+      form.querySelector(".ant-select-selector")
     );
   }
   async function scanDates(form, wanted) {
     const control = dateControl(form);
-    if (!control) throw Error('无法识别服务日期选择框。');
-    control.click();
-    const menu = await wait(
-      () =>
-        [...document.querySelectorAll('.ant-select-dropdown')]
-          .filter(visible)
-          .at(-1),
-      timing.page,
-    );
-    if (!menu) throw Error('服务日期仍在加载。');
-    const holder = menu.querySelector('.rc-virtual-list-holder');
+    if (!control) throw Error("无法识别服务日期选择框。");
+    const input =
+      control.querySelector('input[role="combobox"],input') ||
+      control
+        .closest(".ant-select")
+        ?.querySelector('input[role="combobox"],input');
+    const trigger = input || control;
+    if (trigger.getAttribute("aria-expanded") !== "true") {
+      trigger.focus({ preventScroll: true });
+      // Ant Design opens its select on mousedown, not programmatic click alone.
+      trigger.dispatchEvent(
+        new MouseEvent("mousedown", {
+          button: 0,
+          buttons: 1,
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
+      trigger.dispatchEvent(
+        new MouseEvent("mouseup", {
+          button: 0,
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
+      trigger.click();
+    }
+    const menu = await wait(() => {
+      const owned = document
+        .getElementById(trigger.getAttribute("aria-controls"))
+        ?.closest(".ant-select-dropdown");
+      if (owned && visible(owned)) return owned;
+      const menus = [
+        ...document.querySelectorAll(".ant-select-dropdown"),
+      ].filter(visible);
+      return menus.length === 1 ? menus[0] : null;
+    }, timing.page);
+    if (!menu) throw Error("服务日期仍在加载。");
+    const dismiss = () => {
+      trigger.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: "Escape",
+          code: "Escape",
+          keyCode: 27,
+          bubbles: true,
+        }),
+      );
+      document.body.dispatchEvent(
+        new MouseEvent("mousedown", { bubbles: true }),
+      );
+    };
+    if (
+      !(await waitStable(
+        () =>
+          [...menu.querySelectorAll(".ant-select-item-option")].some((option) =>
+            /^\d{4}-\d{2}-\d{2}/.test(
+              clean(option.getAttribute("title") || option.textContent),
+            ),
+          ),
+        timing.page,
+        160,
+      ))
+    ) {
+      dismiss();
+      throw Error("官网没有返回可用服务日期，请重新检查活动日期。");
+    }
+    const holder = menu.querySelector(".rc-virtual-list-holder");
     if (holder) {
       holder.scrollTop = 0;
-      holder.dispatchEvent(new Event('scroll'));
+      holder.dispatchEvent(new Event("scroll"));
     }
     const dates = new Map();
     for (let step = 0; step < 150; step++) {
       await new Promise((resolve) => setTimeout(resolve, 80));
-      for (const option of menu.querySelectorAll('.ant-select-item-option')) {
-        const label = clean(option.getAttribute('title') || option.textContent);
+      for (const option of menu.querySelectorAll(".ant-select-item-option")) {
+        const label = clean(option.getAttribute("title") || option.textContent);
         const date = label.match(/^\d{4}-\d{2}-\d{2}/)?.[0];
         if (!date) continue;
         const free =
           label === date &&
-          !option.classList.contains('ant-select-item-option-disabled');
+          !option.classList.contains("ant-select-item-option-disabled");
         dates.set(date, free);
         if (date === wanted) {
           if (!free) {
-            document.body.dispatchEvent(
-              new MouseEvent('mousedown', { bubbles: true }),
-            );
+            dismiss();
             return { occupied: true };
           }
           option.click();
+          const selected = await waitStable(
+            () => {
+              const value = clean(
+                control
+                  .querySelector(".ant-select-selection-item")
+                  ?.getAttribute("title") ||
+                  control.querySelector(".ant-select-selection-item")
+                    ?.textContent ||
+                  input?.value,
+              );
+              return value.startsWith(wanted) && !isLoading(form);
+            },
+            timing.page,
+            250,
+          );
+          if (!selected) throw Error("官网日期选择尚未生效，已暂停，未提交。");
           return { selected: true };
         }
       }
@@ -899,56 +1148,59 @@ return module.exports; })();
       )
         break;
       holder.scrollTop += holder.clientHeight * 0.85;
-      holder.dispatchEvent(new Event('scroll'));
+      holder.dispatchEvent(new Event("scroll"));
     }
-    document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-    if (wanted) throw Error('这个服务日期不在官网可选范围内。');
-    if (!dates.size) throw Error('没有读到可用的服务日期。');
+    dismiss();
+    if (wanted) throw Error("这个服务日期不在官网可选范围内。");
+    if (!dates.size) throw Error("没有读到可用的服务日期。");
     return {
       dates: [...dates].filter(([, free]) => free).map(([date]) => date),
     };
   }
   async function handle(message) {
-    if (message.type === 'hours-target') return { ...target(), busy };
-    if (message.type === 'hours-proof') {
+    if (message.type === "hours-target") return targetStatus();
+    if (message.type === "hours-proof") {
       proof = message.proof;
       return { ok: true };
     }
-    if (message.type?.startsWith('hours-batch-')) {
-      if (busy) return result('blocked', '另一个计时操作正在处理。');
+    if (message.type?.startsWith("hours-batch-")) {
+      if (busy) return result("blocked", "另一个计时操作正在处理。");
       busy = true;
-      try { return await globalThis.__buaaHoursBatchAdapter.handle(message); }
-      finally { busy = false; }
+      try {
+        return await globalThis.__buaaHoursBatchAdapter.handle(message);
+      } finally {
+        busy = false;
+      }
     }
-    if (!['hours-prepare', 'hours-submit'].includes(message.type)) return null;
-    if (busy) return result('blocked', '另一个计时操作正在处理。');
+    if (!["hours-prepare", "hours-submit"].includes(message.type)) return null;
+    if (busy) return result("blocked", "另一个计时操作正在处理。");
     busy = true;
     let form;
     let clicked = false;
     try {
       form = await open(message.person, message.target);
       const scanned = await scanDates(form, message.date);
-      if (message.type === 'hours-prepare') {
+      if (message.type === "hours-prepare") {
         await close(form);
-        return {...scanned, number: lastNumber};
+        return { ...scanned, number: lastNumber };
       }
       if (scanned.occupied) {
         await close(form);
-        return result('existing', '这一天已有记录，已避开');
+        return result("existing", "这一天已有记录，已避开");
       }
       const field = form.querySelector('input[placeholder="请输入时长"]');
       const notes = form.querySelector(
         'textarea[placeholder="请输入备注信息"]',
       );
       if (!(await waitStable(() => !isLoading(form), timing.page, 350)))
-        throw Error('日期记录仍在加载。');
+        throw Error("日期记录仍在加载。");
       if (
         field.value ||
         notes?.value ||
-        form.querySelector('.ant-upload-list-item')
+        form.querySelector(".ant-upload-list-item")
       ) {
         await close(form);
-        return result('existing', '日期切换后发现已有记录，已避开');
+        return result("existing", "日期切换后发现已有记录，已避开");
       }
       if (
         !(
@@ -958,17 +1210,17 @@ return module.exports; })();
         ) ||
         !proof
       )
-        throw Error('时长或证明图片有误。');
+        throw Error("时长或证明图片有误。");
       fill(field, String(message.hours));
       if (notes) {
         Object.getOwnPropertyDescriptor(
           HTMLTextAreaElement.prototype,
-          'value',
-        ).set.call(notes, message.notes || '');
-        notes.dispatchEvent(new Event('input', { bubbles: true }));
+          "value",
+        ).set.call(notes, message.notes || "");
+        notes.dispatchEvent(new Event("input", { bubbles: true }));
       }
       const input = form.querySelector('input[type="file"]');
-      if (!input) throw Error('无法识别官网的证明上传入口。');
+      if (!input) throw Error("无法识别官网的证明上传入口。");
       const binary = atob(proof.base64);
       const file = new File(
         [Uint8Array.from(binary, (c) => c.charCodeAt(0))],
@@ -978,25 +1230,25 @@ return module.exports; })();
       const transfer = new DataTransfer();
       transfer.items.add(file);
       input.files = transfer.files;
-      input.dispatchEvent(new Event('change', { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
       const uploaded = await waitStable(
         () =>
-          form.querySelector('.ant-upload-list-item-done') &&
+          form.querySelector(".ant-upload-list-item-done") &&
           !form.querySelector(
-            '.ant-upload-list-item-uploading,.ant-upload-list-item-error',
+            ".ant-upload-list-item-uploading,.ant-upload-list-item-error",
           ) &&
           !isLoading(form),
         timing.submit,
         350,
       );
-      if (!uploaded) throw Error('证明图片尚未上传成功，请检查后继续。');
-      const confirm = find(form, 'button', '确定');
+      if (!uploaded) throw Error("证明图片尚未上传成功，请检查后继续。");
+      const confirm = find(form, "button", "确定");
       if (
         changed(message.target) ||
         Number(field.value) !== message.hours ||
         !enabled(confirm)
       )
-        throw Error('提交前核对未通过。');
+        throw Error("提交前核对未通过。");
       clicked = true;
       const recorded = await submitAndWait(
         form,
@@ -1004,39 +1256,46 @@ return module.exports; })();
         () => changed(message.target),
         (element, text) => {
           if (
-            element.querySelector('.ant-message-success') ||
-            element.matches('.ant-message-success') ||
+            element.querySelector(".ant-message-success") ||
+            element.matches(".ant-message-success") ||
             /^(成功|操作成功|录入成功|保存成功)$/.test(text)
           )
-            return result('added', '官网确认时长录入成功');
+            return result("added", "官网确认时长录入成功");
           return null;
         },
       );
       return (
         recorded ||
-        result('unknown', '未能确认时长结果，请核对这个人的日期记录')
+        result("unknown", "未能确认时长结果，请核对这个人的日期记录")
       );
     } catch (error) {
       if (!clicked && form) await close(form);
       return result(
-        clicked ? 'unknown' : error.personIssue ? 'rejected' : 'blocked',
-        error.message || '官网计时操作暂不可用',
+        clicked ? "unknown" : error.personIssue ? "rejected" : "blocked",
+        error.message || "官网计时操作暂不可用",
       );
     } finally {
       busy = false;
     }
   }
-  globalThis.__buaaHoursAdapter = { handle, target, changed, close, scanDates, getProof: () => proof };
-  if (typeof chrome !== 'undefined' && chrome.runtime?.id)
+  globalThis.__buaaHoursAdapter = {
+    handle,
+    target,
+    changed,
+    close,
+    scanDates,
+    getProof: () => proof,
+  };
+  if (typeof chrome !== "undefined" && chrome.runtime?.id)
     chrome.runtime.onMessage.addListener((message, sender, respond) => {
       if (
         sender.id !== chrome.runtime.id ||
-        !sender.url?.startsWith(chrome.runtime.getURL('hours.html')) ||
-        !message.type?.startsWith('hours-')
+        !sender.url?.startsWith(chrome.runtime.getURL("hours.html")) ||
+        !message.type?.startsWith("hours-")
       )
         return false;
       handle(message).then(respond, () =>
-        respond(result('unknown', '计时结果无法确认')),
+        respond(result("unknown", "计时结果无法确认")),
       );
       return true;
     });
@@ -1760,76 +2019,315 @@ function resultCsv(job, rows, labels = statusLabels) {
 }
 
 
+const hourFieldAliases = {
+  name: ["姓名", "志愿者姓名", "学生姓名", "人员姓名", "名字", "name"],
+  volunteerId: [
+    "志愿者编号",
+    "志愿北京编号",
+    "志愿者号",
+    "系统编号",
+    "志愿者id",
+    "志愿者编码",
+    "volunteerid",
+  ],
+  card: ["身份证号", "身份证号码", "证件号", "证件号码", "身份证", "证件编号"],
+};
+function normalizeHourHeader(value) {
+  return String(scalar(value) ?? "")
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/[（(][^）)]*[）)]/g, "")
+    .replace(/[：:*＊]/g, "")
+    .replace(/[\/_-](?:小时|h|hours?)$/, "");
+}
+function hourColumnRank(value, field) {
+  const header = normalizeHourHeader(value);
+  if (field !== "hours")
+    return hourFieldAliases[field].includes(header) ? 100 : 0;
+  if (
+    /^(?:拟|待|应|计划|申请|本次)(?:录入)?(?:志愿服务|志愿|服务)?(?:总)?(?:时长|时数|小时数)$/.test(
+      header,
+    )
+  )
+    return 130;
+  if (
+    [
+      "总时长",
+      "总服务时长",
+      "总志愿时长",
+      "总志愿服务时长",
+      "时长合计",
+      "totalhours",
+    ].includes(header)
+  )
+    return 120;
+  if (
+    [
+      "录入时长",
+      "志愿时长",
+      "志愿服务时长",
+      "服务时长",
+      "时长",
+      "时数",
+      "小时数",
+      "hours",
+      "duration",
+    ].includes(header)
+  )
+    return 100;
+  // Already-recorded hours, registration times and blood volume are not requested new hours.
+  return 0;
+}
+function parseHourValue(value, format = "") {
+  const raw = scalar(value);
+  if (value?.formula || value?.sharedFormula) {
+    if (
+      value.result === undefined ||
+      value.result === null ||
+      value.result === ""
+    )
+      return {
+        total: null,
+        issue: "时长公式没有计算结果，请在 Excel 中计算并保存后重传",
+      };
+  }
+  if (raw === "" || raw === null || raw === undefined)
+    return { total: null, issue: "未填写时长" };
+  let total = null;
+  const durationFormat = /\[(?:h+|m+)\]|h+:mm/i.test(format);
+  if (raw instanceof Date && durationFormat) {
+    total =
+      raw.getUTCFullYear() < 1901
+        ? (+raw - Date.UTC(1899, 11, 30)) / 3600000
+        : null;
+  } else if (typeof raw === "number") {
+    total = durationFormat ? raw * 24 : raw;
+  } else {
+    const textValue = String(raw)
+      .normalize("NFKC")
+      .trim()
+      .replace(/\s+/g, "")
+      .toLowerCase();
+    const decimal = textValue.match(
+      /^(\d+(?:\.\d+)?)\s*(?:h|hr|hrs|hours?|小时|小時|时|时长)?$/,
+    );
+    const clock = textValue.match(/^(\d{1,4}):([0-5]\d)(?::([0-5]\d))?$/);
+    const compound = textValue.match(
+      /^(?:(\d+(?:\.\d+)?)(?:小时|小時|h|时))?(?:(\d+(?:\.\d+)?)(?:分钟|min|分))?$/,
+    );
+    const half = textValue.match(/^(\d+)(?:个)?(?:小时|时)半$/);
+    if (decimal) total = Number(decimal[1]);
+    else if (clock)
+      total =
+        Number(clock[1]) + Number(clock[2]) / 60 + Number(clock[3] || 0) / 3600;
+    else if (textValue === "半小时" || textValue === "半个小时") total = 0.5;
+    else if (half) total = Number(half[1]) + 0.5;
+    else if (compound && (compound[1] || compound[2]))
+      total = Number(compound[1] || 0) + Number(compound[2] || 0) / 60;
+  }
+  if (!Number.isFinite(total) || total === null)
+    return {
+      total: null,
+      issue: "无法识别时长，请使用小时数、小时分钟或 HH:MM",
+    };
+  total = Math.round(total * 100000000) / 100000000;
+  if (total < 0.5 || (total * 2) % 1 !== 0)
+    return {
+      total,
+      issue: "须至少 0.5 小时且按半小时递增；保留原值，未自动取整",
+    };
+  return { total, issue: "" };
+}
+const hourColumnLetter = (number) => {
+  let label = "";
+  for (let n = number; n > 0; n = Math.floor((n - 1) / 26))
+    label = String.fromCharCode(65 + ((n - 1) % 26)) + label;
+  return label;
+};
 async function readHourSheets(buffer, ExcelJS) {
   const workbook = await loadWorkbook(buffer, ExcelJS);
-  return workbook.worksheets.flatMap((sheet) => {
-    let best = { score: -1, fields: {} };
-    for (let header = 1; header <= Math.min(30, sheet.rowCount); header++) {
-      const fields = columnsAt(sheet, header);
-      const score =
-        Number(!!fields.name) +
-        Number(!!fields.hours) +
-        Number(!!(fields.volunteerId || fields.card));
-      if (score > best.score) best = { score, fields };
-      if (!fields.name || !fields.hours || !(fields.volunteerId || fields.card))
-        continue;
-      return [
-        {
-          name: sheet.name,
-          read() {
-            const records = [];
-            for (let row = header + 1; row <= sheet.rowCount; row++) {
-              const get = (field) =>
-                fields[field]
-                  ? scalar(sheet.getCell(row, fields[field]).value)
-                  : "";
-              if (!get("name") && !get("volunteerId") && !get("card")) continue;
-              const person = prepareRows(
-                [[row, get("name"), get("card"), get("volunteerId")]],
-                "activity",
-              )[0];
-              const total = hours(get("hours"));
-              if (total === null || total < 0.5 || (total * 2) % 1)
-                person.issue ||= "总时长须为 0.5 小时的正整数倍";
-              records.push({ ...person, total });
-              if (records.length > 500) throw Error("每批最多 500 人。");
+  return workbook.worksheets
+    .filter((sheet) => sheet.state === "visible")
+    .map((sheet) => {
+      let best = { header: 1, score: -1, fields: {} };
+      let legacy = null;
+      for (let header = 1; header <= Math.min(60, sheet.rowCount); header++) {
+        const fields = {};
+        const ranks = {};
+        sheet.getRow(header).eachCell((cell, col) => {
+          for (const field of ["name", "volunteerId", "card", "hours"]) {
+            const rank = hourColumnRank(cell.value, field);
+            if (rank > (ranks[field] || 0)) {
+              fields[field] = col;
+              ranks[field] = rank;
             }
-            if (!records.length) throw Error("没有读到人员时长。");
-            const seen = new Map();
-            for (const person of records) {
-              const key = person.identifier + ":" + person.cert;
-              if (seen.has(key)) {
-                person.issue = "名单中身份重复，请先合并总时长";
-                seen.get(key).issue = person.issue;
-              }
-              seen.set(key, person);
-            }
-            return records;
-          },
-        },
-      ];
-    }
-    const missing = [
-      !best.fields.name && "姓名",
-      !(best.fields.volunteerId || best.fields.card) && "志愿者编号或证件号码",
-      !best.fields.hours && "总时长",
-    ].filter(Boolean);
-    const issue =
-      "工作表「" +
-      sheet.name +
-      "」缺少必填列：" +
-      missing.join("、") +
-      "。请补充后重新选择文件。";
-    return [
-      {
+          }
+        });
+        const score =
+          Number(!!fields.name) * 5 +
+          Number(!!fields.hours) * 5 +
+          Number(!!(fields.volunteerId || fields.card)) * 5;
+        if (score > best.score) best = { header, score, fields };
+        const old = columnsAt(sheet, header);
+        if (!legacy && old.name && old.hours && (old.volunteerId || old.card))
+          legacy = { header, fields: old };
+      }
+      const initial = { ...best.fields };
+      let header = best.header,
+        fields = { ...initial };
+      const result = {
         name: sheet.name,
-        issue,
-        read() {
-          throw Error(issue);
+        automaticFields: { ...initial },
+        get headerRow() {
+          return header;
         },
-      },
-    ];
-  });
+        get fields() {
+          return { ...fields };
+        },
+        get columns() {
+          return Array.from(
+            { length: Math.min(200, sheet.columnCount) },
+            (_, index) => ({
+              column: index + 1,
+              label:
+                hourColumnLetter(index + 1) +
+                " · " +
+                String(
+                  scalar(sheet.getCell(header, index + 1).value) || "无表头",
+                ).trim(),
+            }),
+          );
+        },
+        get issue() {
+          const missing = [
+            !fields.name && "姓名",
+            !(fields.volunteerId || fields.card) && "志愿者编号或证件号码",
+            !fields.hours && "总时长（也支持拟录入时长、服务时长等）",
+          ].filter(Boolean);
+          return missing.length
+            ? "工作表「" +
+                sheet.name +
+                "」缺少必填列：" +
+                missing.join("、") +
+                "。可以调整识别列，或补充后重新选择文件。"
+            : "";
+        },
+        signature() {
+          return JSON.stringify([
+            header,
+            fields.name || 0,
+            fields.volunteerId || 0,
+            fields.card || 0,
+            fields.hours || 0,
+          ]);
+        },
+        legacySignature: legacy
+          ? JSON.stringify([
+              legacy.header,
+              legacy.fields.name || 0,
+              legacy.fields.volunteerId || 0,
+              legacy.fields.card || 0,
+              legacy.fields.hours || 0,
+            ])
+          : null,
+        configure(patch) {
+          for (const field of ["name", "volunteerId", "card", "hours"])
+            if (Object.hasOwn(patch, field))
+              fields[field] = Number(patch[field]) || 0;
+        },
+        read() {
+          if (result.issue) throw Error(result.issue);
+          const selected = [
+            fields.name,
+            fields.volunteerId || fields.card,
+            fields.hours,
+          ];
+          if (new Set(selected).size !== selected.length)
+            throw Error("姓名、编号和时长需要选择不同的列。");
+          const records = [];
+          let ignored = 0;
+          for (let row = header + 1; row <= sheet.rowCount; row++) {
+            const get = (field) =>
+              fields[field]
+                ? scalar(sheet.getCell(row, fields[field]).value)
+                : "";
+            const name = String(get("name") ?? "").trim();
+            const identity = get("volunteerId") || get("card");
+            if (!name && !identity && get("hours") === "") continue;
+            if (
+              (!identity &&
+                /^(?:总?合计|小计|总计|备注|说明|填表说明)[：: ]?/.test(
+                  name,
+                )) ||
+              (hourColumnRank(get("name"), "name") &&
+                (hourColumnRank(get("hours"), "hours") ||
+                  hourColumnRank(identity, "volunteerId") ||
+                  hourColumnRank(identity, "card")))
+            ) {
+              ignored++;
+              continue;
+            }
+            const person = prepareRows(
+              [[row, name, get("card"), get("volunteerId")]],
+              "activity",
+            )[0] || {
+              row,
+              name,
+              cert: "",
+              identifier: fields.volunteerId ? "number" : "cert",
+              issue: "有时长但缺少姓名和身份信息，请核对原表",
+            };
+            const cell = sheet.getCell(row, fields.hours);
+            const parsed = parseHourValue(cell.value, cell.numFmt || "");
+            person.issue ||= parsed.issue;
+            let rawHours = String(scalar(cell.value) ?? "");
+            if (
+              Number.isFinite(parsed.total) &&
+              /\[(?:h+|m+)\]|h+:mm/i.test(cell.numFmt || "")
+            ) {
+              const minutes = Math.round(parsed.total * 60);
+              rawHours =
+                String(Math.floor(minutes / 60)).padStart(2, "0") +
+                ":" +
+                String(minutes % 60).padStart(2, "0") +
+                "（Excel 时间格式）";
+            } else if (cell.value?.formula && cell.value.result === undefined)
+              rawHours = "=" + cell.value.formula;
+            records.push({
+              ...person,
+              total: parsed.total,
+              rawHours,
+              hourExplanation:
+                parsed.issue ||
+                (String(scalar(cell.value)).trim() !== String(parsed.total)
+                  ? "已换算为 " + parsed.total + " 小时"
+                  : ""),
+            });
+            if (records.length > 500) throw Error("每批最多 500 人。");
+          }
+          if (!records.length)
+            throw Error("没有读到人员时长，请核对表头行和识别列。");
+          const seen = new Map();
+          for (const person of records) {
+            if (!person.cert) continue;
+            const key = person.identifier + ":" + person.cert;
+            const previous = seen.get(key);
+            if (previous) {
+              const issue =
+                previous.name === person.name && previous.total === person.total
+                  ? "相同身份及相同时长重复登记，需核对后去重；未自动累加"
+                  : "同一身份的姓名或时长不一致，需核对原表；未自动累加";
+              previous.issue = issue;
+              person.issue = issue;
+            } else seen.set(key, person);
+          }
+          result.ignored = ignored;
+          return records;
+        },
+      };
+      return result;
+    });
 }
 
 const defaultHourNotes = (activity) =>
@@ -2014,7 +2512,7 @@ async function makeHourProof({
     controller?.abort();
     controller = new AbortController();
     currentMode = selectedMode;
-    panel.innerHTML = selectedMode === 'hours' ? "\n<main>\n<header><p class=\"eyebrow\">志愿北京 · 时长录入</p><h1>录入志愿服务时长</h1>\n<nav class=\"mode-nav\"><a id=\"mode-member\" href=\"index.html?mode=member\">添加团体成员</a><a id=\"mode-activity\" href=\"index.html?mode=activity\">添加活动志愿者</a><a id=\"mode-hours\" aria-current=\"page\" href=\"hours.html\">录入时长</a></nav></header>\n<section class=\"card\"><h2>1. 核对岗位</h2><p id=\"hours-target\">正在读取当前岗位…</p><button id=\"hours-connect\">重新检查</button><p class=\"hint\">在官网进入活动岗位的「计时 → 时长录入」。每批对应一个岗位。</p></section>\n<section class=\"card\"><h2>2. 选择名单、日期与证明</h2>\n<label>录入方式 <select id=\"hours-method\"><option value=\"individual\">逐人录入时长</option><option value=\"batch\">批量导入，提交上级审批</option></select></label>\n<p id=\"hours-method-hint\" class=\"hint\">自动逐人录入，避开已有记录的日期。</p>\n<label>人员时长清单 <input id=\"hours-file\" type=\"file\" accept=\".xlsx\"></label>\n<label>工作表 <select id=\"hours-sheet\"></select></label>\n<p id=\"hours-file-error\" class=\"input-error\" role=\"alert\" hidden></p>\n<p class=\"hint\">表头包含「姓名」「志愿者编号」（或「证件号码」）「总时长」。总时长按半小时递增。</p>\n<div class=\"actions\"><label>开始日期 <input id=\"hours-start\" type=\"date\"></label><label>结束日期 <input id=\"hours-end\" type=\"date\"></label>\n<label>分配顺序 <select id=\"hours-order\"><option value=\"asc\">从早到晚</option><option value=\"desc\">从晚到早</option></select></label></div>\n<label>活动名称 <input id=\"hours-activity-name\" type=\"text\" maxlength=\"100\" placeholder=\"填写实际活动名称，用于备注和汇总单\"></label>\n<label>证明图片 <select id=\"hours-proof-mode\"><option value=\"generate\">根据名单自动生成时长汇总单</option><option value=\"upload\">上传已有证明图片</option></select></label>\n<label id=\"hours-proof-upload\" hidden>本批共用证明图片 <input id=\"hours-proof\" type=\"file\" accept=\".png,.jpg,.jpeg\"></label>\n<p class=\"hint\">自动生成的汇总单包含活动、团体、实际服务期间、姓名及拟录入时长。请预览核对；需要已审核证明时可改为上传。每天最多 8 小时，已有记录的日期会避开。</p>\n<label>备注 <textarea id=\"hours-notes\" maxlength=\"600\" rows=\"2\"></textarea></label>\n<div class=\"actions\"><button id=\"hours-notes-reset\" type=\"button\">重新生成备注</button><button id=\"hours-preview\" type=\"button\">预览证明图片</button></div>\n<div id=\"hours-proof-preview\" hidden><p class=\"hint\">本批共用的证明图片：</p><img id=\"hours-proof-image\" alt=\"证明图片预览\"><a id=\"hours-proof-download\" download=\"志愿服务时长汇总单.png\">下载图片</a></div>\n</section>\n<section class=\"card\"><h2>3. 核对后开始</h2><label class=\"check\"><input id=\"hours-confirm\" type=\"checkbox\">我已核对岗位、实际服务日期、总时长和证明图片。</label>\n<div class=\"actions\"><button id=\"hours-run\" class=\"primary\">开始或继续录入</button><button id=\"hours-pause\">暂停</button><button id=\"hours-export\">下载明细</button></div>\n<p id=\"hours-status\" role=\"status\" aria-live=\"polite\"></p>\n<div class=\"table-wrap\"><table><thead><tr><th>原表行号</th><th>姓名</th><th>总时长</th><th>已录入</th><th>已提交审批</th><th>待处理</th><th>情况</th></tr></thead><tbody id=\"hours-results\"></tbody></table></div>\n<div id=\"hours-unknown\" class=\"hint\"></div>\n<p class=\"hint\">提交中断时先到官网核对对应日期，再记录核对结果。刷新后重新选择原文件、日期范围和证明图可以恢复进度。</p>\n</section>\n<section class=\"card\"><h2>批量审批如何处理</h2><p>选择「批量导入，提交上级审批」，助手在当前官网自动检查历史日期、填好官网模板、上传解析，并按日期提交审批。不跳转其他平台。</p><p class=\"hint\">官网解析有失败行或编号、时长不一致时，整批暂停。已提交的申请不会再次提交；审批是否通过请在官网「导入记录」查看。</p></section>\n</main>" : "\n  <main>\n    <header>\n      <p class=\"eyebrow\">志愿北京 · 团体管理</p>\n      <h1 id=\"mode-title\">批量添加团体成员</h1>\n      <p id=\"mode-description\">核对团体和名单后开始。扩展会逐条填写并提交，最后汇总结果。</p>\n      <nav class=\"mode-nav\" aria-label=\"录入类型\">\n        <a id=\"mode-member\" href=\"?mode=member\">添加团体成员</a>\n        <a id=\"mode-activity\" href=\"?mode=activity\">添加活动志愿者</a>\n        <a id=\"mode-hours\" href=\"hours.html\">录入时长</a>\n      </nav>\n    </header>\n    <section class=\"card\" aria-labelledby=\"target-title\">\n      <h2 id=\"target-title\">1. 核对目标团体</h2>\n      <p id=\"target\" role=\"status\">正在检查官网标签页…</p>\n      <div class=\"actions\">\n        <button id=\"go-site\" type=\"button\">打开官网标签页</button>\n        <button id=\"connect\" type=\"button\">重新检查</button>\n      </div>\n      <p id=\"target-hint\" class=\"hint\">请登录团体账号，打开「志愿者管理 → 我的成员 → 正式成员」，再点击浏览器工具栏里的扩展图标。</p>\n    </section>\n    <section class=\"card\" aria-labelledby=\"roster-title\">\n      <h2 id=\"roster-title\">2. 读取名单</h2>\n      <p id=\"roster-hint\" class=\"hint\">请选择含「姓名」和「证件号码」两列表头的 .xlsx 文件。证件号码列请使用文本格式。</p>\n      <label for=\"workbook\">名单文件</label>\n      <input type=\"file\" id=\"workbook\" accept=\".xlsx\">\n      <label id=\"sheet-label\" hidden>工作表 <select id=\"sheet\"></select></label>\n      <details>\n        <summary>也可以从 Excel 复制两列</summary>\n        <label id=\"paste-label\" for=\"paste\">粘贴姓名和证件号码</label>\n        <textarea id=\"paste\" rows=\"3\" autocomplete=\"off\" spellcheck=\"false\"></textarea>\n        <button id=\"read-paste\" type=\"button\">读取粘贴内容</button>\n      </details>\n      <p class=\"hint\">每批最多 500 人。要恢复进度，请在同一浏览器重新选择原名单和工作表。</p>\n    </section>\n    <section class=\"card\" aria-labelledby=\"run-title\">\n      <h2 id=\"run-title\">3. 开始处理</h2>\n      <label class=\"check\"><input id=\"confirm\" type=\"checkbox\"> <span id=\"confirm-label\">我已核对目标团体和名单，并已与这些志愿者沟通。</span></label>\n      <div class=\"actions\">\n        <button id=\"start\" class=\"primary\" type=\"button\">开始或继续添加</button>\n        <button id=\"pause\" type=\"button\">暂停</button>\n        <button id=\"retry\" type=\"button\">重跑官网拒绝项</button>\n        <button id=\"download\" type=\"button\">下载结果清单</button>\n      </div>\n      <p class=\"hint\">加载较慢时会自动等待。每次提交最多等 90 秒，结果不明时会暂停并保留进度。</p>\n      <p id=\"notice\" role=\"status\" aria-live=\"polite\"></p>\n      <p id=\"counts\"></p>\n      <div class=\"actions result-filters\">\n        <label>筛选结果 <select id=\"filter\">\n          <option value=\"all\">全部</option>\n          <option value=\"problem\">需要处理</option>\n          <option value=\"added\">已添加</option>\n          <option id=\"existing-option\" value=\"existing\">已是成员</option>\n        </select></label>\n      </div>\n      <div class=\"table-wrap\" tabindex=\"0\" aria-label=\"成员处理结果\">\n        <table>\n          <thead><tr><th>原表行号</th><th>姓名</th><th id=\"id-heading\">证件号码</th><th>状态</th><th>原因或下一步</th></tr></thead>\n          <tbody id=\"results\"></tbody>\n        </table>\n      </div>\n      <p class=\"hint\">修正资料后，可把修正的行单独复制成一批。证件号只在当前会话使用。下载清单包含行号、状态和原因。</p>\n    </section>\n  </main>\n  <dialog id=\"review\">\n    <form method=\"dialog\">\n      <h2>核对官网结果</h2>\n      <p id=\"review-text\"></p>\n      <p id=\"review-hint\">请先在目标团体的正式成员列表核对，再选下面对应的结果。</p>\n      <div class=\"actions\">\n        <button value=\"cancel\" autofocus>取消</button>\n        <button value=\"pending\">确认未添加，重新排队</button>\n        <button class=\"primary\" value=\"added\">确认已添加</button>\n      </div>\n    </form>\n  </dialog>\n";
+    panel.innerHTML = selectedMode === 'hours' ? "\n<main>\n<header><p class=\"eyebrow\">志愿北京 · 时长录入</p><h1>录入志愿服务时长</h1>\n<nav class=\"mode-nav\"><a id=\"mode-member\" href=\"index.html?mode=member\">添加团体成员</a><a id=\"mode-activity\" href=\"index.html?mode=activity\">添加活动志愿者</a><a id=\"mode-hours\" aria-current=\"page\" href=\"hours.html\">录入时长</a></nav></header>\n<section class=\"card\"><h2>1. 核对岗位</h2><p id=\"hours-target\">正在读取当前岗位…</p><button id=\"hours-connect\">重新检查</button><p id=\"hours-context-hint\" class=\"hint\">正在自动读取当前活动名称与官网服务日期…</p><p class=\"hint\">在官网进入活动岗位的「计时 → 时长录入」。每批对应一个岗位。</p></section>\n<section class=\"card\"><h2>2. 选择名单、日期与证明</h2>\n<label>录入方式 <select id=\"hours-method\"><option value=\"individual\">逐人录入时长</option><option value=\"batch\">批量导入，提交上级审批</option></select></label>\n<p id=\"hours-method-hint\" class=\"hint\">自动逐人录入，避开已有记录的日期。</p>\n<label>人员时长清单 <input id=\"hours-file\" type=\"file\" accept=\".xlsx\"></label>\n<label>工作表 <select id=\"hours-sheet\"></select></label>\n<p id=\"hours-file-error\" class=\"input-error\" role=\"alert\" hidden></p>\n<p id=\"hours-analysis\" class=\"hint\" role=\"status\"></p>\n<details><summary>识别列不对？在这里调整</summary><p class=\"hint\">自动跳过顶部总标题；这里显示实际采用的列，不需要修改原文件。</p><label>姓名列 <select id=\"hours-name-column\"></select></label><label>编号或证件列 <select id=\"hours-identity-column\"></select></label><label>本次拟录入时长列 <select id=\"hours-value-column\"></select></label></details>\n<p class=\"hint\">支持总时长、拟录入时长、服务时长等表头；支持 2.5、2小时30分、150分钟、02:30 等时长写法。按半小时递增，不自动取整。</p>\n<div class=\"actions\"><label>开始日期 <input id=\"hours-start\" type=\"date\"></label><label>结束日期 <input id=\"hours-end\" type=\"date\"></label>\n<label>分配顺序 <select id=\"hours-order\"><option value=\"asc\">从早到晚</option><option value=\"desc\">从晚到早</option></select></label></div>\n<label>活动名称 <input id=\"hours-activity-name\" type=\"text\" maxlength=\"100\" placeholder=\"自动读取官网活动名称，也可修改\"></label>\n<label>证明图片 <select id=\"hours-proof-mode\"><option value=\"generate\">根据名单自动生成时长汇总单</option><option value=\"upload\">上传已有证明图片</option></select></label>\n<label id=\"hours-proof-upload\" hidden>本批共用证明图片 <input id=\"hours-proof\" type=\"file\" accept=\".png,.jpg,.jpeg\"></label>\n<p class=\"hint\">自动生成的汇总单包含活动、团体、实际服务期间、姓名及拟录入时长。请预览核对；需要已审核证明时可改为上传。每天最多 8 小时，已有记录的日期会避开。</p>\n<label>备注 <textarea id=\"hours-notes\" maxlength=\"600\" rows=\"2\"></textarea></label>\n<div class=\"actions\"><button id=\"hours-notes-reset\" type=\"button\">重新生成备注</button><button id=\"hours-preview\" type=\"button\">预览证明图片</button></div>\n<div id=\"hours-proof-preview\" hidden><p class=\"hint\">本批共用的证明图片：</p><img id=\"hours-proof-image\" alt=\"证明图片预览\"><a id=\"hours-proof-download\" download=\"志愿服务时长汇总单.png\">下载图片</a></div>\n</section>\n<section class=\"card\"><h2>3. 核对后开始</h2><label class=\"check\"><input id=\"hours-confirm\" type=\"checkbox\">我已核对岗位、实际服务日期、总时长和证明图片。</label>\n<div class=\"actions\"><button id=\"hours-run\" class=\"primary\">开始或继续录入</button><button id=\"hours-pause\">暂停</button><button id=\"hours-export\">下载明细</button></div>\n<p id=\"hours-status\" role=\"status\" aria-live=\"polite\"></p>\n<div class=\"table-wrap\"><table><thead><tr><th>原表行号</th><th>姓名</th><th>原始时长</th><th>解析后小时数</th><th>已录入</th><th>已提交审批</th><th>待处理</th><th>情况</th></tr></thead><tbody id=\"hours-results\"></tbody></table></div>\n<div id=\"hours-unknown\" class=\"hint\"></div>\n<p class=\"hint\">提交中断时先到官网核对对应日期，再记录核对结果。刷新后重新选择原文件、日期范围和证明图可以恢复进度。</p>\n</section>\n<section class=\"card\"><h2>批量审批如何处理</h2><p>选择「批量导入，提交上级审批」，助手在当前官网自动检查历史日期、填好官网模板、上传解析，并按日期提交审批。不跳转其他平台。</p><p class=\"hint\">官网解析有失败行或编号、时长不一致时，整批暂停。已提交的申请不会再次提交；审批是否通过请在官网「导入记录」查看。</p></section>\n</main>" : "\n  <main>\n    <header>\n      <p class=\"eyebrow\">志愿北京 · 团体管理</p>\n      <h1 id=\"mode-title\">批量添加团体成员</h1>\n      <p id=\"mode-description\">核对团体和名单后开始。扩展会逐条填写并提交，最后汇总结果。</p>\n      <nav class=\"mode-nav\" aria-label=\"录入类型\">\n        <a id=\"mode-member\" href=\"?mode=member\">添加团体成员</a>\n        <a id=\"mode-activity\" href=\"?mode=activity\">添加活动志愿者</a>\n        <a id=\"mode-hours\" href=\"hours.html\">录入时长</a>\n      </nav>\n    </header>\n    <section class=\"card\" aria-labelledby=\"target-title\">\n      <h2 id=\"target-title\">1. 核对目标团体</h2>\n      <p id=\"target\" role=\"status\">正在检查官网标签页…</p>\n      <div class=\"actions\">\n        <button id=\"go-site\" type=\"button\">打开官网标签页</button>\n        <button id=\"connect\" type=\"button\">重新检查</button>\n      </div>\n      <p id=\"target-hint\" class=\"hint\">请登录团体账号，打开「志愿者管理 → 我的成员 → 正式成员」，再点击浏览器工具栏里的扩展图标。</p>\n    </section>\n    <section class=\"card\" aria-labelledby=\"roster-title\">\n      <h2 id=\"roster-title\">2. 读取名单</h2>\n      <p id=\"roster-hint\" class=\"hint\">请选择含「姓名」和「证件号码」两列表头的 .xlsx 文件。证件号码列请使用文本格式。</p>\n      <label for=\"workbook\">名单文件</label>\n      <input type=\"file\" id=\"workbook\" accept=\".xlsx\">\n      <label id=\"sheet-label\" hidden>工作表 <select id=\"sheet\"></select></label>\n      <details>\n        <summary>也可以从 Excel 复制两列</summary>\n        <label id=\"paste-label\" for=\"paste\">粘贴姓名和证件号码</label>\n        <textarea id=\"paste\" rows=\"3\" autocomplete=\"off\" spellcheck=\"false\"></textarea>\n        <button id=\"read-paste\" type=\"button\">读取粘贴内容</button>\n      </details>\n      <p class=\"hint\">每批最多 500 人。要恢复进度，请在同一浏览器重新选择原名单和工作表。</p>\n    </section>\n    <section class=\"card\" aria-labelledby=\"run-title\">\n      <h2 id=\"run-title\">3. 开始处理</h2>\n      <label class=\"check\"><input id=\"confirm\" type=\"checkbox\"> <span id=\"confirm-label\">我已核对目标团体和名单，并已与这些志愿者沟通。</span></label>\n      <div class=\"actions\">\n        <button id=\"start\" class=\"primary\" type=\"button\">开始或继续添加</button>\n        <button id=\"pause\" type=\"button\">暂停</button>\n        <button id=\"retry\" type=\"button\">重跑官网拒绝项</button>\n        <button id=\"download\" type=\"button\">下载结果清单</button>\n      </div>\n      <p class=\"hint\">加载较慢时会自动等待。每次提交最多等 90 秒，结果不明时会暂停并保留进度。</p>\n      <p id=\"notice\" role=\"status\" aria-live=\"polite\"></p>\n      <p id=\"counts\"></p>\n      <div class=\"actions result-filters\">\n        <label>筛选结果 <select id=\"filter\">\n          <option value=\"all\">全部</option>\n          <option value=\"problem\">需要处理</option>\n          <option value=\"added\">已添加</option>\n          <option id=\"existing-option\" value=\"existing\">已是成员</option>\n        </select></label>\n      </div>\n      <div class=\"table-wrap\" tabindex=\"0\" aria-label=\"成员处理结果\">\n        <table>\n          <thead><tr><th>原表行号</th><th>姓名</th><th id=\"id-heading\">证件号码</th><th>状态</th><th>原因或下一步</th></tr></thead>\n          <tbody id=\"results\"></tbody>\n        </table>\n      </div>\n      <p class=\"hint\">修正资料后，可把修正的行单独复制成一批。证件号只在当前会话使用。下载清单包含行号、状态和原因。</p>\n    </section>\n  </main>\n  <dialog id=\"review\">\n    <form method=\"dialog\">\n      <h2>核对官网结果</h2>\n      <p id=\"review-text\"></p>\n      <p id=\"review-hint\">请先在目标团体的正式成员列表核对，再选下面对应的结果。</p>\n      <div class=\"actions\">\n        <button value=\"cancel\" autofocus>取消</button>\n        <button value=\"pending\">确认未添加，重新排队</button>\n        <button class=\"primary\" value=\"added\">确认已添加</button>\n      </div>\n    </form>\n  </dialog>\n";
     panel.prepend(close);
     panel.hidden = false;
     launcher.hidden = true;
@@ -2071,8 +2569,75 @@ let proofFile = null,
   notesEdited = false,
   proofRevision = 0,
   fileRevision = 0;
+let contextChoice = { key: "", activity: false, dates: false };
 const Excel = environment.ExcelJS || globalThis.ExcelJS;
 const method = () => el("hours-method").value;
+const selectedSheet = () => sheets[Number(el("hours-sheet").value)];
+function configureColumns() {
+  const sheet = selectedSheet();
+  const columns = sheet?.columns || [];
+  for (const [id, field] of [
+    ["hours-name-column", "name"],
+    ["hours-value-column", "hours"],
+  ]) {
+    el(id).replaceChildren(
+      new Option("请选择列", "0"),
+      ...columns.map((column) => new Option(column.label, column.column)),
+    );
+    el(id).value = String(sheet?.fields[field] || 0);
+  }
+  el("hours-identity-column").replaceChildren(
+    new Option("自动：编号优先，空白时用证件号码", "auto"),
+    ...columns.flatMap((column) => [
+      new Option(
+        "志愿者编号 · " + column.label,
+        "volunteerId:" + column.column,
+      ),
+      new Option("证件号码 · " + column.label, "card:" + column.column),
+    ]),
+  );
+  if (
+    sheet &&
+    (sheet.fields.volunteerId !== sheet.automaticFields.volunteerId ||
+      sheet.fields.card !== sheet.automaticFields.card)
+  )
+    el("hours-identity-column").value = sheet.fields.volunteerId
+      ? "volunteerId:" + sheet.fields.volunteerId
+      : "card:" + sheet.fields.card;
+}
+function analysisSummary() {
+  const sheet = selectedSheet();
+  if (!sheet) {
+    el("hours-analysis").textContent = "";
+    return;
+  }
+  const valid = people.filter((person) => !person.issue);
+  const column = (field) =>
+    sheet.columns.find((column) => column.column === sheet.fields[field])
+      ?.label || "未识别";
+  el("hours-analysis").textContent =
+    "采用第 " +
+    sheet.headerRow +
+    " 行作表头；姓名：" +
+    column("name") +
+    "；时长：" +
+    column("hours") +
+    "。识别 " +
+    people.length +
+    " 人，可处理 " +
+    valid.length +
+    " 人、" +
+    valid.reduce((sum, person) => sum + person.total, 0) +
+    " 小时，需修正 " +
+    (people.length - valid.length) +
+    " 人。" +
+    (sheet.ignored
+      ? "已忽略 " + sheet.ignored + " 行重复表头或合计说明。"
+      : "") +
+    (sheets.filter((other) => other !== sheet && other.issue).length
+      ? " 其他工作表的缺列提示仅在切换到该表时显示。"
+      : "");
+}
 function invalidateProof() {
   proofRevision++;
   proofFile = null;
@@ -2148,15 +2713,18 @@ function render() {
     for (const text of [
       person.row,
       person.name,
-      person.total,
+      person.rawHours ?? "",
+      person.total ?? "—",
       Object.values(job.days)
         .filter((day) => day.row === person.row && day.status === "added")
         .reduce((sum, day) => sum + day.hours, 0),
       Object.values(job.days)
         .filter((day) => day.row === person.row && day.status === "submitted")
         .reduce((sum, day) => sum + day.hours, 0),
-      Math.max(0, (person.total || 0) - done),
-      person.issue || "",
+      person.total === null ? "需修正" : Math.max(0, person.total - done),
+      person.issue ||
+        person.hourExplanation ||
+        (done ? "已保存处理进度" : "待处理"),
     ]) {
       const td = document.createElement("td");
       td.textContent = text;
@@ -2180,6 +2748,9 @@ function render() {
     "hours-proof-mode",
     "hours-notes-reset",
     "hours-preview",
+    "hours-name-column",
+    "hours-identity-column",
+    "hours-value-column",
   ])
     el(id).disabled = running || refreshCount > 0;
   const uncertain = Object.entries(job.days).filter(
@@ -2189,11 +2760,17 @@ function render() {
     running ||
     refreshCount > 0 ||
     !target ||
+    !jobKey ||
     !people.some((person) => !person.issue) ||
     !proofFile ||
     !el("hours-confirm").checked ||
     !!uncertain.length;
   el("hours-pause").disabled = !running || paused;
+  el("hours-preview").disabled =
+    running ||
+    refreshCount > 0 ||
+    !target ||
+    !people.some((person) => !person.issue);
   el("hours-export").disabled = running || !people.length;
   el("hours-unknown").replaceChildren(
     ...uncertain.map(([key, day]) => {
@@ -2251,16 +2828,53 @@ const same = (a, b) =>
   a?.id === b?.id && a?.activityId === b?.activityId && a?.postId === b?.postId;
 const save = () => environment.storage.set({ [jobKey]: job });
 async function connect() {
+  el("hours-context-hint").textContent = "正在读取官网活动名称与服务日期…";
+  target = null;
+  render();
   target = await environment.readTarget("hours");
   if (!target.id) target = null;
   el("hours-target").textContent = target
     ? "团体 · " +
       target.name +
-      " ｜ 活动尾号 " +
-      target.activityId.slice(-8) +
-      " · 岗位尾号 " +
-      target.postId.slice(-8)
+      " ｜ " +
+      (target.activityName || "活动尾号 " + target.activityId.slice(-8)) +
+      " · " +
+      (target.postName || "岗位尾号 " + target.postId.slice(-8))
     : "请打开官网岗位的「计时 → 时长录入」，再点重新检查。";
+  if (target) {
+    const key = [target.id, target.activityId, target.postId].join("|");
+    if (contextChoice.key && contextChoice.key !== key) {
+      contextChoice = { key, activity: false, dates: false };
+      el("hours-activity-name").value = "";
+      el("hours-start").value = "";
+      el("hours-end").value = "";
+      notesEdited = false;
+    }
+    contextChoice.key = key;
+    if (target.activityName && !contextChoice.activity)
+      el("hours-activity-name").value = target.activityName;
+    if (target.dates?.length && !contextChoice.dates) {
+      el("hours-start").value = target.dates[0];
+      el("hours-end").value = target.dates.at(-1);
+    }
+    if (!notesEdited)
+      el("hours-notes").value = defaultHourNotes(
+        el("hours-activity-name").value,
+      );
+    invalidateProof();
+    el("hours-context-hint").textContent =
+      target.activityName && target.dates?.length
+        ? "已自动读取活动名称与 " +
+          target.dates.length +
+          " 个官网服务日期，可直接使用或按实际服务情况调整。" +
+          (contextChoice.activity || contextChoice.dates
+            ? "已保留手动调整。"
+            : "")
+        : target.metadataReason || "部分信息未自动读到，可重新检查或手动补充。";
+  } else
+    el("hours-context-hint").textContent =
+      "进入正确岗位后可自动读取活动名称与服务日期。";
+  if (source) await refreshProgress();
   render();
 }
 async function loadProgress() {
@@ -2268,13 +2882,15 @@ async function loadProgress() {
   people = [];
   job = { days: {}, inFlight: null };
   jobKey = null;
-  const selected = sheets[Number(el("hours-sheet").value)];
+  const selected = selectedSheet();
   fileError(selected?.issue || "");
   if (selected?.issue) {
+    analysisSummary();
     status(selected.issue);
     return;
   }
   people = selected?.read() || [];
+  analysisSummary();
   if (source && target) {
     jobKey = await batchKey(
       "hours:" + JSON.stringify([target.id, target.activityId, target.postId]),
@@ -2289,6 +2905,17 @@ async function loadProgress() {
         const saved = (await environment.storage.get(jobKey))[jobKey];
         if (saved) {
           job = saved;
+          const mapping = selected.signature();
+          if (Object.keys(job.days || {}).length || job.inFlight) {
+            const original = job.mapping || selected.legacySignature;
+            if (original && original !== mapping) {
+              people = [];
+              analysisSummary();
+              throw Error(
+                "当前文件已保存处理进度，识别列与上次不同。为避免错认人员或重复录入，请恢复原识别列后继续。",
+              );
+            }
+          }
           if (job.inFlight) {
             for (const entry of job.inFlight.entries || [job.inFlight])
               job.days[entry.key] = { ...entry, status: "unknown" };
@@ -2296,9 +2923,18 @@ async function loadProgress() {
             await save();
           }
         }
+        job.mapping = selected.signature();
       },
     );
   }
+  if (people.length)
+    status(
+      "名单识别已更新：可处理 " +
+        people.filter((person) => !person.issue).length +
+        " 人，需修正 " +
+        people.filter((person) => person.issue).length +
+        " 人。请核对原始时长和解析后小时数。",
+    );
   render();
 }
 function refreshProgress() {
@@ -2326,23 +2962,24 @@ el("hours-connect").onclick = () =>
   safely(async () => {
     invalidateProof();
     await connect();
-    await refreshProgress();
   });
 el("hours-file").onchange = () =>
   safely(async () => {
+    const revision = ++fileRevision;
     invalidateProof();
     fileError();
     people = [];
     sheets = [];
+    configureColumns();
     source = null;
     jobKey = null;
     job = { days: {}, inFlight: null };
     el("hours-sheet").replaceChildren();
+    el("hours-analysis").textContent = "";
     el("hours-confirm").checked = false;
     el("hours-run").disabled = true;
     const file = el("hours-file").files[0];
     if (!file) return;
-    const revision = ++fileRevision;
     if (file.size > 8 * 1024 * 1024) {
       fileError("名单最多 8 MB。");
       throw Error("名单最多 8 MB。");
@@ -2352,6 +2989,7 @@ el("hours-file").onchange = () =>
     try {
       loaded = await readHourSheets(bytes, Excel);
     } catch (error) {
+      if (revision !== fileRevision) return;
       fileError(error.message || "无法读取 Excel 文件，请检查文件格式。");
       throw error;
     }
@@ -2372,16 +3010,14 @@ el("hours-file").onchange = () =>
         sheets.findIndex((sheet) => !sheet.issue),
       ),
     );
+    configureColumns();
     await refreshProgress();
-    const invalid = sheets.filter((sheet) => sheet.issue);
-    if (invalid.length)
-      fileError(invalid.map((sheet) => sheet.issue).join(" "));
     status(
       people.length
         ? "已读取 " +
             people.length +
-            " 人。请填写日期、活动名称，并预览证明图片。"
-        : invalid[0]?.issue || "没有读到人员。",
+            " 人。活动名称和日期已自动读取时可直接预览证明。"
+        : selectedSheet()?.issue || "没有读到人员。",
     );
   });
 for (const id of [
@@ -2392,6 +3028,36 @@ for (const id of [
   "hours-proof",
 ])
   el(id).onchange = () => {
+    if (id === "hours-start" || id === "hours-end") contextChoice.dates = true;
+    invalidateProof();
+    safely(refreshProgress);
+  };
+el("hours-sheet").onchange = () => {
+  configureColumns();
+  invalidateProof();
+  safely(refreshProgress);
+};
+for (const id of [
+  "hours-name-column",
+  "hours-identity-column",
+  "hours-value-column",
+])
+  el(id).onchange = () => {
+    const sheet = selectedSheet();
+    if (!sheet) return;
+    const [kind, value] = el("hours-identity-column").value.split(":");
+    const patch = {
+      name: el("hours-name-column").value,
+      hours: el("hours-value-column").value,
+    };
+    if (kind !== "auto") {
+      patch.volunteerId = kind === "volunteerId" ? value : 0;
+      patch.card = kind === "card" ? value : 0;
+    } else {
+      patch.volunteerId = sheet.automaticFields.volunteerId || 0;
+      patch.card = sheet.automaticFields.card || 0;
+    }
+    sheet.configure(patch);
     invalidateProof();
     safely(refreshProgress);
   };
@@ -2409,6 +3075,7 @@ el("hours-proof-mode").onchange = () => {
   render();
 };
 el("hours-activity-name").oninput = () => {
+  contextChoice.activity = true;
   if (!notesEdited)
     el("hours-notes").value = defaultHourNotes(el("hours-activity-name").value);
   invalidateProof();
@@ -2601,6 +3268,14 @@ el("hours-run").onclick = () =>
           if (!same(current, target)) throw Error("目标岗位已经改变。");
           const saved = (await environment.storage.get(jobKey))[jobKey];
           if (saved) job = saved;
+          if (
+            (Object.keys(job.days || {}).length || job.inFlight) &&
+            (job.mapping || selectedSheet().legacySignature) &&
+            (job.mapping || selectedSheet().legacySignature) !==
+              selectedSheet().signature()
+          )
+            throw Error("识别列与已有进度不同，请恢复原识别列后继续。");
+          job.mapping = selectedSheet().signature();
           if (
             job.inFlight ||
             Object.values(job.days).some((day) => day.status === "unknown")

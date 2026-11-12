@@ -8,7 +8,7 @@ export async function writeUserscript(root, output) {
   const moduleBody = source => source.replace(/^import[\s\S]*?from ['"][^'"]+['"];?\n/gm, '').replace(/^export /gm, '');
   const hours = path.join(root, 'features/hours');
   const library = await read(path.join(hours, 'vendor'), 'exceljs-4.4.0.min.js');
-  const adapter = (await Promise.all(['group-state.js', 'download-bridge.js', 'bv2008.js', 'activity.js', 'hours-adapter.js', 'hours-batch-adapter.js'].map(file => read(extension, file)))).join('\n');
+  const adapter = (await Promise.all(['group-state.js', 'download-bridge.js', 'project-info.js', 'bv2008.js', 'activity.js', 'hours-adapter.js', 'hours-batch-adapter.js'].map(file => read(extension, file)))).join('\n');
   const logic = (await Promise.all(['core.mjs', 'io.mjs'].map(file => read(hours, file)))).map(moduleBody).join('\n') +
     '\n' + moduleBody(await read(extension, 'queue.mjs')) + '\n' + moduleBody(await read(extension, 'hours-core.mjs')) + '\n' + moduleBody(await read(extension, 'hours-proof.mjs'));
   let app = moduleBody(await read(extension, 'app.mjs'));
@@ -36,7 +36,7 @@ load(connect);`);
   const header = `// ==UserScript==
 // @name         志愿北京 · 批量录入助手
 // @namespace    buaa-volunteer-tools
-// @version      0.5.0
+// @version      0.6.0
 // @description  按 Excel 名单添加团体和活动志愿者，录入或批量报批时长、生成汇总证明并避开历史日期，支持进度恢复。
 // @match        https://www.bv2008.cn/*
 // @match        https://bv2008.cn/*

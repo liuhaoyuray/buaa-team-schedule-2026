@@ -29,8 +29,75 @@ let proofFile = null,
   notesEdited = false,
   proofRevision = 0,
   fileRevision = 0;
+let contextChoice = { key: "", activity: false, dates: false };
 const Excel = environment.ExcelJS || globalThis.ExcelJS;
 const method = () => el("hours-method").value;
+const selectedSheet = () => sheets[Number(el("hours-sheet").value)];
+function configureColumns() {
+  const sheet = selectedSheet();
+  const columns = sheet?.columns || [];
+  for (const [id, field] of [
+    ["hours-name-column", "name"],
+    ["hours-value-column", "hours"],
+  ]) {
+    el(id).replaceChildren(
+      new Option("请选择列", "0"),
+      ...columns.map((column) => new Option(column.label, column.column)),
+    );
+    el(id).value = String(sheet?.fields[field] || 0);
+  }
+  el("hours-identity-column").replaceChildren(
+    new Option("自动：编号优先，空白时用证件号码", "auto"),
+    ...columns.flatMap((column) => [
+      new Option(
+        "志愿者编号 · " + column.label,
+        "volunteerId:" + column.column,
+      ),
+      new Option("证件号码 · " + column.label, "card:" + column.column),
+    ]),
+  );
+  if (
+    sheet &&
+    (sheet.fields.volunteerId !== sheet.automaticFields.volunteerId ||
+      sheet.fields.card !== sheet.automaticFields.card)
+  )
+    el("hours-identity-column").value = sheet.fields.volunteerId
+      ? "volunteerId:" + sheet.fields.volunteerId
+      : "card:" + sheet.fields.card;
+}
+function analysisSummary() {
+  const sheet = selectedSheet();
+  if (!sheet) {
+    el("hours-analysis").textContent = "";
+    return;
+  }
+  const valid = people.filter((person) => !person.issue);
+  const column = (field) =>
+    sheet.columns.find((column) => column.column === sheet.fields[field])
+      ?.label || "未识别";
+  el("hours-analysis").textContent =
+    "采用第 " +
+    sheet.headerRow +
+    " 行作表头；姓名：" +
+    column("name") +
+    "；时长：" +
+    column("hours") +
+    "。识别 " +
+    people.length +
+    " 人，可处理 " +
+    valid.length +
+    " 人、" +
+    valid.reduce((sum, person) => sum + person.total, 0) +
+    " 小时，需修正 " +
+    (people.length - valid.length) +
+    " 人。" +
+    (sheet.ignored
+      ? "已忽略 " + sheet.ignored + " 行重复表头或合计说明。"
+      : "") +
+    (sheets.filter((other) => other !== sheet && other.issue).length
+      ? " 其他工作表的缺列提示仅在切换到该表时显示。"
+      : "");
+}
 function invalidateProof() {
   proofRevision++;
   proofFile = null;
@@ -106,15 +173,18 @@ function render() {
     for (const text of [
       person.row,
       person.name,
-      person.total,
+      person.rawHours ?? "",
+      person.total ?? "—",
       Object.values(job.days)
         .filter((day) => day.row === person.row && day.status === "added")
         .reduce((sum, day) => sum + day.hours, 0),
       Object.values(job.days)
         .filter((day) => day.row === person.row && day.status === "submitted")
         .reduce((sum, day) => sum + day.hours, 0),
-      Math.max(0, (person.total || 0) - done),
-      person.issue || "",
+      person.total === null ? "需修正" : Math.max(0, person.total - done),
+      person.issue ||
+        person.hourExplanation ||
+        (done ? "已保存处理进度" : "待处理"),
     ]) {
       const td = document.createElement("td");
       td.textContent = text;
@@ -138,6 +208,9 @@ function render() {
     "hours-proof-mode",
     "hours-notes-reset",
     "hours-preview",
+    "hours-name-column",
+    "hours-identity-column",
+    "hours-value-column",
   ])
     el(id).disabled = running || refreshCount > 0;
   const uncertain = Object.entries(job.days).filter(
@@ -147,11 +220,17 @@ function render() {
     running ||
     refreshCount > 0 ||
     !target ||
+    !jobKey ||
     !people.some((person) => !person.issue) ||
     !proofFile ||
     !el("hours-confirm").checked ||
     !!uncertain.length;
   el("hours-pause").disabled = !running || paused;
+  el("hours-preview").disabled =
+    running ||
+    refreshCount > 0 ||
+    !target ||
+    !people.some((person) => !person.issue);
   el("hours-export").disabled = running || !people.length;
   el("hours-unknown").replaceChildren(
     ...uncertain.map(([key, day]) => {
@@ -209,16 +288,53 @@ const same = (a, b) =>
   a?.id === b?.id && a?.activityId === b?.activityId && a?.postId === b?.postId;
 const save = () => environment.storage.set({ [jobKey]: job });
 async function connect() {
+  el("hours-context-hint").textContent = "正在读取官网活动名称与服务日期…";
+  target = null;
+  render();
   target = await environment.readTarget("hours");
   if (!target.id) target = null;
   el("hours-target").textContent = target
     ? "团体 · " +
       target.name +
-      " ｜ 活动尾号 " +
-      target.activityId.slice(-8) +
-      " · 岗位尾号 " +
-      target.postId.slice(-8)
+      " ｜ " +
+      (target.activityName || "活动尾号 " + target.activityId.slice(-8)) +
+      " · " +
+      (target.postName || "岗位尾号 " + target.postId.slice(-8))
     : "请打开官网岗位的「计时 → 时长录入」，再点重新检查。";
+  if (target) {
+    const key = [target.id, target.activityId, target.postId].join("|");
+    if (contextChoice.key && contextChoice.key !== key) {
+      contextChoice = { key, activity: false, dates: false };
+      el("hours-activity-name").value = "";
+      el("hours-start").value = "";
+      el("hours-end").value = "";
+      notesEdited = false;
+    }
+    contextChoice.key = key;
+    if (target.activityName && !contextChoice.activity)
+      el("hours-activity-name").value = target.activityName;
+    if (target.dates?.length && !contextChoice.dates) {
+      el("hours-start").value = target.dates[0];
+      el("hours-end").value = target.dates.at(-1);
+    }
+    if (!notesEdited)
+      el("hours-notes").value = defaultHourNotes(
+        el("hours-activity-name").value,
+      );
+    invalidateProof();
+    el("hours-context-hint").textContent =
+      target.activityName && target.dates?.length
+        ? "已自动读取活动名称与 " +
+          target.dates.length +
+          " 个官网服务日期，可直接使用或按实际服务情况调整。" +
+          (contextChoice.activity || contextChoice.dates
+            ? "已保留手动调整。"
+            : "")
+        : target.metadataReason || "部分信息未自动读到，可重新检查或手动补充。";
+  } else
+    el("hours-context-hint").textContent =
+      "进入正确岗位后可自动读取活动名称与服务日期。";
+  if (source) await refreshProgress();
   render();
 }
 async function loadProgress() {
@@ -226,13 +342,15 @@ async function loadProgress() {
   people = [];
   job = { days: {}, inFlight: null };
   jobKey = null;
-  const selected = sheets[Number(el("hours-sheet").value)];
+  const selected = selectedSheet();
   fileError(selected?.issue || "");
   if (selected?.issue) {
+    analysisSummary();
     status(selected.issue);
     return;
   }
   people = selected?.read() || [];
+  analysisSummary();
   if (source && target) {
     jobKey = await batchKey(
       "hours:" + JSON.stringify([target.id, target.activityId, target.postId]),
@@ -247,6 +365,17 @@ async function loadProgress() {
         const saved = (await environment.storage.get(jobKey))[jobKey];
         if (saved) {
           job = saved;
+          const mapping = selected.signature();
+          if (Object.keys(job.days || {}).length || job.inFlight) {
+            const original = job.mapping || selected.legacySignature;
+            if (original && original !== mapping) {
+              people = [];
+              analysisSummary();
+              throw Error(
+                "当前文件已保存处理进度，识别列与上次不同。为避免错认人员或重复录入，请恢复原识别列后继续。",
+              );
+            }
+          }
           if (job.inFlight) {
             for (const entry of job.inFlight.entries || [job.inFlight])
               job.days[entry.key] = { ...entry, status: "unknown" };
@@ -254,9 +383,18 @@ async function loadProgress() {
             await save();
           }
         }
+        job.mapping = selected.signature();
       },
     );
   }
+  if (people.length)
+    status(
+      "名单识别已更新：可处理 " +
+        people.filter((person) => !person.issue).length +
+        " 人，需修正 " +
+        people.filter((person) => person.issue).length +
+        " 人。请核对原始时长和解析后小时数。",
+    );
   render();
 }
 function refreshProgress() {
@@ -284,23 +422,24 @@ el("hours-connect").onclick = () =>
   safely(async () => {
     invalidateProof();
     await connect();
-    await refreshProgress();
   });
 el("hours-file").onchange = () =>
   safely(async () => {
+    const revision = ++fileRevision;
     invalidateProof();
     fileError();
     people = [];
     sheets = [];
+    configureColumns();
     source = null;
     jobKey = null;
     job = { days: {}, inFlight: null };
     el("hours-sheet").replaceChildren();
+    el("hours-analysis").textContent = "";
     el("hours-confirm").checked = false;
     el("hours-run").disabled = true;
     const file = el("hours-file").files[0];
     if (!file) return;
-    const revision = ++fileRevision;
     if (file.size > 8 * 1024 * 1024) {
       fileError("名单最多 8 MB。");
       throw Error("名单最多 8 MB。");
@@ -310,6 +449,7 @@ el("hours-file").onchange = () =>
     try {
       loaded = await readHourSheets(bytes, Excel);
     } catch (error) {
+      if (revision !== fileRevision) return;
       fileError(error.message || "无法读取 Excel 文件，请检查文件格式。");
       throw error;
     }
@@ -330,16 +470,14 @@ el("hours-file").onchange = () =>
         sheets.findIndex((sheet) => !sheet.issue),
       ),
     );
+    configureColumns();
     await refreshProgress();
-    const invalid = sheets.filter((sheet) => sheet.issue);
-    if (invalid.length)
-      fileError(invalid.map((sheet) => sheet.issue).join(" "));
     status(
       people.length
         ? "已读取 " +
             people.length +
-            " 人。请填写日期、活动名称，并预览证明图片。"
-        : invalid[0]?.issue || "没有读到人员。",
+            " 人。活动名称和日期已自动读取时可直接预览证明。"
+        : selectedSheet()?.issue || "没有读到人员。",
     );
   });
 for (const id of [
@@ -350,6 +488,36 @@ for (const id of [
   "hours-proof",
 ])
   el(id).onchange = () => {
+    if (id === "hours-start" || id === "hours-end") contextChoice.dates = true;
+    invalidateProof();
+    safely(refreshProgress);
+  };
+el("hours-sheet").onchange = () => {
+  configureColumns();
+  invalidateProof();
+  safely(refreshProgress);
+};
+for (const id of [
+  "hours-name-column",
+  "hours-identity-column",
+  "hours-value-column",
+])
+  el(id).onchange = () => {
+    const sheet = selectedSheet();
+    if (!sheet) return;
+    const [kind, value] = el("hours-identity-column").value.split(":");
+    const patch = {
+      name: el("hours-name-column").value,
+      hours: el("hours-value-column").value,
+    };
+    if (kind !== "auto") {
+      patch.volunteerId = kind === "volunteerId" ? value : 0;
+      patch.card = kind === "card" ? value : 0;
+    } else {
+      patch.volunteerId = sheet.automaticFields.volunteerId || 0;
+      patch.card = sheet.automaticFields.card || 0;
+    }
+    sheet.configure(patch);
     invalidateProof();
     safely(refreshProgress);
   };
@@ -367,6 +535,7 @@ el("hours-proof-mode").onchange = () => {
   render();
 };
 el("hours-activity-name").oninput = () => {
+  contextChoice.activity = true;
   if (!notesEdited)
     el("hours-notes").value = defaultHourNotes(el("hours-activity-name").value);
   invalidateProof();
@@ -559,6 +728,14 @@ el("hours-run").onclick = () =>
           if (!same(current, target)) throw Error("目标岗位已经改变。");
           const saved = (await environment.storage.get(jobKey))[jobKey];
           if (saved) job = saved;
+          if (
+            (Object.keys(job.days || {}).length || job.inFlight) &&
+            (job.mapping || selectedSheet().legacySignature) &&
+            (job.mapping || selectedSheet().legacySignature) !==
+              selectedSheet().signature()
+          )
+            throw Error("识别列与已有进度不同，请恢复原识别列后继续。");
+          job.mapping = selectedSheet().signature();
           if (
             job.inFlight ||
             Object.values(job.days).some((day) => day.status === "unknown")

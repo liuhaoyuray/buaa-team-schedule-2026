@@ -2,17 +2,19 @@
 <main>
 <header><p class="eyebrow">志愿北京 · 时长录入</p><h1>录入志愿服务时长</h1>
 <nav class="mode-nav"><a id="mode-member" href="index.html?mode=member">添加团体成员</a><a id="mode-activity" href="index.html?mode=activity">添加活动志愿者</a><a id="mode-hours" aria-current="page" href="hours.html">录入时长</a></nav></header>
-<section class="card"><h2>1. 核对岗位</h2><p id="hours-target">正在读取当前岗位…</p><button id="hours-connect">重新检查</button><p class="hint">在官网进入活动岗位的「计时 → 时长录入」。每批对应一个岗位。</p></section>
+<section class="card"><h2>1. 核对岗位</h2><p id="hours-target">正在读取当前岗位…</p><button id="hours-connect">重新检查</button><p id="hours-context-hint" class="hint">正在自动读取当前活动名称与官网服务日期…</p><p class="hint">在官网进入活动岗位的「计时 → 时长录入」。每批对应一个岗位。</p></section>
 <section class="card"><h2>2. 选择名单、日期与证明</h2>
 <label>录入方式 <select id="hours-method"><option value="individual">逐人录入时长</option><option value="batch">批量导入，提交上级审批</option></select></label>
 <p id="hours-method-hint" class="hint">自动逐人录入，避开已有记录的日期。</p>
 <label>人员时长清单 <input id="hours-file" type="file" accept=".xlsx"></label>
 <label>工作表 <select id="hours-sheet"></select></label>
 <p id="hours-file-error" class="input-error" role="alert" hidden></p>
-<p class="hint">表头包含「姓名」「志愿者编号」（或「证件号码」）「总时长」。总时长按半小时递增。</p>
+<p id="hours-analysis" class="hint" role="status"></p>
+<details><summary>识别列不对？在这里调整</summary><p class="hint">自动跳过顶部总标题；这里显示实际采用的列，不需要修改原文件。</p><label>姓名列 <select id="hours-name-column"></select></label><label>编号或证件列 <select id="hours-identity-column"></select></label><label>本次拟录入时长列 <select id="hours-value-column"></select></label></details>
+<p class="hint">支持总时长、拟录入时长、服务时长等表头；支持 2.5、2小时30分、150分钟、02:30 等时长写法。按半小时递增，不自动取整。</p>
 <div class="actions"><label>开始日期 <input id="hours-start" type="date"></label><label>结束日期 <input id="hours-end" type="date"></label>
 <label>分配顺序 <select id="hours-order"><option value="asc">从早到晚</option><option value="desc">从晚到早</option></select></label></div>
-<label>活动名称 <input id="hours-activity-name" type="text" maxlength="100" placeholder="填写实际活动名称，用于备注和汇总单"></label>
+<label>活动名称 <input id="hours-activity-name" type="text" maxlength="100" placeholder="自动读取官网活动名称，也可修改"></label>
 <label>证明图片 <select id="hours-proof-mode"><option value="generate">根据名单自动生成时长汇总单</option><option value="upload">上传已有证明图片</option></select></label>
 <label id="hours-proof-upload" hidden>本批共用证明图片 <input id="hours-proof" type="file" accept=".png,.jpg,.jpeg"></label>
 <p class="hint">自动生成的汇总单包含活动、团体、实际服务期间、姓名及拟录入时长。请预览核对；需要已审核证明时可改为上传。每天最多 8 小时，已有记录的日期会避开。</p>
@@ -23,7 +25,7 @@
 <section class="card"><h2>3. 核对后开始</h2><label class="check"><input id="hours-confirm" type="checkbox">我已核对岗位、实际服务日期、总时长和证明图片。</label>
 <div class="actions"><button id="hours-run" class="primary">开始或继续录入</button><button id="hours-pause">暂停</button><button id="hours-export">下载明细</button></div>
 <p id="hours-status" role="status" aria-live="polite"></p>
-<div class="table-wrap"><table><thead><tr><th>原表行号</th><th>姓名</th><th>总时长</th><th>已录入</th><th>已提交审批</th><th>待处理</th><th>情况</th></tr></thead><tbody id="hours-results"></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>原表行号</th><th>姓名</th><th>原始时长</th><th>解析后小时数</th><th>已录入</th><th>已提交审批</th><th>待处理</th><th>情况</th></tr></thead><tbody id="hours-results"></tbody></table></div>
 <div id="hours-unknown" class="hint"></div>
 <p class="hint">提交中断时先到官网核对对应日期，再记录核对结果。刷新后重新选择原文件、日期范围和证明图可以恢复进度。</p>
 </section>

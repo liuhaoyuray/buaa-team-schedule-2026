@@ -64,7 +64,7 @@ test('installable archive bundles its reader and preserves known and uncertain s
     assert.throws(() => readPaste('模拟甲\t0012', 'activity'), /表头/);
 
     await fs.writeFile(path.join(output, 'hours-core.mjs'), await zip.file('hours-core.mjs').async('nodebuffer'));
-    const {allocateHourDays, hourDates, readHourSheets, fillHourBatchTemplate, defaultHourNotes} = await import(pathToFileURL(path.join(output, 'hours-core.mjs')));
+    const {allocateHourDays, hourDates, readHourSheets, fillHourBatchTemplate, defaultHourNotes, parseHourValue} = await import(pathToFileURL(path.join(output, 'hours-core.mjs')));
     const hoursBook = new ExcelJS.Workbook();
     hoursBook.addWorksheet('时长').addRows([['姓名','志愿者编号','总时长'],['模拟甲','001',20]]);
     const [hoursSheet] = await readHourSheets(await hoursBook.xlsx.writeBuffer(), ExcelJS);
@@ -82,6 +82,26 @@ test('installable archive bundles its reader and preserves known and uncertain s
     assert.throws(() => mixed[0].read(), /总时长/);
     assert.equal(mixed[1].read()[0].total, 2);
     assert.equal(defaultHourNotes('迎新'), '录入迎新活动志愿者时长，根据实际工作时长录入');
+    for (const value of ['2.5','2.5小时','2小时30分','150分钟','02:30','2h30min','2小时半']) assert.equal(parseHourValue(value).total, 2.5, value);
+    assert.equal(parseHourValue(2.5 / 24, '[h]:mm').total, 2.5);
+    assert.equal(parseHourValue('45分钟').total, 0.75);
+    assert.match(parseHourValue('45分钟').issue, /未自动取整/);
+    assert.match(parseHourValue({formula:'SUM(A1:A2)'}).issue, /公式没有计算结果/);
+    const titledBook = new ExcelJS.Workbook();
+    const titled = titledBook.addWorksheet('两行表头');
+    titled.addRows([['2026迎新志愿时长统计总表'],['姓名','志愿者编号','已录入时长','拟\n录入时长（小时）'],['模拟甲','001',40,'2小时30分'],['模拟乙','002',30,'150分钟'],['姓名','志愿者编号','已录入时长','拟录入时长'],['合计','','',5]]);
+    titled.mergeCells('A1:D1');
+    const [titledSheet] = await readHourSheets(await titledBook.xlsx.writeBuffer(), ExcelJS);
+    assert.equal(titledSheet.headerRow, 2);
+    assert.equal(titledSheet.fields.hours, 4, 'use requested new hours instead of already recorded hours');
+    assert.deepEqual(titledSheet.read().map(person => [person.row, person.total, person.issue]), [[3,2.5,''],[4,2.5,'']]);
+    assert.equal(titledSheet.ignored, 2);
+    const bothBook = new ExcelJS.Workbook();
+    bothBook.addWorksheet('时长列优先级').addRows([['姓名','志愿者编号','时长','拟录入时长'],['模拟甲','001',8,2]]);
+    const [both] = await readHourSheets(await bothBook.xlsx.writeBuffer(), ExcelJS);
+    assert.equal(both.read()[0].total,2);
+    both.configure({hours:3});
+    assert.equal(both.read()[0].total,8, 'explicit column correction is respected');
     const nativeBook = new ExcelJS.Workbook();
     nativeBook.addWorksheet('原模板').addRows([['姓名','志愿者编号','日期','时长'],['模拟甲','001','2026-11-01',7],['模拟乙','002','2026-11-01',6]]);
     const nativeBytes = await nativeBook.xlsx.writeBuffer();
