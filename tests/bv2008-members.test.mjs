@@ -64,7 +64,7 @@ test('installable archive bundles its reader and preserves known and uncertain s
     assert.throws(() => readPaste('模拟甲\t0012', 'activity'), /表头/);
 
     await fs.writeFile(path.join(output, 'hours-core.mjs'), await zip.file('hours-core.mjs').async('nodebuffer'));
-    const {allocateHourDays, hourDates, readHourSheets} = await import(pathToFileURL(path.join(output, 'hours-core.mjs')));
+    const {allocateHourDays, hourDates, readHourSheets, fillHourBatchTemplate, defaultHourNotes} = await import(pathToFileURL(path.join(output, 'hours-core.mjs')));
     const hoursBook = new ExcelJS.Workbook();
     hoursBook.addWorksheet('时长').addRows([['姓名','志愿者编号','总时长'],['模拟甲','001',20]]);
     const [hoursSheet] = await readHourSheets(await hoursBook.xlsx.writeBuffer(), ExcelJS);
@@ -73,6 +73,24 @@ test('installable archive bundles its reader and preserves known and uncertain s
     const allocations = allocateHourDays(person, person.total, days, new Set(['2026-11-01']));
     assert.deepEqual(allocations.map(day => [day.date,day.hours]), [['2026-11-02',8],['2026-11-03',8]]);
     assert.equal(person.total - allocations.reduce((sum,day)=>sum+day.hours,0),4);
+    const incompleteBook = new ExcelJS.Workbook();
+    incompleteBook.addWorksheet('没有时长').addRows([['姓名','志愿者编号'],['模拟甲','001']]);
+    incompleteBook.addWorksheet('可用名单').addRows([['姓名','志愿者编号','总时长'],['模拟甲','001',2]]);
+    const mixed = await readHourSheets(await incompleteBook.xlsx.writeBuffer(), ExcelJS);
+    assert.equal(mixed.length, 2, 'invalid worksheets must remain visible with their missing columns');
+    assert.match(mixed[0].issue, /没有时长.*缺少必填列：总时长/);
+    assert.throws(() => mixed[0].read(), /总时长/);
+    assert.equal(mixed[1].read()[0].total, 2);
+    assert.equal(defaultHourNotes('迎新'), '录入迎新活动志愿者时长，根据实际工作时长录入');
+    const nativeBook = new ExcelJS.Workbook();
+    nativeBook.addWorksheet('原模板').addRows([['姓名','志愿者编号','日期','时长'],['模拟甲','001','2026-11-01',7],['模拟乙','002','2026-11-01',6]]);
+    const nativeBytes = await nativeBook.xlsx.writeBuffer();
+    const preparedFile = await fillHourBatchTemplate(nativeBytes, [{row:2,name:'模拟甲',number:'001',hours:3.5}], '2026-11-02', ExcelJS);
+    const generated = new ExcelJS.Workbook(); await generated.xlsx.load(preparedFile);
+    assert.equal(generated.worksheets[0].getCell('D2').value, 3.5);
+    assert.equal(generated.worksheets[0].getCell('D3').value, null, 'people outside this application must retain blank durations');
+    assert.equal(generated.worksheets[0].getCell('C2').value, '2026-11-02');
+    await assert.rejects(fillHourBatchTemplate(nativeBytes, [{row:2,name:'同名错人',number:'001',hours:3.5}], '2026-11-02', ExcelJS), /不能唯一核对/);
 
     const job = recoverJob();
     const submitted = [];

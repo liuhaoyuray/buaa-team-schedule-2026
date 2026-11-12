@@ -19,6 +19,7 @@
   const result = (status, reason) => ({ status, reason });
   let busy = false;
   let proof = null;
+  let lastNumber = '';
   function target() {
     const [page, query] = location.hash.split('?');
     const params = new URLSearchParams(query);
@@ -76,6 +77,8 @@
       throw Error('志愿者编号不一致。');
     if (!(await verifyName(row, person.name)))
       throw Object.assign(Error('姓名不一致，请核对名单。'), {personIssue:true});
+    lastNumber = displayedValue(found.table, row, '志愿者编号');
+    if (!lastNumber) throw Error('未能读取志愿者编号，请等待官网名单加载。');
     const actions = [...row.querySelectorAll('a,button')].filter(
       (el) => visible(el) && /^(录入|调整|计时)$/.test(clean(el.textContent)),
     );
@@ -101,7 +104,7 @@
         clean(item.querySelector('label')?.textContent).replace(
           /[：:*]/g,
           '',
-        ) === '日期',
+        ).match(/^(?:服务)?日期$/),
     );
     return (
       item?.querySelector('.ant-select-selector') ||
@@ -168,6 +171,12 @@
       proof = message.proof;
       return { ok: true };
     }
+    if (message.type?.startsWith('hours-batch-')) {
+      if (busy) return result('blocked', '另一个计时操作正在处理。');
+      busy = true;
+      try { return await globalThis.__buaaHoursBatchAdapter.handle(message); }
+      finally { busy = false; }
+    }
     if (!['hours-prepare', 'hours-submit'].includes(message.type)) return null;
     if (busy) return result('blocked', '另一个计时操作正在处理。');
     busy = true;
@@ -178,7 +187,7 @@
       const scanned = await scanDates(form, message.date);
       if (message.type === 'hours-prepare') {
         await close(form);
-        return scanned;
+        return {...scanned, number: lastNumber};
       }
       if (scanned.occupied) {
         await close(form);
@@ -274,7 +283,7 @@
       busy = false;
     }
   }
-  globalThis.__buaaHoursAdapter = { handle };
+  globalThis.__buaaHoursAdapter = { handle, target, changed, close, scanDates, getProof: () => proof };
   if (typeof chrome !== 'undefined' && chrome.runtime?.id)
     chrome.runtime.onMessage.addListener((message, sender, respond) => {
       if (

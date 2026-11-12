@@ -104,16 +104,22 @@
   }
 
   async function verifyName(row, expected) {
-    const cell = row.querySelector('td .phone-box');
+    const table = row.closest('table');
+    const headers = [...(table?.querySelectorAll('thead th') || [])];
+    const index = headers.findIndex(header => clean(header.textContent) === '姓名');
+    const cell = (index >= 0 ? row.cells[index] : row)?.querySelector('.phone-box');
     const name = cell?.querySelector('.text');
     if (!name) return false;
     const initial = trim(name.textContent);
     if (initial === trim(expected)) return true;
-    const reveal = cell.querySelector('img.icon[src*="eye1"]');
+    // The duration and recruitment pages use opposite eye icon states.
+    // Toggle the native name control, then compare the revealed full name.
+    const reveal = cell.querySelector('img.icon[src*="eye1"],img.icon[src*="eye2"]');
     if (!reveal || !visible(reveal)) return false;
+    const before = reveal.getAttribute('src');
     reveal.click();
     const updated = await wait(() => trim(name.textContent) !== initial ? {name: trim(name.textContent)} : null, timing.page);
-    if (updated && reveal.isConnected && reveal.getAttribute('src')?.includes('eye2')) reveal.click();
+    if (updated && reveal.isConnected && reveal.getAttribute('src') !== before) reveal.click();
     return updated?.name === trim(expected);
   }
 

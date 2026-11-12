@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         志愿北京 · 批量录入助手
 // @namespace    buaa-volunteer-tools
-// @version      0.4.0
-// @description  按 Excel 名单添加团体和活动志愿者，逐人录入时长并避开历史日期，支持进度恢复。
+// @version      0.5.0
+// @description  按 Excel 名单添加团体和活动志愿者，录入或批量报批时长、生成汇总证明并避开历史日期，支持进度恢复。
 // @match        https://www.bv2008.cn/*
 // @match        https://bv2008.cn/*
 // @match        https://test1.bv2008.cn/*

@@ -16,7 +16,8 @@ export const environment = {
         return {reason: '绑定的标签页已离开志愿北京，请在官网重新打开扩展。'};
       }
       await chrome.scripting.executeScript({target: {tabId}, world: 'MAIN', files: ['group-state.js']});
-      const files = mode === 'hours' ? ['bv2008.js', 'activity.js', 'hours-adapter.js']
+      if (mode === 'hours') await chrome.scripting.executeScript({target: {tabId}, world: 'MAIN', files: ['download-bridge.js']});
+      const files = mode === 'hours' ? ['bv2008.js', 'activity.js', 'hours-adapter.js', 'hours-batch-adapter.js']
         : mode === 'activity' ? ['bv2008.js', 'activity.js'] : ['bv2008.js'];
       await chrome.scripting.executeScript({target: {tabId}, files});
       return await message({type: mode + '-target'});

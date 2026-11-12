@@ -44,6 +44,9 @@ tr[data-state="rejected"] td:nth-child(4), tr[data-state="invalid"] td:nth-child
 tr[data-state="unknown"] td:nth-child(4) { color: #815000; font-weight: 700; }
 dialog { max-width: min(510px, 92vw); border: 1px solid #d8e2ee; border-radius: 12px; padding: 20px; }
 dialog::backdrop { background: #14273a66; }
+.input-error { padding: 10px; border: 1px solid #c33; color: #a02627; background: #fff4f4; }
+#hours-status { color: #704400; }
+#hours-proof-image { display: block; max-width: 100%; max-height: 400px; object-fit: contain; border: 1px solid #d8e2ee; margin: 8px 0; }
 
 th:nth-child(1) { min-width: 80px; }
 th:nth-child(2), td:nth-child(2) { min-width: 80px; }
