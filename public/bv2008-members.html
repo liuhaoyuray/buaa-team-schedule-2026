@@ -1,21 +1,40 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>志愿北京录入助手 · 安装与使用</title><style>
-body{margin:0;background:#f1f5fa;color:#17253a;font:16px/1.7 "Segoe UI","Microsoft YaHei",sans-serif}main{max-width:850px;margin:auto;padding:30px 20px 60px}section{background:white;border:1px solid #d8e2ee;border-radius:12px;padding:22px;margin:16px 0}h1{line-height:1.3}h2{font-size:1.25rem;margin-top:0}a{color:#075f83}.button{display:inline-block;background:#075f83;color:white;padding:9px 16px;border-radius:7px;text-decoration:none;font-weight:650}li+li{margin-top:10px}img{max-width:100%;border:1px solid #d8e2ee;border-radius:7px}code{overflow-wrap:anywhere}p{margin:10px 0}.hint{color:#476077}nav{display:flex;gap:15px;flex-wrap:wrap}
+body{margin:0;background:#f1f5fa;color:#17253a;font:16px/1.7 "Segoe UI","Microsoft YaHei",sans-serif}main{max-width:850px;margin:auto;padding:30px 20px 60px}section{background:white;border:1px solid #d8e2ee;border-radius:12px;padding:22px;margin:16px 0}h1{line-height:1.3}h2{font-size:1.25rem;margin-top:0}a{color:#075f83}.button{display:inline-block;background:#075f83;color:white;padding:9px 16px;border-radius:7px;text-decoration:none;font-weight:650}li+li{margin-top:10px}img{max-width:100%;border:1px solid #d8e2ee;border-radius:7px}code{overflow-wrap:anywhere}p{margin:10px 0}.hint{color:#476077}nav{display:flex;gap:15px;flex-wrap:wrap}h3{font-size:1.06rem}table{width:100%;border-collapse:collapse;text-align:left}th,td{padding:10px 12px;border:1px solid #d8e2ee;vertical-align:top}th{background:#eaf1f8}.permission-on{color:#126549;font-weight:700;white-space:nowrap}.notice{background:#eaf6fc;border-left:4px solid #075f83;padding:12px 16px}.table-scroll{overflow-x:auto}.checklist{padding-left:24px}section{scroll-margin-top:16px}@media(max-width:600px){main{padding:20px 12px 40px}section{padding:16px}th,td{padding:8px}nav{gap:10px}}
 </style></head><body><main>
-<a href="index.html#home">← 工作台</a><h1>志愿北京录入助手</h1>
+<h1>志愿北京录入助手</h1>
 <p>支持添加团体成员、添加活动岗位志愿者、逐人录入时长和批量提交时长审批，可自动生成时长汇总图片与备注。</p>
 <p><a class="button" href="https://liuhaoyuray.github.io/buaa-team-schedule-2026/bv2008-batch-helper.user.js">安装最新脚本</a></p>
-<nav><a href="#install">首次安装</a><a href="#permissions">权限设置</a><a href="#use">使用方法</a><a href="#update">自动更新</a><a href="#help">常见问题</a></nav>
-<section id="install"><h2>1. 安装篡改猴</h2><p>使用电脑上的 Edge 或 Chrome 打开这份教程。</p><ol>
-<li>打开<a href="https://www.tampermonkey.net/" target="_blank" rel="noopener">篡改猴官方网站</a>，选择与你浏览器对应的稳定版，进入扩展商店，点「获取」或「添加至浏览器」，再确认添加扩展。</li>
-<li>安装完成后，点击浏览器右上角的扩展图标，将「篡改猴」固定到工具栏，方便以后打开管理面板。</li>
-</ol></section>
-<section id="permissions"><h2>2. 打开运行脚本所需的权限</h2><ol>
-<li>Edge 在地址栏输入 <code>edge://extensions</code>，Chrome 输入 <code>chrome://extensions</code>。</li>
-<li>找到「篡改猴」，点「详细信息」。如果有「允许运行用户脚本」或「允许用户脚本」开关，请打开。较旧浏览器如果提示使用开发人员模式，就按提示回到扩展管理页打开「开发人员模式」。</li>
-<li>在篡改猴的「网站访问权限」中允许它在志愿北京运行。使用特定网站设置时，添加 <code>https://www.bv2008.cn/*</code>；使用试运行网址时再添加 <code>https://test1.bv2008.cn/*</code>。</li>
-</ol><p class="hint">篡改猴管理面板如果仍显示「请启用允许用户脚本」，返回浏览器扩展详情检查开关，再刷新管理面板。</p>
-<p class="hint">下图展示开关的位置，请将「允许运行用户脚本」打开。</p><img src="bv2008-guide/permissions.png" alt="浏览器篡改猴扩展详情中的用户脚本权限示例" loading="lazy"></section>
-<section><h2>3. 安装录入助手</h2><ol>
+<nav><a href="#edge-install">Edge 教程</a><a href="#chrome-install">Chrome 教程</a><a href="#permissions">权限全部开启</a><a href="#script-install">安装助手</a><a href="#use">使用方法</a><a href="#update">自动更新</a><a href="#help">常见问题</a></nav>
+<section id="install"><h2>首次安装：先选你的浏览器</h2><p>用你准备登录志愿北京的同一个电脑浏览器完成下面的步骤。</p><p><a class="button" href="#edge-install">我用 Microsoft Edge</a> <a href="#chrome-install">我用 Google Chrome</a></p><p class="notice">本教程采用完整授权配置：网站访问设为<strong>「在所有网站上」</strong>，开发人员模式、用户脚本、本地文件和隐私窗口等可用权限全部开启。接着安装录入助手，最后刷新官网。</p></section>
+<section id="edge-install"><h2>Edge：从零安装</h2><ol>
+<li>用 <strong>Microsoft Edge</strong> 打开<a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" target="_blank" rel="noopener">篡改猴的 Edge 扩展商店页面</a>，点「获取」，在提示框里点「添加扩展」。安装名称为 Tampermonkey／篡改猴，发布者为 Jan Biniok。</li>
+<li>在 Edge 地址栏输入 <code>edge://extensions</code>，按回车。打开「开发人员模式」（通常在左侧），确认「篡改猴」卡片上的启用开关已打开。</li>
+<li>点篡改猴卡片上的「详细信息」，打开「允许运行用户脚本」或「允许用户脚本」。找到「站点访问权限」「网站访问权限」或「读取和更改网站数据」，选择<strong>「在所有站点上」</strong>（有的版本叫「在所有网站上」）。</li>
+<li>仍在详细信息页面，打开「允许访问文件 URL」以及「在 InPrivate 中允许」（有的版本叫「允许在 InPrivate 中使用」）。对照下方<a href="#permissions">完整权限清单</a>，将浏览器提供的授权项全部打开。</li>
+<li>点击 Edge 右上角的拼图形「扩展」按钮，找到篡改猴，点旁边的眼睛或固定按钮，让它显示在工具栏。如果这里也有网站访问菜单，确认是「在所有网站上」。</li>
+<li>回到本页，继续<a href="#script-install">安装录入助手</a>。安装完打开志愿北京，登录团体账号，再按 <code>Ctrl + R</code> 刷新。</li>
+</ol><p class="hint">Edge 设置里的 <code>edge://extensions</code> 请复制到地址栏打开，不是在搜索框里搜索。部分版本名称略有不同，按下方清单找到对应开关即可。</p><p>Edge 权限开启后的实际界面：站点访问选择「在所有站点上」，下方三个开关均为绿色。</p><img src="bv2008-guide/edge-permissions.png" alt="Edge 篡改猴详情：在所有站点上，以及允许用户脚本、InPrivate、文件 URL 三个已开启开关" loading="lazy"></section>
+<section id="chrome-install"><h2>Chrome：从零安装</h2><ol>
+<li>用 <strong>Google Chrome</strong> 打开<a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" rel="noopener">篡改猴的 Chrome 应用商店页面</a>，点「添加至 Chrome」，再点「添加扩展程序」。</li>
+<li>在地址栏输入 <code>chrome://extensions</code>，按回车，打开右上角的「开发者模式」，确认篡改猴已启用。</li>
+<li>打开篡改猴的「详细信息」，打开「允许用户脚本」，将「网站访问权限」设为<strong>「在所有网站上」</strong>，并打开「允许访问文件网址」和「在无痕模式下启用」。</li>
+<li>在右上角的「扩展程序」菜单固定篡改猴，对照<a href="#permissions">完整权限清单</a>，然后继续<a href="#script-install">安装录入助手</a>。</li>
+</ol><p class="hint">如果商店链接不能打开，可从<a href="https://www.tampermonkey.net/" target="_blank" rel="noopener">篡改猴官网</a>选择对应浏览器进入安装页面。</p></section>
+<section id="permissions"><h2>完整权限清单：可用授权项全部开启</h2><p>Edge 从 <code>edge://extensions</code> 进入；Chrome 从 <code>chrome://extensions</code> 进入。找到篡改猴并打开「详细信息」，按下面设置。</p>
+<div class="table-scroll"><table><thead><tr><th>位置或设置项</th><th>应设为</th></tr></thead><tbody>
+<tr><td>扩展管理页 → 篡改猴启用开关</td><td class="permission-on">打开</td></tr>
+<tr><td>扩展管理页 → 开发人员模式／开发者模式</td><td class="permission-on">打开</td></tr>
+<tr><td>篡改猴详情 → 允许运行用户脚本／允许用户脚本</td><td class="permission-on">打开</td></tr>
+<tr><td>篡改猴详情 → 站点访问权限／网站访问权限／读取和更改网站数据</td><td class="permission-on">在所有站点上／在所有网站上</td></tr>
+<tr><td>篡改猴详情 → 允许访问文件 URL／允许访问文件网址</td><td class="permission-on">打开</td></tr>
+<tr><td>篡改猴详情 → 允许在 InPrivate 中使用／在无痕模式下启用</td><td class="permission-on">打开</td></tr>
+<tr><td>篡改猴管理面板 → 志愿北京 · 批量录入助手</td><td class="permission-on">已安装、已启用</td></tr>
+<tr><td>篡改猴管理面板 → 设置 → 脚本更新</td><td class="permission-on">启用自动检查与更新</td></tr>
+</tbody></table></div>
+<p class="notice">网站访问直接选<strong>「在所有网站上」</strong>。该设置同时允许访问志愿北京和脚本更新地址。设置完成后，刷新篡改猴管理面板和志愿北京网页。</p>
+<p class="hint">不同版本可能没有单独的用户脚本开关；有开关就打开，没有则保持开发人员模式打开。如果某个开关显示「由你的组织管理」且无法修改，需要管理员开放该权限。</p>
+<p class="hint">官方说明：<a href="https://support.microsoft.com/en-us/edge/change-site-access-permissions-for-extensions-in-microsoft-edge" target="_blank" rel="noopener">Edge 扩展网站、本地文件和 InPrivate 权限</a>；<a href="https://www.tampermonkey.net/faq.php?locale=zh&amp;q=Q209" target="_blank" rel="noopener">篡改猴的用户脚本授权步骤</a>；<a href="https://www.tampermonkey.net/faq.php?locale=en&amp;q=Q306" target="_blank" rel="noopener">特定网站权限对更新的影响</a>。</p></section>
+<section id="script-install"><h2>安装录入助手（Edge、Chrome 通用）</h2><ol>
 <li>确认篡改猴已启用后，点击本教程顶部的「安装最新脚本」。</li>
 <li>浏览器会打开篡改猴安装确认页，核对名称为「志愿北京 · 批量录入助手」，点「安装」。已有旧版时，确认更新或重新安装同名脚本。</li>
 <li>打开志愿北京，登录自己的团体账号并刷新网页，右上角会出现「批量录入」按钮。</li>
@@ -38,7 +57,7 @@ body{margin:0;background:#f1f5fa;color:#17253a;font:16px/1.7 "Segoe UI","Microso
 <p>需要马上更新时，在篡改猴的「已安装脚本」中找到本助手，点「检查更新」；也可以再次点击本教程顶部的安装链接。篡改猴设置中，请保持「脚本更新」功能启用。</p>
 <p>自动检查按浏览器和篡改猴的设置运行，发布后立即生效需要执行一次检查更新。正在录入时请先暂停，等当前提交完成后再刷新页面。</p></section>
 <section id="help"><h2>遇到问题时</h2><ul>
-<li>没有出现「批量录入」。检查篡改猴和本脚本是否都已启用、是否允许用户脚本及网站访问，再刷新志愿北京。</li>
+<li>没有出现「批量录入」。回到<a href="#permissions">完整权限清单</a>，确认篡改猴、本脚本、开发人员模式及用户脚本开关已打开，网站访问为「在所有网站上」，然后刷新官网。</li>
 <li>显示请打开正式成员或计时页面。先在官网打开对应的后台页面，再点面板中的「重新检查」。</li>
 <li>结果显示「待核对」。先去官网核对对应人员、日期和时长，再回助手记录核对结果。</li>
 <li>刷新后继续。重新选择同一份原文件与录入方式，核对自动读取的活动、日期与保存进度，预览证明图片后继续。结果待核对时先核对官网记录；批量方式请查看「导入记录」，确认申请是否已提交。</li>
