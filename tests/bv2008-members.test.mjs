@@ -64,7 +64,7 @@ test('installable archive bundles its reader and preserves known and uncertain s
     assert.throws(() => readPaste('模拟甲\t0012', 'activity'), /表头/);
 
     await fs.writeFile(path.join(output, 'hours-core.mjs'), await zip.file('hours-core.mjs').async('nodebuffer'));
-    const {allocateHourDays, hourDates, readHourSheets, fillHourBatchTemplate, defaultHourNotes, parseHourValue} = await import(pathToFileURL(path.join(output, 'hours-core.mjs')));
+    const {allocateHourDays, hourDates, readHourSheets, fillHourBatchTemplate, defaultHourNotes, parseHourValue, projectHourCandidates, mergeLegacyHourProgress} = await import(pathToFileURL(path.join(output, 'hours-core.mjs')));
     const hoursBook = new ExcelJS.Workbook();
     hoursBook.addWorksheet('时长').addRows([['姓名','志愿者编号','总时长'],['模拟甲','001',20]]);
     const [hoursSheet] = await readHourSheets(await hoursBook.xlsx.writeBuffer(), ExcelJS);
@@ -102,6 +102,27 @@ test('installable archive bundles its reader and preserves known and uncertain s
     assert.equal(both.read()[0].total,2);
     both.configure({hours:3});
     assert.equal(both.read()[0].total,8, 'explicit column correction is respected');
+    const nameBook = new ExcelJS.Workbook();
+    nameBook.addWorksheet('仅姓名').addRows([['姓名','拟录入时长'],['模拟甲',3.5],['重名',1],['重名',2]]);
+    const [nameSheet] = await readHourSheets(await nameBook.xlsx.writeBuffer(), ExcelJS);
+    assert.equal(nameSheet.issue,'');
+    const namePeople = nameSheet.read();
+    assert.equal(namePeople[0].identifier,'name');
+    assert.equal(namePeople[0].issue,'');
+    assert.match(namePeople[1].issue,/姓名重复/);
+    assert.match(namePeople[2].issue,/姓名重复/);
+    assert.deepEqual(allocateHourDays(namePeople[0],3.5,['2026-11-01'],new Set()).map(row=>row.hours),[3.5]);
+    const rosters = [{postId:'A',postName:'甲岗',rows:[{id:'001',name:'模拟甲'},{id:'003',name:'重名'}]},{postId:'B',postName:'乙岗',rows:[{id:'001',name:'模拟甲'},{id:'004',name:'重名'},{id:'002',name:'模拟乙'}]}];
+    assert.equal(projectHourCandidates(namePeople[0],rosters).length,1,'one identity in multiple posts must not double the total');
+    assert.equal(projectHourCandidates(namePeople[0],rosters)[0].posts.length,2);
+    assert.equal(projectHourCandidates({name:'重名',identifier:'name'},rosters).length,2,'different identities with the same name remain ambiguous');
+    assert.equal(projectHourCandidates({name:'模拟乙',identifier:'name'},rosters)[0].posts[0].id,'B','a volunteer in another post is included');
+    const migrated={days:{}};
+    mergeLegacyHourProgress(migrated,{days:{done:{row:3,date:'2026-11-01',hours:2,status:'added'}},inFlight:{row:4,date:'2026-11-02',hours:1.5}},'A');
+    assert.equal(migrated.days['3|A|2026-11-01'].status,'added');
+    assert.equal(migrated.days['4|A|2026-11-02'].status,'unknown');
+    mergeLegacyHourProgress(migrated,{days:{done:{row:3,date:'2026-11-01',hours:2,status:'added'}}},'A');
+    assert.equal(Object.keys(migrated.days).length,2,'migrating the same post again must not duplicate previously recorded hours');
     const nativeBook = new ExcelJS.Workbook();
     nativeBook.addWorksheet('原模板').addRows([['姓名','志愿者编号','日期','时长'],['模拟甲','001','2026-11-01',7],['模拟乙','002','2026-11-01',6]]);
     const nativeBytes = await nativeBook.xlsx.writeBuffer();

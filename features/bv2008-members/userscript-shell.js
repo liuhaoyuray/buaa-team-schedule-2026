@@ -37,6 +37,7 @@
     launcher.hidden = true;
     const environment = {
       ExcelJS,
+      JSZip,
       root: shadow,
       parameters: new URLSearchParams({mode: selectedMode}),
       signal: controller.signal,

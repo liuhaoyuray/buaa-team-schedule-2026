@@ -21,6 +21,43 @@
   let proof = null;
   let lastNumber = "";
   const projectCache = new Map();
+  async function nativeProject(message) {
+    const requestId = crypto.randomUUID();
+    let receive, timer;
+    try {
+      return await new Promise((resolve) => {
+        receive = (event) => {
+          let value;
+          try {
+            value = JSON.parse(event.detail);
+          } catch {
+            return;
+          }
+          if (value.requestId === requestId) resolve(value);
+        };
+        document.addEventListener("buaa-hours-native-result", receive);
+        timer = setTimeout(
+          () =>
+            resolve({
+              status: message.action === "commit" ? "unknown" : "blocked",
+              reason:
+                message.action === "commit"
+                  ? "项目审批响应超时，请核对官网导入记录。"
+                  : "官网项目查询超时，已保留进度。",
+            }),
+          120000,
+        );
+        document.dispatchEvent(
+          new CustomEvent("buaa-hours-native-request", {
+            detail: JSON.stringify({ ...message, requestId }),
+          }),
+        );
+      });
+    } finally {
+      clearTimeout(timer);
+      document.removeEventListener("buaa-hours-native-result", receive);
+    }
+  }
   const projectKey = (target) =>
     [target.id, target.activityId, target.postId].join("|");
   async function targetStatus() {
@@ -65,6 +102,7 @@
       const value = {
         activityName: metadata.activityName || "",
         postName: metadata.postName || "",
+        posts: Array.isArray(metadata.posts) ? metadata.posts : [],
         dates,
         metadataReason: metadata.reason || "",
       };
@@ -124,9 +162,16 @@
     if (!found || found.changed)
       throw Error("官网人员检索尚未完成，请稍后继续。");
     if (found.total !== 1 || found.rows.length !== 1)
-      throw Object.assign(Error("无法唯一匹配这个岗位中的志愿者。"), {
-        personIssue: true,
-      });
+      throw Object.assign(
+        Error(
+          found.total > 1
+            ? "当前岗位有重名人员，请补充志愿者编号或证件号码；此人未提交。"
+            : "未在当前岗位找到匹配的志愿者。",
+        ),
+        {
+          personIssue: true,
+        },
+      );
     const row = found.rows[0];
     if (
       person.identifier === "number" &&
@@ -295,6 +340,15 @@
   }
   async function handle(message) {
     if (message.type === "hours-target") return targetStatus();
+    if (message.type === "hours-project") {
+      if (busy) return result("blocked", "另一个计时操作正在处理。");
+      busy = true;
+      try {
+        return await nativeProject(message);
+      } finally {
+        busy = false;
+      }
+    }
     if (message.type === "hours-proof") {
       proof = message.proof;
       return { ok: true };

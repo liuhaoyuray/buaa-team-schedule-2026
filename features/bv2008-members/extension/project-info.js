@@ -99,6 +99,14 @@
           : [];
       reply({
         activityName,
+        posts: Array.isArray(info?.activityPostList)
+          ? info.activityPostList
+              .map((post) => ({
+                id: String(post.iid || ""),
+                name: String(post.postName || "").slice(0, 100),
+              }))
+              .filter((post) => /^[\w-]{1,100}$/.test(post.id))
+          : [],
         postName: String(post?.postName || "").slice(0, 100),
         dates: [
           ...new Set(
@@ -117,4 +125,5 @@
       reply({ reason: error.message || "项目信息暂时无法自动读取" });
     }
   });
+  globalThis.__buaaProjectNative = { module: nativeModule, current };
 })();

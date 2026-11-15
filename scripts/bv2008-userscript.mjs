@@ -8,7 +8,8 @@ export async function writeUserscript(root, output) {
   const moduleBody = source => source.replace(/^import[\s\S]*?from ['"][^'"]+['"];?\n/gm, '').replace(/^export /gm, '');
   const hours = path.join(root, 'features/hours');
   const library = await read(path.join(hours, 'vendor'), 'exceljs-4.4.0.min.js');
-  const adapter = (await Promise.all(['group-state.js', 'download-bridge.js', 'project-info.js', 'bv2008.js', 'activity.js', 'hours-adapter.js', 'hours-batch-adapter.js'].map(file => read(extension, file)))).join('\n');
+  const zipLibrary = await read(path.join(hours, 'vendor'), 'jszip-3.10.1.min.js');
+  const adapter = (await Promise.all(['group-state.js', 'download-bridge.js', 'project-info.js', 'project-hours-bridge.js', 'bv2008.js', 'activity.js', 'hours-adapter.js', 'hours-batch-adapter.js'].map(file => read(extension, file)))).join('\n');
   const logic = (await Promise.all(['core.mjs', 'io.mjs'].map(file => read(hours, file)))).map(moduleBody).join('\n') +
     '\n' + moduleBody(await read(extension, 'queue.mjs')) + '\n' + moduleBody(await read(extension, 'hours-core.mjs')) + '\n' + moduleBody(await read(extension, 'hours-proof.mjs'));
   let app = moduleBody(await read(extension, 'app.mjs'));
@@ -32,11 +33,11 @@ load(connect);`);
     .replace('/*__PANEL_APP__*/', () => app)
     .replace("/*__HOURS_HTML__*/''", () => JSON.stringify(hoursHtml))
     .replace('/*__HOURS_APP__*/', () => hoursApp);
-  const license = (await read(path.join(hours, 'vendor'), 'exceljs-LICENSE.txt')).split('\n').map(line => '// ' + line).join('\n');
+  const license = (await Promise.all(['exceljs-LICENSE.txt','jszip-LICENSE.txt'].map(file=>read(path.join(hours,'vendor'),file)))).join('\n').split('\n').map(line => '// ' + line).join('\n');
   const header = `// ==UserScript==
 // @name         志愿北京 · 批量录入助手
 // @namespace    buaa-volunteer-tools
-// @version      0.6.0
+// @version      0.7.0
 // @description  按 Excel 名单添加团体和活动志愿者，录入或批量报批时长、生成汇总证明并避开历史日期，支持进度恢复。
 // @match        https://www.bv2008.cn/*
 // @match        https://bv2008.cn/*
@@ -54,7 +55,7 @@ load(connect);`);
 ${license}
 `;
   const code = header + '\n(async () => {\n"use strict";\nconst ExcelJS = (() => { const module = {exports: {}}; const exports = module.exports;\n' +
-    library + '\nreturn module.exports; })();\n' + adapter + '\n' + logic + '\n' + shell + '\n})();\n';
+    library + '\nreturn module.exports; })();\nconst JSZip = (() => { const module={exports:{}}; const exports=module.exports; const setImmediate=(fn,...args)=>setTimeout(fn,0,...args); const clearImmediate=id=>clearTimeout(id); const global={setImmediate,clearImmediate};\n' + zipLibrary + '\nreturn module.exports; })();\n' + adapter + '\n' + logic + '\n' + shell + '\n})();\n';
   await fs.writeFile(path.join(output, 'bv2008-batch-helper.user.js'), code);
   await fs.writeFile(path.join(output, 'bv2008-batch-helper.meta.js'), header.split('// ==/UserScript==')[0] + '// ==/UserScript==\n');
 }

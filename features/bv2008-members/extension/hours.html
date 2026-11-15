@@ -1,16 +1,18 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="app.css"><script src="vendor/exceljs-4.4.0.min.js" defer></script><script src="hours-app.mjs" type="module"></script><title>志愿北京 · 录入时长</title></head><body>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="app.css"><script src="vendor/exceljs-4.4.0.min.js" defer></script><script src="vendor/jszip-3.10.1.min.js" defer></script><script src="hours-app.mjs" type="module"></script><title>志愿北京 · 录入时长</title></head><body>
 <main>
 <header><p class="eyebrow">志愿北京 · 时长录入</p><h1>录入志愿服务时长</h1>
 <nav class="mode-nav"><a id="mode-member" href="index.html?mode=member">添加团体成员</a><a id="mode-activity" href="index.html?mode=activity">添加活动志愿者</a><a id="mode-hours" aria-current="page" href="hours.html">录入时长</a></nav></header>
-<section class="card"><h2>1. 核对岗位</h2><p id="hours-target">正在读取当前岗位…</p><button id="hours-connect">重新检查</button><p id="hours-context-hint" class="hint">正在自动读取当前活动名称与官网服务日期…</p><p class="hint">在官网进入活动岗位的「计时 → 时长录入」。每批对应一个岗位。</p></section>
+<section class="card"><h2>1. 核对项目与岗位</h2><p id="hours-target">正在读取当前岗位…</p><button id="hours-connect">重新检查</button><p id="hours-context-hint" class="hint">正在自动读取当前活动名称与官网服务日期…</p><p class="hint">从项目任一岗位的「计时 → 时长录入」进入。逐人录入在当前岗位处理；批量审批默认覆盖该项目全部岗位。</p><div class="actions"><button id="hours-download-templates">从官网下载项目全部岗位模板（ZIP）</button></div><p id="hours-posts-summary" class="hint"></p><div id="hours-posts-list"></div></section>
 <section class="card"><h2>2. 选择名单、日期与证明</h2>
 <label>录入方式 <select id="hours-method"><option value="individual">逐人录入时长</option><option value="batch">批量导入，提交上级审批</option></select></label>
 <p id="hours-method-hint" class="hint">自动逐人录入，避开已有记录的日期。</p>
+<label id="hours-scope-label" hidden>批量处理范围 <select id="hours-scope"><option value="project">整个项目：上方勾选的全部岗位</option><option value="post">仅当前岗位</option></select></label>
 <label>人员时长清单 <input id="hours-file" type="file" accept=".xlsx"></label>
 <label>工作表 <select id="hours-sheet"></select></label>
 <p id="hours-file-error" class="input-error" role="alert" hidden></p>
 <p id="hours-analysis" class="hint" role="status"></p>
-<details><summary>识别列不对？在这里调整</summary><p class="hint">自动跳过顶部总标题；这里显示实际采用的列，不需要修改原文件。</p><label>姓名列 <select id="hours-name-column"></select></label><label>编号或证件列 <select id="hours-identity-column"></select></label><label>本次拟录入时长列 <select id="hours-value-column"></select></label></details>
+<details><summary>识别列不对？在这里调整</summary><p class="hint">自动跳过顶部总标题；这里显示实际采用的列，不需要修改原文件。只有姓名也可以录入，官网出现重名会暂停该人并提示补充信息。</p><label>姓名列 <select id="hours-name-column"></select></label><label>编号或证件列（选填） <select id="hours-identity-column"></select></label><label>本次拟录入时长列 <select id="hours-value-column"></select></label></details>
+<p class="hint">名单只需「姓名＋拟录入时长」，编号和证件号码选填。项目批量会从全部岗位的官网下载模板匹配系统编号；同一编号在多个岗位只分配一次。</p>
 <p class="hint">支持总时长、拟录入时长、服务时长等表头；支持 2.5、2小时30分、150分钟、02:30 等时长写法。按半小时递增，不自动取整。</p>
 <div class="actions"><label>开始日期 <input id="hours-start" type="date"></label><label>结束日期 <input id="hours-end" type="date"></label>
 <label>分配顺序 <select id="hours-order"><option value="asc">从早到晚</option><option value="desc">从晚到早</option></select></label></div>
@@ -29,5 +31,5 @@
 <div id="hours-unknown" class="hint"></div>
 <p class="hint">提交中断时先到官网核对对应日期，再记录核对结果。刷新后重新选择原文件、日期范围和证明图可以恢复进度。</p>
 </section>
-<section class="card"><h2>批量审批如何处理</h2><p>选择「批量导入，提交上级审批」，助手在当前官网自动检查历史日期、填好官网模板、上传解析，并按日期提交审批。不跳转其他平台。</p><p class="hint">官网解析有失败行或编号、时长不一致时，整批暂停。已提交的申请不会再次提交；审批是否通过请在官网「导入记录」查看。</p></section>
+<section class="card"><h2>批量审批如何处理</h2><p>选择「批量导入，提交上级审批」后，默认读取本项目上方勾选的所有岗位，从官网直接下载各岗位完整模板，在全部岗位中匹配人员，再按岗位和日期提交审批。也可以先下载原模板 ZIP 留存，或选择仅当前岗位。</p><p class="hint">姓名对应不同编号时单独留待处理；同一编号参加多个岗位时只计算一份总时长。已有日期记录和待审批记录会避开，未能完整读取历史时停止提交。已提交的申请不会重复报批；结果请在官网「导入记录」查看。</p></section>
 </main></body></html>

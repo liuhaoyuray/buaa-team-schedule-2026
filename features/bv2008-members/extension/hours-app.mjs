@@ -5,7 +5,10 @@ import {
   hourDates,
   defaultHourNotes,
   fillHourBatchTemplate,
+  projectHourCandidates,
+  mergeLegacyHourProgress,
 } from "./hours-core.mjs";
+import { loadWorkbook, readTemplate } from "./shared/io.mjs";
 import { makeHourProof } from "./hours-proof.mjs";
 import { batchKey } from "./queue.mjs";
 const root = environment.root;
@@ -31,7 +34,127 @@ let proofFile = null,
   fileRevision = 0;
 let contextChoice = { key: "", activity: false, dates: false };
 const Excel = environment.ExcelJS || globalThis.ExcelJS;
+const Zip = environment.JSZip || globalThis.JSZip;
+let postsKey = "",
+  rosterCache = null;
 const method = () => el("hours-method").value;
+const projectMode = () =>
+  method() === "batch" && el("hours-scope").value === "project";
+const selectedPosts = () =>
+  [
+    ...el("hours-posts-list").querySelectorAll(
+      "input[data-hours-post]:checked",
+    ),
+  ].map((input) => ({
+    id: input.dataset.hoursPost,
+    name: input.dataset.postName,
+  }));
+function showPosts() {
+  const key = target ? target.id + "|" + target.activityId : "";
+  const previous =
+    key === postsKey ? new Set(selectedPosts().map((post) => post.id)) : null;
+  postsKey = key;
+  el("hours-posts-list").replaceChildren(
+    ...(target?.posts || []).map((post) => {
+      const label = document.createElement("label");
+      label.className = "check";
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = previous ? previous.has(post.id) : true;
+      checkbox.dataset.hoursPost = post.id;
+      checkbox.dataset.postName = post.name;
+      checkbox.onchange = () => {
+        rosterCache = null;
+        invalidateProof();
+        render();
+      };
+      label.append(
+        checkbox,
+        post.name + (post.id === target.postId ? "（当前岗位）" : ""),
+      );
+      return label;
+    }),
+  );
+  el("hours-posts-summary").textContent = target?.posts?.length
+    ? "已读取项目 " +
+      target.posts.length +
+      " 个岗位，默认全部勾选。模板包含岗位全部志愿者，不受官网当前搜索或勾选影响。"
+    : "尚未读到项目完整岗位列表，请重新检查后下载。";
+}
+function downloadBlob(blob, name) {
+  const url = URL.createObjectURL(blob),
+    link = document.createElement("a");
+  link.href = url;
+  link.download = name;
+  (root.body || root).append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+const projectSend = (data) => send({ type: "hours-project", target, ...data });
+async function projectTemplates(force = false) {
+  const chosen = selectedPosts(),
+    date = el("hours-start").value || target?.dates?.[0];
+  if (!target?.posts?.length || !chosen.length)
+    throw Error("请先读取项目完整岗位列表，并至少勾选一个岗位。");
+  if (!target.dates?.includes(date))
+    throw Error("请选择官网可录入的服务日期后下载模板。");
+  const key = JSON.stringify([
+    target.id,
+    target.activityId,
+    date,
+    chosen.map((post) => post.id),
+  ]);
+  if (!force && rosterCache?.key === key) return rosterCache.rosters;
+  const rosters = [];
+  for (const [index, post] of chosen.entries()) {
+    if (paused) throw Error("模板下载已暂停。");
+    status(
+      "正在从官网下载岗位模板 " +
+        (index + 1) +
+        "/" +
+        chosen.length +
+        "：" +
+        post.name,
+    );
+    const response = await projectSend({
+      action: "template",
+      postId: post.id,
+      date,
+    });
+    if (!response.base64)
+      throw Error('岗位「'+post.name+'」模板下载失败：'+(response.reason || "官网下载模板未成功，已停止。"));
+    const buffer = Uint8Array.from(atob(response.base64), (c) =>
+      c.charCodeAt(0),
+    );
+    let template;
+    try {
+      template = readTemplate(
+        await loadWorkbook(buffer, Excel),
+        post.name,
+        post.id,
+      );
+    } catch (error) {
+      if (/没有人员记录/.test(error.message)) template = { rows: [] };
+      else throw error;
+    }
+    rosters.push({
+      ...template,
+      buffer,
+      postId: post.id,
+      postName: post.name,
+      templateDate: date,
+    });
+  }
+  rosterCache = { key, rosters };
+  el("hours-posts-summary").textContent =
+    "已从官网下载 " +
+    rosters.length +
+    " 个岗位模板，共 " +
+    rosters.reduce((n, roster) => n + roster.rows.length, 0) +
+    " 条岗位成员记录；同一编号跨岗位匹配时只计一人。";
+  return rosters;
+}
 const selectedSheet = () => sheets[Number(el("hours-sheet").value)];
 function configureColumns() {
   const sheet = selectedSheet();
@@ -48,6 +171,7 @@ function configureColumns() {
   }
   el("hours-identity-column").replaceChildren(
     new Option("自动：编号优先，空白时用证件号码", "auto"),
+    new Option("仅按姓名匹配（重名时暂停）", "name"),
     ...columns.flatMap((column) => [
       new Option(
         "志愿者编号 · " + column.label,
@@ -63,7 +187,9 @@ function configureColumns() {
   )
     el("hours-identity-column").value = sheet.fields.volunteerId
       ? "volunteerId:" + sheet.fields.volunteerId
-      : "card:" + sheet.fields.card;
+      : sheet.fields.card
+        ? "card:" + sheet.fields.card
+        : "name";
 }
 function analysisSummary() {
   const sheet = selectedSheet();
@@ -183,6 +309,7 @@ function render() {
         .reduce((sum, day) => sum + day.hours, 0),
       person.total === null ? "需修正" : Math.max(0, person.total - done),
       person.issue ||
+        person.assignment ||
         person.hourExplanation ||
         (done ? "已保存处理进度" : "待处理"),
     ]) {
@@ -211,8 +338,17 @@ function render() {
     "hours-name-column",
     "hours-identity-column",
     "hours-value-column",
+    "hours-scope",
+    "hours-download-templates",
   ])
     el(id).disabled = running || refreshCount > 0;
+  for (const input of el("hours-posts-list").querySelectorAll("input"))
+    input.disabled = running || refreshCount > 0;
+  el("hours-download-templates").disabled =
+    running ||
+    refreshCount > 0 ||
+    !target?.posts?.length ||
+    !selectedPosts().length;
   const uncertain = Object.entries(job.days).filter(
     ([, day]) => day.status === "unknown",
   );
@@ -311,6 +447,7 @@ async function connect() {
       notesEdited = false;
     }
     contextChoice.key = key;
+    showPosts();
     if (target.activityName && !contextChoice.activity)
       el("hours-activity-name").value = target.activityName;
     if (target.dates?.length && !contextChoice.dates) {
@@ -351,9 +488,9 @@ async function loadProgress() {
   }
   people = selected?.read() || [];
   analysisSummary();
-  if (source && target) {
+  if (source && target && selected) {
     jobKey = await batchKey(
-      "hours:" + JSON.stringify([target.id, target.activityId, target.postId]),
+      "hours-project:" + JSON.stringify([target.id, target.activityId]),
       sheets[Number(el("hours-sheet").value)]?.name || "",
       source,
     );
@@ -362,7 +499,36 @@ async function loadProgress() {
       { ifAvailable: true },
       async (lock) => {
         if (!lock) throw Error("另一个录入面板正在处理，请在那个面板继续。");
-        const saved = (await environment.storage.get(jobKey))[jobKey];
+        let saved = (await environment.storage.get(jobKey))[jobKey];
+        saved ||= { days: {}, inFlight: null, migrated: [] };
+        saved.migrated ||= [];
+        const legacyPosts = [
+          ...new Set([
+            target.postId,
+            ...(target.posts || []).map((post) => post.id),
+          ]),
+        ];
+        for (const postId of legacyPosts) {
+          const oldKey = await batchKey(
+            "hours:" + JSON.stringify([target.id, target.activityId, postId]),
+            selected.name,
+            source,
+          );
+          if (saved.migrated.includes(oldKey)) continue;
+          const old = (await environment.storage.get(oldKey))[oldKey];
+          if (old) {
+            if (
+              (Object.keys(old.days || {}).length || old.inFlight) &&
+              (old.mapping || selected.legacySignature) &&
+              (old.mapping || selected.legacySignature) !== selected.signature()
+            )
+              throw Error(
+                "原岗位进度的识别列与当前不同，请恢复原识别列后继续。",
+              );
+            mergeLegacyHourProgress(saved, old, postId);
+          }
+          saved.migrated.push(oldKey);
+        }
         if (saved) {
           job = saved;
           const mapping = selected.signature();
@@ -384,6 +550,7 @@ async function loadProgress() {
           }
         }
         job.mapping = selected.signature();
+        await save();
       },
     );
   }
@@ -522,13 +689,58 @@ for (const id of [
     safely(refreshProgress);
   };
 el("hours-method").onchange = () => {
+  el("hours-scope-label").hidden = method() !== "batch";
   el("hours-method-hint").textContent =
     method() === "batch"
-      ? "按日期自动生成官网模板并提交上级审批。已提交审批不代表时长已生效。"
+      ? "默认读取整个项目全部岗位模板匹配人员，按岗位和日期提交上级审批。已提交审批不代表时长已生效。"
       : "自动逐人录入，避开已有记录的日期。";
   el("hours-confirm").checked = false;
   render();
 };
+el("hours-scope").onchange = () => {
+  invalidateProof();
+  render();
+};
+el("hours-download-templates").onclick = () =>
+  safely(async () => {
+    running = true;
+    paused = false;
+    render();
+    try {
+      await navigator.locks.request(
+        "member-import-running",
+        { ifAvailable: true },
+        async (lock) => {
+          if (!lock) throw Error("另一个批次正在运行，请稍后下载模板。");
+          const rosters = await projectTemplates(true),
+            zip = new Zip();
+          const safe = (value) =>
+            String(value || "岗位")
+              .replace(/[\\/:*?"<>|\x00-\x1f]/g, "_")
+              .slice(0, 70);
+          rosters.forEach((roster, index) =>
+            zip.file(
+              String(index + 1).padStart(2, "0") +
+                "_" +
+                safe(roster.postName) +
+                "_" +
+                safe(roster.postId) +
+                ".xlsx",
+              roster.buffer,
+            ),
+          );
+          downloadBlob(
+            await zip.generateAsync({ type: "blob", compression: "DEFLATE" }),
+            safe(el("hours-activity-name").value) + "_全部岗位官网模板.zip",
+          );
+          status("已下载 " + rosters.length + " 个岗位的官网原始模板 ZIP。");
+        },
+      );
+    } finally {
+      running = false;
+      render();
+    }
+  });
 el("hours-proof-mode").onchange = () => {
   el("hours-proof-upload").hidden = el("hours-proof-mode").value !== "upload";
   invalidateProof();
@@ -564,6 +776,296 @@ el("hours-pause").onclick = () => {
   status("当前这次提交完成后暂停。");
   render();
 };
+async function memberIdentity(number) {
+  const bytes = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(
+      JSON.stringify([target.id, target.activityId, number]),
+    ),
+  );
+  return [...new Uint8Array(bytes)]
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+async function runProjectBatch() {
+  const rosters = await projectTemplates(true),
+    plans = [],
+    owners = new Map();
+  for (const person of people) {
+    if (paused) break;
+    if (person.issue || person.total <= completed(person)) continue;
+    status("正在匹配项目全部岗位：原表第 " + person.row + " 行。");
+    let candidates = projectHourCandidates(person, rosters);
+    const memberships = new Map();
+    if (person.identifier === "cert") {
+      const found = new Set();
+      for (const post of [
+        ...new Map(
+          candidates
+            .flatMap((candidate) => candidate.posts)
+            .map((post) => [post.id, post]),
+        ).values(),
+      ]) {
+        const response = await projectSend({
+          action: "member",
+          postId: post.id,
+          person,
+        });
+        if (response.status === "rejected") continue;
+        if (!response.number || !Array.isArray(response.used))
+          throw Error(response.reason || "官网身份和历史记录未完整返回。");
+        if (
+          candidates.some(
+            (candidate) =>
+              candidate.number === response.number &&
+              candidate.posts.some((item) => item.id === post.id),
+          )
+        ) {
+          found.add(response.number);
+          memberships.set(post.id, response);
+        }
+      }
+      candidates = candidates.filter((candidate) =>
+        found.has(candidate.number),
+      );
+    }
+    if (candidates.length !== 1) {
+      person.issue = candidates.length
+        ? "项目中有同名但不同编号的人员，请补充编号或证件号码。"
+        : "未在所选岗位的完整模板中匹配到此人。";
+      render();
+      continue;
+    }
+    const candidate = candidates[0],
+      identity = await memberIdentity(candidate.number);
+    if (
+      Object.values(job.days).some(
+        (day) => day.identity === identity && day.row !== person.row,
+      )
+    ) {
+      person.issue = "相同系统编号已在本表其他行处理，请核对重复人员。";
+      render();
+      continue;
+    }
+    const used = new Set(
+      Object.values(job.days)
+        .filter((day) => day.row === person.row)
+        .map((day) => day.date),
+    );
+    let failed = false;
+    for (const post of candidate.posts) {
+      const response =
+        memberships.get(post.id) ||
+        (await projectSend({
+          action: "member",
+          postId: post.id,
+          number: candidate.number,
+          person:
+            person.identifier === "cert"
+              ? person
+              : { identifier: "number", cert: candidate.number },
+        }));
+      if (response.status === "rejected") {
+        person.issue =
+          "模板名单与官网当前岗位成员不一致，已跳过此人，请重新下载核对。";
+        failed = true;
+        break;
+      }
+      if (response.number !== candidate.number || !Array.isArray(response.used))
+        throw Error(response.reason || "官网历史日期未完整返回，已停止提交。");
+      memberships.set(post.id, response);
+      response.used.forEach((date) => used.add(date));
+    }
+    if (failed) {
+      render();
+      continue;
+    }
+    const post = candidate.posts[0],
+      dates = hourDates(
+        target.dates,
+        el("hours-start").value,
+        el("hours-end").value,
+        el("hours-order").value === "desc",
+      );
+    const allocations = allocateHourDays(
+      { ...person, cert: candidate.number },
+      person.total - completed(person),
+      dates,
+      used,
+    );
+    const plan = {
+      person,
+      post,
+      number: candidate.number,
+      identity,
+      allocations,
+    };
+    const previous = owners.get(identity);
+    if (previous) {
+      previous.duplicate = true;
+      plan.duplicate = true;
+      previous.person.issue = person.issue =
+        "多条名单对应同一系统编号，已暂停这几行，请核对后去重。";
+    } else owners.set(identity, plan);
+    plans.push(plan);
+    person.assignment =
+      "已匹配岗位：" +
+      post.name +
+      (candidate.posts.length > 1
+        ? "（该编号跨 " + candidate.posts.length + " 岗位，仅计算一次）"
+        : "");
+    const shortage =
+      person.total -
+      completed(person) -
+      allocations.reduce((sum, allocation) => sum + allocation.hours, 0);
+    if (shortage > 0)
+      person.issue =
+        "可用日期不足，剩余 " + shortage + " 小时待处理；已有日期已避开。";
+    render();
+  }
+  if (paused) {
+    status("已暂停，尚未提交新的项目审批。");
+    return;
+  }
+  const groups = new Map();
+  for (const plan of plans.filter((plan) => !plan.duplicate))
+    for (const allocation of plan.allocations) {
+      const key = plan.post.id + "|" + allocation.date;
+      const group = groups.get(key) || {
+        post: plan.post,
+        date: allocation.date,
+        records: [],
+      };
+      group.records.push({
+        row: plan.person.row,
+        name: plan.person.name,
+        number: plan.number,
+        identity: plan.identity,
+        posts: projectHourCandidates(
+          { ...plan.person, identifier: "number", cert: plan.number },
+          rosters,
+        )[0].posts,
+        hours: allocation.hours,
+      });
+      groups.set(key, group);
+    }
+  const ordered = [...groups.values()].sort((a, b) => {
+    const date =
+      el("hours-order").value === "desc"
+        ? b.date.localeCompare(a.date)
+        : a.date.localeCompare(b.date);
+    return (
+      date ||
+      selectedPosts().findIndex((post) => post.id === a.post.id) -
+        selectedPosts().findIndex((post) => post.id === b.post.id)
+    );
+  });
+  const proof = await encodeFile(proofFile);
+  for (const group of ordered) {
+    if (paused) break;
+    const { post, date, records } = group;
+    for (const record of records) {
+      for (const memberPost of record.posts) {
+        const fresh = await projectSend({
+          action: "member",
+          postId: memberPost.id,
+          number: record.number,
+          person: { identifier: "number", cert: record.number },
+        });
+        if (fresh.number !== record.number || !Array.isArray(fresh.used))
+          throw Error(fresh.reason || "提交前人员或历史日期未能核对。");
+        if (fresh.used.includes(date))
+          throw Error(
+            "第 " +
+              record.row +
+              " 行 " +
+              date +
+              " 出现新记录，本日期未提交，请继续时重新分配。",
+          );
+      }
+    }
+    if (paused) break;
+    status("正在准备岗位「" + post.name + "」 " + date + " 的官网模板。");
+    const template = await projectSend({
+      action: "template",
+      postId: post.id,
+      date,
+    });
+    if (!template.base64) throw Error(template.reason || "官网下载模板失败。");
+    const bytes = await fillHourBatchTemplate(
+      Uint8Array.from(atob(template.base64), (c) => c.charCodeAt(0)),
+      records,
+      date,
+      Excel,
+    );
+    const file = await encodeFile(
+      new File([bytes], "岗位时长_" + date + ".xlsx", {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      }),
+    );
+    const parsed = await projectSend({
+      action: "prepare",
+      postId: post.id,
+      date,
+      records,
+      file,
+      proof,
+      notes: el("hours-notes").value,
+    });
+    if (!parsed.ticket || parsed.count !== records.length)
+      throw Error(parsed.reason || "官网未能完整解析本批，本批未提交。");
+    if (paused) break;
+    const entries = records.map((record) => ({
+      key: record.row + "|" + post.id + "|" + date,
+      row: record.row,
+      postId: post.id,
+      postName: post.name,
+      date,
+      hours: record.hours,
+      identity: record.identity,
+      method: "batch",
+    }));
+    job.inFlight = { entries };
+    await save();
+    status(
+      "正在提交岗位「" +
+        post.name +
+        "」 " +
+        date +
+        " 的上级审批（" +
+        records.length +
+        " 人）。",
+    );
+    let response;
+    try {
+      response = await projectSend({
+        action: "commit",
+        postId: post.id,
+        date,
+        ticket: parsed.ticket,
+      });
+    } catch {
+      response = {
+        status: "unknown",
+        reason: "项目审批连接中断，请核对官网导入记录。",
+      };
+    }
+    if (!["submitted", "blocked"].includes(response?.status))
+      response = { ...response, status: "unknown" };
+    if (response.status !== "blocked")
+      for (const entry of entries)
+        job.days[entry.key] = { ...entry, ...response };
+    job.inFlight = null;
+    await save();
+    render();
+    if (response.status !== "submitted") throw Error(response.reason);
+  }
+  status(
+    paused
+      ? "已暂停，项目已提交进度已保存。"
+      : "项目全部所选岗位处理结束，已提交审批的时长等待上级审核；请查看未匹配和待处理人员。",
+  );
+}
 async function runBatch() {
   const groups = new Map(),
     identities = new Set();
@@ -659,7 +1161,8 @@ async function runBatch() {
       );
       if (paused) break;
       const entries = records.map((record) => ({
-        key: record.row + "|" + date,
+        key: record.row + "|" + target.postId + "|" + date,
+        postId: target.postId,
         row: record.row,
         date,
         hours: record.hours,
@@ -746,7 +1249,8 @@ el("hours-run").onclick = () =>
             proof: await encodeFile(file),
           });
           if (method() === "batch") {
-            await runBatch();
+            if (projectMode()) await runProjectBatch();
+            else await runBatch();
             return;
           }
           for (const person of people) {
@@ -767,6 +1271,16 @@ el("hours-run").onclick = () =>
             }
             if (!prepared.dates)
               throw Error(prepared.reason || "未能读取历史日期，已保留进度。");
+            const identity = await memberIdentity(prepared.number);
+            if (
+              Object.values(job.days).some(
+                (day) => day.identity === identity && day.row !== person.row,
+              )
+            ) {
+              person.issue = "相同系统编号已在本表其他行处理，请核对重复人员。";
+              render();
+              continue;
+            }
             const dates = hourDates(
               prepared.dates,
               el("hours-start").value,
@@ -787,8 +1301,15 @@ el("hours-run").onclick = () =>
               }
               const date = next.date,
                 amount = next.hours,
-                key = person.row + "|" + date;
-              const entry = { key, row: person.row, date, hours: amount };
+                key = person.row + "|" + target.postId + "|" + date;
+              const entry = {
+                key,
+                row: person.row,
+                postId: target.postId,
+                date,
+                hours: amount,
+                identity,
+              };
               job.inFlight = entry;
               await save();
               status(
@@ -804,7 +1325,11 @@ el("hours-run").onclick = () =>
               try {
                 response = await send({
                   type: "hours-submit",
-                  person,
+                  person: {
+                    ...person,
+                    identifier: "number",
+                    cert: prepared.number,
+                  },
                   target,
                   date,
                   hours: amount,

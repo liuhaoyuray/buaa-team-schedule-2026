@@ -16,7 +16,7 @@ export async function writeMemberImport(root, output = path.join(root, 'public')
   for (const file of ['io.mjs', 'core.mjs']) {
     zip.file('shared/' + file, await fs.readFile(path.join(hours, file)));
   }
-  for (const file of ['exceljs-4.4.0.min.js', 'exceljs-LICENSE.txt']) {
+  for (const file of ['exceljs-4.4.0.min.js', 'exceljs-LICENSE.txt', 'jszip-3.10.1.min.js', 'jszip-LICENSE.txt']) {
     zip.file('vendor/' + file, await fs.readFile(path.join(hours, 'vendor', file)));
   }
   const date = new Date(Date.UTC(2026, 10, 10, 0, 0));

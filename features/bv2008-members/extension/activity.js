@@ -83,8 +83,8 @@
   async function lookup(scope, person, expected, reset, readContext = () => readTarget(false)) {
     const fields = searchFields(scope);
     const table = scope.querySelector('.table-box');
-    const identifier = fields[person.identifier];
-    if (!table || !fields.name || !identifier) return null;
+    const identifier = person.identifier === 'name' ? null : fields[person.identifier];
+    if (!table || !fields.name || (person.identifier !== 'name' && !identifier)) return null;
     if (!await waitStable(() => !isLoading(table) && enabled(fields.button), timing.page, 700, () => signature(table))) return null;
     if (reset) {
       if (!await waitStable(() => enabled(fields.reset), timing.page)) return null;
@@ -95,9 +95,9 @@
       if (field && field !== identifier && field.value) fill(field, '');
     }
     fill(fields.name, person.name);
-    fill(identifier, person.cert);
+    if (identifier) fill(identifier, person.cert);
     const unchanged = () => sameTarget(readContext(), expected) &&
-      fields.name.value === person.name && identifier.value === person.cert &&
+      fields.name.value === person.name && (!identifier || identifier.value === person.cert) &&
       [fields.number, fields.cert, fields.login].every(field => !field || field === identifier || !field.value);
     if (!await waitStable(() => unchanged() && enabled(fields.button) && !isLoading(table), timing.page)) return null;
     return search(fields.button, table, unchanged);

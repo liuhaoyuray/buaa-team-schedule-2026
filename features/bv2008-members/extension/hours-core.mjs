@@ -157,7 +157,9 @@ export async function readHourSheets(buffer, ExcelJS) {
           Number(!!fields.name) * 5 +
           Number(!!fields.hours) * 5 +
           Number(!!(fields.volunteerId || fields.card)) * 5;
-        if (score > best.score) best = { header, score, fields };
+        const complete = !!fields.name && !!fields.hours;
+        const bestComplete = !!best.fields.name && !!best.fields.hours;
+        if (!bestComplete && (complete || score > best.score)) best = { header, score, fields };
         const old = columnsAt(sheet, header);
         if (!legacy && old.name && old.hours && (old.volunteerId || old.card))
           legacy = { header, fields: old };
@@ -191,7 +193,6 @@ export async function readHourSheets(buffer, ExcelJS) {
         get issue() {
           const missing = [
             !fields.name && "姓名",
-            !(fields.volunteerId || fields.card) && "志愿者编号或证件号码",
             !fields.hours && "总时长（也支持拟录入时长、服务时长等）",
           ].filter(Boolean);
           return missing.length
@@ -231,7 +232,7 @@ export async function readHourSheets(buffer, ExcelJS) {
             fields.name,
             fields.volunteerId || fields.card,
             fields.hours,
-          ];
+          ].filter(Boolean);
           if (new Set(selected).size !== selected.length)
             throw Error("姓名、编号和时长需要选择不同的列。");
           const records = [];
@@ -257,16 +258,28 @@ export async function readHourSheets(buffer, ExcelJS) {
               ignored++;
               continue;
             }
-            const person = prepareRows(
-              [[row, name, get("card"), get("volunteerId")]],
-              "activity",
-            )[0] || {
-              row,
-              name,
-              cert: "",
-              identifier: fields.volunteerId ? "number" : "cert",
-              issue: "有时长但缺少姓名和身份信息，请核对原表",
-            };
+            const hasIdentity = String(
+              get("volunteerId") || get("card") || "",
+            ).trim();
+            const person =
+              !hasIdentity && name
+                ? {
+                    row,
+                    name,
+                    cert: "",
+                    identifier: "name",
+                    issue: name.length > 20 ? "姓名超过官网允许的长度" : "",
+                  }
+                : prepareRows(
+                    [[row, name, get("card"), get("volunteerId")]],
+                    "activity",
+                  )[0] || {
+                    row,
+                    name,
+                    cert: "",
+                    identifier: fields.volunteerId ? "number" : "cert",
+                    issue: "有时长但缺少姓名和身份信息，请核对原表",
+                  };
             const cell = sheet.getCell(row, fields.hours);
             const parsed = parseHourValue(cell.value, cell.numFmt || "");
             person.issue ||= parsed.issue;
@@ -299,14 +312,16 @@ export async function readHourSheets(buffer, ExcelJS) {
             throw Error("没有读到人员时长，请核对表头行和识别列。");
           const seen = new Map();
           for (const person of records) {
-            if (!person.cert) continue;
-            const key = person.identifier + ":" + person.cert;
+            const key = person.identifier + ":" + (person.cert || person.name);
             const previous = seen.get(key);
             if (previous) {
               const issue =
-                previous.name === person.name && previous.total === person.total
-                  ? "相同身份及相同时长重复登记，需核对后去重；未自动累加"
-                  : "同一身份的姓名或时长不一致，需核对原表；未自动累加";
+                person.identifier === "name"
+                  ? "名单中姓名重复，请补充编号或核对后去重；未自动累加"
+                  : previous.name === person.name &&
+                      previous.total === person.total
+                    ? "相同身份及相同时长重复登记，需核对后去重；未自动累加"
+                    : "同一身份的姓名或时长不一致，需核对原表；未自动累加";
               previous.issue = issue;
               person.issue = issue;
             } else seen.set(key, person);
@@ -364,10 +379,11 @@ export async function fillHourBatchTemplate(buffer, records, date, ExcelJS) {
 }
 
 export function allocateHourDays(person, remaining, dates, used) {
+  const allocationId = person.cert || "source-row-" + person.row;
   const people = preparePeople([
     {
       name: person.name,
-      volunteerId: person.cert,
+      volunteerId: allocationId,
       hours: remaining,
       source: "人员清单",
     },
@@ -379,11 +395,48 @@ export function allocateHourDays(person, remaining, dates, used) {
         uid: "current",
         label: "当前岗位",
         dates,
-        rows: [{ name: person.name, id: person.cert }],
+        rows: [{ name: person.name, id: allocationId }],
       },
     ],
-    new Set([...used].map((date) => person.cert + "|" + date)),
+    new Set([...used].map((date) => allocationId + "|" + date)),
   ).entries[0].allocations;
+}
+
+export function projectHourCandidates(person, rosters) {
+  const byNumber = new Map();
+  for (const roster of rosters)
+    for (const row of roster.rows) {
+      if (
+        row.name !== person.name ||
+        (person.identifier === "number" && row.id !== person.cert)
+      )
+        continue;
+      const found = byNumber.get(row.id) || {
+        number: row.id,
+        name: row.name,
+        posts: [],
+      };
+      if (!found.posts.some((post) => post.id === roster.postId))
+        found.posts.push({ id: roster.postId, name: roster.postName });
+      byNumber.set(row.id, found);
+    }
+  return [...byNumber.values()];
+}
+
+export function mergeLegacyHourProgress(job, previous, postId) {
+  for (const entry of [
+    ...Object.values(previous.days || {}),
+    ...(previous.inFlight
+      ? (previous.inFlight.entries || [previous.inFlight]).map((entry) => ({
+          ...entry,
+          status: "unknown",
+        }))
+      : []),
+  ]) {
+    const key = entry.row + "|" + postId + "|" + entry.date;
+    job.days[key] ||= { ...entry, key, postId };
+  }
+  return job;
 }
 
 export function hourDates(dates, start, end, reverse) {
