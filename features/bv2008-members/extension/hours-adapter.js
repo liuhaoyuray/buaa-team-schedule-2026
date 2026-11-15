@@ -336,6 +336,8 @@
     if (!dates.size) throw Error("没有读到可用的服务日期。");
     return {
       dates: [...dates].filter(([, free]) => free).map(([date]) => date),
+      serviceDates: [...dates.keys()],
+      used: [...dates].filter(([, free]) => !free).map(([date]) => date),
     };
   }
   async function handle(message) {

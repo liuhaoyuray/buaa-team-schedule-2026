@@ -189,15 +189,30 @@
         )
           throw Error("官网历史时长记录未完整返回，已停止。");
         requireCurrent(request.target);
+        const records = history.data.resultData.dataList.filter((entry) =>
+          /^\d{4}-\d{2}-\d{2}$/.test(String(entry.time || "")),
+        );
+        const occupied = [],
+          empty = [];
+        for (const entry of records) {
+          const raw = entry.durationHour;
+          const amount =
+            raw === null || raw === undefined || raw === "" ? 0 : Number(raw);
+          if (!Number.isFinite(amount) || amount < 0)
+            throw Error("官网历史时长数值无法识别，已停止，未提交。");
+          // The native calendar also returns zero-hour placeholders for unused days.
+          // A date by itself is not an existing service-hours record.
+          const hasEvidence = [entry.notes, entry.filePath].some(
+            (value) => typeof value === "string" && value.trim(),
+          );
+          (amount > 0 || hasEvidence ? occupied : empty).push(
+            String(entry.time),
+          );
+        }
         reply({
           number,
-          used: [
-            ...new Set(
-              history.data.resultData.dataList
-                .map((entry) => String(entry.time || ""))
-                .filter((date) => /^\d{4}-\d{2}-\d{2}$/.test(date)),
-            ),
-          ],
+          used: [...new Set(occupied)],
+          empty: [...new Set(empty)].filter((date) => !occupied.includes(date)),
         });
         return;
       }

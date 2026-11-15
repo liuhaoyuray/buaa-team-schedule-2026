@@ -7,6 +7,7 @@ import {
   fillHourBatchTemplate,
   projectHourCandidates,
   mergeLegacyHourProgress,
+  describeHourDates,
 } from "./hours-core.mjs";
 import { loadWorkbook, readTemplate } from "./shared/io.mjs";
 import { makeHourProof } from "./hours-proof.mjs";
@@ -123,7 +124,12 @@ async function projectTemplates(force = false) {
       date,
     });
     if (!response.base64)
-      throw Error('岗位「'+post.name+'」模板下载失败：'+(response.reason || "官网下载模板未成功，已停止。"));
+      throw Error(
+        "岗位「" +
+          post.name +
+          "」模板下载失败：" +
+          (response.reason || "官网下载模板未成功，已停止。"),
+      );
     const buffer = Uint8Array.from(atob(response.base64), (c) =>
       c.charCodeAt(0),
     );
@@ -308,10 +314,15 @@ function render() {
         .filter((day) => day.row === person.row && day.status === "submitted")
         .reduce((sum, day) => sum + day.hours, 0),
       person.total === null ? "需修正" : Math.max(0, person.total - done),
-      person.issue ||
-        person.assignment ||
-        person.hourExplanation ||
-        (done ? "已保存处理进度" : "待处理"),
+      [
+        person.issue ||
+          person.assignment ||
+          person.hourExplanation ||
+          (done ? "已保存处理进度" : "待处理"),
+        person.dateSummary,
+      ]
+        .filter(Boolean)
+        .join("；"),
     ]) {
       const td = document.createElement("td");
       td.textContent = text;
@@ -352,26 +363,45 @@ function render() {
   const uncertain = Object.entries(job.days).filter(
     ([, day]) => day.status === "unknown",
   );
-  const validPeople = people.some(person => !person.issue);
-  const startReason = running ? '正在处理当前批次。'
-    : refreshCount > 0 ? '正在读取名单与保存进度，请稍候。'
-    : !target ? '尚未连接目标项目，请先点击「重新检查」。'
-    : !people.length ? '请先选择人员时长清单和工作表。'
-    : !validPeople ? '当前名单没有可处理的人员，请先修正表格中的提示。'
-    : !jobKey ? '尚未完成进度检查，请点击「重新检查」后重试。'
-    : uncertain.length ? '请先核对下方「结果待核对」的提交，再继续录入。'
-    : !proofFile ? '尚未预览证明图片：请点击「先预览证明图片」，核对图片后再开始。'
-    : !el('hours-confirm').checked ? '请先勾选上方核对确认框，再点击开始。' : '';
-  el('hours-start-hint').textContent = startReason || '准备就绪，可以开始录入。';
-  el('hours-run').disabled = !!startReason;
-  el('hours-run').title = startReason;
-  el('hours-ready-preview').hidden = running || refreshCount > 0 || !target || !validPeople || !!proofFile || !!uncertain.length;
+  const validPeople = people.some(
+    (person) => !(person.sourceIssue ?? person.issue),
+  );
+  const startReason = running
+    ? "正在处理当前批次。"
+    : refreshCount > 0
+      ? "正在读取名单与保存进度，请稍候。"
+      : !target
+        ? "尚未连接目标项目，请先点击「重新检查」。"
+        : !people.length
+          ? "请先选择人员时长清单和工作表。"
+          : !validPeople
+            ? "名单字段存在问题，请先修正表格中的提示。"
+            : !jobKey
+              ? "尚未完成进度检查，请点击「重新检查」后重试。"
+              : uncertain.length
+                ? "请先核对下方「结果待核对」的提交，再继续录入。"
+                : !proofFile
+                  ? "尚未预览证明图片：请点击「先预览证明图片」，核对图片后再开始。"
+                  : !el("hours-confirm").checked
+                    ? "请先勾选上方核对确认框，再点击开始。"
+                    : "";
+  el("hours-start-hint").textContent =
+    startReason || "准备就绪，可以开始录入。";
+  el("hours-run").disabled = !!startReason;
+  el("hours-run").title = startReason;
+  el("hours-ready-preview").hidden =
+    running ||
+    refreshCount > 0 ||
+    !target ||
+    !validPeople ||
+    !!proofFile ||
+    !!uncertain.length;
   el("hours-pause").disabled = !running || paused;
   el("hours-preview").disabled =
     running ||
     refreshCount > 0 ||
     !target ||
-    !people.some((person) => !person.issue);
+    !people.some((person) => !(person.sourceIssue ?? person.issue));
   el("hours-export").disabled = running || !people.length;
   el("hours-unknown").replaceChildren(
     ...uncertain.map(([key, day]) => {
@@ -774,9 +804,9 @@ el("hours-preview").onclick = () =>
     await refreshing;
     await previewProof();
     status("证明图片已生成或载入，请核对预览后勾选确认。");
-    el('hours-proof-preview').scrollIntoView({block:'nearest'});
+    el("hours-proof-preview").scrollIntoView({ block: "nearest" });
   });
-el('hours-ready-preview').onclick = () => el('hours-preview').click();
+el("hours-ready-preview").onclick = () => el("hours-preview").click();
 el("hours-confirm").onchange = render;
 el("hours-pause").onclick = () => {
   paused = true;
@@ -854,6 +884,7 @@ async function runProjectBatch() {
       render();
       continue;
     }
+    const emptyDates = new Set();
     const used = new Set(
       Object.values(job.days)
         .filter((day) => day.row === person.row)
@@ -882,6 +913,7 @@ async function runProjectBatch() {
         throw Error(response.reason || "官网历史日期未完整返回，已停止提交。");
       memberships.set(post.id, response);
       response.used.forEach((date) => used.add(date));
+      (response.empty || []).forEach((date) => emptyDates.add(date));
     }
     if (failed) {
       render();
@@ -900,6 +932,7 @@ async function runProjectBatch() {
       dates,
       used,
     );
+    person.dateSummary = describeHourDates(dates, used, emptyDates);
     const plan = {
       person,
       post,
@@ -927,7 +960,9 @@ async function runProjectBatch() {
       allocations.reduce((sum, allocation) => sum + allocation.hours, 0);
     if (shortage > 0)
       person.issue =
-        "可用日期不足，剩余 " + shortage + " 小时待处理；已有日期已避开。";
+        "可用日期不足，尚缺 " +
+        shortage +
+        " 小时（每天最多 8 小时）；请核对下方可用天数与服务日期范围。";
     render();
   }
   if (paused) {
@@ -1108,6 +1143,15 @@ async function runBatch() {
       dates,
       used,
     );
+    person.dateSummary = describeHourDates(
+      hourDates(
+        prepared.serviceDates || prepared.dates,
+        el("hours-start").value,
+        el("hours-end").value,
+        false,
+      ),
+      new Set([...used, ...(prepared.used || [])]),
+    );
     for (const allocation of allocations) {
       const entries = groups.get(allocation.date) || [];
       entries.push({
@@ -1251,6 +1295,11 @@ el("hours-run").onclick = () =>
             Object.values(job.days).some((day) => day.status === "unknown")
           )
             throw Error("请先核对中断的提交结果。");
+          for (const person of people) {
+            person.issue = person.sourceIssue || "";
+            delete person.dateSummary;
+            delete person.assignment;
+          }
           await send({
             type: "hours-proof",
             proof: await encodeFile(file),
@@ -1298,6 +1347,15 @@ el("hours-run").onclick = () =>
               Object.values(job.days)
                 .filter((day) => day.row === person.row)
                 .map((day) => day.date),
+            );
+            person.dateSummary = describeHourDates(
+              hourDates(
+                prepared.serviceDates || prepared.dates,
+                el("hours-start").value,
+                el("hours-end").value,
+                false,
+              ),
+              new Set([...used, ...(prepared.used || [])]),
             );
             while (remaining > 0 && !paused) {
               const next = allocateHourDays(person, remaining, dates, used)[0];
@@ -1390,6 +1448,15 @@ el("hours-export").onclick = () => {
             : "待核对",
       day.reason || "",
     ]),
+    ...people
+      .filter((person) => person.issue)
+      .map((person) => [
+        person.row,
+        "",
+        Math.max(0, (person.total || 0) - completed(person)),
+        "待处理",
+        [person.issue, person.dateSummary].filter(Boolean).join("；"),
+      ]),
   ];
   const url = URL.createObjectURL(
     new Blob(

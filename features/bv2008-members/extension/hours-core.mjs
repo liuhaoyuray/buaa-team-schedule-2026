@@ -159,7 +159,8 @@ export async function readHourSheets(buffer, ExcelJS) {
           Number(!!(fields.volunteerId || fields.card)) * 5;
         const complete = !!fields.name && !!fields.hours;
         const bestComplete = !!best.fields.name && !!best.fields.hours;
-        if (!bestComplete && (complete || score > best.score)) best = { header, score, fields };
+        if (!bestComplete && (complete || score > best.score))
+          best = { header, score, fields };
         const old = columnsAt(sheet, header);
         if (!legacy && old.name && old.hours && (old.volunteerId || old.card))
           legacy = { header, fields: old };
@@ -326,6 +327,7 @@ export async function readHourSheets(buffer, ExcelJS) {
               person.issue = issue;
             } else seen.set(key, person);
           }
+          for (const person of records) person.sourceIssue = person.issue || "";
           result.ignored = ignored;
           return records;
         },
@@ -446,4 +448,23 @@ export function hourDates(dates, start, end, reverse) {
     .filter((date) => validDate(date) && date >= start && date <= end)
     .sort();
   return reverse ? result.reverse() : result;
+}
+
+export function describeHourDates(dates, used, empty = new Set()) {
+  const free = dates.filter((date) => !used.has(date)).length;
+  const ignored = dates.filter(
+    (date) => empty.has(date) && !used.has(date),
+  ).length;
+  return (
+    "官网范围内 " +
+    dates.length +
+    " 天，可用 " +
+    free +
+    " 天（最多 " +
+    free * 8 +
+    " 小时），避开已有记录 " +
+    (dates.length - free) +
+    " 天" +
+    (ignored ? "；已排除 " + ignored + " 个 0 小时空记录" : "")
+  );
 }

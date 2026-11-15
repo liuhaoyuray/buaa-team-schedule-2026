@@ -16,6 +16,7 @@ function setup() {
     submitted: 0,
     uploads: 0,
     skipped: [],
+    history: [{ time: "2026-11-01", durationHour: 2, state: 1 }],
     rows: [{ name: "模拟甲", userNumber: "001", uid: "uid1", durationHour: 2 }],
   };
   const events = new EventTarget();
@@ -95,7 +96,7 @@ function setup() {
         success: true,
         data: {
           resultData: {
-            dataList: [{ time: "2026-11-01", durationHour: 2, state: 1 }],
+            dataList: state.history,
           },
         },
       };
@@ -197,6 +198,37 @@ test("project changes invalidate a prepared approval and pending history stays o
   state.current = false;
   assert.equal(
     (await request({ action: "commit", ticket: ready.ticket })).status,
+    "blocked",
+  );
+  assert.equal(state.submitted, 0);
+});
+
+test("zero-hour calendar placeholders remain free while real hours and evidence remain protected", async () => {
+  const { state, request } = setup();
+  state.history = [
+    { time: "2026-11-01", durationHour: 0, state: 0 },
+    { time: "2026-11-02", durationHour: "0", state: 0 },
+    { time: "2026-11-03", durationHour: null, state: 0 },
+    { time: "2026-11-04", durationHour: 2, state: 1 },
+    { time: "2026-11-05", durationHour: 0, notes: "已有服务说明" },
+    { time: "2026-11-06", durationHour: 0, filePath: "proof.png" },
+  ];
+  const result = await request({
+    action: "member",
+    number: "001",
+    person: { identifier: "number" },
+  });
+  assert.deepEqual(result.used, ["2026-11-04", "2026-11-05", "2026-11-06"]);
+  assert.deepEqual(result.empty, ["2026-11-01", "2026-11-02", "2026-11-03"]);
+  state.history = [{ time: "2026-11-01", durationHour: "无法识别" }];
+  assert.equal(
+    (
+      await request({
+        action: "member",
+        number: "001",
+        person: { identifier: "number" },
+      })
+    ).status,
     "blocked",
   );
   assert.equal(state.submitted, 0);

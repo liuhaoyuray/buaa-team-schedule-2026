@@ -6,7 +6,7 @@ export async function makeHourProof({
   notes,
   people,
 }) {
-  const records = people.filter((person) => !person.issue);
+  const records = people.filter((person) => !(person.sourceIssue ?? person.issue));
   if (!activity.trim() || !records.length)
     throw Error("请先填写活动名称并导入有效的人员时长。");
   const columns = records.length > 120 ? 2 : 1;
