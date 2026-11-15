@@ -352,15 +352,20 @@ function render() {
   const uncertain = Object.entries(job.days).filter(
     ([, day]) => day.status === "unknown",
   );
-  el("hours-run").disabled =
-    running ||
-    refreshCount > 0 ||
-    !target ||
-    !jobKey ||
-    !people.some((person) => !person.issue) ||
-    !proofFile ||
-    !el("hours-confirm").checked ||
-    !!uncertain.length;
+  const validPeople = people.some(person => !person.issue);
+  const startReason = running ? '正在处理当前批次。'
+    : refreshCount > 0 ? '正在读取名单与保存进度，请稍候。'
+    : !target ? '尚未连接目标项目，请先点击「重新检查」。'
+    : !people.length ? '请先选择人员时长清单和工作表。'
+    : !validPeople ? '当前名单没有可处理的人员，请先修正表格中的提示。'
+    : !jobKey ? '尚未完成进度检查，请点击「重新检查」后重试。'
+    : uncertain.length ? '请先核对下方「结果待核对」的提交，再继续录入。'
+    : !proofFile ? '尚未预览证明图片：请点击「先预览证明图片」，核对图片后再开始。'
+    : !el('hours-confirm').checked ? '请先勾选上方核对确认框，再点击开始。' : '';
+  el('hours-start-hint').textContent = startReason || '准备就绪，可以开始录入。';
+  el('hours-run').disabled = !!startReason;
+  el('hours-run').title = startReason;
+  el('hours-ready-preview').hidden = running || refreshCount > 0 || !target || !validPeople || !!proofFile || !!uncertain.length;
   el("hours-pause").disabled = !running || paused;
   el("hours-preview").disabled =
     running ||
@@ -769,7 +774,9 @@ el("hours-preview").onclick = () =>
     await refreshing;
     await previewProof();
     status("证明图片已生成或载入，请核对预览后勾选确认。");
+    el('hours-proof-preview').scrollIntoView({block:'nearest'});
   });
+el('hours-ready-preview').onclick = () => el('hours-preview').click();
 el("hours-confirm").onchange = render;
 el("hours-pause").onclick = () => {
   paused = true;

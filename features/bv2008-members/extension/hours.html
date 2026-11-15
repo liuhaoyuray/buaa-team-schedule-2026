@@ -25,7 +25,8 @@
 <div id="hours-proof-preview" hidden><p class="hint">本批共用的证明图片：</p><img id="hours-proof-image" alt="证明图片预览"><a id="hours-proof-download" download="志愿服务时长汇总单.png">下载图片</a></div>
 </section>
 <section class="card"><h2>3. 核对后开始</h2><label class="check"><input id="hours-confirm" type="checkbox">我已核对岗位、实际服务日期、总时长和证明图片。</label>
-<div class="actions"><button id="hours-run" class="primary">开始或继续录入</button><button id="hours-pause">暂停</button><button id="hours-export">下载明细</button></div>
+<p id="hours-start-hint" class="hint" role="status" aria-live="polite"></p>
+<div class="actions"><button id="hours-ready-preview" class="primary" hidden>先预览证明图片</button><button id="hours-run" class="primary" aria-describedby="hours-start-hint">开始或继续录入</button><button id="hours-pause">暂停</button><button id="hours-export">下载明细</button></div>
 <p id="hours-status" role="status" aria-live="polite"></p>
 <div class="table-wrap"><table><thead><tr><th>原表行号</th><th>姓名</th><th>原始时长</th><th>解析后小时数</th><th>已录入</th><th>已提交审批</th><th>待处理</th><th>情况</th></tr></thead><tbody id="hours-results"></tbody></table></div>
 <div id="hours-unknown" class="hint"></div>
