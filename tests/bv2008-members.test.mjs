@@ -64,7 +64,7 @@ test('installable archive bundles its reader and preserves known and uncertain s
     assert.throws(() => readPaste('模拟甲\t0012', 'activity'), /表头/);
 
     await fs.writeFile(path.join(output, 'hours-core.mjs'), await zip.file('hours-core.mjs').async('nodebuffer'));
-    const {allocateHourDays, hourDates, readHourSheets, fillHourBatchTemplate, defaultHourNotes, parseHourValue, projectHourCandidates, mergeLegacyHourProgress} = await import(pathToFileURL(path.join(output, 'hours-core.mjs')));
+    const {allocateHourDays, hourDates, readHourSheets, fillHourBatchTemplate, defaultHourNotes, parseHourValue, projectHourCandidates, mergeLegacyHourProgress, defaultHourRange} = await import(pathToFileURL(path.join(output, 'hours-core.mjs')));
     const hoursBook = new ExcelJS.Workbook();
     hoursBook.addWorksheet('时长').addRows([['姓名','志愿者编号','总时长'],['模拟甲','001',20]]);
     const [hoursSheet] = await readHourSheets(await hoursBook.xlsx.writeBuffer(), ExcelJS);
@@ -73,6 +73,11 @@ test('installable archive bundles its reader and preserves known and uncertain s
     const allocations = allocateHourDays(person, person.total, days, new Set(['2026-11-01']));
     assert.deepEqual(allocations.map(day => [day.date,day.hours]), [['2026-11-02',8],['2026-11-03',8]]);
     assert.equal(person.total - allocations.reduce((sum,day)=>sum+day.hours,0),4);
+    const chinaMidnight = new Date('2026-11-14T16:05:00Z');
+    assert.equal(defaultHourRange(['2026-10-24','2026-11-23'],chinaMidnight).end,'2026-11-15','use today in Beijing even near UTC midnight');
+    assert.equal(defaultHourRange(['2026-10-24','2026-11-10'],chinaMidnight).end,'2026-11-10','do not extend a finished project');
+    assert.equal(defaultHourRange(['2026-11-20','2026-11-23'],chinaMidnight).hasElapsedDates,false);
+    assert.deepEqual(allocateHourDays(person,16,hourDates(['2026-11-13','2026-11-14','2026-11-15'],'2026-11-13','2026-11-15',true),new Set()).map(day=>day.date),['2026-11-15','2026-11-14']);
     const incompleteBook = new ExcelJS.Workbook();
     incompleteBook.addWorksheet('没有时长').addRows([['姓名','志愿者编号'],['模拟甲','001']]);
     incompleteBook.addWorksheet('可用名单').addRows([['姓名','志愿者编号','总时长'],['模拟甲','001',2]]);

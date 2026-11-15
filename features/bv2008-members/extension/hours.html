@@ -15,7 +15,7 @@
 <p class="hint">名单只需「姓名＋拟录入时长」，编号和证件号码选填。项目批量会从全部岗位的官网下载模板匹配系统编号；同一编号在多个岗位只分配一次。</p>
 <p class="hint">支持总时长、拟录入时长、服务时长等表头；支持 2.5、2小时30分、150分钟、02:30 等时长写法。按半小时递增，不自动取整。</p>
 <div class="actions"><label>开始日期 <input id="hours-start" type="date"></label><label>结束日期 <input id="hours-end" type="date"></label>
-<label>分配顺序 <select id="hours-order"><option value="asc">从早到晚</option><option value="desc">从晚到早</option></select></label></div>
+<label>分配顺序 <select id="hours-order"><option value="desc">从晚到早</option><option value="asc">从早到晚</option></select></label></div>
 <label>活动名称 <input id="hours-activity-name" type="text" maxlength="100" placeholder="自动读取官网活动名称，也可修改"></label>
 <label>证明图片 <select id="hours-proof-mode"><option value="generate">根据名单自动生成时长汇总单</option><option value="upload">上传已有证明图片</option></select></label>
 <label id="hours-proof-upload" hidden>本批共用证明图片 <input id="hours-proof" type="file" accept=".png,.jpg,.jpeg"></label>

@@ -8,6 +8,7 @@ import {
   projectHourCandidates,
   mergeLegacyHourProgress,
   describeHourDates,
+  defaultHourRange,
 } from "./hours-core.mjs";
 import { loadWorkbook, readTemplate } from "./shared/io.mjs";
 import { makeHourProof } from "./hours-proof.mjs";
@@ -486,8 +487,9 @@ async function connect() {
     if (target.activityName && !contextChoice.activity)
       el("hours-activity-name").value = target.activityName;
     if (target.dates?.length && !contextChoice.dates) {
-      el("hours-start").value = target.dates[0];
-      el("hours-end").value = target.dates.at(-1);
+      const range = defaultHourRange(target.dates);
+      el("hours-start").value = range.start;
+      el("hours-end").value = range.end;
     }
     if (!notesEdited)
       el("hours-notes").value = defaultHourNotes(
@@ -499,6 +501,7 @@ async function connect() {
         ? "已自动读取活动名称与 " +
           target.dates.length +
           " 个官网服务日期，可直接使用或按实际服务情况调整。" +
+          (!contextChoice.dates ? (defaultHourRange(target.dates).hasElapsedDates ? '默认结束日期不晚于今天，时长默认从晚到早分配。' : '该项目尚无今天及以前的服务日期，当前暂无可录日期。') : '') +
           (contextChoice.activity || contextChoice.dates
             ? "已保留手动调整。"
             : "")

@@ -450,6 +450,16 @@ export function hourDates(dates, start, end, reverse) {
   return reverse ? result.reverse() : result;
 }
 
+export function defaultHourRange(dates, now = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+  const part = type => parts.find(value => value.type === type).value;
+  const today = part('year') + '-' + part('month') + '-' + part('day');
+  const serviceDates = [...new Set(dates)].filter(validDate).sort();
+  if (!serviceDates.length) return {start:'',end:'',today,hasElapsedDates:false};
+  const end = serviceDates.at(-1) > today ? today : serviceDates.at(-1);
+  return {start:serviceDates[0] > end ? end : serviceDates[0],end,today,hasElapsedDates:serviceDates[0] <= today};
+}
+
 export function describeHourDates(dates, used, empty = new Set()) {
   const free = dates.filter((date) => !used.has(date)).length;
   const ignored = dates.filter(
