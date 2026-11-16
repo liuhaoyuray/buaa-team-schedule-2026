@@ -1,4 +1,4 @@
-import {compareAwards, select, verified, groupUnits} from './model.mjs';
+import {compareAwards, normalizeRecord, samePersonalName, select, verified, groupUnits} from './model.mjs';
 
 const $ = id => document.getElementById(id);
 if (parent !== window) document.documentElement.dataset.embedded = 'true';
@@ -107,7 +107,8 @@ function detail(id) {
   const row = data.records.find(record => record.id === id);
   const source = data.sources.find(item => item.id === row.source);
   const studentSource = data.sources.find(item => item.id === row.studentIdSource);
-  const related = data.records.filter(record => record.name === row.name && record.id !== id);
+  const related = data.records.filter(record => record.id !== id &&
+    (row.kind === '个人' ? samePersonalName(record, row) : record.kind === row.kind && record.name === row.name));
   const details = [
     ['学号', row.studentId], ['年度', currentYear(row)], ['奖项', row.award], ['批次', row.batch],
     ['获奖等次', row.grade], ['获奖称号', row.honor], ['对象', row.kind], ['所属 / 推荐单位', row.unit],
@@ -124,7 +125,8 @@ function detail(id) {
     (row.extraUrl ? '<dt>补充资料</dt><dd>' + link(row.extraUrl, '查看原文') + '</dd>' : '') + '</dl>' +
     (related.length ? '<div class="related"><strong>同名记录</strong>' +
       related.map(item => '<div>' + escape(currentYear(item)) + ' · ' + escape(item.award) +
-        ' · ' + escape(item.unit || '单位未注明') + '</div>').join('') + '</div>' : '');
+        ' · ' + escape(item.unit || '单位未注明') +
+        (item.studentId ? ' · 学号 ' + escape(item.studentId) : '') + '</div>').join('') + '</div>' : '');
   const dialog = $('detail');
   const frame = window.frameElement;
   const bounds = frame?.getBoundingClientRect();
@@ -228,6 +230,7 @@ try {
   const response = await fetch('data.json');
   if (!response.ok) throw Error('资料加载失败，请刷新后重试');
   data = await response.json();
+  data.records = data.records.map(normalizeRecord);
   const catalog = [...data.catalog].sort((a, b) => compareAwards({level: a.level, award: a.name}, {level: b.level, award: b.name}));
   $('updated').textContent = '资料整理于 ' + data.updated.replaceAll('-', '.');
   fill('year', [...new Set(select(data.records).map(currentYear))]);

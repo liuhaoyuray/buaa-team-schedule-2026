@@ -1,5 +1,29 @@
 export const verified = row => ['结果公示', '已公布结果', '官方报道确认', '部门确认获评'].includes(row.status);
 
+export function normalizeName(value) {
+  return String(value ?? '').normalize('NFC')
+    .replace(/\p{Cf}/gu, '')
+    .replace(/\s+/gu, ' ').trim()
+    .replace(/(\p{Script=Han}) +(?=\p{Script=Han})/gu, '$1')
+    .replace(/(\p{Script=Han}) *([·・•]) *(?=\p{Script=Han})/gu, '$1$2');
+}
+
+function searchKey(value) {
+  return normalizeName(String(value ?? '').normalize('NFKC')).toLowerCase();
+}
+
+export function normalizeRecord(row) {
+  return {
+    ...row,
+    ...(row.kind === '个人' ? {name: normalizeName(row.name)} : {}),
+    ...(row.leader ? {leader: normalizeName(row.leader)} : {})
+  };
+}
+
+export function samePersonalName(a, b) {
+  return a.kind === '个人' && b.kind === '个人' && searchKey(a.name) === searchKey(b.name);
+}
+
 const levelOrder = ['国家级', '市级', '区级', '校级'];
 const awardGroups = [
   /项目大赛/,
@@ -38,7 +62,7 @@ function matchesAward(row, award) {
 }
 
 export function select(records, filters = {}) {
-  const query = (filters.search || '').trim().toLowerCase();
+  const query = searchKey(filters.search);
   return records.filter(row => {
     if (filters.year && String(row.year ?? '未注明') !== filters.year) return false;
     if (filters.level && row.level !== filters.level) return false;
@@ -48,9 +72,10 @@ export function select(records, filters = {}) {
     if (filters.status === 'verified' && !verified(row)) return false;
     if (filters.status === 'pending' && verified(row)) return false;
     if (filters.status && !['verified', 'pending'].includes(filters.status) && row.status !== filters.status) return false;
-    return !query || [row.name, row.studentId, row.unit, row.award, row.note, row.year, row.batch, row.leader, row.grade, row.honor]
-      .join(' ').toLowerCase().includes(query);
-  }).sort(compareRecords);
+    return !query || searchKey(
+      [row.name, row.studentId, row.unit, row.award, row.note, row.year, row.batch, row.leader, row.grade, row.honor].join(' ')
+    ).includes(query);
+  }).map(normalizeRecord).sort(compareRecords);
 }
 
 export function groupUnits(records) {
