@@ -1,4 +1,4 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {normalizeName, normalizeRecord, samePersonalName, select,verified,groupUnits} from '../features/awards/model.mjs';
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {normalizeName, normalizeRecord, personalProfileCounts, samePersonalName, select,verified,groupUnits} from '../features/awards/model.mjs';
 const d=JSON.parse(readFileSync(new URL('../features/awards/data.json',import.meta.url),'utf8'));
 test('school rosters reconcile to primary notices, not applicant lists',()=>{for(const [year,n] of [[2023,367],[2024,282],[2025,255]]){assert.equal(select(d.records,{year:String(year),award:'北京航空航天大学优秀志愿者'}).length,n);for(const a of ['十佳志愿者','优秀志愿服务项目'])assert.equal(select(d.records,{year:String(year),award:'北京航空航天大学'+a}).length,10)}assert(d.records.every(r=>r.school==='北京航空航天大学'&&d.sources.some(s=>s.id===r.source)&&r.locator&&r.name));assert.equal(new Set(d.records.map(r=>r.id)).size,d.records.length)});
 test('uncertain results stay out of verified totals, award years do not become publication years',()=>{
@@ -55,4 +55,19 @@ test('Chinese name spacing is normalized in search and output without changing d
   assert.deepEqual(normalizeRecord(project),{...project,leader:'李阳'});
   assert.equal(spaced.name,'晏　\u200b丽');
   assert(!select([{...spaced,name:'Ann A'}],{search:'Anna'}).length);
+});
+test('personal awards use colleges and profile filters reconcile with visible gaps',()=>{
+  const colleges=new Set(JSON.parse(readFileSync(new URL('../features/office/colleges.json',import.meta.url),'utf8')).map(row=>row.name));
+  const personal=d.records.filter(row=>row.kind==='个人');
+  assert(personal.every(row=>!row.unit||colleges.has(row.unit)));
+  const counts=personalProfileCounts(d.records);
+  assert.equal(counts.total,personal.length);
+  assert.equal(select(d.records,{profile:'missingStudentId'}).length,counts.missingStudentId);
+  assert.equal(select(d.records,{profile:'missingCollege'}).length,counts.missingCollege);
+  assert(!groupUnits(personal).some(unit=>unit.name==='北京航空航天大学'));
+  const stars=personal.filter(row=>/^海淀区[一二三四]星级/.test(row.award));
+  for(const row of stars.filter(row=>row.unit)){
+    assert(row.unitSource&&row.unitLocator);
+    assert(d.sources.some(source=>source.id===row.unitSource));
+  }
 });

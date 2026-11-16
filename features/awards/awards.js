@@ -1,4 +1,4 @@
-import {compareAwards, normalizeRecord, samePersonalName, select, verified, groupUnits} from './model.mjs';
+import {compareAwards, normalizeRecord, personalProfileCounts, samePersonalName, select, verified, groupUnits} from './model.mjs';
 
 const $ = id => document.getElementById(id);
 if (parent !== window) document.documentElement.dataset.embedded = 'true';
@@ -9,7 +9,7 @@ const link = (url, title) => url && /^https:\/\//.test(url)
   : escape(title);
 
 const fiveStar = '北京市五星级志愿者';
-const fields = ['year', 'kind', 'award', 'unit', 'status', 'search'];
+const fields = ['year', 'kind', 'award', 'unit', 'status', 'search', 'profile'];
 const pageSize = 25;
 let data, rows = [], page = 1, tab = 'list';
 const filters = () => Object.fromEntries(fields.map(id => [id, $(id).value]));
@@ -77,18 +77,33 @@ function render() {
   $('notice').textContent = '';
   $('notice').hidden = true;
   $('export').disabled = !rows.length;
+  const profile = personalProfileCounts(select(data.records, {
+    ...selection, kind: '个人', profile: '', status: tab === 'units' ? 'verified' : selection.status
+  }));
+  $('profileSummary').hidden = !profile.total || !['list', 'units'].includes(tab) ||
+    (selection.kind && selection.kind !== '个人');
+  $('profileSummary').innerHTML = [
+    ['', '个人记录', profile.total],
+    ['missingStudentId', '缺学号', profile.missingStudentId],
+    ['missingCollege', '缺学院', profile.missingCollege]
+  ].map(([value,label,count]) => '<button type="button" data-profile="' + value +
+    '" aria-pressed="' + (selection.kind === '个人' && selection.profile === value) +
+    '"><span>' + label + '</span><strong>' + count.toLocaleString() + '</strong></button>').join('');
   $('rows').innerHTML = rows.slice((page - 1) * pageSize, page * pageSize).map(row =>
-    '<tr><td>' + escape(currentYear(row)) + (row.batch ? '<span class="sub">' + escape(row.batch) + '</span>' : '') +
-    '</td><td><strong>' + escape(row.name) + '</strong>' +
-    (row.studentId ? '<span class="sub">学号 ' + escape(row.studentId) + '</span>' : '') +
-    '<span class="sub">' + escape(row.kind) +
+    '<tr class="award-row"><td data-label="年度">' + escape(currentYear(row)) +
+    (row.batch ? '<span class="sub">' + escape(row.batch) + '</span>' : '') +
+    '</td><td data-label="姓名 / 项目 / 团队"><strong>' + escape(row.name) + '</strong><span class="sub">' + escape(row.kind) +
     (row.leader ? ' · 负责人 ' + escape(row.leader) : '') +
-    '</span></td><td>' + escape(row.unit || '原资料未注明') + '</td><td>' + escape(row.award) +
+    '</span></td><td data-label="学号" class="student-id' + (row.kind === '个人' ? '' : ' not-applicable') + '">' +
+    (row.studentId ? escape(row.studentId) : row.kind === '个人' ? '<span class="missing-value">待补学号</span>' : '—') +
+    '</td><td data-label="' + (row.kind === '个人' ? '学院' : '所属单位') + '">' +
+    (row.unit ? escape(row.unit) : '<span class="missing-value">' + (row.kind === '个人' ? '学院待补充' : '单位待补充') + '</span>') +
+    '</td><td data-label="奖项">' + escape(row.award) +
     (row.grade || row.honor ? '<span class="sub">' + escape(row.grade || row.honor) + '</span>' : '') +
-    '</td><td><span class="badge ' + (verified(row) ? '' : 'pending') + '">' +
-    escape(row.status) + '</span></td><td><button class="text-button" data-detail="' +
+    '</td><td data-label="名单状态"><span class="badge ' + (verified(row) ? '' : 'pending') + '">' +
+    escape(row.status) + '</span></td><td data-label="详情"><button class="text-button" data-detail="' +
     escape(row.id) + '">详情 ↗</button></td></tr>'
-  ).join('') || '<tr><td colspan="6" class="empty">当前筛选没有记录。可以切换年度或清空筛选。</td></tr>';
+  ).join('') || '<tr><td colspan="7" class="empty">当前筛选没有记录。可以切换年度或清空筛选。</td></tr>';
 
   $('pageInfo').textContent = '第 ' + page + ' / ' + Math.max(1, Math.ceil(rows.length / pageSize)) + ' 页';
   $('prev').disabled = page === 1;
@@ -107,11 +122,14 @@ function detail(id) {
   const row = data.records.find(record => record.id === id);
   const source = data.sources.find(item => item.id === row.source);
   const studentSource = data.sources.find(item => item.id === row.studentIdSource);
+  const collegeSource = data.sources.find(item => item.id === row.unitSource);
   const related = data.records.filter(record => record.id !== id &&
     (row.kind === '个人' ? samePersonalName(record, row) : record.kind === row.kind && record.name === row.name));
   const details = [
-    ['学号', row.studentId], ['年度', currentYear(row)], ['奖项', row.award], ['批次', row.batch],
-    ['获奖等次', row.grade], ['获奖称号', row.honor], ['对象', row.kind], ['所属 / 推荐单位', row.unit],
+    ['学号', row.kind === '个人' ? row.studentId || '待补充' : ''],
+    [row.kind === '个人' ? '学院 / 书院' : '所属单位', row.unit || '待补充'],
+    ['原登记单位', row.originalUnit], ['年度', currentYear(row)], ['奖项', row.award], ['批次', row.batch],
+    ['获奖等次', row.grade], ['获奖称号', row.honor], ['对象', row.kind],
     ['项目负责人', row.kind === '项目' ? row.leader || '待补负责人资料' : ''],
     ['名单状态', row.status], ['发布日期', row.published], ['补充信息', row.note]
   ].filter(([,value]) => value);
@@ -121,6 +139,8 @@ function detail(id) {
     escape(row.locator) + '</span></dd>' +
     (studentSource ? '<dt>学号依据</dt><dd>' + escape(studentSource.title) + '<span class="sub">' +
       escape(row.studentIdLocator) + ' · ' + escape(row.studentIdMatch) + '</span></dd>' : '') +
+    (collegeSource ? '<dt>学院依据</dt><dd>' + escape(collegeSource.title) + '<span class="sub">' +
+      escape(row.unitLocator) + ' · ' + escape(row.unitMatch) + '</span></dd>' : '') +
     (row.leaderSource ? '<dt>负责人依据</dt><dd>' + link(row.leaderUrl, row.leaderSource) + '</dd>' : '') +
     (row.extraUrl ? '<dt>补充资料</dt><dd>' + link(row.extraUrl, '查看原文') + '</dd>' : '') + '</dl>' +
     (related.length ? '<div class="related"><strong>同名记录</strong>' +
@@ -161,7 +181,7 @@ async function exportExcel() {
     const columns = [
       ['年度',12, row => row.year], ['姓名 / 项目 / 团队',35,row => row.name],
       ...(includeStudentId ? [['学号',18,row => row.studentId]] : []),
-      ['所属 / 推荐单位',30,row => row.unit], ['奖项',42,row => row.award],
+      ['学院 / 所属单位',30,row => row.unit], ['原登记单位',30,row => row.originalUnit], ['奖项',42,row => row.award],
       ...(includeGrade ? [['获奖等次',18,row => row.grade]] : []),
       ...(includeHonor ? [['获奖称号',18,row => row.honor]] : []),
       ...(includeBatch ? [['批次',14,row => row.batch]] : []),
@@ -173,7 +193,9 @@ async function exportExcel() {
       ...(includeStudentId ? [
         ['学号来源',52,row => data.sources.find(source => source.id === row.studentIdSource)?.title],
         ['学号原件定位',65,row => row.studentIdLocator],
-        ['学号核对方式',48,row => row.studentIdMatch]
+        ['学号核对方式',48,row => row.studentIdMatch],
+        ['学院来源',52,row => data.sources.find(source => source.id === row.unitSource)?.title],
+        ['学院原件定位',65,row => row.unitLocator]
       ] : [])
     ];
     sheet.addRow(columns.map(([label]) => label));
@@ -185,7 +207,7 @@ async function exportExcel() {
     sheet.views = [{state:'frozen',ySplit:1,xSplit:2}];
     sheet.autoFilter = {from:{row:1,column:1},to:{row:sheet.rowCount,column:columns.length}};
     const units = workbook.addWorksheet('单位汇总');
-    units.addRow(['所属 / 推荐单位', '个人荣誉人次', '项目荣誉项次', '团队荣誉项次', '合计条数']);
+    units.addRow(['学院 / 所属单位', '个人荣誉人次', '项目荣誉项次', '团队荣誉项次', '合计条数']);
     for (const unit of groupUnits(records.filter(verified))) {
       units.addRow([unit.name, unit.personal, unit.projects, unit.teams, unit.total]);
     }
@@ -265,6 +287,12 @@ try {
     if (button.dataset.tab) changeTab(button.dataset.tab);
     if (button.dataset.detail) detail(button.dataset.detail);
     if (button.hasAttribute('data-award')) pickAward(button.dataset.award);
+    if (button.hasAttribute('data-profile')) {
+      $('kind').value = '个人';
+      $('profile').value = button.dataset.profile;
+      page = 1;
+      changeTab('list');
+    }
     if (button.dataset.catalog) pickAward(button.dataset.catalog);
     if (button.dataset.year) {
       $('year').value = $('year').value === button.dataset.year ? '' : button.dataset.year;

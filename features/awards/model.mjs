@@ -24,6 +24,15 @@ export function samePersonalName(a, b) {
   return a.kind === '个人' && b.kind === '个人' && searchKey(a.name) === searchKey(b.name);
 }
 
+export function personalProfileCounts(records) {
+  const personal = records.filter(row => row.kind === '个人');
+  return {
+    total: personal.length,
+    missingStudentId: personal.filter(row => !row.studentId).length,
+    missingCollege: personal.filter(row => !row.unit).length
+  };
+}
+
 const levelOrder = ['国家级', '市级', '区级', '校级'];
 const awardGroups = [
   /项目大赛/,
@@ -69,6 +78,11 @@ export function select(records, filters = {}) {
     if (filters.kind && row.kind !== filters.kind) return false;
     if (filters.unit && row.unit !== filters.unit) return false;
     if (!matchesAward(row, filters.award)) return false;
+    if (filters.profile) {
+      if (row.kind !== '个人') return false;
+      if (filters.profile === 'missingStudentId' && row.studentId) return false;
+      if (filters.profile === 'missingCollege' && row.unit) return false;
+    }
     if (filters.status === 'verified' && !verified(row)) return false;
     if (filters.status === 'pending' && verified(row)) return false;
     if (filters.status && !['verified', 'pending'].includes(filters.status) && row.status !== filters.status) return false;
@@ -81,7 +95,7 @@ export function select(records, filters = {}) {
 export function groupUnits(records) {
   const units = new Map();
   for (const row of records) {
-    const name = row.unit || '原资料未注明单位';
+    const name = row.unit || (row.kind === '个人' ? '学院待补充' : '所属单位待补充');
     if (!units.has(name)) units.set(name, {name,total:0,personal:0,projects:0,teams:0});
     const unit = units.get(name);
     unit.total++;
