@@ -1,4 +1,4 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {select,verified,groupUnits} from '../features/awards/model.mjs';
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {normalizeName, normalizeRecord, samePersonalName, select,verified,groupUnits} from '../features/awards/model.mjs';
 const d=JSON.parse(readFileSync(new URL('../features/awards/data.json',import.meta.url),'utf8'));
 test('school rosters reconcile to primary notices, not applicant lists',()=>{for(const [year,n] of [[2023,367],[2024,282],[2025,255]]){assert.equal(select(d.records,{year:String(year),award:'北京航空航天大学优秀志愿者'}).length,n);for(const a of ['十佳志愿者','优秀志愿服务项目'])assert.equal(select(d.records,{year:String(year),award:'北京航空航天大学'+a}).length,10)}assert(d.records.every(r=>r.school==='北京航空航天大学'&&d.sources.some(s=>s.id===r.source)&&r.locator&&r.name));assert.equal(new Set(d.records.map(r=>r.id)).size,d.records.length)});
 test('uncertain results stay out of verified totals, award years do not become publication years',()=>{
@@ -34,8 +34,25 @@ test('student IDs retain evidence while private registration and contact fields 
     assert.match(row.studentId,/^[A-Z]{0,3}\d{7,11}$/);
     assert(d.sources.some(source=>source.id===row.studentIdSource));
     assert(row.studentIdLocator&&row.studentIdMatch);
-    assert(select(d.records,{search:row.studentId}).some(result=>result.id===row.id));
   }
+  assert(select(d.records,{search:enriched[0].studentId}).some(result=>result.id===enriched[0].id));
   for(const row of d.records)for(const key of ['idCard','phone','birth','volunteerId'])assert(!Object.hasOwn(row,key));
   assert(!JSON.stringify(d.records).match(/\b\d{17}[\dX]\b/));
+});
+test('Chinese name spacing is normalized in search and output without changing distinct records or Latin name spacing',()=>{
+  const spaced={id:'spaced',kind:'个人',name:'晏　\u200b丽',year:2025,award:'优秀志愿者',unit:'学院',studentId:'12345678'};
+  const sameName={...spaced,id:'homonym',name:'晏 丽',studentId:'87654321'};
+  const project={id:'project',kind:'项目',name:'A B 项目',leader:'李 \n阳'};
+  for(const query of ['晏丽','晏 丽','晏　丽','晏\n丽']){
+    const matches=select([spaced,sameName],{search:query});
+    assert.equal(matches.length,2);
+    assert(matches.every(row=>row.name==='晏丽'));
+    assert.deepEqual(new Set(matches.map(row=>row.studentId)),new Set(['12345678','87654321']));
+  }
+  assert(samePersonalName(spaced,sameName));
+  assert.equal(normalizeName('朱 妮 妮（Zhu Isabella）'),'朱妮妮（Zhu Isabella）');
+  assert.equal(normalizeName('热依拉木 · 阿布来提'),'热依拉木·阿布来提');
+  assert.deepEqual(normalizeRecord(project),{...project,leader:'李阳'});
+  assert.equal(spaced.name,'晏　\u200b丽');
+  assert(!select([{...spaced,name:'Ann A'}],{search:'Anna'}).length);
 });
