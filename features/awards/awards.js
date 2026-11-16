@@ -79,7 +79,9 @@ function render() {
   $('export').disabled = !rows.length;
   $('rows').innerHTML = rows.slice((page - 1) * pageSize, page * pageSize).map(row =>
     '<tr><td>' + escape(currentYear(row)) + (row.batch ? '<span class="sub">' + escape(row.batch) + '</span>' : '') +
-    '</td><td><strong>' + escape(row.name) + '</strong><span class="sub">' + escape(row.kind) +
+    '</td><td><strong>' + escape(row.name) + '</strong>' +
+    (row.studentId ? '<span class="sub">学号 ' + escape(row.studentId) + '</span>' : '') +
+    '<span class="sub">' + escape(row.kind) +
     (row.leader ? ' · 负责人 ' + escape(row.leader) : '') +
     '</span></td><td>' + escape(row.unit || '原资料未注明') + '</td><td>' + escape(row.award) +
     (row.grade || row.honor ? '<span class="sub">' + escape(row.grade || row.honor) + '</span>' : '') +
@@ -104,9 +106,10 @@ function render() {
 function detail(id) {
   const row = data.records.find(record => record.id === id);
   const source = data.sources.find(item => item.id === row.source);
+  const studentSource = data.sources.find(item => item.id === row.studentIdSource);
   const related = data.records.filter(record => record.name === row.name && record.id !== id);
   const details = [
-    ['年度', currentYear(row)], ['奖项', row.award], ['批次', row.batch],
+    ['学号', row.studentId], ['年度', currentYear(row)], ['奖项', row.award], ['批次', row.batch],
     ['获奖等次', row.grade], ['获奖称号', row.honor], ['对象', row.kind], ['所属 / 推荐单位', row.unit],
     ['项目负责人', row.kind === '项目' ? row.leader || '待补负责人资料' : ''],
     ['名单状态', row.status], ['发布日期', row.published], ['补充信息', row.note]
@@ -115,6 +118,8 @@ function detail(id) {
     details.map(([label,value]) => '<dt>' + label + '</dt><dd>' + escape(value) + '</dd>').join('') +
     '<dt>来源</dt><dd>' + link(source.url, source.title) + '<span class="sub">' +
     escape(row.locator) + '</span></dd>' +
+    (studentSource ? '<dt>学号依据</dt><dd>' + escape(studentSource.title) + '<span class="sub">' +
+      escape(row.studentIdLocator) + ' · ' + escape(row.studentIdMatch) + '</span></dd>' : '') +
     (row.leaderSource ? '<dt>负责人依据</dt><dd>' + link(row.leaderUrl, row.leaderSource) + '</dd>' : '') +
     (row.extraUrl ? '<dt>补充资料</dt><dd>' + link(row.extraUrl, '查看原文') + '</dd>' : '') + '</dl>' +
     (related.length ? '<div class="related"><strong>同名记录</strong>' +
@@ -142,6 +147,7 @@ async function exportExcel() {
   const includeGrade = records.some(row => row.grade);
     const includeHonor = records.some(row => row.honor);
   const includeBatch = records.some(row => row.batch);
+  const includeStudentId = records.some(row => row.kind === '个人');
     const includeLeader = records.some(row => row.kind === '项目');
   button.disabled = true;
   button.textContent = '正在生成…';
@@ -152,6 +158,7 @@ async function exportExcel() {
     const sheet = workbook.addWorksheet('荣誉明细');
     const columns = [
       ['年度',12, row => row.year], ['姓名 / 项目 / 团队',35,row => row.name],
+      ...(includeStudentId ? [['学号',18,row => row.studentId]] : []),
       ['所属 / 推荐单位',30,row => row.unit], ['奖项',42,row => row.award],
       ...(includeGrade ? [['获奖等次',18,row => row.grade]] : []),
       ...(includeHonor ? [['获奖称号',18,row => row.honor]] : []),
@@ -160,7 +167,12 @@ async function exportExcel() {
       ['对象',12,row => row.kind], ['名单状态',22,row => row.status],
       ['发布日期',16,row => row.published], ['补充信息',65,row => row.note],
       ['来源名称',58,(_,source) => source.title], ['来源链接',55,(_,source) => source.url],
-      ['原件定位',30,row => row.locator], ['补充链接',55,row => row.extraUrl]
+      ['原件定位',30,row => row.locator], ['补充链接',55,row => row.extraUrl],
+      ...(includeStudentId ? [
+        ['学号来源',52,row => data.sources.find(source => source.id === row.studentIdSource)?.title],
+        ['学号原件定位',65,row => row.studentIdLocator],
+        ['学号核对方式',48,row => row.studentIdMatch]
+      ] : [])
     ];
     sheet.addRow(columns.map(([label]) => label));
     sheet.columns.forEach((column,index) => column.width = columns[index][1]);

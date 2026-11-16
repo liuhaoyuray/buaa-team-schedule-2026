@@ -26,4 +26,16 @@ test('same-year results keep award categories together and order actual contest 
   }
   assert.equal(select(d.records,{search:'晏丽'}).filter(r=>r.id==='a9').length,1);
 });
-test('public archive has no personal registration or contact fields',()=>{for(const r of d.records)for(const k of ['idCard','phone','birth','volunteerId','studentId'])assert(!Object.hasOwn(r,k));assert(!JSON.stringify(d.records).match(/\b\d{17}[\dX]\b/));});
+test('student IDs retain evidence while private registration and contact fields stay excluded',()=>{
+  const enriched=d.records.filter(row=>row.studentId);
+  assert(enriched.length>0);
+  for(const row of enriched){
+    assert.equal(row.kind,'个人');
+    assert.match(row.studentId,/^[A-Z]{0,3}\d{7,11}$/);
+    assert(d.sources.some(source=>source.id===row.studentIdSource));
+    assert(row.studentIdLocator&&row.studentIdMatch);
+    assert(select(d.records,{search:row.studentId}).some(result=>result.id===row.id));
+  }
+  for(const row of d.records)for(const key of ['idCard','phone','birth','volunteerId'])assert(!Object.hasOwn(row,key));
+  assert(!JSON.stringify(d.records).match(/\b\d{17}[\dX]\b/));
+});
