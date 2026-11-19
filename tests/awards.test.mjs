@@ -28,6 +28,15 @@ test('uncertain results stay out of verified totals, award years do not become p
   }
   assert.equal(groupUnits(ok).reduce((n,r)=>n+r.total,0),ok.length);
 });
+test('the 2026 five-star roster contains documented recipients with complete profiles',()=>{
+  const stars=select(d.records,{year:'2026',award:'北京市五星级志愿者'});
+  assert.equal(stars.length,10);
+  assert.equal(d.fiveStarBatches['2026'].recognized,stars.length);
+  assert.equal(d.fiveStarBatches['2026'].recommended,undefined);
+  assert(stars.every(row=>verified(row)&&row.batch==='第十二批'&&row.studentId&&row.unit));
+  assert.equal(stars.find(row=>row.name==='李昂轩')?.unit,'自动化科学与电气工程学院');
+  assert.equal(stars.find(row=>row.name==='李逸晖')?.unit,'计算机学院');
+});
 test('same-year results keep award categories together and order actual contest medals',()=>{
   const rows=select(d.records,{year:'2026'});
   assert.deepEqual([...new Set(rows.map(r=>r.level))],['市级','区级','校级']);

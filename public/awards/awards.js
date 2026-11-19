@@ -49,7 +49,7 @@ function renderFiveYears() {
     const confirmed = batch.filter(verified).length;
     const reported = data.fiveStarBatches?.[year];
     const summary = reported
-      ? reported.recommended + ' 人推荐，' + reported.recognized + ' 人获评'
+      ? reported.recognized + ' 人获评'
       : [confirmed && confirmed + ' 人获评', batch.length > confirmed && (batch.length - confirmed) + ' 人待核结果'].filter(Boolean).join(' · ');
     return '<button type="button" data-year="' + escape(year) + '" aria-pressed="' +
       (String(year) === $('year').value) + '"><strong>' + escape(year) +
