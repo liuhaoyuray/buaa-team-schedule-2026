@@ -50,6 +50,14 @@ test('student IDs retain evidence while private registration and contact fields 
     assert(row.studentIdLocator&&row.studentIdMatch);
   }
   assert(select(d.records,{search:enriched[0].studentId}).some(result=>result.id===enriched[0].id));
+  const schoolRoster=select(d.records,{year:'2026',level:'校级'})
+    .filter(row=>['北京航空航天大学优秀志愿者','北京航空航天大学十佳志愿者','北京航空航天大学优秀志愿服务项目'].includes(row.award));
+  for(const row of schoolRoster.filter(row=>row.kind==='个人')){
+    assert(row.studentId&&row.unit);
+    assert.equal(row.studentIdEvidenceYear,2026);
+    assert.equal(d.sources.find(source=>source.id===row.studentIdSource)?.file,'2026志愿服务评奖表彰审核.xlsx');
+  }
+  assert(schoolRoster.filter(row=>row.kind==='项目').every(row=>row.leader&&row.leaderSource));
   for(const row of d.records)for(const key of ['idCard','phone','birth','volunteerId'])assert(!Object.hasOwn(row,key));
   assert(!JSON.stringify(d.records).match(/\b\d{17}[\dX]\b/));
 });
