@@ -9,3 +9,8 @@
 @media screen and (max-width:850px){#officeMore{display:none}}
 
 @media screen{.signature-fold{margin:20px 0;border:1px solid #a5b6ff30;border-radius:14px;padding:16px;background:#101c31}.signature-fold summary{cursor:pointer;font-weight:700;color:#dbe8ff}.signature-fold iframe{width:100%;height:1050px;border:0;margin-top:14px}}
+
+.college-unit{flex:1;display:grid;gap:3px;min-width:0}
+.college-unit strong{font-size:13px;color:#e0edfc;line-height:1.5}
+.college-unit .college-secretary{color:#bbd0e8;font-size:12px}
+.college-unit .college-email{color:#a4e5dc;font-size:12px;overflow-wrap:anywhere}

@@ -8,6 +8,17 @@
     <p id="wsGreeting" class="ws-welcome-date"></p>
   </header>
 
+  <section class="ws-current-duty" aria-labelledby="wsDutyTitle">
+    <div class="ws-current-duty-head">
+      <div><h2 id="wsDutyTitle">当前值班</h2><p id="wsDutyTime"></p></div>
+      <a href="#duty" data-ws-route="duty">查看完整值班表</a>
+    </div>
+    <dl>
+      <div><dt>志工部</dt><dd data-current-duty="志工部">—</dd></div>
+      <div><dt>实践部</dt><dd data-current-duty="实践部">—</dd></div>
+    </dl>
+  </section>
+
   <section class="ws-quick-start" aria-labelledby="wsQuickTitle">
     <h2 id="wsQuickTitle">常用操作</h2>
     <div class="ws-quick-grid"><!--HOME-COMMON--></div>

@@ -216,7 +216,7 @@ function renderResults(){renderResultsOriginal();if(window.WorkspaceApp)window.W
 function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceApp.refreshQuery();}
 (() => {
  'use strict';
- const routes=[{"id":"home","label":"工作台首页","description":"打开常用操作","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z\"/></svg>","group":""},{"id":"query","label":"查空闲","description":"按日期和时段查找空闲人员","aliases":"时段查询 查课表","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>","group":"人员与排班"},{"id":"week","label":"一周空闲总览","description":"按教学周比较各节次的空闲人数","aliases":"一周总览","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 3v4m10-4v4M3 11h18m-12 0v10m6-10v10\"/></svg>","group":"人员与排班"},{"id":"planner","label":"共同排期","description":"为选中的同学找共同空闲的时间","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 3v4m10-4v4M3 11h18m-12 5 2 2 4-4\"/></svg>","group":"人员与排班"},{"id":"duty","label":"本学期值班表","description":"查看、下载已确认的值班安排","aliases":"值班安排","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\"/><path d=\"M9 4V2m6 2V2M8 10h8m-8 4h8m-8 4h4\"/></svg>","group":"人员与排班"},{"id":"person","label":"个人课表","description":"按姓名和教学周查看课程","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8m-8 4h8m-8 4h5\"/></svg>","group":"人员与排班"},{"id":"directory","label":"人员名录","description":"查找两部门成员及联系方式","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"8\" r=\"3\"/><path d=\"M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2\"/></svg>","group":"人员与排班"},{"id":"hours","label":"志愿时长导入","description":"按岗位和日期生成导入文件","aliases":"录时长 批量时长","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3h9l4 4v14H6zM14 3v5h5M9 12h7m-7 4h7\"/><path d=\"M3 8v13\"/></svg>","group":"材料办理"},{"id":"office","label":"报销材料","description":"上传发票，生成报销材料包","aliases":"报销台账 财务","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8m-8 4h5m0 4h3m-8 0h1\"/></svg>","group":"材料办理"},{"id":"colleges","label":"学院系号与签领表","description":"查询系号，生成物资签领表","aliases":"学院代码","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m3 9 9-5 9 5-9 5zM6 11v6c3 3 9 3 12 0v-6m3-2v8\"/></svg>","group":"材料办理"},{"id":"awards","label":"志愿服务荣誉库","description":"查找历年获奖人员、项目和团队","aliases":"志愿荣誉 五星级","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"5\"/><path d=\"m8 12-2 9 6-3 6 3-2-9\"/></svg>","group":"档案与活动"},{"id":"teaching-roster","label":"历届研支团","description":"按届次查询北航研支团成员及服务单位","aliases":"研究生支教团 历届支教名单 派出志愿者","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 5h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H3zM21 5h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6z\"/></svg>","group":"档案与活动"},{"id":"league","label":"团统数据","description":"查询和导出各学院团员统计","aliases":"团员 研究生 本科生","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20V4m0 16h16M8 16v-4m5 4V8m5 8v-6\"/></svg>","group":"档案与活动"},{"id":"gallery","label":"活动记录与照片","description":"查看或发布活动记录和照片","aliases":"照片墙 相册","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><circle cx=\"8\" cy=\"9\" r=\"1.5\"/><path d=\"m3 17 5-4 4 3 4-5 5 5\"/></svg>","group":"档案与活动"},{"id":"lottery","label":"幸运抽奖","description":"选择人员名单，开始现场抽奖","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 10h16v11H4zM3 6h18v4H3zM12 6v15m0-15H8a2 2 0 1 1 2-2l2 2Zm0 0h4a2 2 0 1 0-2-2l-2 2Z\"/></svg>","group":"其他工具"},{"id":"settings","label":"校历与数据设置","description":"查看课表来源，设置停课或补课日期","aliases":"数据与校历","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 7h16M4 12h16M4 17h16M8 5v4m8 1v4m-6 1v4\"/></svg>","group":"其他工具"}];
+ const routes=[{"id":"home","label":"工作台首页","description":"打开常用操作","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z\"/></svg>","group":""},{"id":"query","label":"查空闲","description":"按日期和时段查找空闲人员","aliases":"时段查询 查课表","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>","group":"人员与排班"},{"id":"week","label":"一周空闲总览","description":"按教学周比较各节次的空闲人数","aliases":"一周总览","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 3v4m10-4v4M3 11h18m-12 0v10m6-10v10\"/></svg>","group":"人员与排班"},{"id":"planner","label":"共同排期","description":"为选中的同学找共同空闲的时间","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 3v4m10-4v4M3 11h18m-12 5 2 2 4-4\"/></svg>","group":"人员与排班"},{"id":"duty","label":"本学期值班表","description":"查看、下载已确认的值班安排","aliases":"值班安排","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"4\" width=\"14\" height=\"17\" rx=\"2\"/><path d=\"M9 4V2m6 2V2M8 10h8m-8 4h8m-8 4h4\"/></svg>","group":"人员与排班"},{"id":"person","label":"个人课表","description":"按姓名和教学周查看课程","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8m-8 4h8m-8 4h5\"/></svg>","group":"人员与排班"},{"id":"directory","label":"人员名录","description":"查找两部门成员及联系方式","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"8\" r=\"3\"/><path d=\"M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2\"/></svg>","group":"人员与排班"},{"id":"hours","label":"志愿时长导入","description":"按岗位和日期生成导入文件","aliases":"录时长 批量时长","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3h9l4 4v14H6zM14 3v5h5M9 12h7m-7 4h7\"/><path d=\"M3 8v13\"/></svg>","group":"材料办理"},{"id":"office","label":"报销材料","description":"上传发票，生成报销材料包","aliases":"报销台账 财务","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8m-8 4h5m0 4h3m-8 0h1\"/></svg>","group":"材料办理"},{"id":"colleges","label":"学院系号与签领表","description":"查询系号和分团委联系方式，生成物资签领表","aliases":"学院代码 分团委书记 邮箱","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m3 9 9-5 9 5-9 5zM6 11v6c3 3 9 3 12 0v-6m3-2v8\"/></svg>","group":"材料办理"},{"id":"awards","label":"志愿服务荣誉库","description":"查找历年获奖人员、项目和团队","aliases":"志愿荣誉 五星级","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"5\"/><path d=\"m8 12-2 9 6-3 6 3-2-9\"/></svg>","group":"档案与活动"},{"id":"teaching-roster","label":"历届研支团","description":"按届次查询北航研支团成员及服务单位","aliases":"研究生支教团 历届支教名单 派出志愿者","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 5h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H3zM21 5h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6z\"/></svg>","group":"档案与活动"},{"id":"league","label":"团统数据","description":"查询和导出各学院团员统计","aliases":"团员 研究生 本科生","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20V4m0 16h16M8 16v-4m5 4V8m5 8v-6\"/></svg>","group":"档案与活动"},{"id":"gallery","label":"活动记录与照片","description":"查看或发布活动记录和照片","aliases":"照片墙 相册","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><circle cx=\"8\" cy=\"9\" r=\"1.5\"/><path d=\"m3 17 5-4 4 3 4-5 5 5\"/></svg>","group":"档案与活动"},{"id":"lottery","label":"幸运抽奖","description":"选择人员名单，开始现场抽奖","aliases":"","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 10h16v11H4zM3 6h18v4H3zM12 6v15m0-15H8a2 2 0 1 1 2-2l2 2Zm0 0h4a2 2 0 1 0-2-2l-2 2Z\"/></svg>","group":"其他工具"},{"id":"settings","label":"校历与数据设置","description":"查看课表来源，设置停课或补课日期","aliases":"数据与校历","icon":"<svg class=\"ws-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 7h16M4 12h16M4 17h16M8 5v4m8 1v4m-6 1v4\"/></svg>","group":"其他工具"}];
  const routeById=new Map(routes.map(item=>[item.id,item]));
  const active=DATA.people.filter(p=>p.rosterStatus!=='not_in_roster'),byId=new Map(active.map(p=>[p.id,p]));
  const fields=['date','start','end','department','campus','college','role','search'];
@@ -345,7 +345,179 @@ window.addEventListener("message",e=>{const f=document.querySelector(".league-fr
 /* OFFICE_UPGRADE_START */
 (() => {
  'use strict';
- const colleges=[{"code":1,"name":"材料科学与工程学院"},{"code":2,"name":"电子信息工程学院"},{"code":3,"name":"自动化科学与电气工程学院"},{"code":4,"name":"能源与动力工程学院"},{"code":5,"name":"航空科学与工程学院"},{"code":6,"name":"计算机学院"},{"code":7,"name":"机械工程及自动化学院"},{"code":8,"name":"经济管理学院"},{"code":9,"name":"数学科学学院"},{"code":10,"name":"生物与医学工程学院"},{"code":11,"name":"人文社会科学学院"},{"code":12,"name":"外国语学院"},{"code":13,"name":"交通科学与工程学院"},{"code":14,"name":"可靠性与系统工程学院"},{"code":15,"name":"宇航学院"},{"code":16,"name":"飞行学院"},{"code":17,"name":"仪器科学与光电工程学院"},{"code":18,"name":"北京学院"},{"code":19,"name":"物理学院"},{"code":20,"name":"法学院"},{"code":21,"name":"软件学院"},{"code":23,"name":"沈元学院"},{"code":24,"name":"中法工程师学院"},{"code":26,"name":"新媒体艺术与设计学院"},{"code":27,"name":"化学学院"},{"code":28,"name":"马克思主义学院"},{"code":29,"name":"人文与社会科学高等研究院"},{"code":30,"name":"空间与地球科学学院"},{"code":31,"name":"无人系统研究院"},{"code":32,"name":"航空发动机研究院"},{"code":33,"name":"体育部"},{"code":39,"name":"网络空间安全学院"},{"code":41,"name":"集成电路科学与工程学院"},{"code":42,"name":"人工智能学院"},{"code":43,"name":"前沿科学技术创新研究院"},{"code":45,"name":"医学科学与工程学院"},{"code":57,"name":"杭州北航国际创新研究院"},{"code":60,"name":"中法航空学院"},{"code":61,"name":"中法未来科技学院"},{"code":63,"name":"中西智能学院"},{"code":71,"name":"传源书院"},{"code":73,"name":"士谔书院"},{"code":74,"name":"冯如书院"},{"code":75,"name":"士嘉书院"},{"code":76,"name":"守锷书院"},{"code":77,"name":"致真书院"},{"code":78,"name":"项目制"},{"code":79,"name":"知行书院"}];
+ const directory=[{"code":1,"name":"材料科学与工程学院"},{"code":2,"name":"电子信息工程学院"},{"code":3,"name":"自动化科学与电气工程学院"},{"code":4,"name":"能源与动力工程学院"},{"code":5,"name":"航空科学与工程学院"},{"code":6,"name":"计算机学院"},{"code":7,"name":"机械工程及自动化学院"},{"code":8,"name":"经济管理学院"},{"code":9,"name":"数学科学学院"},{"code":10,"name":"生物与医学工程学院"},{"code":11,"name":"人文社会科学学院"},{"code":12,"name":"外国语学院"},{"code":13,"name":"交通科学与工程学院"},{"code":14,"name":"可靠性与系统工程学院"},{"code":15,"name":"宇航学院"},{"code":16,"name":"飞行学院"},{"code":17,"name":"仪器科学与光电工程学院"},{"code":18,"name":"北京学院"},{"code":19,"name":"物理学院"},{"code":20,"name":"法学院"},{"code":21,"name":"软件学院"},{"code":23,"name":"沈元学院"},{"code":24,"name":"中法工程师学院"},{"code":26,"name":"新媒体艺术与设计学院"},{"code":27,"name":"化学学院"},{"code":28,"name":"马克思主义学院"},{"code":29,"name":"人文与社会科学高等研究院"},{"code":30,"name":"空间与地球科学学院"},{"code":31,"name":"无人系统研究院"},{"code":32,"name":"航空发动机研究院"},{"code":33,"name":"体育部"},{"code":39,"name":"网络空间安全学院"},{"code":41,"name":"集成电路科学与工程学院"},{"code":42,"name":"人工智能学院"},{"code":43,"name":"前沿科学技术创新研究院"},{"code":45,"name":"医学科学与工程学院"},{"code":57,"name":"杭州北航国际创新研究院"},{"code":60,"name":"中法航空学院"},{"code":61,"name":"中法未来科技学院"},{"code":63,"name":"中西智能学院"},{"code":71,"name":"传源书院"},{"code":73,"name":"士谔书院"},{"code":74,"name":"冯如书院"},{"code":75,"name":"士嘉书院"},{"code":76,"name":"守锷书院"},{"code":77,"name":"致真书院"},{"code":78,"name":"项目制"},{"code":79,"name":"知行书院"}];
+ const contacts={
+  "1": {
+    "secretary": "丛龙达",
+    "email": "11274@buaa.edu.cn"
+  },
+  "2": {
+    "secretary": "聂静",
+    "email": "niejing02@buaa.edu.cn"
+  },
+  "3": {
+    "secretary": "乔娇",
+    "email": "qiaojiao@buaa.edu.cn"
+  },
+  "4": {
+    "secretary": "李明智",
+    "email": "lmzhi91@163.com"
+  },
+  "5": {
+    "secretary": "高磊",
+    "email": "buaagl@buaa.edu.cn"
+  },
+  "6": {
+    "secretary": "付强",
+    "email": "fuq@buaa.edu.cn"
+  },
+  "7": {
+    "secretary": "齐特",
+    "email": "10771@buaa.edu.cn"
+  },
+  "8": {
+    "secretary": "陶雨芊",
+    "email": "taoyq@buaa.edu.cn"
+  },
+  "9": {
+    "secretary": "李思瑶",
+    "email": "lisiyao@buaa.edu.cn"
+  },
+  "10": {
+    "secretary": "杨贤达",
+    "email": "yangxianda@buaa.edu.cn"
+  },
+  "11": {
+    "secretary": "黄焘",
+    "email": "huangtao3908@163.com"
+  },
+  "12": {
+    "secretary": "毋艺臻",
+    "email": "wyz10406@buaa.edu.cn"
+  },
+  "13": {
+    "secretary": "张迎晨",
+    "email": "zhangyingchen@buaa.edu.cn"
+  },
+  "14": {
+    "secretary": "常昊婧",
+    "email": "chj199184@163.com"
+  },
+  "15": {
+    "secretary": "王立东",
+    "email": "buaawld@163.com"
+  },
+  "16": {
+    "secretary": "邓子承",
+    "email": "dengzicheng@buaa.edu.cn"
+  },
+  "17": {
+    "secretary": "伊志豪",
+    "email": "zhihaoyi@buaa.edu.cn"
+  },
+  "19": {
+    "secretary": "宋树洋",
+    "email": "daniel_song@buaa.edu.cn"
+  },
+  "20": {
+    "secretary": "范卓怡",
+    "email": "fanzy@buaa.edu.cn"
+  },
+  "21": {
+    "secretary": "李慧",
+    "email": "lihui21@buaa.edu.cn"
+  },
+  "23": {
+    "secretary": "陈炜",
+    "email": "chenwei11@buaa.edu.cn"
+  },
+  "24": {
+    "secretary": "张莉",
+    "email": "zhangli@buaa.edu.cn",
+    "alias": "中法工程师学院/国际通用工程学院"
+  },
+  "26": {
+    "secretary": "管天玉",
+    "email": "guantianyu0820@buaa.edu.cn"
+  },
+  "27": {
+    "secretary": "王飞扬",
+    "email": "wangfeiyangaixx@163.com"
+  },
+  "28": {
+    "secretary": "任政",
+    "email": "lzrqg98@163.com"
+  },
+  "29": {
+    "secretary": "张晓明",
+    "email": "10759@buaa.edu.cn"
+  },
+  "30": {
+    "secretary": "门雪洁",
+    "email": "mxj827@buaa.edu.cn",
+    "alias": "空间与环境学院"
+  },
+  "31": {
+    "secretary": "王丹",
+    "email": "bhwangdan@buaa.edu.cn"
+  },
+  "32": {
+    "secretary": "井彦祺",
+    "email": "jingyanqi@buaa.edu.cn"
+  },
+  "39": {
+    "secretary": "杜逸雯",
+    "email": "duyiwen@buaa.edu.cn"
+  },
+  "41": {
+    "secretary": "丁瑞云",
+    "email": "dingruiyun@buaa.edu.cn"
+  },
+  "42": {
+    "secretary": "姜姗",
+    "email": "jiangshan0317@buaa.edu.cn",
+    "alias": "人工智能研究院"
+  },
+  "45": {
+    "secretary": "孙磊",
+    "email": "sun_lei@buaa.edu.cn"
+  },
+  "71": {
+    "secretary": "姜骁霄",
+    "email": "jiangxiaoxiao@buaa.edu.cn"
+  },
+  "73": {
+    "secretary": "郑婷予",
+    "email": "ztyxnsy@163.com"
+  },
+  "74": {
+    "secretary": "何其超",
+    "email": "heqichao@buaa.edu.cn"
+  },
+  "75": {
+    "secretary": "申永超",
+    "email": "xxgl@buaa.edu.cn"
+  },
+  "76": {
+    "secretary": "王琳",
+    "email": "wlccdq@163.com"
+  },
+  "77": {
+    "secretary": "夏梦彤",
+    "email": "11272@buaa.edu.cn"
+  },
+  "79": {
+    "secretary": "李子晗",
+    "email": "lzh21@buaa.edu.cn"
+  },
+  "57": {
+    "secretary": "王瑛迪",
+    "email": "wang_yingdi@buaa.edu.cn",
+    "alias": "杭州国际创新研究院"
+  }
+}
+;
+ const colleges=directory.map(unit=>({...unit,...contacts[unit.code]}));
  $('exportColleges').onclick=async()=>{
   const button=$('exportColleges');
   button.disabled=true;
@@ -353,16 +525,19 @@ window.addEventListener("message",e=>{const f=document.querySelector(".league-fr
    if(!window.ExcelJS)await import('./vendor/exceljs-4.4.0.min.js');
    const workbook=new window.ExcelJS.Workbook();
    const sheet=workbook.addWorksheet('系号对照');
-   sheet.columns=[{header:'系号',width:12},{header:'学院 / 书院 / 单位',width:42}];
-   sheet.addRows([...colleges].sort((a,b)=>a.code-b.code).map(({code,name})=>[code,name]));
+   sheet.columns=[
+    {header:'系号',width:12},{header:'学院 / 书院 / 单位',width:42},
+    {header:'分团委书记',width:19},{header:'邮箱',width:34}
+   ];
+   sheet.addRows([...colleges].sort((a,b)=>a.code-b.code).map(({code,name,secretary,email})=>[code,name,secretary||"",email||""]));
    sheet.views=[{state:'frozen',ySplit:1}];
-   sheet.autoFilter='A1:B'+sheet.rowCount;
+   sheet.autoFilter='A1:D'+sheet.rowCount;
    sheet.getRow(1).height=23;
    sheet.getRow(1).eachCell(cell=>{
     cell.font={bold:true,color:{argb:'FFFFFFFF'}};
     cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF25455F'}};
    });
-   download('北航系号与学院对照表.xlsx',await workbook.xlsx.writeBuffer(),
+   download('北航学院系号与分团委联系方式.xlsx',await workbook.xlsx.writeBuffer(),
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
   }catch{
    toast('对照表导出失败，请刷新页面后重试。');
@@ -370,7 +545,23 @@ window.addEventListener("message",e=>{const f=document.querySelector(".league-fr
    button.disabled=false;
   }
  };
- function renderColleges(){const q=$('collegeSearch').value.trim().replace(/\s/g,'');const numeric=q.match(/^(\d{1,2})(?:系)?$/);const rows=colleges.filter(x=>!q||(numeric?x.code===Number(numeric[1]):x.name.includes(q)));$('collegeCount').textContent=rows.length+' / '+colleges.length+' 组';$('collegeResults').innerHTML=rows.map(x=>'<article class="college-item"><span class="college-code">'+x.code+'<small>系</small></span><strong>'+escapeHTML(x.name)+'</strong><button data-copy-college="'+x.code+'">复制系号</button></article>').join('')||'<div class="ws-empty">模板中未找到这一单位，请确认名称或补充系号。</div>';}
+ function renderColleges() {
+  const q=$('collegeSearch').value.trim().replace(/\s/g,'').toLowerCase();
+  const numeric=q.match(/^(\d{1,2})(?:系)?$/);
+  const rows=colleges.filter(unit=>!q||(numeric
+   ? unit.code===Number(numeric[1])
+   : [unit.name,unit.alias,unit.secretary,unit.email].some(value=>value?.toLowerCase().includes(q))));
+  $('collegeCount').textContent=rows.length+' / '+colleges.length+' 组';
+  $('collegeResults').innerHTML=rows.map(unit=>{
+   const contact=unit.email
+    ? '<span class="college-secretary">分团委书记 '+escapeHTML(unit.secretary)+'</span>'
+      +'<a class="college-email" href="mailto:'+escapeHTML(unit.email)+'">'+escapeHTML(unit.email)+'</a>'
+    : '';
+   return '<article class="college-item"><span class="college-code">'+unit.code+'<small>系</small></span>'
+    +'<div class="college-unit"><strong>'+escapeHTML(unit.name)+'</strong>'+contact+'</div>'
+    +'<button data-copy-college="'+unit.code+'">复制系号</button></article>';
+  }).join('')||'<div class="ws-empty">未找到符合条件的单位。</div>';
+ }
  $('collegeSearch').oninput=renderColleges;$('collegeClear').onclick=()=>{$('collegeSearch').value='';renderColleges();$('collegeSearch').focus();};
  document.addEventListener('click',async event=>{const b=event.target.closest('button');if(!b)return;if(b.dataset.collegeQuery){$('collegeSearch').value=b.dataset.collegeQuery;renderColleges();}if(b.dataset.copyCollege){try{await navigator.clipboard.writeText(b.dataset.copyCollege);toast('系号 '+b.dataset.copyCollege+' 已复制');}catch{toast('请手动复制系号：'+b.dataset.copyCollege);}}});
  renderColleges();
@@ -383,7 +574,10 @@ window.addEventListener("message",e=>{const f=document.getElementById("localLedg
 window.addEventListener("message",e=>{const f=document.getElementById("hoursFrame");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="hours-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(650,e.data.height))+"px";});
 /* HOURS_FRAME_END */
 /* CONFIRMED_DUTY_START */
-(()=>{'use strict';const official={
+(() => {
+  'use strict';
+
+  const official = {
   "source": "26秋值班表.xlsx",
   "titles": {
     "志工部": "2026-2027学年春季学期 共青团北京航空航天大学委员会 志愿者工作部 学生干部值班表",
@@ -452,6 +646,99 @@ window.addEventListener("message",e=>{const f=document.getElementById("hoursFram
     ]
   }
 }
-;let current='志工部';const days=['星期一','星期二','星期三','星期四','星期五'],times=['1–2节\n08:00–09:35','3–5节\n09:50–12:15','6–7节\n14:00–15:35','8–10节\n15:50–18:15'];function render(){document.querySelectorAll('[data-confirmed-dept]').forEach(b=>{const on=b.dataset.confirmedDept===current;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});$('confirmedDutyTable').innerHTML='<table><thead><tr><th>时间</th>'+days.map(d=>'<th>'+d+'</th>').join('')+'</tr></thead><tbody>'+official.sheets[current].map((row,i)=>'<tr><td>'+times[i]+'</td>'+row.map(x=>'<td>'+escapeHTML(x||'—')+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}document.querySelectorAll('[data-confirmed-dept]').forEach(b=>b.onclick=()=>{current=b.dataset.confirmedDept;render()});$('confirmedDutyExport').onclick=()=>{const q=x=>'"'+String(x??'').replaceAll('"','""')+'"';const rows=[];for(const dept of ['志工部','实践部']){rows.push([dept,'星期一','星期二','星期三','星期四','星期五']);official.sheets[dept].forEach((row,i)=>rows.push([times[i].replace('\n',' '),...row]));rows.push([])}download('已确定值班表.csv','\uFEFF'+rows.map(row=>row.map(q).join(',')).join('\r\n'),'text/csv;charset=utf-8')};render()})();
+;
+  const departments = Object.keys(official.sheets);
+  const weekdays = ['星期一', '星期二', '星期三', '星期四', '星期五'];
+  const slots = [
+    {label: '1–2节', start: '08:00', end: '09:35'},
+    {label: '3–5节', start: '09:50', end: '12:15'},
+    {label: '6–7节', start: '14:00', end: '15:35'},
+    {label: '8–10节', start: '15:50', end: '18:15'},
+  ];
+  const shanghaiClock = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+  });
+  const cells = Object.fromEntries(departments.map(department => [
+    department,
+    official.sheets[department].map(row => row.map(value => String(value ?? '')
+      .split(/\r?\n/).map(name => name.replace(/\s+/g, '')).filter(Boolean).join('\n'))),
+  ]));
+  let current = departments[0];
+  let visibleSlot = null;
+
+  function statusAt(instant) {
+    const parts = Object.fromEntries(shanghaiClock.formatToParts(instant).map(({type, value}) => [type, value]));
+    const date = `${parts.year}-${parts.month}-${parts.day}`;
+    const time = `${parts.hour}:${parts.minute}`;
+    const info = E.dayInfo(date, DATA, storeState.rules);
+    const slot = slots.findIndex(({start, end}) => time >= start && time < end);
+    const endWeek = DATA.meta.dutyModule?.endWeek ?? DATA.meta.teachingWeeks;
+    const withinTerm = info.valid && info.week <= endWeek;
+    const day = info.day - 1;
+    return {time, date, slot, day, active: withinTerm && day < weekdays.length && !info.stop && slot >= 0};
+  }
+
+  function renderTable(status) {
+    document.querySelectorAll('[data-confirmed-dept]').forEach(button => {
+      const selected = button.dataset.confirmedDept === current;
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    const head = weekdays.map(label => '<th scope="col">' + label + '</th>').join('');
+    const body = cells[current].map((row, slotIndex) => {
+      const {label, start, end} = slots[slotIndex];
+      const html = row.map((value, dayIndex) => {
+        const now = status.active && status.slot === slotIndex && status.day === dayIndex;
+        return '<td' + (now ? ' class="confirmed-duty-now" aria-current="time"' : '') + '>'
+          + escapeHTML(value || '—') + '</td>';
+      }).join('');
+      return '<tr><th scope="row">' + label + '<br>' + start + '–' + end + '</th>' + html + '</tr>';
+    }).join('');
+    $('confirmedDutyTable').innerHTML = '<table><thead><tr><th scope="col">时间</th>' + head
+      + '</tr></thead><tbody>' + body + '</tbody></table>';
+  }
+
+  function refresh() {
+    const status = statusAt(new Date());
+    const {active, date, time, slot, day} = status;
+    const clock = '北京时间 ' + time;
+    $('wsDutyTime').textContent = active
+      ? clock + ' · ' + slots[slot].start + '–' + slots[slot].end
+      : clock + ' · 当前无值班安排';
+    for (const department of departments) {
+      const target = document.querySelector('[data-current-duty="' + department + '"]');
+      target.textContent = active ? cells[department][slot][day].split('\n').join('、') || '—' : '—';
+    }
+    const key = active ? date + ':' + slot : '';
+    if (key !== visibleSlot) {
+      visibleSlot = key;
+      renderTable(status);
+    }
+  }
+
+  document.querySelectorAll('[data-confirmed-dept]').forEach(button => {
+    button.onclick = () => {
+      current = button.dataset.confirmedDept;
+      renderTable(statusAt(new Date()));
+    };
+  });
+  $('confirmedDutyExport').onclick = () => {
+    const quote = value => '"' + String(value ?? '').replaceAll('"', '""') + '"';
+    const rows = departments.flatMap(department => [
+      [department, ...weekdays],
+      ...cells[department].map((row, index) => {
+        const {label, start, end} = slots[index];
+        return [label + ' ' + start + '–' + end, ...row];
+      }),
+      [],
+    ]);
+    download('已确定值班表.csv', '\uFEFF' + rows.map(row => row.map(quote).join(',')).join('\r\n'), 'text/csv;charset=utf-8');
+  };
+
+  refresh();
+  setInterval(refresh, 15000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+})();
 
 /* CONFIRMED_DUTY_END */

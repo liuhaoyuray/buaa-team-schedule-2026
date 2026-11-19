@@ -23,9 +23,16 @@
         <label for="province">服务省区
           <select id="province"><option value="">全部省区</option></select>
         </label>
+        <label for="locality">服务地
+          <select id="locality"><option value="">全部服务地</option></select>
+        </label>
         <button type="button" id="reset">重置</button>
       </div>
-      <p id="status" role="status">正在加载名单…</p>
+      <div class="result-bar">
+        <p id="status" role="status">正在加载名单…</p>
+        <button type="button" id="export" disabled>导出筛选结果（Excel）</button>
+      </div>
+      <p id="export-status" role="status" hidden></p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="成员名单表格">
         <table role="table" aria-label="成员名单">
           <thead role="rowgroup"><tr role="row">
