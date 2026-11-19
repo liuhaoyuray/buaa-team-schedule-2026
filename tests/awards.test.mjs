@@ -1,6 +1,20 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {normalizeName, normalizeRecord, personalProfileCounts, samePersonalName, select,verified,groupUnits} from '../features/awards/model.mjs';
 const d=JSON.parse(readFileSync(new URL('../features/awards/data.json',import.meta.url),'utf8'));
-test('school rosters reconcile to primary notices, not applicant lists',()=>{for(const [year,n] of [[2023,367],[2024,282],[2025,255]]){assert.equal(select(d.records,{year:String(year),award:'北京航空航天大学优秀志愿者'}).length,n);for(const a of ['十佳志愿者','优秀志愿服务项目'])assert.equal(select(d.records,{year:String(year),award:'北京航空航天大学'+a}).length,10)}assert(d.records.every(r=>r.school==='北京航空航天大学'&&d.sources.some(s=>s.id===r.source)&&r.locator&&r.name));assert.equal(new Set(d.records.map(r=>r.id)).size,d.records.length)});
+test('school rosters reconcile to primary notices, not applicant lists',()=>{
+  const categories=['十佳志愿者','优秀志愿服务项目','优秀志愿者'];
+  const counts=[
+    ['2021',[10,10,305],'已公布结果'], ['2022',[10,11,344],'结果公示'],
+    ['2023',[10,10,367],'结果公示'], ['2024',[10,10,282],'结果公示'],
+    ['2025',[10,10,255],'结果公示'], ['2026',[10,10,279],'结果公示']
+  ];
+  for(const [year,expected,status] of counts){
+    const categoriesForYear=categories.map(award=>select(d.records,{year,level:'校级',award:'北京航空航天大学'+award}));
+    assert.deepEqual(categoriesForYear.map(rows=>rows.length),expected);
+    assert(categoriesForYear.flat().every(row=>row.status===status));
+  }
+  assert(d.records.every(r=>r.school==='北京航空航天大学'&&d.sources.some(s=>s.id===r.source)&&r.locator&&r.name));
+  assert.equal(new Set(d.records.map(r=>r.id)).size,d.records.length);
+});
 test('uncertain results stay out of verified totals, award years do not become publication years',()=>{
   const ok=select(d.records,{status:'verified'});
   assert(ok.every(verified));
@@ -16,7 +30,7 @@ test('uncertain results stay out of verified totals, award years do not become p
 });
 test('same-year results keep award categories together and order actual contest medals',()=>{
   const rows=select(d.records,{year:'2026'});
-  assert.deepEqual([...new Set(rows.map(r=>r.level))],['市级','区级']);
+  assert.deepEqual([...new Set(rows.map(r=>r.level))],['市级','区级','校级']);
   const contest=rows.filter(r=>r.award==='海淀区志愿服务项目大赛');
   assert.deepEqual(contest.map(r=>r.grade||r.honor),['铜奖','最佳组织奖']);
   assert(!contest[1].grade);
