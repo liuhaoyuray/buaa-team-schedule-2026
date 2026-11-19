@@ -90,10 +90,15 @@ test('Chinese name spacing is normalized in search and output without changing d
 test('personal awards use colleges and profile filters reconcile with visible gaps',()=>{
   const colleges=new Set(JSON.parse(readFileSync(new URL('../features/office/colleges.json',import.meta.url),'utf8')).map(row=>row.name));
   const personal=d.records.filter(row=>row.kind==='个人');
-  assert(personal.every(row=>!row.unit||colleges.has(row.unit)));
+  const staff=personal.filter(row=>row.studentIdNotApplicable);
+  assert.equal(staff.length,2);
+  assert(staff.every(row=>row.unit&&!row.studentId&&row.unitSource&&row.unitLocator));
+  assert(personal.every(row=>!row.unit||colleges.has(row.unit)||row.studentIdNotApplicable));
   const counts=personalProfileCounts(d.records);
   assert.equal(counts.total,personal.length);
   assert.equal(select(d.records,{profile:'missingStudentId'}).length,counts.missingStudentId);
+  assert(select(d.records,{profile:'missingStudentId'}).every(row=>!row.studentIdNotApplicable));
+  assert.equal(select(d.records,{unit:'校团委',search:'孟宪博'}).length,1);
   assert.equal(select(d.records,{profile:'missingCollege'}).length,counts.missingCollege);
   assert(!groupUnits(personal).some(unit=>unit.name==='北京航空航天大学'));
   const stars=personal.filter(row=>/^海淀区[一二三四]星级/.test(row.award));

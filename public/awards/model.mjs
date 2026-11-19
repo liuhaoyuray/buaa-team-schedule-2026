@@ -28,7 +28,7 @@ export function personalProfileCounts(records) {
   const personal = records.filter(row => row.kind === '个人');
   return {
     total: personal.length,
-    missingStudentId: personal.filter(row => !row.studentId).length,
+    missingStudentId: personal.filter(row => !row.studentId && !row.studentIdNotApplicable).length,
     missingCollege: personal.filter(row => !row.unit).length
   };
 }
@@ -80,7 +80,7 @@ export function select(records, filters = {}) {
     if (!matchesAward(row, filters.award)) return false;
     if (filters.profile) {
       if (row.kind !== '个人') return false;
-      if (filters.profile === 'missingStudentId' && row.studentId) return false;
+      if (filters.profile === 'missingStudentId' && (row.studentId || row.studentIdNotApplicable)) return false;
       if (filters.profile === 'missingCollege' && row.unit) return false;
     }
     if (filters.status === 'verified' && !verified(row)) return false;

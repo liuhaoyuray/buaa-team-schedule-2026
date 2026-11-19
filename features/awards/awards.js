@@ -94,9 +94,9 @@ function render() {
     (row.batch ? '<span class="sub">' + escape(row.batch) + '</span>' : '') +
     '</td><td data-label="姓名 / 项目 / 团队"><strong>' + escape(row.name) + '</strong><span class="sub">' + escape(row.kind) +
     (row.leader ? ' · 负责人 ' + escape(row.leader) : '') +
-    '</span></td><td data-label="学号" class="student-id' + (row.kind === '个人' ? '' : ' not-applicable') + '">' +
-    (row.studentId ? escape(row.studentId) : row.kind === '个人' ? '<span class="missing-value">待补学号</span>' : '—') +
-    '</td><td data-label="' + (row.kind === '个人' ? '学院' : '所属单位') + '">' +
+    '</span></td><td data-label="学号" class="student-id' + (row.kind === '个人' && !row.studentIdNotApplicable ? '' : ' not-applicable') + '">' +
+    (row.studentId ? escape(row.studentId) : row.studentIdNotApplicable ? '不适用' : row.kind === '个人' ? '<span class="missing-value">待补学号</span>' : '—') +
+    '</td><td data-label="' + (row.kind === '个人' && !row.studentIdNotApplicable ? '学院' : '所属单位') + '">' +
     (row.unit ? escape(row.unit) : '<span class="missing-value">' + (row.kind === '个人' ? '学院待补充' : '单位待补充') + '</span>') +
     '</td><td data-label="奖项">' + escape(row.award) +
     (row.grade || row.honor ? '<span class="sub">' + escape(row.grade || row.honor) + '</span>' : '') +
@@ -126,8 +126,8 @@ function detail(id) {
   const related = data.records.filter(record => record.id !== id &&
     (row.kind === '个人' ? samePersonalName(record, row) : record.kind === row.kind && record.name === row.name));
   const details = [
-    ['学号', row.kind === '个人' ? row.studentId || '待补充' : ''],
-    [row.kind === '个人' ? '学院 / 书院' : '所属单位', row.unit || '待补充'],
+    ['学号', row.kind === '个人' ? row.studentId || (row.studentIdNotApplicable ? '不适用' : '待补充') : ''],
+    [row.kind === '个人' && !row.studentIdNotApplicable ? '学院 / 书院' : '所属单位', row.unit || '待补充'],
     ['原登记单位', row.originalUnit], ['年度', currentYear(row)], ['奖项', row.award], ['批次', row.batch],
     ['获奖等次', row.grade], ['获奖称号', row.honor], ['对象', row.kind],
     ['项目负责人', row.kind === '项目' ? row.leader || '待补负责人资料' : ''],
@@ -139,7 +139,7 @@ function detail(id) {
     escape(row.locator) + '</span></dd>' +
     (studentSource ? '<dt>学号依据</dt><dd>' + escape(studentSource.title) + '<span class="sub">' +
       escape(row.studentIdLocator) + ' · ' + escape(row.studentIdMatch) + '</span></dd>' : '') +
-    (collegeSource ? '<dt>学院依据</dt><dd>' + escape(collegeSource.title) + '<span class="sub">' +
+    (collegeSource ? '<dt>单位依据</dt><dd>' + link(collegeSource.url, collegeSource.title) + '<span class="sub">' +
       escape(row.unitLocator) + ' · ' + escape(row.unitMatch) + '</span></dd>' : '') +
     (row.leaderSource ? '<dt>负责人依据</dt><dd>' + link(row.leaderUrl, row.leaderSource) + '</dd>' : '') +
     (row.extraUrl ? '<dt>补充资料</dt><dd>' + link(row.extraUrl, '查看原文') + '</dd>' : '') + '</dl>' +
@@ -180,7 +180,7 @@ async function exportExcel() {
     const sheet = workbook.addWorksheet('荣誉明细');
     const columns = [
       ['年度',12, row => row.year], ['姓名 / 项目 / 团队',35,row => row.name],
-      ...(includeStudentId ? [['学号',18,row => row.studentId]] : []),
+      ...(includeStudentId ? [['学号',18,row => row.studentId || (row.studentIdNotApplicable ? '不适用' : '')]] : []),
       ['学院 / 所属单位',30,row => row.unit], ['原登记单位',30,row => row.originalUnit], ['奖项',42,row => row.award],
       ...(includeGrade ? [['获奖等次',18,row => row.grade]] : []),
       ...(includeHonor ? [['获奖称号',18,row => row.honor]] : []),
