@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>历届研究生支教团</title>
+  <link rel="stylesheet" href="roster.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>历届研究生支教团</h1>
+      <p id="coverage"></p>
+    </header>
+    <section class="roster" aria-label="成员名单">
+      <div class="filters">
+        <label for="search">搜索名单
+          <input id="search" type="search" placeholder="姓名、学院或服务单位">
+        </label>
+        <label for="cohort">届次
+          <select id="cohort"><option value="">全部届次</option></select>
+        </label>
+        <label for="province">服务省区
+          <select id="province"><option value="">全部省区</option></select>
+        </label>
+        <button type="button" id="reset">重置</button>
+      </div>
+      <p id="status" role="status">正在加载名单…</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="成员名单表格">
+        <table role="table" aria-label="成员名单">
+          <thead role="rowgroup"><tr role="row">
+            <th scope="col">届次 / 派出年份</th>
+            <th scope="col">姓名</th>
+            <th scope="col">学院</th>
+            <th scope="col">服务地</th>
+            <th scope="col">服务单位</th>
+            <th scope="col">服务时间</th>
+          </tr></thead>
+          <tbody id="members" role="rowgroup"></tbody>
+        </table>
+      </div>
+      <nav class="pagination" aria-label="名单分页" hidden>
+        <button type="button" id="prev">上一页</button>
+        <span id="page-label"></span>
+        <button type="button" id="next">下一页</button>
+      </nav>
+    </section>
+    <details>
+      <summary>数据说明</summary>
+      <p>第5至22届来自北航研支团历届成员名册，第23至28届来自校内派出汇总。服务单位沿用各届资料中的名称，横线表示原资料缺项。2023至2025年部分服务单位按分团接续服务情况补录。</p>
+    </details>
+  </main>
+  <script type="module" src="roster.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+:root {
+  color-scheme: dark;
+  font: 14px/1.55 system-ui, "Microsoft YaHei", sans-serif;
+  background: #101d2d;
+  color: #eaf1f8;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { padding: 22px; }
+header { margin-bottom: 16px; }
+h1 { margin: 0; font-size: clamp(22px, 4vw, 32px); }
+.embedded h1 { display: none; }
+header p { margin: 4px 0 0; color: #adc2d7; }
+.roster, details {
+  border: 1px solid #405d77;
+  border-radius: 12px;
+  background: #15273a;
+  padding: 16px;
+}
+.filters {
+  display: grid;
+  grid-template-columns: minmax(160px, 2fr) repeat(2, minmax(100px, 1fr)) auto;
+  gap: 12px;
+  align-items: end;
+}
+label { display: grid; gap: 5px; min-width: 0; font-weight: 600; }
+input, select, button {
+  min-height: 40px;
+  min-width: 0;
+  border: 1px solid #56728c;
+  border-radius: 7px;
+  padding: 7px 10px;
+  background: #101d2d;
+  color: inherit;
+  font: inherit;
+}
+input::placeholder { color: #a1b7ca; }
+button { cursor: pointer; }
+button:hover:enabled { border-color: #83d9ca; }
+button:disabled { opacity: .48; cursor: default; }
+:focus-visible { outline: 2px solid #83d9ca; outline-offset: 2px; }
+#status { color: #b9cde0; margin: 14px 0 10px; }
+.table-wrap { overflow: auto; border: 1px solid #405d77; border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; min-width: 570px; }
+th, td { padding: 9px 10px; text-align: left; vertical-align: top; }
+th { background: #203951; color: #edf5fc; font-size: 13px; }
+td { border-top: 1px solid #344c63; }
+td:nth-child(1), td:nth-child(6) { white-space: nowrap; }
+td:nth-child(2) { min-width: 88px; font-weight: 650; }
+tbody tr:hover { background: #1d3349; }
+.pagination { margin-top: 14px; display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
+details { margin-top: 12px; }
+summary { cursor: pointer; font-weight: 600; }
+details p { margin: 8px 0 0; color: #bbcddf; }
+[hidden] { display: none !important; }
+@media (max-width: 620px) {
+  main { padding: 12px; }
+  .roster, details { padding: 12px; }
+  .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .filters label:first-child, #reset { grid-column: 1 / -1; }
+  .table-wrap { border: 0; overflow: visible; }
+  table, tbody { display: block; min-width: 0; }
+  thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 10px;
+    border: 1px solid #405d77;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  td { border: 0; padding: 0; min-width: 0; }
+  td:nth-child(1) { grid-area: 1 / 2; color: #b9cde0; font-size: 12px; align-self: center; }
+  td:nth-child(2) { grid-area: 1 / 1; font-size: 16px; }
+  td[data-label] { grid-column: 1 / -1; white-space: normal; position: relative; padding-inline-start: 5em; }
+  td[data-label]::before { content: attr(data-label); position: absolute; inset-inline-start: 0; color: #adc2d7; }
+  .pagination { justify-content: space-between; }
+}

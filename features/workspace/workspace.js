@@ -117,3 +117,11 @@ function runQuery(){runQueryOriginal();if(window.WorkspaceApp)window.WorkspaceAp
  route(initial);
  window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(routeById.has(target)&&state.view!==target)route(target);});
 })();
+
+window.addEventListener('message', event => {
+  const frame = document.querySelector('.teaching-roster-frame');
+  if (event.origin !== location.origin || event.source !== frame?.contentWindow) return;
+  if (event.data?.type === 'teaching-roster-height' && Number.isFinite(event.data.height)) {
+    frame.style.height = Math.max(350, Math.min(event.data.height + 2, 4000)) + 'px';
+  }
+});

@@ -27,11 +27,14 @@ export async function applyWorkspaceUpgrade(root,template,app){
  template=template.replace('<main>','<main>'+block('BAR',bar));
  template=template.replace('<section id="queryView"',block('HOME',home)+block('GALLERY','<section id="galleryView" class="view" aria-label="活动记录"><div class="gallery-header"><p>查看活动与照片，也可以发布新的活动记录。</p><a href="https://buaa-volunteer-activity-wall-2026.liuhaoyuray.chatgpt.site" target="_blank" rel="noopener">在新窗口打开 ↗</a></div><iframe class="gallery-frame" title="活动记录与照片" src="https://buaa-volunteer-activity-wall-2026.liuhaoyuray.chatgpt.site" loading="lazy"></iframe></section>')+'<section id="queryView"');
  template=template.replace('<section id="queryView"',block('LEAGUE','<section id="leagueView" class="view" aria-label="团统数据查询"><iframe class="league-frame" title="团统数据查询" src="league/index.html" loading="lazy"></iframe></section>')+'<section id="queryView"');
+ const teachingRoster = '<section id="teaching-rosterView" class="view" aria-label="历届研支团"><iframe class="teaching-roster-frame" title="历届研究生支教团" src="teaching-roster/index.html" loading="lazy"></iframe></section>';
+ template=template.replace('<section id="queryView"',block('TEACHINGROSTER',teachingRoster)+'<section id="queryView"');
  template=template.replace('<div class="results" id="results">',block('QUERY',query)+'<div class="results" id="results">');
  template=template.replace('<div class="results" id="results"></div>','<div class="results" id="results"></div>'+block('PAGER','<div id="wsPagination" class="ws-pagination" aria-label="查询结果分页"></div>'));
  template=template.replace('<script>/*__DATA__*/</script>',block('DIALOGS',dialogs)+'<script>/*__DATA__*/</script>');
  template=template.replace('</head>','<style id="buaa-workspace-style">\n'+css+'\n</style>\n</head>');
  app=app.replace(/\n\/\* WORKSPACE_UPGRADE_START \*\/[\s\S]*?\/\* WORKSPACE_UPGRADE_END \*\//g,'');
+ if(!app.includes('"teaching-roster":['))app=app.replace('const titles={','const titles={"teaching-roster":["历届研支团","查询各届成员与服务单位。"],');
  if(!app.includes('"league":['))app=app.replace('const titles={','const titles={"league":["团统数据","查询团组织和团员统计。"],');
  if(!app.includes('"gallery":['))app=app.replace('const titles={','const titles={"gallery":["活动记录","记录两部门的活动和照片。"],');
  if(!app.includes('"home":["部门工作台"'))app=app.replace('const titles={','const titles={"home":["部门工作台","把两部门的日常协作，安排得更从容。"],');
@@ -44,6 +47,11 @@ export async function applyWorkspaceUpgrade(root,template,app){
  app+='\n/* WORKSPACE_UPGRADE_START */\n'+js.replace('/*__NAVIGATION__*/[]',()=>JSON.stringify(navigation))+'\nwindow.addEventListener("message",e=>{const f=document.querySelector(".league-frame");if(f&&e.source===f.contentWindow&&e.origin===location.origin&&e.data?.type==="league-height"&&Number.isFinite(e.data.height))f.style.height=Math.min(30000,Math.max(850,e.data.height))+"px"});\n/* WORKSPACE_UPGRADE_END */';
  await fs.mkdir(path.join(root,'public/league'),{recursive:true});
  for(const name of ['index.html','league.css','league.js','model.mjs','data.json'])await fs.copyFile(path.join(root,'features/league',name),path.join(root,'public/league',name));
+ const rosterTarget=path.join(root,'public/teaching-roster');
+ await fs.mkdir(rosterTarget,{recursive:true});
+ for(const name of ['index.html','roster.css','roster.js','data.json']){
+  await fs.copyFile(path.join(root,'features/teaching-roster',name),path.join(rosterTarget,name));
+ }
  return {template,app};
 }
 

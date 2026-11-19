@@ -10,6 +10,7 @@ const paths = {
   office: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h5m0 4h3m-8 0h1"/>',
   colleges: '<path d="m3 9 9-5 9 5-9 5zM6 11v6c3 3 9 3 12 0v-6m3-2v8"/>',
   awards: '<circle cx="12" cy="8" r="5"/><path d="m8 12-2 9 6-3 6 3-2-9"/>',
+  'teaching-roster': '<path d="M3 5h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H3zM21 5h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6z"/>',
   league: '<path d="M4 20V4m0 16h16M8 16v-4m5 4V8m5 8v-6"/>',
   gallery: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m3 17 5-4 4 3 4-5 5 5"/>',
   lottery: '<path d="M4 10h16v11H4zM3 6h18v4H3zM12 6v15m0-15H8a2 2 0 1 1 2-2l2 2Zm0 0h4a2 2 0 1 0-2-2l-2 2Z"/>',
@@ -35,6 +36,7 @@ export const routes = {
   office: ['报销材料', '上传发票，生成报销材料包', '报销台账 财务'],
   colleges: ['学院系号与签领表', '查询系号，生成物资签领表', '学院代码'],
   awards: ['志愿服务荣誉库', '查找历年获奖人员、项目和团队', '志愿荣誉 五星级'],
+  'teaching-roster': ['历届研支团', '按届次查询北航研支团成员及服务单位', '研究生支教团 历届支教名单 派出志愿者'],
   league: ['团统数据', '查询和导出各学院团员统计', '团员 研究生 本科生'],
   gallery: ['活动记录与照片', '查看或发布活动记录和照片', '照片墙 相册'],
   lottery: ['幸运抽奖', '选择人员名单，开始现场抽奖'],
@@ -44,7 +46,7 @@ export const routes = {
 export const groups = [
   {label:'人员与排班', ids:['query','week','planner','person','duty','directory'], sidebar:['query','planner','duty']},
   {label:'材料办理', ids:['hours','office','colleges'], sidebar:['hours','office','colleges']},
-  {label:'档案与活动', ids:['awards','league','gallery'], sidebar:['awards','league','gallery']},
+  {label:'档案与活动', ids:['awards','teaching-roster','league','gallery'], sidebar:['awards','teaching-roster','league','gallery']},
   {label:'其他工具', ids:['lottery','settings'], sidebar:[]}
 ];
 
