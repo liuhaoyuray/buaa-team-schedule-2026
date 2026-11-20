@@ -1,84 +1,5 @@
 [
   {
-    "id": "ice-ribbon-2026",
-    "year": 2026,
-    "title": "“冰享未来”冰丝带志愿服务",
-    "aliases": [
-      "国家速滑馆",
-      "冰丝带"
-    ],
-    "photos": [
-      {
-        "caption": "冰丝带志愿服务团队合影",
-        "file": "images/ice-ribbon-2026/01.webp",
-        "thumb": "images/ice-ribbon-2026/01-thumb.webp"
-      }
-    ]
-  },
-  {
-    "id": "book-clothing-drive-2026",
-    "year": 2026,
-    "title": "校园图书衣物募集志愿服务",
-    "aliases": [
-      "图书",
-      "衣物",
-      "蓝协"
-    ],
-    "photos": [
-      {
-        "caption": "北航图书衣物募集志愿者合影",
-        "file": "images/book-clothing-drive-2026/01.webp",
-        "thumb": "images/book-clothing-drive-2026/01-thumb.webp"
-      },
-      {
-        "caption": "整理募集物资",
-        "file": "images/book-clothing-drive-2026/02.webp",
-        "thumb": "images/book-clothing-drive-2026/02-thumb.webp"
-      },
-      {
-        "caption": "分类打包",
-        "file": "images/book-clothing-drive-2026/03.webp",
-        "thumb": "images/book-clothing-drive-2026/03-thumb.webp"
-      },
-      {
-        "caption": "志愿者搬运募集物资上车",
-        "file": "images/book-clothing-drive-2026/04.webp",
-        "thumb": "images/book-clothing-drive-2026/04-thumb.webp"
-      },
-      {
-        "caption": "募集物资集中转运",
-        "file": "images/book-clothing-drive-2026/05.webp",
-        "thumb": "images/book-clothing-drive-2026/05-thumb.webp"
-      }
-    ]
-  },
-  {
-    "id": "noai-2026",
-    "year": 2026,
-    "title": "NOAI人工智能竞赛阅卷志愿服务",
-    "aliases": [
-      "NOAI",
-      "人工智能竞赛"
-    ],
-    "photos": [
-      {
-        "caption": "志愿者现场集中阅卷",
-        "file": "images/noai-2026/01.webp",
-        "thumb": "images/noai-2026/01-thumb.webp"
-      },
-      {
-        "caption": "核对评分材料",
-        "file": "images/noai-2026/02.webp",
-        "thumb": "images/noai-2026/02-thumb.webp"
-      },
-      {
-        "caption": "阅卷工作现场",
-        "file": "images/noai-2026/03.webp",
-        "thumb": "images/noai-2026/03-thumb.webp"
-      }
-    ]
-  },
-  {
     "id": "anniversary-2025",
     "year": 2025,
     "title": "九三阅兵与抗战胜利80周年纪念大会志愿服务",
@@ -275,27 +196,6 @@
         "caption": "毕业生晚会现场合影",
         "file": "images/graduation-2025/01.webp",
         "thumb": "images/graduation-2025/01-thumb.webp"
-      }
-    ]
-  },
-  {
-    "id": "future-city-2025",
-    "year": 2025,
-    "title": "“未来之城”冬季展评志愿服务",
-    "aliases": [
-      "未来之城",
-      "冬季展评"
-    ],
-    "photos": [
-      {
-        "caption": "冬季展评活动集体合影",
-        "file": "images/future-city-2025/01.webp",
-        "thumb": "images/future-city-2025/01-thumb.webp"
-      },
-      {
-        "caption": "志愿者与活动团队合影",
-        "file": "images/future-city-2025/02.webp",
-        "thumb": "images/future-city-2025/02-thumb.webp"
       }
     ]
   },
