@@ -1,0 +1,39 @@
+<section id="galleryView" class="view" aria-labelledby="photoArchiveHeading">
+  <link rel="stylesheet" href="gallery/gallery.css">
+  <div class="photo-archive">
+    <header class="photo-archive-header">
+      <h2 id="photoArchiveHeading">照片档案</h2>
+      <p id="photoArchiveTotal"></p>
+    </header>
+    <div class="photo-archive-filters">
+      <label>年份 <select id="photoArchiveYear"><option value="">全部年份</option></select></label>
+      <label>活动 <input id="photoArchiveSearch" type="search" placeholder="例如 九三、冬奥、马拉松"></label>
+    </div>
+    <p id="photoArchiveStatus" role="status"></p>
+    <div id="photoArchiveAlbums" class="photo-album-grid"></div>
+  </div>
+  <dialog id="photoAlbumDialog" class="photo-archive-dialog" aria-labelledby="photoAlbumTitle">
+    <header>
+      <div><h2 id="photoAlbumTitle"></h2><p id="photoAlbumCount"></p></div>
+      <button type="button" class="photo-close" data-photo-close aria-label="关闭相册" autofocus>×</button>
+    </header>
+    <div id="photoAlbumGrid" class="photo-thumbnail-grid"></div>
+  </dialog>
+  <dialog id="photoLightbox" class="photo-archive-dialog photo-lightbox" aria-label="查看大图">
+    <header>
+      <a id="photoFullImage" target="_blank" rel="noopener">打开大图 ↗</a>
+      <button type="button" class="photo-close" data-photo-close aria-label="关闭大图" autofocus>×</button>
+    </header>
+    <figure>
+      <img id="photoFullPreview" alt="">
+      <figcaption id="photoFullCaption"></figcaption>
+    </figure>
+    <footer>
+      <button type="button" id="photoPrev">上一张</button>
+      <span id="photoPosition" aria-live="polite"></span>
+      <button type="button" id="photoNext">下一张</button>
+    </footer>
+  </dialog>
+  <noscript><p>启用 JavaScript 后可浏览照片档案。</p></noscript>
+  <script type="module" src="gallery/gallery.js"></script>
+</section>
