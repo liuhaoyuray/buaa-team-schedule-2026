@@ -1,5 +1,199 @@
 [
   {
+    "id": "changping-marathon-2026",
+    "year": 2026,
+    "title": "昌平马拉松志愿服务",
+    "aliases": [
+      "昌马",
+      "马拉松"
+    ],
+    "photos": [
+      {
+        "caption": "志愿服务小组合影",
+        "file": "images/changping-marathon-2026/01.webp",
+        "thumb": "images/changping-marathon-2026/01-thumb.webp"
+      }
+    ]
+  },
+  {
+    "id": "beijing-marathon-2026",
+    "year": 2026,
+    "title": "北京马拉松志愿服务",
+    "aliases": [
+      "北马",
+      "马拉松"
+    ],
+    "photos": [
+      {
+        "caption": "北航志愿者集体合影",
+        "file": "images/beijing-marathon-2026/01.webp",
+        "thumb": "images/beijing-marathon-2026/01-thumb.webp"
+      },
+      {
+        "caption": "志愿者准备赛道补给",
+        "file": "images/beijing-marathon-2026/02.webp",
+        "thumb": "images/beijing-marathon-2026/02-thumb.webp"
+      },
+      {
+        "caption": "赛道补给站现场服务",
+        "file": "images/beijing-marathon-2026/03.webp",
+        "thumb": "images/beijing-marathon-2026/03-thumb.webp"
+      }
+    ]
+  },
+  {
+    "id": "gt-world-challenge-2026",
+    "year": 2026,
+    "title": "GT世界挑战赛志愿服务",
+    "aliases": [
+      "GT赛车",
+      "世界GT赛车",
+      "亦庄"
+    ],
+    "photos": [
+      {
+        "caption": "北航志愿者在赛道合影",
+        "file": "images/gt-world-challenge-2026/01.webp",
+        "thumb": "images/gt-world-challenge-2026/01-thumb.webp"
+      },
+      {
+        "caption": "赛前志愿者集体合影",
+        "file": "images/gt-world-challenge-2026/02.webp",
+        "thumb": "images/gt-world-challenge-2026/02-thumb.webp"
+      }
+    ]
+  },
+  {
+    "id": "station-welcome-2026",
+    "year": 2026,
+    "title": "新生迎新接站志愿服务",
+    "aliases": [
+      "迎新",
+      "接站",
+      "志愿者"
+    ],
+    "photos": [
+      {
+        "caption": "志愿者在车站外合影",
+        "file": "images/station-welcome-2026/01.webp",
+        "thumb": "images/station-welcome-2026/01-thumb.webp"
+      },
+      {
+        "caption": "车站现场指引",
+        "file": "images/station-welcome-2026/02.webp",
+        "thumb": "images/station-welcome-2026/02-thumb.webp"
+      },
+      {
+        "caption": "迎新接站签到服务",
+        "file": "images/station-welcome-2026/03.webp",
+        "thumb": "images/station-welcome-2026/03-thumb.webp"
+      },
+      {
+        "caption": "接站点志愿者与新生合影",
+        "file": "images/station-welcome-2026/04.webp",
+        "thumb": "images/station-welcome-2026/04-thumb.webp"
+      }
+    ]
+  },
+  {
+    "id": "world-robot-conference-2026",
+    "year": 2026,
+    "title": "世界机器人大会志愿服务",
+    "aliases": [
+      "机器人大会",
+      "WRC"
+    ],
+    "photos": [
+      {
+        "caption": "北航志愿者在会场外合影",
+        "file": "images/world-robot-conference-2026/01.webp",
+        "thumb": "images/world-robot-conference-2026/01-thumb.webp"
+      },
+      {
+        "caption": "大会场馆内志愿者合影",
+        "file": "images/world-robot-conference-2026/02.webp",
+        "thumb": "images/world-robot-conference-2026/02-thumb.webp"
+      }
+    ]
+  },
+  {
+    "id": "teaching-team-2026",
+    "year": 2026,
+    "title": "第28届研究生支教团",
+    "aliases": [
+      "出征",
+      "研支团",
+      "支教"
+    ],
+    "photos": [
+      {
+        "caption": "北航第28届研究生支教团集体合影",
+        "file": "images/teaching-team-2026/01.webp",
+        "thumb": "images/teaching-team-2026/01-thumb.webp"
+      }
+    ]
+  },
+  {
+    "id": "youth-lecture-2026",
+    "year": 2026,
+    "title": "北航青年主题团课暨第二十一届北航青年五四奖章颁奖仪式",
+    "aliases": [
+      "五四团课",
+      "五四",
+      "五四奖章",
+      "空天报国·青春挺膺"
+    ],
+    "photos": [
+      {
+        "caption": "北航青年主题团课活动现场",
+        "file": "images/youth-lecture-2026/01.webp",
+        "thumb": "images/youth-lecture-2026/01-thumb.webp"
+      },
+      {
+        "caption": "主题团课观众席",
+        "file": "images/youth-lecture-2026/02.webp",
+        "thumb": "images/youth-lecture-2026/02-thumb.webp"
+      },
+      {
+        "caption": "开场舞蹈《我心中的红》",
+        "file": "images/youth-lecture-2026/03.webp",
+        "thumb": "images/youth-lecture-2026/03-thumb.webp"
+      },
+      {
+        "caption": "五四奖章颁奖现场",
+        "file": "images/youth-lecture-2026/04.webp",
+        "thumb": "images/youth-lecture-2026/04-thumb.webp"
+      },
+      {
+        "caption": "活动结束后集体合影",
+        "file": "images/youth-lecture-2026/05.webp",
+        "thumb": "images/youth-lecture-2026/05-thumb.webp"
+      }
+    ]
+  },
+  {
+    "id": "humanoid-half-marathon-2026",
+    "year": 2026,
+    "title": "亦庄人形机器人半程马拉松志愿服务",
+    "aliases": [
+      "亦庄半马",
+      "机器人半马",
+      "马拉松"
+    ],
+    "photos": [
+      {
+        "caption": "北航志愿者集体合影",
+        "file": "images/humanoid-half-marathon-2026/01.webp",
+        "thumb": "images/humanoid-half-marathon-2026/01-thumb.webp"
+      },
+      {
+        "caption": "入口通道志愿服务",
+        "file": "images/humanoid-half-marathon-2026/02.webp",
+        "thumb": "images/humanoid-half-marathon-2026/02-thumb.webp"
+      }
+    ]
+  },
+  {
     "id": "anniversary-2025",
     "year": 2025,
     "title": "九三阅兵与抗战胜利80周年纪念大会志愿服务",
